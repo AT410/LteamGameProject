@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "GameStage.h"
 #include "Player.h"
+#include "ObjectBase.h"
 
 //Debug
 #include "Debug.h"
