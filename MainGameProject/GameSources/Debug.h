@@ -34,4 +34,20 @@ namespace basecross
 		vector<uint16_t> m_indices;
 		wstring m_TexKey;
 	};
+
+	//‘€ìƒeƒXƒg
+	class ContTest :public ObjectBase,public PawnBase<ContTest>
+	{
+	public:
+		ContTest(const shared_ptr<Stage>&StagePtr)
+			:ObjectBase(StagePtr),PawnBase()
+		{}
+		virtual ~ContTest(){}
+
+		void OnCreate()override;
+		
+		void OnUpdate()override;
+
+		void OnPushA()override;
+	};
 }

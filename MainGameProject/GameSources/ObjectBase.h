@@ -4,6 +4,7 @@
 */
 #pragma once
 #include "stdafx.h"
+#include "ProjectUtility.h"
 
 namespace basecross
 {
@@ -27,23 +28,19 @@ namespace basecross
 	//---------------------------------------------------
 	//入力操作可能クラスの基底クラス
 	//---------------------------------------------------
-	class PawnBase :public ObjectBase
+	template <typename T>
+	class PawnBase
 	{
 	public:
-		PawnBase(const shared_ptr<Stage>&StagePtr)
-			:ObjectBase(StagePtr) {}
+		PawnBase(){}
+
 		virtual ~PawnBase() {}
 
-		virtual void OnPushA() = 0;
-		virtual void OnPushB() = 0;
-		virtual void OnPushX() = 0;
-		virtual void OnPushY() = 0;
-		
-		//初期化
-		virtual void OnCreate()override =0;
-		//更新処理
-		virtual void OnUpdate()override =0;
+		virtual void OnPushA() {};
+		virtual void OnPushB() {};
+		virtual void OnPushX() {};
+		virtual void OnPushY() {};
 	protected:
-		
+		InputHandler<T> m_Handler;
 	};
 }

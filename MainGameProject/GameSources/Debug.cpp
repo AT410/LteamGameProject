@@ -13,4 +13,20 @@ namespace basecross
 		DrawComp->CreateMesh<VertexPositionColorTexture>(m_vertices, m_indices);
 		DrawComp->SetTextureResource(m_TexKey);
 	}
+
+	//‘€ìƒeƒXƒg
+	void ContTest::OnCreate()
+	{
+
+	}
+
+	void ContTest::OnUpdate()
+	{
+		m_Handler.PushHandler(GetThis<ContTest>());
+	}
+
+	void ContTest::OnPushA()
+	{
+		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToDataSelectStage");
+	}
 }

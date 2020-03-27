@@ -12,13 +12,16 @@ namespace basecross
 	//コントローラー操作用ハンドラ
 	//---------------------------------
 	template<typename T>
-	struct InputHandller
+	struct InputHandler
 	{
 		void PushHandler(const shared_ptr<T>& Obj)
 		{
 			auto Input = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 			if (Input.bConnected)
 			{
+				/*!
+				@breif　決定ボタンorジャンプ
+				*/
 				if (Input.wPressedButtons == XINPUT_GAMEPAD_A)
 				{
 					Obj->OnPushA();

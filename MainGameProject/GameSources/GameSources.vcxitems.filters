@@ -36,9 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ObjectBase.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\`abe\Documents\GitHub\LteamGameProject\MainGameProject\GameSources\ProjectUtility.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
