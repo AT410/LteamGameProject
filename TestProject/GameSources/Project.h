@@ -5,7 +5,6 @@
 
 #pragma once
 
-
 #include "ProjectShader.h"
 #include "ProjectBehavior.h"
 #include "Scene.h"
@@ -15,4 +14,4 @@
 
 //TODO AddHeader
 #include "ControllerTest.h"
-
+#include "ObjectBase.h"
