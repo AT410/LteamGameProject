@@ -22,7 +22,7 @@ namespace basecross
 
 	void ContTest::OnUpdate()
 	{
-		m_Handler.PushHandler(GetThis<ContTest>());
+		m_handler.PushHandler(GetThis<ContTest>());
 	}
 
 	void ContTest::OnPushA()

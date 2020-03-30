@@ -14,15 +14,22 @@ namespace basecross
 	template<typename T>
 	struct InputHandler
 	{
+		//Vec2 m_LStickVol;//Lスティック
+		//Vec2 m_RStickVol;//Rスティック
+
+		//bool m_ConvertStickToDbadActoive;
+
 		void PushHandler(const shared_ptr<T>& Obj)
 		{
-			auto Input = App::GetApp()->GetInputDevice().GetControlerVec()[0];
-			if (Input.bConnected)
+			auto InputDevice = App::GetApp()->GetInputDevice();
+			auto ContInput = InputDevice.GetControlerVec()[0];
+			auto KeyInput = InputDevice.GetKeyState();
+			if (ContInput.bConnected)
 			{
 				/*!
 				@breif　決定ボタンorジャンプ
 				*/
-				if (Input.wPressedButtons == XINPUT_GAMEPAD_A)
+				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_A)
 				{
 					Obj->OnPushA();
 				}

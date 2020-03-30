@@ -7,5 +7,9 @@
 
 namespace basecross
 {
-
+	ObjectBase::ObjectBase(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:GameObject(StagePtr)
+	{
+		//配置データ、テクスチャキー、メッシュキー
+	}
 }

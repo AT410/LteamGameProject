@@ -1159,6 +1159,16 @@ namespace basecross {
 		return PtrWav;
 	}
 
+	shared_ptr<EffectResource> App::RegisterEffect(const wstring& key, const wstring& EfkFileName, const shared_ptr<EfkInterface>&efkInterface, float magnification) {
+		if (CheckResource<EffectResource>(key)) {
+			return GetResource<EffectResource>(key);
+		}
+		//
+		auto PtrEfk = ObjectFactory::Create<EffectResource>(efkInterface, EfkFileName, magnification);
+		RegisterResource(key, PtrEfk);
+		return PtrEfk;
+	}
+
 	void App::OnMessage(UINT message, WPARAM wParam, LPARAM lParam) {
 	}
 
