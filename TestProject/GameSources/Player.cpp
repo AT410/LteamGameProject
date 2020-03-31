@@ -5,10 +5,11 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "Player.h"
 
 namespace basecross{
-	Player::Player(const shared_ptr<Stage>& Stageptr) :
-		GameObject(Stageptr),
+	Player::Player(const shared_ptr<Stage>& StagePtr) :
+		ObjectBase(StagePtr),
 		m_cntlNum(0),
 		m_Speed(3.0f),
 		m_Jumpforce(4.0f),
@@ -16,7 +17,7 @@ namespace basecross{
 		m_Jumpjudge(false),
 		m_Dethtimejudge(false)
 	{}
-
+	
 
 
 	void Player::OnCreate() {
@@ -98,29 +99,14 @@ namespace basecross{
 		}
 	}
 
-	void  Player::Jump() {
-		if (m_cntl.A && m_Jumpjudge) {
+	void Player::OnPushA() {
+		if (/*m_cntl.A && */m_Jumpjudge) {
 			auto grav = GetComponent<Gravity>();
 			grav->StartJump(Vec3(0.0f, m_Jumpforce, 0.0f));
 			m_Jumpjudge = false;
 		}
-		m_cntl.A = false;
-	}
+		//m_cntl.A = false;
 
-	void Player::Squat() {
-		if(m_cntl.LeftThumb){
-			m_Speed = 1.5f;
-
-		}
-	}
-
-	void Player::Torch() {
-		if (m_cntl.LT) {
-
-		}
-		if (m_cntl.RT) {
-
-		}
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
@@ -140,8 +126,8 @@ namespace basecross{
 
 	void Player::OnUpdate() {
 		m_inputHandler.PushHandle(m_cntlNum, m_cntl);
+		m_Handler.PushHandler(GetThis<Player>());
 		Move();
-		Jump();
 	}
 
 

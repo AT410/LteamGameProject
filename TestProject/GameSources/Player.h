@@ -7,7 +7,7 @@
 #include "stdafx.h"
 
 namespace basecross{
-	class Player : public GameObject {
+	class Player : public ObjectBase, public PawnBase<Player> {
 		const int m_cntlNum;
 
 		Vec3 m_Position;
@@ -22,15 +22,16 @@ namespace basecross{
 		bool m_Jumpjudge;
 		bool m_Dethtimejudge;
 
+
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<Player> m_inputHandler;
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);
 		virtual ~Player() {}
 		void Move();
-		void Jump();
-		void Squat();
-		void Torch();
+		virtual void OnPushA();
+		//void Squat();
+		//void Torch();
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj) override;

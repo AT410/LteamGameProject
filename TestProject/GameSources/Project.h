@@ -9,9 +9,9 @@
 #include "ProjectBehavior.h"
 #include "Scene.h"
 #include "GameStage.h"
+#include "ObjectBase.h"
 #include "Character.h"
 #include "Player.h"
 
 //TODO AddHeader
 #include "ControllerTest.h"
-#include "ObjectBase.h"

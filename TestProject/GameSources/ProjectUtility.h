@@ -12,7 +12,7 @@ namespace basecross
 	//コントローラー操作用ハンドラ
 	//---------------------------------
 	template<typename T>
-	struct InputHandler
+	struct InputHandler2
 	{
 		//Vec2 m_LStickVol;//Lスティック
 		//Vec2 m_RStickVol;//Rスティック
