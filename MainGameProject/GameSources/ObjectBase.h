@@ -24,7 +24,7 @@ namespace basecross
 		//‰Šú‰»
 		virtual void OnCreate()override = 0;
 		//XVˆ—
-		virtual void OnUpdate()override {};
+		virtual void OnUpdate()override = 0;
 
 	protected:
 		Vec3 m_pos;
