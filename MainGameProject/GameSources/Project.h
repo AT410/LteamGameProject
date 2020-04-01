@@ -12,6 +12,7 @@
 #include "ProjectUtility.h"
 #include "Scene.h"
 #include "GameStage.h"
+#include "GameManager.h"
 #include "Player.h"
 #include "ObjectBase.h"
 
