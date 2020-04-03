@@ -13,5 +13,8 @@
 #include "Character.h"
 #include "Player.h"
 
+#include "shogo.h"
+#include "TransHelper.h"
+
 
 
