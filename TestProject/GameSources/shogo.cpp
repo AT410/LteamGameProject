@@ -33,7 +33,7 @@ namespace basecross {
 	void HeatStick::OnUpdate()
 	{
 		//プレイヤーの登録
-		auto ObjectPtr_P = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto ObjectPtr_P = GetStage()->GetSharedGameObject<TestPlayer>(L"Player");
 
 		auto stage = GetStage();
 
@@ -67,7 +67,7 @@ namespace basecross {
 		}
 	}
 	//（仮）プレイヤー
-	void Player::OnCreate()
+	void TestPlayer::OnCreate()
 	{
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
@@ -86,7 +86,7 @@ namespace basecross {
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
 	}
-	void Player::OnUpdate() 
+	void TestPlayer::OnUpdate()
 	{
 		auto transComp = GetComponent<Transform>();
 		Vec3 pos = transComp->GetPosition();

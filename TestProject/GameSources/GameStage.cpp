@@ -26,8 +26,62 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
+	void GameStage::GamePlayer() {
+		auto playerptr = AddGameObject<Player>();
+		SetSharedGameObject(L"Player", playerptr);
+	}
+
+	void GameStage::Object() {
+
+	}
 
 	void GameStage::OnCreate() {
+		try {
+			//ビューとライトの作成
+			CreateViewLight();
+
+			GamePlayer();
+		AddGameObject<FixBox>(
+			Vec3(30.0f, 0.1f, 10.0f),
+			Vec3(0.0f),
+			Vec3(0.0f, -1.0f, 0.0f)
+			);
+		AddGameObject<FixBox>(
+			Vec3(2.0f, 1.0f, 3.0f),
+			Vec3(0.0f),
+			Vec3(2.0f, -0.5f, 0.0f)
+			);
+		AddGameObject<ReturnCube>(
+			Vec3(0.5f),
+			Vec3(0.0f),
+			Vec3(5.0f, -1.0f, 0.0f)
+			);
+
+
+			AddGameObject<DebugTest>();
+		}
+		catch (...) {
+			throw;
+		}
+	}
+
+
+	void GameStageShogo::CreateViewLight() {
+		const Vec3 eye(0.0f, 10.0f, -20.0f);
+		const Vec3 at(0.0f);
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<Camera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetEye(eye);
+		PtrCamera->SetAt(at);
+		//マルチライトの作成
+		auto PtrMultiLight = CreateLight<MultiLight>();
+		//デフォルトのライティングを指定
+		PtrMultiLight->SetDefaultLighting();
+	}
+
+	void GameStageShogo::OnCreate() {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
@@ -35,10 +89,9 @@ namespace basecross {
 			//物理計算有効
 			SetPhysicsActive(true);
 			//（仮）プレイヤー
-			auto PlayerPtr = AddGameObject<Player>(Vec3(-7, 1, 0), Vec3(0), Vec3(1));
+			auto PlayerPtr = AddGameObject<TestPlayer>(Vec3(-7, 1, 0), Vec3(0), Vec3(1));
 			//プレイヤーの登録
 			SetSharedGameObject(L"Player", PlayerPtr);
-
 
 			//ひも
 			auto HimoPtr = AddGameObject<Himo>(Vec3(4, 5, 0), Vec3(0), Vec3(0.5, 2, 0.5));
@@ -72,6 +125,5 @@ namespace basecross {
 			throw;
 		}
 	}
-
 }
 //end basecross

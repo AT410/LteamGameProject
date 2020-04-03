@@ -14,6 +14,8 @@ namespace basecross {
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
+		void GamePlayer();
+		void Object();
 	public:
 		//構築と破棄
 		GameStage() :Stage() {}
@@ -22,6 +24,18 @@ namespace basecross {
 		virtual void OnCreate()override;
 	};
 
+	class GameStageShogo : public Stage {
+		//ビューの作成
+		void CreateViewLight();
+		void GamePlayer();
+		void Object();
+	public:
+		//構築と破棄
+		GameStageShogo() :Stage() {}
+		virtual ~GameStageShogo() {}
+		//初期化
+		virtual void OnCreate()override;
+	};
 
 }
 //end basecross

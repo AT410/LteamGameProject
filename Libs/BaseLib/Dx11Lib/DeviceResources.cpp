@@ -1124,6 +1124,9 @@ namespace basecross {
 		ComPtr<IDWriteFactory2>		m_dwriteFactory;
 		ComPtr<IWICImagingFactory2>	m_wicFactory;
 
+		//カスタムフォント用テスト
+		ComPtr<IDWriteFactory5> m_dwriteFactory5;
+
 		float m_dpi;
 
 		shared_ptr<DefaultRenderTarget> m_DefaultRenderTarget;	///<デフォルトのレンダリングターゲット
@@ -1363,6 +1366,17 @@ namespace basecross {
 		);
 
 		ThrowIfFailed(
+			DWriteCreateFactory(
+				DWRITE_FACTORY_TYPE_SHARED,
+				__uuidof(IDWriteFactory5),
+				&m_dwriteFactory5
+			),
+			L"DirectWrite5ファクトリの作成に失敗しました。",
+			L"DWriteCreateFactory()",
+			L"DeviceResources::Impl::CreateDeviceResource()"
+		);
+
+		ThrowIfFailed(
 			CoCreateInstance(
 				CLSID_WICImagingFactory2,
 				nullptr,
@@ -1557,6 +1571,8 @@ namespace basecross {
 	ID2D1DeviceContext1*	DeviceResources::GetD2DDeviceContext() const { return pImpl->m_d2dContext.Get(); }
 	IDWriteFactory2*		DeviceResources::GetDWriteFactory() const { return pImpl->m_dwriteFactory.Get(); }
 	IWICImagingFactory2*	DeviceResources::GetWicImagingFactory() const { return pImpl->m_wicFactory.Get(); }
+	IDWriteFactory5*		DeviceResources::GetDWriteFactory5() const { return pImpl->m_dwriteFactory5.Get(); }
+
 
 	void DeviceResources::InitializeStates() {
 		ID3D11ShaderResourceView* pNull[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = { nullptr };

@@ -31,14 +31,14 @@ namespace basecross {
 	};
 
 	//（仮）プレイヤー
-	class Player : public GameObject
+	class TestPlayer : public GameObject
 	{
 	private:
 		Vec3 m_Pos;
 		Vec3 m_Rotation;
 		Vec3 m_Scale;
 	public:
-		Player(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
+		TestPlayer(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
 			:GameObject(StagePtr), m_Pos(Position), m_Rotation(Rotation), m_Scale(Scale)
 		{
 		}

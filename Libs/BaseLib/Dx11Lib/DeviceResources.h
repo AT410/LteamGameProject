@@ -1851,6 +1851,13 @@ namespace basecross {
 		IDWriteFactory2* GetDWriteFactory() const;
 		//--------------------------------------------------------------------------------------
 		/*!
+		@brief	DWriteFactory2インターフェイスの取得
+		@return	DWriteFactory2インターフェイス
+		*/
+		//--------------------------------------------------------------------------------------
+		IDWriteFactory5* GetDWriteFactory5() const;
+		//--------------------------------------------------------------------------------------
+		/*!
 		@brief	WICImagingFactory2インターフェイスの取得
 		@return	WICImagingFactory2インターフェイス
 		*/

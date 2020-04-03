@@ -9,9 +9,9 @@
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
-	//	ゲームステージクラス実体
+	//	ステージベースクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStage::CreateViewLight() {
+	void StageBase::CreateViewLight() {
 		const Vec3 eye(0.0f, 5.0f, -5.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
@@ -26,17 +26,100 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
+	void StageBase::SetBGM(const wstring& BGMKey)
+	{
+		auto XAudioPtr = App::GetApp()->GetXAudio2Manager();
+		m_BGMPtr = XAudioPtr->Start(BGMKey,XAUDIO2_LOOP_INFINITE,0.25f);
+	}
 
+	void StageBase::OnDestroy()
+	{
+		//BGMを終了
+		auto XAudioPtr = App::GetApp()->GetXAudio2Manager();
+		XAudioPtr->Stop(m_BGMPtr);
+	}
 
-	void GameStage::OnCreate() {
-		try {
-			//ビューとライトの作成
+	//--------------------------------------------------------------------------------------
+	//	タイトルステージクラス実体
+	//--------------------------------------------------------------------------------------
+	void TitleStage::OnCreate()
+	{
+		try 
+		{
 			CreateViewLight();
+			AddGameObject<DebugSprite>(L"TitleStage_TX");
+			AddGameObject<ContTest>();
 		}
-		catch (...) {
-			throw;
+		catch (...)
+		{
+
 		}
 	}
 
+	void TitleStage::OnUpdate()
+	{
+
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	タイトルステージクラス実体
+	//--------------------------------------------------------------------------------------
+	void DataSelectStage::OnCreate()
+	{
+		try
+		{
+			CreateViewLight();
+			AddGameObject<DebugSprite>(L"DateSelect_TX");
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//--------------------------------------------------------------------------------------
+	//	タイトルステージクラス実体
+	//--------------------------------------------------------------------------------------
+	void AreaSelectStage::OnCreate()
+	{
+		try
+		{
+			CreateViewLight();
+			AddGameObject<DebugSprite>(L"AreaSelect_TX");
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//--------------------------------------------------------------------------------------
+	//	タイトルステージクラス実体
+	//--------------------------------------------------------------------------------------
+	void GameStage::OnCreate()
+	{
+		try
+		{
+			CreateViewLight();
+			AddGameObject<DebugSprite>(L"GameStage_TX");
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//--------------------------------------------------------------------------------------
+	//	タイトルステージクラス実体
+	//--------------------------------------------------------------------------------------
+	void EndingStage::OnCreate()
+	{
+		try
+		{
+			CreateViewLight();
+			AddGameObject<DebugSprite>(L"EndingStage_TX");
+		}
+		catch (...)
+		{
+
+		}
+	}
 }
 //end basecross
