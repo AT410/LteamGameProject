@@ -24,6 +24,18 @@ namespace basecross {
 		virtual void OnCreate()override;
 	};
 
+	class GameStageShogo : public Stage {
+		//ƒrƒ…[‚Ìì¬
+		void CreateViewLight();
+		void GamePlayer();
+		void Object();
+	public:
+		//\’z‚Æ”jŠü
+		GameStageShogo() :Stage() {}
+		virtual ~GameStageShogo() {}
+		//‰Šú‰»
+		virtual void OnCreate()override;
+	};
 
 }
 //end basecross

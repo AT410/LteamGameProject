@@ -45,7 +45,7 @@ namespace basecross{
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_SPHERE");
 
-		AddTag(L"Deth");
+		AddTag(L"Goal");
 	}
 }
 //end basecross

@@ -12,7 +12,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(0.0f, 0.0f, -10.0f);
+		const Vec3 eye(0.0f, 10.0f, -20.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -36,7 +36,11 @@ namespace basecross {
 	}
 
 	void GameStage::OnCreate() {
-		GamePlayer();
+		try {
+			//ビューとライトの作成
+			CreateViewLight();
+
+			GamePlayer();
 		AddGameObject<FixBox>(
 			Vec3(30.0f, 0.1f, 10.0f),
 			Vec3(0.0f),
@@ -52,9 +56,8 @@ namespace basecross {
 			Vec3(0.0f),
 			Vec3(5.0f, -1.0f, 0.0f)
 			);
-		try {
-			//ビューとライトの作成
-			CreateViewLight();
+
+
 			AddGameObject<DebugTest>();
 		}
 		catch (...) {
@@ -62,5 +65,65 @@ namespace basecross {
 		}
 	}
 
+
+	void GameStageShogo::CreateViewLight() {
+		const Vec3 eye(0.0f, 10.0f, -20.0f);
+		const Vec3 at(0.0f);
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<Camera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetEye(eye);
+		PtrCamera->SetAt(at);
+		//マルチライトの作成
+		auto PtrMultiLight = CreateLight<MultiLight>();
+		//デフォルトのライティングを指定
+		PtrMultiLight->SetDefaultLighting();
+	}
+
+	void GameStageShogo::OnCreate() {
+		try {
+			//ビューとライトの作成
+			CreateViewLight();
+
+			//物理計算有効
+			SetPhysicsActive(true);
+			//（仮）プレイヤー
+			auto PlayerPtr = AddGameObject<TestPlayer>(Vec3(-7, 1, 0), Vec3(0), Vec3(1));
+			//プレイヤーの登録
+			SetSharedGameObject(L"Player", PlayerPtr);
+
+			//ひも
+			auto HimoPtr = AddGameObject<Himo>(Vec3(4, 5, 0), Vec3(0), Vec3(0.5, 2, 0.5));
+			//ひもの登録
+			SetSharedGameObject(L"Himo", HimoPtr);
+			//おもり
+			auto OmoriPtr = AddGameObject<Omori>(Vec3(4, 3.5, 0), Vec3(0), Vec3(1));
+			//おもりの登録
+			SetSharedGameObject(L"Omori", OmoriPtr);
+			//熱棒
+			AddGameObject<HeatStick>(Vec3(0, 6, 0), Vec3(0), Vec3(10, 1, 1));
+
+			//ボタン
+			AddGameObject<Button>(Vec3(4, 1, 0), Vec3(0), Vec3(2,1,2));
+
+			//床(左)
+			AddGameObject<Floor>(Vec3(-8, 0, 0), Vec3(0), Vec3(10, 1, 15));
+			//床(右)
+			AddGameObject<Floor>(Vec3(8, 0, 0), Vec3(0), Vec3(10, 1, 15));
+			//床(動く)
+			auto MoveFloorPtr1 = AddGameObject<MoveFloor>(Vec3(0, 0.1f, 5), Vec3(0, 0, -45), Vec3(8, 1, 3));
+			//動く床登録
+			SetSharedGameObject(L"MoveFloor1", MoveFloorPtr1);
+			//床(動く)
+			auto MoveFloorPtr2 = AddGameObject<MoveFloor>(Vec3(8, -0.5f, -5), Vec3(0), Vec3(8, 1, 3));
+			//動く床登録
+			SetSharedGameObject(L"MoveFloor2", MoveFloorPtr2);
+
+		}
+		catch (...) {
+			throw;
+		}
+	}
 }
 //end basecross

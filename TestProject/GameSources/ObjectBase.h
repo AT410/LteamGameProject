@@ -40,6 +40,6 @@ namespace basecross
 		virtual void OnPushX() {};
 		virtual void OnPushY() {};
 	protected:
-		InputHandler<T> m_Handler;
+		InputHandler2<T> m_Handler;
 	};
 }
