@@ -1,6 +1,6 @@
 /*!
 @file Player.h
-@brief プレイヤーなど
+@brief ギミックのボタンなど
 */
 
 #pragma once
@@ -8,29 +8,27 @@
 
 namespace basecross
 {
-	class Player:public GameObject
+	class Button :public GameObject
 	{
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-		int PlayerSpeed;
-		Vec3 forward;
 
-	public :
-		Player(const shared_ptr<Stage>&Stageptr,
+	public:
+		Button(const shared_ptr<Stage>&Stageptr,
 			const Vec3& scale,
 			const Vec3& Rotation,
 			const Vec3& Position
 		);
+
 		Vec3 GetPosition() const
 		{
 			return GetComponent<Transform>()->GetPosition();
 		}
-		virtual ~Player();
+		void OnCollisionEnter(shared_ptr<GameObject>&other)override;
+		virtual ~Button();
 		virtual void OnCreate() override;
 		virtual void OnUpdate()override;
 	};
 
 }
-//end basecross
-

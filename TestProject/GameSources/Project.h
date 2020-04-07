@@ -12,6 +12,12 @@
 #include "GameStage.h"
 #include "Character.h"
 #include "Player.h"
-
+#include "floor.h"
+#include "Gimmick.h"
+#include "Button.h"
+#include "Background.h"
+#include "Gate.h"
+#include "Button2.h"
+#include "gate2.h"
 
 
