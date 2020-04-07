@@ -20,7 +20,7 @@ namespace basecross{
 			SetClearColor(Col);
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageShogo");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageHurukawa");
 		}
 		catch (...) {
 			throw;
@@ -39,6 +39,11 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToGameStageShogo") {
 			//最初のアクティブステージの設定
 			ResetActiveStage<GameStageShogo>();
+
+		}
+		if (event->m_MsgStr == L"ToGameStageHurukawa") {
+			//最初のアクティブステージの設定
+			ResetActiveStage<GameStageHurukawa>();
 
 		}
 	}
