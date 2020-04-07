@@ -21,6 +21,8 @@ namespace basecross
 
 		static unique_ptr<GameManager, GMDeleter> m_ins;	///<-マネージャーのインスタンス
 
+		pair<int, int > m_SelectStage;						///<-ステージ選択した値
+
 		GameManager();
 		~GameManager();
 	public:
@@ -31,5 +33,22 @@ namespace basecross
 		static bool CheckManager();
 
 		static void DeleteManager();
+
+		//ステージの生成
+		//ステージから呼ばれる
+		void CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName);
+
+		//ゲッター
+		pair<int, int> GetStagePair()const {return m_SelectStage; }
+		//セッター
+		void SetStagePait(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
+	private:
+		//コピー禁止
+		GameManager(const GameManager&) = delete;
+		GameManager& operator=(const GameManager&) = delete;
+		//ムーブ禁止
+		GameManager(const GameManager&&) = delete;
+		GameManager& operator=(const GameManager&&) = delete;
+
 	};
 }

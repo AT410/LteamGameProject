@@ -29,4 +29,26 @@ namespace basecross
 	{
 		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToDataSelectStage");
 	}
+
+
+	//ステージ配置テスト
+	StageTest::StageTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr,pNode)
+	{
+
+	}
+
+	void StageTest::OnCreate()
+	{
+		//描画設定
+		auto DrawComp = AddComponent<PNTStaticDraw>();
+		DrawComp->SetMeshResource(m_meshKey);
+		DrawComp->SetTextureResource(m_texKey);
+
+		//配置設定
+		auto TransComp = GetComponent<Transform>();
+		TransComp->SetPosition(m_pos);
+		TransComp->SetQuaternion(Quat(m_rot));
+		TransComp->SetScale(m_scal);
+	}
 }

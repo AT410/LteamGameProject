@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUtility.h" />
   </ItemGroup>
@@ -35,6 +36,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />

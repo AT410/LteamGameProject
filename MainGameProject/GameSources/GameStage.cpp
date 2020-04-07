@@ -108,7 +108,10 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"GameStage_TX");
+			wstring Test;
+			App::GetApp()->GetDataDirectory(Test);
+			GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"DefaultPath.xml");
+			//AddGameObject<DebugSprite>(L"GameStage_TX");
 		}
 		catch (...)
 		{

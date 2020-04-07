@@ -12,6 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
+		:m_SelectStage(0,0)
 	{
 
 	}
@@ -75,5 +76,14 @@ namespace basecross
 			//廃棄処理
 			m_ins.reset();
 		}
+	}
+
+	//ステージ生成
+	void GameManager::CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName)
+	{
+		StageBulider Builder;
+		Builder.Register<StageTest>(L"Test");
+
+		Builder.StageBuild(StagePtr, FileName);
 	}
 }

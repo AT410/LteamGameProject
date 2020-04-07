@@ -24,11 +24,11 @@ namespace basecross
 		//‰Šú‰»
 		virtual void OnCreate()override = 0;
 		//XVˆ—
-		virtual void OnUpdate()override = 0;
+		virtual void OnUpdate()override {};
 
 	protected:
 		Vec3 m_pos;
-		Vec3 m_rot;
+		Vec4 m_rot;
 		Vec3 m_scal;
 		wstring m_texKey;
 		wstring m_meshKey;

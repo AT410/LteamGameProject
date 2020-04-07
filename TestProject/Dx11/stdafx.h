@@ -85,6 +85,7 @@ using namespace std;
 // XInput includes
 #include <xinput.h>
 
+//エフェクトのテスト時に使用
 #include <Effekseer.h>
 #include <EffekseerRendererDX11.h>
 
