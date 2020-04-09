@@ -41,8 +41,6 @@ namespace basecross {
 	class GameStageShogo : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
-		void GamePlayer();
-		void Object();
 	public:
 		//\’z‚Æ”jŠü
 		GameStageShogo() :Stage() {}
