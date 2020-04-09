@@ -25,6 +25,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ControllerTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ObjectBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)shogo.h">
@@ -51,6 +53,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ControllerTest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ObjectBase.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

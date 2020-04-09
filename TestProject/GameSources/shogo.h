@@ -116,7 +116,7 @@ namespace basecross {
 		Vec3 m_Rotation;
 		Vec3 m_Scale;
 		float m_Time;
-		bool m_Active;
+		bool m_Active; //flg
 	public:
 		MoveFloor(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
 			:GameObject(StagePtr), m_Pos(Position), m_Rotation(Rotation), m_Scale(Scale), m_Time(0.0f), m_Active(false)
@@ -132,5 +132,30 @@ namespace basecross {
 		}
 	};
 
+
+	//ï¨êÖ
+	class Fountain :public GameObject
+	{
+	private:
+		Vec3 m_Pos;
+		Vec3 m_Scale;
+		bool m_Active; //flg
+		float m_Time = 0;
+	public:
+		Fountain(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Scale)
+			:GameObject(StagePtr), m_Pos(Position), m_Scale(Scale)
+		{
+		}
+
+		void OnCreate() override;
+		void OnUpdate() override;
+
+		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
+
+		void SetActive(bool active)
+		{
+			m_Active = active;
+		}
+	};
 }
 //end basecross

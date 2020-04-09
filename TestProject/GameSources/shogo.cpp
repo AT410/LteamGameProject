@@ -92,23 +92,24 @@ namespace basecross {
 		Vec3 pos = transComp->GetPosition();
 		//実行時間計測		
 		auto elapsedTime = App::GetApp()->GetElapsedTime();
+		float speed = 2.0f;
 		//キーボードの取得(キーボード優先)
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
 		if (KeyState.m_bPushKeyTbl['W']) {
 			//前
-			pos.z += 1.0f * elapsedTime;
+			pos.z += speed * elapsedTime;
 		}
 		if (KeyState.m_bPushKeyTbl['A']) {
 			//左
-			pos.x += -1.0f* elapsedTime;
+			pos.x += -speed * elapsedTime;
 		}
 		if (KeyState.m_bPushKeyTbl['S']) {
 			//後ろ
-			pos.z += -1.0f* elapsedTime;
+			pos.z += -speed * elapsedTime;
 		}
 		if (KeyState.m_bPushKeyTbl['D']) {
 			//右
-			pos.x += 1.0f* elapsedTime;
+			pos.x += speed * elapsedTime;
 		}
 		if (KeyState.m_bLastKeyTbl[VK_SPACE]) {
 			//上
@@ -181,11 +182,12 @@ namespace basecross {
 	void Button::OnCollisionEnter(shared_ptr<GameObject>& Other) {
 		//Omoriタグを持った相手と衝突した
 		if (Other->FindTag(L"Omori")) {
-			//動く床
+			//ナナメ動く床
 			auto ObjectPtr_MF = GetStage()->GetSharedGameObject<MoveFloor>(L"MoveFloor1");
 			auto transComp = ObjectPtr_MF->GetComponent<Transform>();
 			Vec3 pos = transComp->GetPosition();
 			Vec3 rot = transComp->GetRotation();
+
 			//実行時間計測		
 			auto elapsedTime = App::GetApp()->GetElapsedTime();
 
@@ -195,11 +197,12 @@ namespace basecross {
 	void Button::OnCollisionExcute(shared_ptr<GameObject>& Other) {
 		//Omoriタグを持った相手と衝突した
 		if (Other->FindTag(L"Omori")) {
-			//動く床
+			//ヨコ動く床
 			auto ObjectPtr_MF = GetStage()->GetSharedGameObject<MoveFloor>(L"MoveFloor2");
 			auto transComp = ObjectPtr_MF->GetComponent<Transform>();
 			Vec3 pos = transComp->GetPosition();
 			Vec3 rot = transComp->GetRotation();
+
 			//実行時間計測		
 			auto elapsedTime = App::GetApp()->GetElapsedTime();
 
@@ -251,8 +254,9 @@ namespace basecross {
 		if (m_Active)
 		{
 			m_Time += App::GetApp()->GetElapsedTime();
-			if (m_Time > 5.0f)
+			if (m_Time > 5.0f) {
 				m_Active = false;
+			}
 			auto ptrTrans = GetComponent<Transform>();
 			m_Rotation = ptrTrans->GetRotation();
 			Easing<Vec3> easing;
@@ -263,6 +267,54 @@ namespace basecross {
 			FQuat.normalize();
 			ptrTrans->SetQuaternion(FQuat);
 		}
+	}
+
+	//噴水
+	void Fountain::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_SPHERE");
+
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_Pos);
+		transComp->SetScale(m_Scale);
+
+		//コリジョンを付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+		//ptrColl->SetFixed(true);
+
+		//重力
+		auto grav = AddComponent<Gravity>();
+		//無効にしておく
+		grav->SetUpdateActive(false);
+
+	}
+
+	void Fountain::OnUpdate()
+	{
+		auto transComp = GetComponent<Transform>();
+		Vec3 pos = transComp->GetPosition();
+
+		auto grav = AddComponent<Gravity>();
+		grav->SetUpdateActive(true);
+		if (m_Active) {
+			m_Time += App::GetApp()->GetElapsedTime();
+			if (m_Time > 5.0f) {
+				m_Active = false;
+				grav->StartJump(Vec3(0, 10.0f, 0.0f));
+				m_Time = 0;
+
+			}
+		}
+	}
+
+	void Fountain::OnCollisionEnter(shared_ptr<GameObject>& Other) {
+		auto ObjectPtr_F = GetStage()->GetSharedGameObject<Fountain>(L"Fountain1");
+
+		ObjectPtr_F->SetActive(true);
+
 	}
 }
 //end basecross

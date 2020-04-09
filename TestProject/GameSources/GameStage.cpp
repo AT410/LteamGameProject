@@ -65,7 +65,7 @@ namespace basecross {
 		}
 	}
 
-
+	//熱棒のステージ
 	void GameStageShogo::CreateViewLight() {
 		const Vec3 eye(0.0f, 10.0f, -20.0f);
 		const Vec3 at(0.0f);
@@ -88,6 +88,7 @@ namespace basecross {
 
 			//物理計算有効
 			SetPhysicsActive(true);
+
 			//（仮）プレイヤー
 			auto PlayerPtr = AddGameObject<TestPlayer>(Vec3(-7, 1, 0), Vec3(0), Vec3(1));
 			//プレイヤーの登録
@@ -111,14 +112,22 @@ namespace basecross {
 			AddGameObject<Floor>(Vec3(-8, 0, 0), Vec3(0), Vec3(10, 1, 15));
 			//床(右)
 			AddGameObject<Floor>(Vec3(8, 0, 0), Vec3(0), Vec3(10, 1, 15));
-			//床(動く)
-			auto MoveFloorPtr1 = AddGameObject<MoveFloor>(Vec3(0, 0.1f, 5), Vec3(0, 0, -45), Vec3(8, 1, 3));
+			//床(下)
+			AddGameObject<Floor>(Vec3(0, -4, 0), Vec3(0), Vec3(20, 1, 15));
+
+			//床(ナナメ動く)
+			auto MoveFloorPtr1 = AddGameObject<MoveFloor>(Vec3(0, 0.01f, 5), Vec3(0, 0, -45), Vec3(8, 1, 3));
 			//動く床登録
 			SetSharedGameObject(L"MoveFloor1", MoveFloorPtr1);
-			//床(動く)
+			//床(ヨコ動く)
 			auto MoveFloorPtr2 = AddGameObject<MoveFloor>(Vec3(8, -0.5f, -5), Vec3(0), Vec3(8, 1, 3));
 			//動く床登録
 			SetSharedGameObject(L"MoveFloor2", MoveFloorPtr2);
+
+			//噴水（ポジション、スケール）
+			auto Fountain1 = AddGameObject<Fountain>(Vec3(0.0f, -3.0f, 0.0f), Vec3(1.0f));
+			//噴水
+			SetSharedGameObject(L"Fountain1", Fountain1);
 
 		}
 		catch (...) {
