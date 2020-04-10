@@ -128,8 +128,6 @@ namespace basecross{
 
 	}
 
-	void Player::PushPull() {
-	}
 
 	void Player::OnPushLB() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
@@ -233,10 +231,6 @@ namespace basecross{
 			ClearState();
 		}
 		break;
-		case PlayerState::PullPush:
-		{
-			PushPull();
-		}
 		}
 	}
 

@@ -55,13 +55,11 @@ namespace basecross {
 			Vec3(0.0f),
 			Vec3(5.0f, -1.0f, 0.0f)
 			);
-<<<<<<< HEAD
 		AddGameObject<PushPullObj>(
 			Vec3(0.3f),
 			Vec3(0.0f),
 			Vec3(-1.0f, -0.7f, 0.0f)
 			);
-=======
 
 
 			AddGameObject<DebugTest>();
@@ -90,7 +88,6 @@ namespace basecross {
 	}
 
 	void GameStageHurukawa::OnCreate() {
->>>>>>> 9a45fbc55c577aebd550c0288498f5727c0f8517
 		try {
 			SetPhysicsActive(true);
 			//ビューとライトの作成
