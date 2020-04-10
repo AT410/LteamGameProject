@@ -15,7 +15,7 @@ namespace basecross {
 		Vec3 m_Pos;
 		Vec3 m_Rotation;
 		Vec3 m_Scale;
-		AABB m_HeatArea;
+		AABB m_HeatArea; //AABB
 
 		shared_ptr<Himo> m_himo;
 
@@ -141,6 +141,12 @@ namespace basecross {
 		Vec3 m_Scale;
 		bool m_Active; //flg
 		float m_Time = 0;
+
+		AABB m_FountainArea; //í‚É—LŒø
+		AABB m_FountainArea2; //…‚ªActive‚Ì‚¾‚¯‚É—LŒø
+
+		shared_ptr<TestPlayer> m_TestPlayer;
+
 	public:
 		Fountain(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Scale)
 			:GameObject(StagePtr), m_Pos(Position), m_Scale(Scale)
