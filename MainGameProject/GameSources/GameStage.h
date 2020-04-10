@@ -19,7 +19,7 @@ namespace basecross {
 		virtual ~StageBase() {}
 		//初期化
 		virtual void OnCreate()override = 0;
-		virtual void OnUpdate()override = 0;
+		virtual void OnUpdate()override {};
 		virtual void OnDestroy()override;
 	protected:
 		//ビューの作成
@@ -27,7 +27,7 @@ namespace basecross {
 
 		void SetBGM(const wstring& BGMKey);
 
-		shared_ptr<SoundItem> m_BGMPtr;
+		shared_ptr<SoundItem> m_BGMPtr = nullptr;
 
 	};
 
@@ -81,6 +81,9 @@ namespace basecross {
 	public:
 		GameStage() :StageBase() {}
 		virtual ~GameStage() {}
+
+		//ステージの配置
+		void GenerateStage();
 		//初期化
 		void OnCreate()override;
 		void OnUpdate()override {};

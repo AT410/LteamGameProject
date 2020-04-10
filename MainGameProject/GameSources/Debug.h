@@ -50,4 +50,15 @@ namespace basecross
 
 		void OnPushA()override;
 	};
+
+	//ステージ配置テスト
+	class StageTest :public ObjectBase
+	{
+	public:
+		StageTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~StageTest() {}
+
+		void OnCreate()	override;
+	};
 }

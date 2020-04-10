@@ -19,9 +19,10 @@ namespace basecross{
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
 			SetClearColor(Col);
 			SetDebugResoruce();
+			GameManager::CreateManager();
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTileStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
 		}
 		catch (...) {
 			throw;
@@ -65,6 +66,8 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"AreaSelect_TX", MediaPath + L"AreaSelect.png");
 		App::GetApp()->RegisterTexture(L"GameStage_TX", MediaPath + L"GameStage.png");
 		App::GetApp()->RegisterTexture(L"EndingStage_TX", MediaPath + L"EndingStage.png");
+
+		App::GetApp()->RegisterTexture(L"TEST_TX", MediaPath + L"itimatu.bmp");
 	}
 
 }

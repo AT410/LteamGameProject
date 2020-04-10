@@ -92,14 +92,26 @@ namespace basecross {
 		}
 	}
 	//--------------------------------------------------------------------------------------
-	//	タイトルステージクラス実体
+	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
+	void GameStage::GenerateStage()
+	{
+		//エリアセレクトで選択したエリア・ステージ情報に基づいて生成する。
+		//GameObjecttXMLBuilder MapBuilder;
+		//オブジェクトの登録
+
+		//MapBuilder.Build(GetThis<Stage>(),L"マップファイル",L"生成パス");
+	}
+
 	void GameStage::OnCreate()
 	{
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"GameStage_TX");
+			wstring Test;
+			App::GetApp()->GetDataDirectory(Test);
+			GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"DefaultPath.xml");
+			//AddGameObject<DebugSprite>(L"GameStage_TX");
 		}
 		catch (...)
 		{

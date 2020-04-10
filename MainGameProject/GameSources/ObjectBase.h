@@ -16,13 +16,22 @@ namespace basecross
 	public:
 		ObjectBase(const shared_ptr<Stage>&StagePtr)
 			:GameObject(StagePtr) {}
+
+		ObjectBase(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
 		virtual ~ObjectBase() {}
 
 		//‰Šú‰»
 		virtual void OnCreate()override = 0;
 		//XVˆ—
-		virtual void OnUpdate()override = 0;
+		virtual void OnUpdate()override {};
 
+	protected:
+		Vec3 m_pos;
+		Vec4 m_rot;
+		Vec3 m_scal;
+		wstring m_texKey;
+		wstring m_meshKey;
 	};
 
 	//---------------------------------------------------
@@ -41,6 +50,6 @@ namespace basecross
 		virtual void OnPushX() {};
 		virtual void OnPushY() {};
 	protected:
-		InputHandler<T> m_Handler;
+		InputHandler<T> m_handler;
 	};
 }
