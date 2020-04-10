@@ -287,8 +287,10 @@ namespace basecross {
 
 		//重力
 		auto grav = AddComponent<Gravity>();
-		//無効にしておく
-		grav->SetUpdateActive(false);
+
+		//噴水エリアからポジションまで
+		m_FountainArea = AABB(Vec3(0, -2, 0), 6, 1, 14);
+		m_FountainArea2 = AABB(Vec3(0, 3, 0), 5, 6, 14);
 
 	}
 
@@ -297,15 +299,43 @@ namespace basecross {
 		auto transComp = GetComponent<Transform>();
 		Vec3 pos = transComp->GetPosition();
 
-		auto grav = AddComponent<Gravity>();
-		grav->SetUpdateActive(true);
-		if (m_Active) {
-			m_Time += App::GetApp()->GetElapsedTime();
-			if (m_Time > 5.0f) {
-				m_Active = false;
-				grav->StartJump(Vec3(0, 10.0f, 0.0f));
-				m_Time = 0;
+		//プレイヤーの登録
+		auto ObjectPtr_P = GetStage()->GetSharedGameObject<TestPlayer>(L"Player");
+		auto stage = GetStage();
 
+		if (ObjectPtr_P) {
+			//プレイヤーのポジションを取得
+			auto PlayerPos = ObjectPtr_P->GetComponent<Transform>()->GetPosition();
+			//プレイヤーの中心から１，１，１の範囲
+			AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);
+			if (HitTest::AABB_AABB(m_FountainArea, PlayerAABB)) {
+				//プレイヤーのポジションをスタートに
+				PlayerPos = Vec3(-7, 2, 0);
+				ObjectPtr_P->GetComponent<Transform>()->SetPosition(PlayerPos);
+
+				//プレイヤーを消す
+				//ObjectPtr_P->SetDrawActive(false);
+			}
+			if (m_Active) {
+				m_Time += App::GetApp()->GetElapsedTime();
+				if (m_Time > 5.0f) {
+					m_Active = false;
+					AddComponent<Gravity>()->StartJump(Vec3(0, 12.5f, 0.0f));
+					m_Time = 0;
+				}
+			}
+			else {
+				m_Time += App::GetApp()->GetElapsedTime();
+				if (m_Time > 1.5f) {
+					if (HitTest::AABB_AABB(m_FountainArea2, PlayerAABB)) {
+						//プレイヤーのポジションをスタートに
+						PlayerPos = Vec3(-7, 2, 0);
+						ObjectPtr_P->GetComponent<Transform>()->SetPosition(PlayerPos);
+
+						//プレイヤーを消す
+						//ObjectPtr_P->SetDrawActive(false);
+					}
+				}
 			}
 		}
 	}
