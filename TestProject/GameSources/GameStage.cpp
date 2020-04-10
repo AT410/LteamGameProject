@@ -52,6 +52,11 @@ namespace basecross {
 			Vec3(0.0f),
 			Vec3(5.0f, -1.0f, 0.0f)
 			);
+		AddGameObject<PushPullObj>(
+			Vec3(0.3f),
+			Vec3(0.0f),
+			Vec3(-1.0f, -0.7f, 0.0f)
+			);
 		try {
 			//ビューとライトの作成
 			CreateViewLight();

@@ -39,6 +39,8 @@ namespace basecross
 		virtual void OnPushB() {};
 		virtual void OnPushX() {};
 		virtual void OnPushY() {};
+		virtual void OnPushLB() {};
+		virtual void OnRemoveLB() {};
 	protected:
 		InputHandler2<T> m_Handler;
 	};

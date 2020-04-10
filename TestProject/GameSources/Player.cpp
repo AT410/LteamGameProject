@@ -87,12 +87,12 @@ namespace basecross{
 	void Player::Move() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
 		m_PlayerAngle = GetMoveVector();
-		if (m_PlayerAngle.length() > 0.0f/* && !m_StopActionTimeJudge*/) {
+		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += m_PlayerAngle * elapsedtime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
 		}
-		if (m_PlayerAngle.length() > 0.0f/* && !m_StopActionTimeJudge*/) {
+		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(m_PlayerAngle, 1.0f);
 		}
@@ -129,6 +129,62 @@ namespace basecross{
 		}
 
 	}
+
+	void Player::PushPull() {
+	}
+
+	void Player::OnPushLB() {
+		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		m_PlayerAngle = GetMoveVector();
+		auto ptrTransform = GetComponent<Transform>();
+		auto pos = ptrTransform->GetPosition();
+		auto playerRoll = ptrTransform->GetRotation();
+		auto ptrCamera = OnGetDrawCamera();
+		//進行方向の向きを計算
+		auto front = ptrTransform->GetWorldPosition() - ptrCamera->GetEye();
+		front.y = 0;
+		front.normalize();
+		//進行方向向きの角度を算出
+		float frontAngle = atan2(front.z, front.x);
+		auto angle = Vec3(cos(frontAngle), 0.0f, sin(frontAngle));
+		angle.normalize();
+		if (m_PushPull) {
+			//ptrTransform->SetRotation(0.0f, 50.0f, 0.0f);
+			auto obj = m_PushObj->GetComponent<Transform>();
+			auto objpos = obj->GetPosition();
+			if (m_cntl.LX > 0.8f) {
+				pos.x += elapsedtime;
+				objpos.x += elapsedtime;
+				GetComponent<Transform>()->SetPosition(pos);
+				obj->SetPosition(objpos);
+			}
+			else if (m_cntl.LX < -0.8f) {
+				pos.x -= elapsedtime;
+				objpos.x -= elapsedtime;
+				GetComponent<Transform>()->SetPosition(pos);
+				obj->SetPosition(objpos);
+			}
+			if (m_cntl.LY > 0.8f) {
+				pos.z += elapsedtime;
+				objpos.z += elapsedtime;
+				GetComponent<Transform>()->SetPosition(pos);
+				obj->SetPosition(objpos);
+			}
+			else if (m_cntl.LY < -0.8f) {
+				pos.z -= elapsedtime;
+				objpos.z -= elapsedtime;
+				GetComponent<Transform>()->SetPosition(pos);
+				obj->SetPosition(objpos);
+			}
+		}
+
+	}
+
+	void Player::OnRemoveLB() {
+			m_PushObj = nullptr;
+			m_PushPull = false;
+	}
+
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
 		if (Obj->FindTag(L"Deth")) {
@@ -140,12 +196,19 @@ namespace basecross{
 		if (Obj->FindTag(L"Goal")) {
 			m_PlayerState = PlayerState::Clear;
 		}
+		if (Obj->FindTag(L"PushPullObj")) {
+			m_PushPull = true;
+			m_PushObj = Obj;
+		}
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj) {
 			m_Jumpjudge = true;
 		}
+	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 	}
 
 	void Player::OnUpdate() {
@@ -172,6 +235,10 @@ namespace basecross{
 			ClearState();
 		}
 		break;
+		case PlayerState::PullPush:
+		{
+			PushPull();
+		}
 		}
 	}
 
