@@ -94,6 +94,12 @@ namespace basecross {
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(0.0f, -0.5f, 0.0f)//position x,y,zd
 					);
+				AddGameObject<WaterWheel>
+					(
+						Vec3(5.0f, 5.0f, 5.0f),//sacle x,y,z
+						Vec3(0.0f),//rotate x,y,z
+						Vec3(10.0f, 15.0f, 0.0f)//position x,y,z
+						);
 			auto gateptr = AddGameObject<Gate>
 				(
 					Vec3(1.0f, 20.0f, 25.0f),//sacle x,y,z

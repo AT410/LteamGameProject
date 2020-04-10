@@ -24,4 +24,5 @@
 #include "gate2.h"
 
 #include "ControllerTest.h"
+#include "reima.h"
 
