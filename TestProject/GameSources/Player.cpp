@@ -135,42 +135,72 @@ namespace basecross{
 		auto ptrTransform = GetComponent<Transform>();
 		auto pos = ptrTransform->GetPosition();
 		auto playerRoll = ptrTransform->GetRotation();
-		auto ptrCamera = OnGetDrawCamera();
-		//進行方向の向きを計算
-		auto front = ptrTransform->GetWorldPosition() - ptrCamera->GetEye();
-		front.y = 0;
-		front.normalize();
-		//進行方向向きの角度を算出
-		float frontAngle = atan2(front.z, front.x);
-		auto angle = Vec3(cos(frontAngle), 0.0f, sin(frontAngle));
-		angle.normalize();
+		auto utilePtr = GetBehavior<UtilBehavior>();
 		if (m_PushPull) {
-			//ptrTransform->SetRotation(0.0f, 50.0f, 0.0f);
 			auto obj = m_PushObj->GetComponent<Transform>();
 			auto objpos = obj->GetPosition();
-			if (m_cntl.LX > 0.8f) {
-				pos.x += elapsedtime;
-				objpos.x += elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
-				obj->SetPosition(objpos);
+			auto objscale = obj->GetScale();
+			auto HalfObjScale = objscale / 2;
+
+			if (pos.x < objpos.x&& pos.z < objpos.z + HalfObjScale.z && pos.z > objpos.z - HalfObjScale.z) {
+				utilePtr->RotToHead(Vec3(0.0, 90.0f, 0.0f), 1.0f);
+				if (m_cntl.LX > 0.8f) {
+					pos.x += elapsedtime;
+					objpos.x += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LX < -0.8f) {
+					pos.x -= elapsedtime;
+					objpos.x -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
 			}
-			else if (m_cntl.LX < -0.8f) {
-				pos.x -= elapsedtime;
-				objpos.x -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
-				obj->SetPosition(objpos);
+			else if (pos.x > objpos.x&& pos.z < objpos.z + HalfObjScale.z && pos.z > objpos.z - HalfObjScale.z) {
+				utilePtr->RotToHead(Vec3(0.0, -90.0f, 0.0f), 1.0f);
+				if (m_cntl.LX > 0.8f) {
+					pos.x += elapsedtime;
+					objpos.x += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LX < -0.8f) {
+					pos.x -= elapsedtime;
+					objpos.x -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
 			}
-			if (m_cntl.LY > 0.8f) {
-				pos.z += elapsedtime;
-				objpos.z += elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
-				obj->SetPosition(objpos);
+			else if (pos.z > objpos.z&& pos.x < objpos.x + HalfObjScale.x && pos.x > objpos.x - HalfObjScale.x) {
+				utilePtr->RotToHead(Vec3(0.0, 180.0f, 0.0f), 1.0f);
+				if (m_cntl.LY > 0.8f) {
+					pos.z += elapsedtime;
+					objpos.z += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LY < -0.8f) {
+					pos.z -= elapsedtime;
+					objpos.z -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
 			}
-			else if (m_cntl.LY < -0.8f) {
-				pos.z -= elapsedtime;
-				objpos.z -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
-				obj->SetPosition(objpos);
+			else if (pos.z < objpos.z && pos.x < objpos.x + HalfObjScale.x && pos.x > objpos.x - HalfObjScale.x) {
+				utilePtr->RotToHead(Vec3(0.0, 0.0f, 0.0f), 1.0f);
+				if (m_cntl.LY > 0.8f) {
+					pos.z += elapsedtime;
+					objpos.z += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LY < -0.8f) {
+					pos.z -= elapsedtime;
+					objpos.z -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
 			}
 		}
 
