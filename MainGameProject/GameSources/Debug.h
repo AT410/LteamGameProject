@@ -61,4 +61,24 @@ namespace basecross
 
 		void OnCreate()	override;
 	};
+
+	//ステージ配置テスト
+	class GoalTest :public ObjectBase
+	{
+	public:
+		GoalTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~GoalTest() {}
+
+		void OnCreate()	override;
+		
+		void OnUpdate()override;
+
+		void SetGoal(bool IsGoal) { m_IsGoal = IsGoal; }
+
+	private:
+		bool m_IsGoal;
+		float m_count;
+	};
+
 }

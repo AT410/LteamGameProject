@@ -16,6 +16,7 @@ namespace basecross
 		auto PosStr = XmlDocReader::GetAttribute(pNode, L"Pos");
 		auto ScaleStr = XmlDocReader::GetAttribute(pNode, L"Scale");
 		auto RotStr = XmlDocReader::GetAttribute(pNode, L"Rot");
+		auto TagStr = XmlDocReader::GetAttribute(pNode, L"Tags");
 
 		//メッシュ
 		m_meshKey = MeshStr;
@@ -52,5 +53,19 @@ namespace basecross
 		m_rot.z = (Tokens[2] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[2].c_str());
 		m_rot.w = (Tokens[3] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[3].c_str());
 
+		//タグ情報を読み込む
+		Tokens.clear();
+		Util::WStrToTokenVector(Tokens, TagStr, L',');
+
+		m_tag = Tokens;
+
+		//共有設定
+		auto SharedFStr = XmlDocReader::GetAttribute(pNode, L"SharedActive");
+		m_SharedActive = (bool)_wtoi(SharedFStr.c_str());
+
+		if (m_SharedActive)
+		{
+			m_SharedName = XmlDocReader::GetAttribute(pNode, L"SharedKey");
+		}
 	}
 }

@@ -22,7 +22,7 @@ namespace basecross{
 			GameManager::CreateManager();
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToAreaSelectStage");
 		}
 		catch (...) {
 			throw;
@@ -68,6 +68,7 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"EndingStage_TX", MediaPath + L"EndingStage.png");
 
 		App::GetApp()->RegisterTexture(L"TEST_TX", MediaPath + L"itimatu.bmp");
+
 	}
 
 }
