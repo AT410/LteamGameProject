@@ -17,6 +17,10 @@ namespace basecross
 		ObjectBase(const shared_ptr<Stage>&StagePtr)
 			:GameObject(StagePtr) {}
 
+		ObjectBase(const shared_ptr<Stage>&StagePtr,const Vec3 Position,const Vec3 Rotation,const Vec3 Scale,
+					const wstring TexKey,const wstring MeshKey)
+			:GameObject(StagePtr),m_pos(Position),m_rot(Rotation,1.0f),m_scal(Scale),m_texKey(TexKey),m_meshKey(MeshKey) {}
+
 		ObjectBase(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
 
 		virtual ~ObjectBase() {}
@@ -32,6 +36,9 @@ namespace basecross
 		Vec3 m_scal;
 		wstring m_texKey;
 		wstring m_meshKey;
+		vector<wstring> m_tag;
+		bool m_SharedActive = false;
+		wstring m_SharedName;
 	};
 
 	//---------------------------------------------------
@@ -49,6 +56,10 @@ namespace basecross
 		virtual void OnPushB() {};
 		virtual void OnPushX() {};
 		virtual void OnPushY() {};
+		virtual void OnPushR3() {};
+		virtual void OnPushL3() {};
+		virtual void OnPushLB() {};
+		virtual void OnRemoveLB() {};
 	protected:
 		InputHandler<T> m_handler;
 	};

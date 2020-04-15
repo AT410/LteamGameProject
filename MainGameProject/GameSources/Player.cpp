@@ -24,18 +24,21 @@ namespace basecross{
 
 	void Player::OnCreate() {
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(0.0f, 0.5f, 0.0);
-		ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
-		ptrTransform->SetScale(0.125f, 0.125f, 0.125);
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetScale(m_scal*0.5f);
+		ptrTransform->SetQuaternion(Quat(m_rot));
 
 		AddComponent<CollisionObb>();
 		AddComponent<Gravity>();
 
 		auto Shadowptr = AddComponent<Shadowmap>();
-		Shadowptr->SetMeshResource(L"DEFAULT_CUBE");
+		Shadowptr->SetMeshResource(m_meshKey);
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetMeshResource(m_meshKey);
 		m_PlayerState = PlayerState::Start;
+		
+		//‹¤—L“o˜^
+		GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
 	}
 
 
@@ -178,6 +181,13 @@ namespace basecross{
 		if (Obj->FindTag(L"PushPullObj")) {
 			m_PushPull = true;
 			m_PushObj = Obj;
+		}
+
+		auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);
+		if (Ptr)
+		{
+			Ptr->SetGoal(true);
+			Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
 		}
 	}
 

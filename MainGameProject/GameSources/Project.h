@@ -13,10 +13,12 @@
 #include "ProjectUI.h"
 #include "Scene.h"
 #include "GameStage.h"
-#include "GameManager.h"
-#include "Player.h"
 #include "ObjectBase.h"
-
+#include "GameManager.h"
+#include "CommonObject.h"
+#include "MyCamera.h"
+#include "Player.h"
+#include "Gimmick.h"
 //Debug
 #include "Debug.h"
 

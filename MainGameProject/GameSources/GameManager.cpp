@@ -79,11 +79,28 @@ namespace basecross
 	}
 
 	//ステージ生成
-	void GameManager::CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName)
+	void GameManager::CreateStage(const shared_ptr<StageBase>&StagePtr, const wstring& FileName, const bool MenuActive)
 	{
 		StageBulider Builder;
-		Builder.Register<StageTest>(L"Test");
 
-		Builder.StageBuild(StagePtr, FileName);
+		//セレクト画面にするか
+		if (!MenuActive) 
+		{
+			Builder.Register<StageTest>(L"Test");
+			Builder.Register<Player>(L"Player");
+			Builder.Register<Omori>(L"Omori");
+			Builder.Register<HeatStick>(L"HeatStick");
+			Builder.Register<MoveFloor>(L"MoveFloor");
+			Builder.Register<FixedObj>(L"Himo");
+			Builder.Register<Fountain>(L"Fountain");
+			Builder.Register<GoalTest>(L"Goal");
+			Builder.Register<SwitchObj>(L"Switch");
+
+			Builder.StageBuild(StagePtr, FileName);
+		}
+		else
+		{
+
+		}
 	}
 }

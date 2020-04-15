@@ -49,6 +49,26 @@ namespace basecross{
 
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);
+
+		Player(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
+			const wstring TexKey, const wstring MeshKey)
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey), m_Speed(3.0f),
+			m_Jumpforce(4.0f),
+			m_StopActionTime(5.0f),
+			m_Jumpjudge(false),
+			m_StopActionTimeJudge(false)
+
+		{
+		}
+
+		Player(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+			:ObjectBase(StagePtr, pNode), m_Speed(3.0f),
+			m_Jumpforce(4.0f),
+			m_StopActionTime(5.0f),
+			m_Jumpjudge(false),
+			m_StopActionTimeJudge(false)
+		{}
+
 		virtual ~Player() {}
 		//ÉvÉåÉCÉÑÅ[à⁄ìÆä÷êî
 		void Move();
@@ -68,6 +88,11 @@ namespace basecross{
 		void OnCollisionEnter(shared_ptr<GameObject>& Obj) override;
 		void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
 		void OnCollisionExit(shared_ptr<GameObject>& Obj)override;
+	
+		void ResetPositon()
+		{
+			GetComponent<Transform>()->SetPosition(m_pos);
+		}
 	};
 
 

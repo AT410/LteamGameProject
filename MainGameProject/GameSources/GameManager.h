@@ -36,7 +36,7 @@ namespace basecross
 
 		//ステージの生成
 		//ステージから呼ばれる
-		void CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName);
+		void CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName, const bool MenuActive);
 
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
