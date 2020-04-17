@@ -20,7 +20,6 @@ namespace basecross {
 		PtrView->SetCamera(PtrCamera);
 		PtrCamera->SetEye(eye);
 		PtrCamera->SetAt(at);
-
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -41,21 +40,26 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			GamePlayer();
-			AddGameObject<FixBox>(
-				Vec3(30.0f, 0.1f, 10.0f),
-				Vec3(0.0f),
-				Vec3(0.0f, -1.0f, 0.0f)
-				);
-			AddGameObject<FixBox>(
-				Vec3(2.0f, 1.0f, 3.0f),
-				Vec3(0.0f),
-				Vec3(2.0f, -0.5f, 0.0f)
-				);
-			AddGameObject<ReturnCube>(
-				Vec3(0.5f),
-				Vec3(0.0f),
-				Vec3(5.0f, -1.0f, 0.0f)
-				);
+		AddGameObject<FixBox>(
+			Vec3(30.0f, 0.1f, 10.0f),
+			Vec3(0.0f),
+			Vec3(0.0f, -1.0f, 0.0f)
+			);
+		AddGameObject<FixBox>(
+			Vec3(2.0f, 1.0f, 3.0f),
+			Vec3(0.0f),
+			Vec3(2.0f, -0.5f, 0.0f)
+			);
+		AddGameObject<ReturnCube>(
+			Vec3(0.5f),
+			Vec3(0.0f),
+			Vec3(5.0f, -1.0f, 0.0f)
+			);
+		AddGameObject<PushPullObj>(
+			Vec3(0.3f),
+			Vec3(0.0f),
+			Vec3(-1.0f, -0.7f, 0.0f)
+			);
 
 
 			AddGameObject<DebugTest>();
@@ -68,10 +72,9 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStageHurukawa::CreateViewLight()
-	{
-		const Vec3 eye(0.0f, 10.0f, -60.0f);
-		const Vec3 at(0.0f);
+	void GameStageHurukawa::CreateViewLight() {
+			const Vec3 eye(0.0f, 10.0f, -60.0f);
+			const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<Camera>();
@@ -84,38 +87,24 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void GameStageHurukawa::OnCreate()
-	{
+	void GameStageHurukawa::OnCreate() {
 		try {
-			//テクスチャーの登録
-			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
-
-// テクスチャの読み込み
-			auto path = app->GetDataDirWString();
-			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
-			app->RegisterTexture(L"gate2", path + L"Texture/tobira.jpg");
-
-			app->RegisterTexture(L"button", path + L"Texture/button.png");
-			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
-			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
-			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");
-
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
-			//Floorの追加
-			AddGameObject<Floor2>
+				//Floorの追加
+				AddGameObject<Floor2>
 				(
 					Vec3(50.0f, 1.0f, 50.0f),//sacle x,y,z
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(0.0f, -0.5f, 0.0f)//position x,y,zd
 					);
-			AddGameObject<WaterWheel>
-				(
-					Vec3(5.0f, 5.0f, 5.0f),//sacle x,y,z
-					Vec3(0.0f),//rotate x,y,z
-					Vec3(10.0f, 15.0f, 0.0f)//position x,y,z
-					);
+				AddGameObject<WaterWheel>
+					(
+						Vec3(5.0f, 5.0f, 5.0f),//sacle x,y,z
+						Vec3(0.0f),//rotate x,y,z
+						Vec3(10.0f, 15.0f, 0.0f)//position x,y,z
+						);
 			auto gateptr = AddGameObject<Gate>
 				(
 					Vec3(1.0f, 20.0f, 25.0f),//sacle x,y,z
@@ -132,7 +121,7 @@ namespace basecross {
 			//Playerの追加
 			AddGameObject<Playerhurukawa>
 				(
-					Vec3(1.0f, 3.0f, 1.0f),//sacle x,y,z
+					Vec3(1.0f, 1.0f, 1.0f),//sacle x,y,z
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(-20.0f, +0.5f, 0.0f)//position x,y,z
 					);
@@ -148,13 +137,13 @@ namespace basecross {
 			SetSharedGameObject(L"gate2", gate2ptr);
 			AddGameObject<Button2>
 				(
-					Vec3(1.0f, 1.0f, 1.0f),
+					Vec3(0.5f, 0.5f, 0.5f),
 					Vec3(0.0f),
 					Vec3(1.0f, 0.0f, 1.0f)
 					);
 			AddGameObject<Button22>
 				(
-					Vec3(1.0f, 1.0f, 1.0f),
+					Vec3(0.5f, 0.5f, 0.5f),
 					Vec3(0.0f),
 					Vec3(-10.0f, 0.0f, 1.0f)
 					);

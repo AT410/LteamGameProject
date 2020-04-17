@@ -41,13 +41,17 @@ namespace basecross{
 		float m_Jumpforce;
 		//プレイヤーの動作停止時間
 		float m_StopActionTime;
+		//プレイヤーとオブジェクトの距離
+		float m_distance;
 		//プレイヤーのジャンプ判断
 		bool m_Jumpjudge;
 		//プレイヤーの動作停止判断
 		bool m_StopActionTimeJudge;
+		//押し出し引き判断
+		bool m_PushPull;
 		//プレイヤーステート取得変数
 		PlayerState m_PlayerState;
-
+		shared_ptr<GameObject> m_PushObj = nullptr;
 		//入力ハンドラー
 		InputHandler<Player> m_inputHandler;
 	public:
@@ -56,7 +60,10 @@ namespace basecross{
 		//プレイヤー移動関数
 		void Move();
 		//ObjectBase継承->Aボタン入力ジャンプ関数
-		virtual void OnPushA();
+		void OnPushA() override;
+		//objectBase継承->LBボタン入力物引っ張る関数
+		void OnPushLB() override;
+		void OnRemoveLB() override;
 		//プレイヤーステート変化関数
 		void State();
 		//プレイヤースタートステート
@@ -67,6 +74,7 @@ namespace basecross{
 		virtual void OnUpdate() override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj) override;
 		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
+		virtual void OnCollisionExit(shared_ptr<GameObject>& Obj)override;
 	};
 
 	class Playerhurukawa:public GameObject

@@ -85,12 +85,13 @@ namespace basecross{
 	void Player::Move() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
 		m_PlayerAngle = GetMoveVector();
-		if (m_PlayerAngle.length() > 0.0f/* && !m_StopActionTimeJudge*/) {
+		//歩行してる際の音をif文内に書く
+		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += m_PlayerAngle * elapsedtime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
 		}
-		if (m_PlayerAngle.length() > 0.0f/* && !m_StopActionTimeJudge*/) {
+		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(m_PlayerAngle, 1.0f);
 		}
@@ -98,6 +99,7 @@ namespace basecross{
 
 	void Player::StartState() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//スタート時の状態・BGMつける場所
 		if (m_StopActionTimeJudge) {
 			m_StopActionTime -= elapsedtime;
 		}
@@ -111,6 +113,7 @@ namespace basecross{
 
 	void Player::ClearState() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//クリア時のBGMつける場所
 		if (m_StopActionTimeJudge) {
 			m_StopActionTime -= elapsedtime;
 		}
@@ -120,6 +123,7 @@ namespace basecross{
 	}
 
 	void Player::OnPushA() {
+		//ジャンプ時の効果音このif文の中に
 		if (m_Jumpjudge && !m_StopActionTimeJudge) {
 			auto grav = GetComponent<Gravity>();
 			grav->StartJump(Vec3(0.0f, m_Jumpforce, 0.0f));
@@ -127,6 +131,91 @@ namespace basecross{
 		}
 
 	}
+
+
+	void Player::OnPushLB() {
+		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		m_PlayerAngle = GetMoveVector();
+		auto ptrTransform = GetComponent<Transform>();
+		auto pos = ptrTransform->GetPosition();
+		auto playerRoll = ptrTransform->GetRotation();
+		auto utilePtr = GetBehavior<UtilBehavior>();
+		//物を引っ張る押す際の音を出す時、m_cntlの各if文に書く
+		if (m_PushPull) {
+			auto obj = m_PushObj->GetComponent<Transform>();
+			auto objpos = obj->GetPosition();
+			auto objscale = obj->GetScale();
+			auto HalfObjScale = objscale / 2;
+
+			if (pos.x < objpos.x&& pos.z < objpos.z + HalfObjScale.z && pos.z > objpos.z - HalfObjScale.z) {
+				utilePtr->RotToHead(Vec3(0.0, 90.0f, 0.0f), 1.0f);
+				if (m_cntl.LX > 0.8f) {
+					pos.x += elapsedtime;
+					objpos.x += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LX < -0.8f) {
+					pos.x -= elapsedtime;
+					objpos.x -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+			}
+			else if (pos.x > objpos.x&& pos.z < objpos.z + HalfObjScale.z && pos.z > objpos.z - HalfObjScale.z) {
+				utilePtr->RotToHead(Vec3(0.0, -90.0f, 0.0f), 1.0f);
+				if (m_cntl.LX > 0.8f) {
+					pos.x += elapsedtime;
+					objpos.x += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LX < -0.8f) {
+					pos.x -= elapsedtime;
+					objpos.x -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+			}
+			else if (pos.z > objpos.z&& pos.x < objpos.x + HalfObjScale.x && pos.x > objpos.x - HalfObjScale.x) {
+				utilePtr->RotToHead(Vec3(0.0, 180.0f, 0.0f), 1.0f);
+				if (m_cntl.LY > 0.8f) {
+					pos.z += elapsedtime;
+					objpos.z += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LY < -0.8f) {
+					pos.z -= elapsedtime;
+					objpos.z -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+			}
+			else if (pos.z < objpos.z && pos.x < objpos.x + HalfObjScale.x && pos.x > objpos.x - HalfObjScale.x) {
+				utilePtr->RotToHead(Vec3(0.0, 0.0f, 0.0f), 1.0f);
+				if (m_cntl.LY > 0.8f) {
+					pos.z += elapsedtime;
+					objpos.z += elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+				else if (m_cntl.LY < -0.8f) {
+					pos.z -= elapsedtime;
+					objpos.z -= elapsedtime;
+					GetComponent<Transform>()->SetPosition(pos);
+					obj->SetPosition(objpos);
+				}
+			}
+		}
+
+	}
+
+	void Player::OnRemoveLB() {
+			m_PushObj = nullptr;
+			m_PushPull = false;
+	}
+
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
 		if (Obj->FindTag(L"Deth")) {
@@ -138,12 +227,19 @@ namespace basecross{
 		if (Obj->FindTag(L"Goal")) {
 			m_PlayerState = PlayerState::Clear;
 		}
+		if (Obj->FindTag(L"PushPullObj")) {
+			m_PushPull = true;
+			m_PushObj = Obj;
+		}
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj) {
 			m_Jumpjudge = true;
 		}
+	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 	}
 
 	void Player::OnUpdate() {

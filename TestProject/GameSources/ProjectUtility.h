@@ -33,6 +33,13 @@ namespace basecross
 				{
 					Obj->OnPushA();
 				}
+				if (ContInput.wButtons == XINPUT_GAMEPAD_LEFT_SHOULDER) 
+				{
+					Obj->OnPushLB();
+				}
+				else {
+					Obj->OnRemoveLB();
+				}
 			}
 		}
 	};
