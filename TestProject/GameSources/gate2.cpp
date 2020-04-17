@@ -27,10 +27,9 @@ void Gate2::OnCreate() {
 	auto shadowPtr = AddComponent<Shadowmap>();
 	//影の形（メッシュ）を設定
 	shadowPtr->SetMeshResource(L"DEFAULT_CUBE");
-	auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+	auto ptrDraw = AddComponent<PNTStaticDraw>();
 	ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-	//ptrDraw->SetTextureResource(L"SKY_TX");
-	ptrDraw->SetFogEnabled(true);
+	ptrDraw->SetTextureResource(L"gate");
 	ptrDraw->SetOwnShadowActive(true);
 
 	PsBoxParam param(ptrTransform->GetWorldMatrix(), 0.0f, true,

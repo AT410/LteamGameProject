@@ -22,15 +22,14 @@ namespace basecross
 		ptrTransform->SetRotation(m_Rotation);
 		ptrTransform->SetPosition(m_Position);
 		//タグをつける
-		AddTag(L"Floor");
+		AddTag(L"BackGround");
 		//影をつける（シャドウマップを描画する）
 		auto shadowPtr = AddComponent<Shadowmap>();
 		//影の形（メッシュ）を設定
 		shadowPtr->SetMeshResource(L"DEFAULT_CUBE");
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		//ptrDraw->SetTextureResource(L"SKY_TX");
-		ptrDraw->SetFogEnabled(true);
+		ptrDraw->SetTextureResource(L"kabe");
 		ptrDraw->SetOwnShadowActive(true);
 
 		PsBoxParam param(ptrTransform->GetWorldMatrix(), 0.0f, true,
