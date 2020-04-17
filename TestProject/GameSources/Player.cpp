@@ -85,6 +85,7 @@ namespace basecross{
 	void Player::Move() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
 		m_PlayerAngle = GetMoveVector();
+		//歩行してる際の音をif文内に書く
 		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += m_PlayerAngle * elapsedtime * m_Speed;
@@ -98,6 +99,7 @@ namespace basecross{
 
 	void Player::StartState() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//スタート時の状態・BGMつける場所
 		if (m_StopActionTimeJudge) {
 			m_StopActionTime -= elapsedtime;
 		}
@@ -111,6 +113,7 @@ namespace basecross{
 
 	void Player::ClearState() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//クリア時のBGMつける場所
 		if (m_StopActionTimeJudge) {
 			m_StopActionTime -= elapsedtime;
 		}
@@ -120,6 +123,7 @@ namespace basecross{
 	}
 
 	void Player::OnPushA() {
+		//ジャンプ時の効果音このif文の中に
 		if (m_Jumpjudge && !m_StopActionTimeJudge) {
 			auto grav = GetComponent<Gravity>();
 			grav->StartJump(Vec3(0.0f, m_Jumpforce, 0.0f));
@@ -136,6 +140,7 @@ namespace basecross{
 		auto pos = ptrTransform->GetPosition();
 		auto playerRoll = ptrTransform->GetRotation();
 		auto utilePtr = GetBehavior<UtilBehavior>();
+		//物を引っ張る押す際の音を出す時、m_cntlの各if文に書く
 		if (m_PushPull) {
 			auto obj = m_PushObj->GetComponent<Transform>();
 			auto objpos = obj->GetPosition();
