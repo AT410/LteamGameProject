@@ -37,7 +37,6 @@ namespace basecross {
 		virtual ~GameStageHurukawa() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;
-		virtual void OnUpdate()override;
 	};
 
 	class GameStageShogo : public Stage {

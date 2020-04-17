@@ -89,6 +89,15 @@ namespace basecross {
 
 	void GameStageHurukawa::OnCreate() {
 		try {
+
+			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+
+			auto path = app->GetDataDirWString();
+			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
+			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
+			app->RegisterTexture(L"button", path + L"Texture/button.png");
+			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
+			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
@@ -121,7 +130,7 @@ namespace basecross {
 			//Playerの追加
 			AddGameObject<Playerhurukawa>
 				(
-					Vec3(1.0f, 1.0f, 1.0f),//sacle x,y,z
+					Vec3(1.0f, 3.0f, 1.0f),//sacle x,y,z
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(-20.0f, +0.5f, 0.0f)//position x,y,z
 					);
@@ -137,13 +146,13 @@ namespace basecross {
 			SetSharedGameObject(L"gate2", gate2ptr);
 			AddGameObject<Button2>
 				(
-					Vec3(0.5f, 0.5f, 0.5f),
+					Vec3(1.0f, 1.0f, 1.0f),
 					Vec3(0.0f),
 					Vec3(1.0f, 0.0f, 1.0f)
 					);
 			AddGameObject<Button22>
 				(
-					Vec3(0.5f, 0.5f, 0.5f),
+					Vec3(1.0f, 1.0f, 1.0f),
 					Vec3(0.0f),
 					Vec3(-10.0f, 0.0f, 1.0f)
 					);
