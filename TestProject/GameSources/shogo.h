@@ -163,5 +163,77 @@ namespace basecross {
 			m_Active = active;
 		}
 	};
+
+
+	//ì±âŒê¸
+	class FireLine : public GameObject
+	{
+	private:
+		Vec3 m_Pos;
+		Vec3 m_Rotation;
+		Vec3 m_Scale;
+		float m_Time = 0;
+		bool m_Active;
+	public:
+		FireLine(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
+			:GameObject(StagePtr), m_Pos(Position), m_Rotation(Rotation), m_Scale(Scale)
+		{
+		}
+
+		void OnCreate() override;
+		void OnUpdate() override;
+
+		void SetActive(bool active)
+		{
+			m_Active = active;
+		}
+
+	};
+
+	//ì_âŒêÊ
+	class FireOn : public GameObject
+	{
+	private:
+		Vec3 m_Pos;
+		Vec3 m_Rotation;
+		Vec3 m_Scale;
+
+	public:
+		FireOn(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
+			:GameObject(StagePtr), m_Pos(Position), m_Rotation(Rotation), m_Scale(Scale)
+		{
+		}
+
+		void OnCreate() override;
+
+		void OnCollisionExcute(shared_ptr<GameObject>& Other) override;
+
+	};
+
+	//É{ÉÄ
+	class Bomb : public GameObject
+	{
+	private:
+		Vec3 m_Pos;
+		Vec3 m_Rotation;
+		Vec3 m_Scale;
+
+		float m_Time = 0;
+		bool m_Active;
+	public:
+		Bomb(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale)
+			:GameObject(StagePtr), m_Pos(Position), m_Rotation(Rotation), m_Scale(Scale)
+		{
+		}
+
+		void OnCreate() override;
+		void OnUpdate() override;
+
+		void SetActive(bool active)
+		{
+			m_Active = active;
+		}
+	};
+
 }
 //end basecross

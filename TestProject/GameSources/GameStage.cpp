@@ -233,6 +233,16 @@ namespace basecross {
 			//•¬…
 			SetSharedGameObject(L"Fountain1", Fountain1);
 
+			//“_‰Îæ
+			auto FireOnPtr = AddGameObject<FireOn>(Vec3(-4, 1, -3), Vec3(0), Vec3(1));
+			SetSharedGameObject(L"FireOn", FireOnPtr);
+			//“±‰Îü
+			auto FireLinePtr = AddGameObject<FireLine>(Vec3(0, 2, -3), Vec3(0), Vec3(8, 1, 1));
+			SetSharedGameObject(L"FireLine", FireLinePtr);
+			//ƒ{ƒ€
+			auto BombPtr = AddGameObject<Bomb>(Vec3(4, 1, -3), Vec3(0), Vec3(1));
+			SetSharedGameObject(L"Bomb", BombPtr);
+
 		}
 		catch (...) {
 			throw;

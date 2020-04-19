@@ -11,7 +11,7 @@ namespace basecross {
 	void HeatStick::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -70,8 +70,8 @@ namespace basecross {
 	void TestPlayer::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CAPSULE");
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
@@ -126,7 +126,7 @@ namespace basecross {
 	void Himo::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -143,7 +143,7 @@ namespace basecross {
 	void Omori::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -167,7 +167,7 @@ namespace basecross {
 	void Button::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -217,7 +217,7 @@ namespace basecross {
 	void Floor::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -234,7 +234,7 @@ namespace basecross {
 	void MoveFloor::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
@@ -273,7 +273,7 @@ namespace basecross {
 	void Fountain::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_SPHERE");
 
 		//ポジション、スケール、回転
@@ -346,5 +346,114 @@ namespace basecross {
 		ObjectPtr_F->SetActive(true);
 
 	}
+
+
+	//導火線
+	void FireLine::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_Pos);
+		transComp->SetScale(m_Scale);
+		transComp->SetRotation(m_Rotation);
+		//原点の座標を変更
+		transComp->SetPivot(Vec3(4, 1, -3));
+
+		//コリジョンを付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+	}
+	void FireLine::OnUpdate()
+	{
+		if (m_Active)
+		{
+			m_Time += App::GetApp()->GetElapsedTime();
+			if (m_Time > 10.0f) {
+				m_Active = false;
+			}
+			auto ptrTrans = GetComponent<Transform>();
+			m_Scale = ptrTrans->GetScale();
+
+			if (m_Scale.x > 0) {
+				m_Scale.x += -0.05;
+			}
+			else {
+				GetStage()->RemoveGameObject<FireLine>(GetThis<FireLine>());
+			}
+			ptrTrans->SetScale(m_Scale);
+
+			//Easing<Vec3> easing;
+			//auto Force = easing.EaseIn(EasingType::Exponential, m_Scale, Vec3(0, 1, 1), m_Time, 10.0f);
+			//ptrTrans->SetScale(Force);
+
+		}
+	}
+
+	//点火先
+	void FireOn::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_Pos);
+		transComp->SetScale(m_Scale);
+		transComp->SetRotation(m_Rotation);
+
+		//コリジョンを付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+	}
+	void FireOn::OnCollisionExcute(shared_ptr<GameObject>& Other) {
+		//Playerタグを持った相手と衝突した
+		if (Other->FindTag(L"Player")) {
+			if (GetStage()->GetSharedGameObject<FireOn>(L"FireOn")) {
+				//点火先を消す
+				GetStage()->RemoveGameObject<FireOn>(GetThis<FireOn>());
+
+				//短くなる導火線
+				auto ObjectPtr_FL = GetStage()->GetSharedGameObject<FireLine>(L"FireLine");
+				ObjectPtr_FL->SetActive(true);
+
+				//ボム
+				auto ObjectPtr_B = GetStage()->GetSharedGameObject<Bomb>(L"Bomb");
+				ObjectPtr_B->SetActive(true);
+				
+			}
+		}
+	}
+
+	//ボム
+	void Bomb::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_Pos);
+		transComp->SetScale(m_Scale);
+		transComp->SetRotation(m_Rotation);
+		
+		//コリジョンを付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+	}
+	void Bomb::OnUpdate()
+	{
+		if (m_Active) {
+			m_Time += App::GetApp()->GetElapsedTime();
+			if (m_Time >= 6) {
+				auto drawComp = AddComponent<PNTStaticDraw>();
+				drawComp->SetEmissive(Col4(1.0, 0, 0, 0));
+			}
+		}
+	}
+
 }
 //end basecross
