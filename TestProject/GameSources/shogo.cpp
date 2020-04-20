@@ -360,8 +360,6 @@ namespace basecross {
 		transComp->SetPosition(m_Pos);
 		transComp->SetScale(m_Scale);
 		transComp->SetRotation(m_Rotation);
-		//原点の座標を変更
-		transComp->SetPivot(Vec3(4, 1, -3));
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -377,18 +375,17 @@ namespace basecross {
 			}
 			auto ptrTrans = GetComponent<Transform>();
 			m_Scale = ptrTrans->GetScale();
+			m_Pos = ptrTrans->GetPosition();
 
 			if (m_Scale.x > 0) {
 				m_Scale.x += -0.05;
+				m_Pos.x += 0.025;
 			}
 			else {
 				GetStage()->RemoveGameObject<FireLine>(GetThis<FireLine>());
 			}
 			ptrTrans->SetScale(m_Scale);
-
-			//Easing<Vec3> easing;
-			//auto Force = easing.EaseIn(EasingType::Exponential, m_Scale, Vec3(0, 1, 1), m_Time, 10.0f);
-			//ptrTrans->SetScale(Force);
+			ptrTrans->SetPosition(m_Pos);
 
 		}
 	}
