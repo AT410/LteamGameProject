@@ -84,6 +84,17 @@ namespace basecross {
 
 	void GameStageHurukawa::OnCreate() {
 		try {
+
+//			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+//
+//// テクスチャの読み込み
+//			auto path = app->GetDataDirWString();
+//			app->RegisterTexture(L"kabe", path + L"Textures/kabe.png");
+//			app->RegisterTexture(L"iseki", path + L"Textures/iseki.png");
+//			app->RegisterTexture(L"floor", path + L"Textures/plane.tga");
+//			app->RegisterTexture(L"floor", path + L"Textures/plane.tga");
+//
+
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
@@ -147,6 +158,12 @@ namespace basecross {
 					Vec3(50.0f, 50.0f, 0.5f),
 					Vec3(0.0f),
 					Vec3(0.0f, 10.0f, 10.0f)
+					);
+			AddGameObject<Valve>
+				(
+					Vec3(3.0f, 1.0f, 3.0f),
+					Vec3(0.0f),
+					Vec3(-10.0f, 10.0f, -25.0f)
 					);
 		}
 		catch (...) {
