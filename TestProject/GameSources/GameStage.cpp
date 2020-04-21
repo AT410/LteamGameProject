@@ -90,6 +90,15 @@ namespace basecross {
 
 	void GameStageHurukawa::OnCreate() {
 		try {
+
+			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+
+			auto path = app->GetDataDirWString();
+			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
+			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
+			app->RegisterTexture(L"button", path + L"Texture/button.png");
+			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
+			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");			
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
@@ -122,7 +131,7 @@ namespace basecross {
 			//Playerの追加
 			AddGameObject<Playerhurukawa>
 				(
-					Vec3(1.0f, 1.0f, 1.0f),//sacle x,y,z
+					Vec3(1.0f, 3.0f, 1.0f),//sacle x,y,z
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(-20.0f, +0.5f, 0.0f)//position x,y,z
 					);
@@ -138,13 +147,13 @@ namespace basecross {
 			SetSharedGameObject(L"gate2", gate2ptr);
 			AddGameObject<Button2>
 				(
-					Vec3(0.5f, 0.5f, 0.5f),
+					Vec3(1.0f, 1.0f, 1.0f),
 					Vec3(0.0f),
 					Vec3(1.0f, 0.0f, 1.0f)
 					);
 			AddGameObject<Button22>
 				(
-					Vec3(0.5f, 0.5f, 0.5f),
+					Vec3(1.0f, 1.0f, 1.0f),
 					Vec3(0.0f),
 					Vec3(-10.0f, 0.0f, 1.0f)
 					);
@@ -153,6 +162,12 @@ namespace basecross {
 					Vec3(50.0f, 50.0f, 0.5f),
 					Vec3(0.0f),
 					Vec3(0.0f, 10.0f, 10.0f)
+					);
+			AddGameObject<Valve>
+				(
+					Vec3(3.0f, 1.0f, 3.0f),
+					Vec3(0.0f),
+					Vec3(-10.0f, 10.0f, -25.0f)
 					);
 		}
 		catch (...) {
@@ -224,6 +239,16 @@ namespace basecross {
 			auto Fountain1 = AddGameObject<Fountain>(Vec3(0.0f, -3.0f, 0.0f), Vec3(1.0f));
 			//噴水
 			SetSharedGameObject(L"Fountain1", Fountain1);
+
+			//点火先
+			auto FireOnPtr = AddGameObject<FireOn>(Vec3(-4, 1, -3), Vec3(0), Vec3(1));
+			SetSharedGameObject(L"FireOn", FireOnPtr);
+			//導火線
+			auto FireLinePtr = AddGameObject<FireLine>(Vec3(0, 2, -3), Vec3(0), Vec3(8, 1, 1));
+			SetSharedGameObject(L"FireLine", FireLinePtr);
+			//ボム
+			auto BombPtr = AddGameObject<Bomb>(Vec3(4, 1, -3), Vec3(0), Vec3(1));
+			SetSharedGameObject(L"Bomb", BombPtr);
 
 		}
 		catch (...) {

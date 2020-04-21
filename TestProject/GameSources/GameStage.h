@@ -17,6 +17,7 @@ namespace basecross {
 		void CreateViewLight();
 		void GamePlayer();
 		void Object();
+
 	public:
 		//\’z‚Æ”jŠü
 		GameStage() :Stage() {}
@@ -29,13 +30,13 @@ namespace basecross {
 	class GameStageHurukawa : public Stage {
 		//ƒrƒ…[‚Ìì¬
 		void CreateViewLight();
+		bool gateopen = false;
 	public:
 		//\’z‚Æ”jŠü
 		GameStageHurukawa() :Stage() {}
 		virtual ~GameStageHurukawa() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;
-
 	};
 
 	class GameStageShogo : public Stage {
@@ -48,7 +49,7 @@ namespace basecross {
 		//‰Šú‰»
 		virtual void OnCreate()override;
 	};
-
+	//ƒeƒNƒXƒ`ƒƒ“o˜^‚Ìˆ—‚ğ‘‚­
 }
 //end basecross
 

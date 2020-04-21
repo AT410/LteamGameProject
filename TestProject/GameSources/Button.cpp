@@ -27,10 +27,9 @@ namespace basecross {
 		auto shadowPtr = AddComponent<Shadowmap>();
 		//影の形（メッシュ）を設定
 		shadowPtr->SetMeshResource(L"DEFAULT_CUBE");
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		/*ptrDraw->SetTextureResource(L"SKY_TX");*/
-		ptrDraw->SetFogEnabled(true);
+		ptrDraw->SetTextureResource(L"button");
 		ptrDraw->SetOwnShadowActive(true);
 
 		PsBoxParam param(ptrTransform->GetWorldMatrix(), 1.0f, false,
