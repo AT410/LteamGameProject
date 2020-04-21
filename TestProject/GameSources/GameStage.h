@@ -49,7 +49,7 @@ namespace basecross {
 		//初期化
 		virtual void OnCreate()override;
 	};
-
+	//テクスチャ登録の処理を書く
 }
 //end basecross
 

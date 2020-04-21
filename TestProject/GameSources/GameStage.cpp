@@ -97,7 +97,7 @@ namespace basecross {
 			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
 			app->RegisterTexture(L"button", path + L"Texture/button.png");
 			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
-			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");
+			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");			
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
@@ -161,6 +161,12 @@ namespace basecross {
 					Vec3(50.0f, 50.0f, 0.5f),
 					Vec3(0.0f),
 					Vec3(0.0f, 10.0f, 10.0f)
+					);
+			AddGameObject<Valve>
+				(
+					Vec3(3.0f, 1.0f, 3.0f),
+					Vec3(0.0f),
+					Vec3(-10.0f, 10.0f, -25.0f)
 					);
 		}
 		catch (...) {
