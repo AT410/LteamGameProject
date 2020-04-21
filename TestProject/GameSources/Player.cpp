@@ -45,6 +45,7 @@ namespace basecross{
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		m_PlayerState = PlayerState::Start;
+		AddTag(L"Player");
 	}
 
 

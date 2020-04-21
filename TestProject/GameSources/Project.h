@@ -14,6 +14,7 @@
 #include "ObjectBase.h"
 #include "Character.h"
 #include "Player.h"
+#include "MyCamera.h"
 #include "shogo.h"
 #include "floor.h"
 #include "Gimmick.h"
