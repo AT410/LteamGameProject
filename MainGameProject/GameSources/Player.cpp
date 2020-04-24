@@ -25,10 +25,10 @@ namespace basecross{
 	void Player::OnCreate() {
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetScale(m_scal*0.5f);
+		ptrTransform->SetScale(m_scal);
 		ptrTransform->SetQuaternion(Quat(m_rot));
 
-		AddComponent<CollisionObb>();
+		AddComponent<CollisionCapsule>();
 		AddComponent<Gravity>();
 
 		auto Shadowptr = AddComponent<Shadowmap>();
