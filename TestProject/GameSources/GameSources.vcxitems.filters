@@ -69,6 +69,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Button.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -126,6 +129,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)shogo.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUI.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
