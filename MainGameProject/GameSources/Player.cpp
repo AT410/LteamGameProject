@@ -188,6 +188,11 @@ namespace basecross{
 		{
 			Ptr->SetGoal(true);
 			Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
+			//ゴールエフェクト再生
+			auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
+			//Pos.y += 2.5f;
+			auto Efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", Pos);
+			
 		}
 	}
 

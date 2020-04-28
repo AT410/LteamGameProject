@@ -21,6 +21,9 @@ namespace basecross {
 		virtual void OnCreate()override = 0;
 		virtual void OnUpdate()override {};
 		virtual void OnDestroy()override;
+		virtual void OnDraw()override {};
+
+		shared_ptr<SingleView> GetOpeningView() { return m_OpeningView; }
 	protected:
 		//ビューの作成
 		virtual void CreateViewLight();
@@ -29,6 +32,9 @@ namespace basecross {
 
 		shared_ptr<SoundItem> m_BGMPtr = nullptr;
 
+		//カメラ
+		shared_ptr<SingleView> m_MainView;
+		shared_ptr<SingleView> m_OpeningView;
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -86,7 +92,15 @@ namespace basecross {
 		void GenerateStage();
 		//初期化
 		void OnCreate()override;
-		void OnUpdate()override {};
+		void OnUpdate()override;
+
+		void OnDraw()override;
+
+		void ToMyCamera();
+		//再生エフェクトを追加する
+		//void AddEffect();
+
+	private:
 	};
 
 	//--------------------------------------------------------------------------------------

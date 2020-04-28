@@ -108,7 +108,11 @@ namespace basecross{
 	void Scene::SetDebugResoruce()
 	{
 		wstring MediaPath;
+		wstring EFkPath;
+		wstring BGMPath;
 		App::GetApp()->GetDataDirectory(MediaPath);
+		EFkPath = MediaPath + L"Effect/";
+		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"DebugTex/";
 		//Tex
 		App::GetApp()->RegisterTexture(L"TitleStage_TX", MediaPath + L"TitleStage.png");
@@ -117,10 +121,26 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"GameStage_TX", MediaPath + L"GameStage.png");
 		App::GetApp()->RegisterTexture(L"EndingStage_TX", MediaPath + L"EndingStage.png");
 
+		App::GetApp()->RegisterTexture(L"Stage1_TX", MediaPath + L"Stage1.png");
+		App::GetApp()->RegisterTexture(L"Stage2_TX", MediaPath + L"Stage2.png");
+		App::GetApp()->RegisterTexture(L"Stage3_TX", MediaPath + L"Stage3.png");
+		App::GetApp()->RegisterTexture(L"Stage4_TX", MediaPath + L"Stage4.png");
+		App::GetApp()->RegisterTexture(L"Stage5_TX", MediaPath + L"Stage5.png");
+
+
 		//MDTex
 		//App::GetApp()->RegisterTexture(L"TEST_TX", MediaPath + L"itimatu.bmp");
 		App::GetApp()->RegisterTexture(L"TEST_TX", MediaPath + L"kabe.jpg");
-		App::GetApp()->RegisterTexture(L"FLOOR_TX", MediaPath + L"ytail.jpg");
+		App::GetApp()->RegisterTexture(L"FLOOR_TX", MediaPath + L"ytail.jpg");		
+		App::GetApp()->RegisterTexture(L"WALL_TX", MediaPath + L"Wall2.png");
+		App::GetApp()->RegisterTexture(L"Rock_TX", MediaPath + L"Brown2.png");
+		App::GetApp()->RegisterTexture(L"Number_TX", MediaPath + L"number.png");
+		App::GetApp()->RegisterTexture(L"SelectNum_TX", MediaPath + L"SelectNum.png");
+
+		App::GetApp()->RegisterEffect(L"TEST_EFK", EFkPath + L"test.efk",_EfkInterface,10.0f);
+		App::GetApp()->RegisterEffect(L"FIRE_EFK", EFkPath + L"Fire.efk", _EfkInterface);
+
+		App::GetApp()->RegisterWav(L"TEST_SD", BGMPath+L"BGMTest.wav");
 	}
 
 }

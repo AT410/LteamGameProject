@@ -63,4 +63,20 @@ namespace basecross
 		void Execute(const shared_ptr<MyCamera>& Obj)override;
 		void Exit(const shared_ptr<MyCamera>& Obj)override;
 	};
+
+
+	//--------------------------------------------------------------------------------------
+	//	オープニングカメラ（コンポーネントではない）
+	//--------------------------------------------------------------------------------------
+	class OpeningCamera :public Camera
+	{
+	public:
+		OpeningCamera();
+
+		virtual~OpeningCamera();
+
+		virtual void OnUpdate()override;
+	};
+
+
 }
