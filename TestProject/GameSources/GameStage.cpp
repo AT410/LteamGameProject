@@ -204,6 +204,11 @@ namespace basecross {
 			//ƒvƒŒƒCƒ„[‚Ì“o˜^
 			SetSharedGameObject(L"Player", PlayerPtr);
 
+			//”RÄ•¨
+			auto CombustionPtr = AddGameObject<Combustion>(Vec3(-4, 2, 0), Vec3(0), Vec3(4, 1, 1));
+			//”RÄ•¨‚Ì“o˜^
+			SetSharedGameObject(L"Combustion", CombustionPtr);
+
 			//‚Ğ‚à
 			auto HimoPtr = AddGameObject<Himo>(Vec3(4, 5, 0), Vec3(0), Vec3(0.5, 2, 0.5));
 			//‚Ğ‚à‚Ì“o˜^
