@@ -14,13 +14,19 @@ namespace basecross {
 	void GameStage::CreateViewLight() {
 		const Vec3 eye(0.0f, 10.0f, -20.0f);
 		const Vec3 at(0.0f);
-		auto PtrView = CreateView<SingleView>();
-		auto PtrCam = ObjectFactory::Create<MyCamera>();
+		//auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<Camera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		//auto PtrCamera = ObjectFactory::Create<Camera>();
+		m_MyCameraView = CreateView<SingleView>();
+		auto ptrMyCamera = ObjectFactory::Create<MyCamera>();
+		ptrMyCamera->SetEye(eye);
+		ptrMyCamera->SetExpansionEye(eye);
+		ptrMyCamera->SetAt(at);
+		ptrMyCamera->SetExpansionAt(at);
+		m_MyCameraView->SetCamera(ptrMyCamera);
+		//PtrView->SetCamera(PtrCam);
+		//PtrCamera->SetEye(eye);
+		//PtrCamera->SetAt(at);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -33,7 +39,9 @@ namespace basecross {
 	}
 
 	void GameStage::Object() {
-
+		auto ptrPlayer = GetSharedGameObject<Player>(L"Player");
+		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(m_MyCameraView->GetCamera());
+		ptrMyCamera->SetTargetObject(ptrPlayer);
 	}
 	void GameStage::OnCreate() {
 		try {
@@ -41,6 +49,7 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			GamePlayer();
+			Object();
 		AddGameObject<FixBox>(
 			Vec3(30.0f, 0.1f, 10.0f),
 			Vec3(0.0f),

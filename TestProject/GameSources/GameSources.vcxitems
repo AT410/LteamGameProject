@@ -25,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gate.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gate2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Gimmick.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MyCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ObjectBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
@@ -47,6 +48,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Gate.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)gate2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Gimmick.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MyCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp" />

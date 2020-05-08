@@ -14,6 +14,7 @@ namespace basecross {
 
 	class GameStage : public Stage {
 		//ƒrƒ…[‚Ìì¬
+		shared_ptr<SingleView> m_MyCameraView;
 		void CreateViewLight();
 		void GamePlayer();
 		void Object();

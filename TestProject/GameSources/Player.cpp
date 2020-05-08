@@ -26,9 +26,9 @@ namespace basecross{
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetPosition(0.0f, 0.5f, 0.0);
 		ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
-		ptrTransform->SetScale(0.125f, 0.125f, 0.125);
+		ptrTransform->SetScale(1.0f, 1.0f, 1.0f);
 
-		auto ptrColl = AddComponent<CollisionObb>();
+		auto ptrColl = AddComponent<CollisionCapsule>();
 
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
@@ -41,9 +41,9 @@ namespace basecross{
 
 
 		auto Shadowptr = AddComponent<Shadowmap>();
-		Shadowptr->SetMeshResource(L"DEFAULT_CUBE");
+		Shadowptr->SetMeshResource(L"DEFAULT_CAPSULE");
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetMeshResource(L"DEFAULT_CAPSULE");
 		m_PlayerState = PlayerState::Start;
 		AddTag(L"Player");
 	}
