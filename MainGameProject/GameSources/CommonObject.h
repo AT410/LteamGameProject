@@ -63,4 +63,85 @@ namespace basecross
 		Vec3 m_Start;
 		Vec3 m_End;
 	};
+
+	//OpeningCameraman
+	class OpeningCameraman :public GameObject
+	{
+	public:
+		//構築と破棄
+		OpeningCameraman(const shared_ptr<Stage>& StagePtr);
+		virtual ~OpeningCameraman();
+		//初期化
+		virtual void OnCreate()override;
+		//操作
+		virtual void OnUpdate()override;
+		//アクセサ
+		const unique_ptr<StateMachine<OpeningCameraman>>& GetStateMachine()
+		{
+			return m_StateMachine;
+		}
+
+		Vec3 GetAtPos() const
+		{
+			return m_AtPos;
+		}
+
+		void ToGoalEnterBehavior();
+		void ToStartEnterBehavior();
+		bool ExcuteBehavior(float TotalTime);
+		void EndStateEnterBehavior();
+
+	private:
+		Vec3 m_StartPos;
+		Vec3 m_EndPos;
+		Vec3 m_AtStartPos;
+		Vec3 m_AtEndPos;
+		Vec3 m_AtPos;
+		float m_TotalTime;
+		//ステートマシーン
+		unique_ptr< StateMachine<OpeningCameraman> >  m_StateMachine;
+
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>
+	{
+		OpeningCameramanToGoalState() {}
+	public:
+		DECLARE_SINGLETON_INSTANCE(OpeningCameramanToGoalState)
+		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
+		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
+		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>
+	{
+		OpeningCameramanToStartState() {}
+	public:
+		DECLARE_SINGLETON_INSTANCE(OpeningCameramanToStartState)
+		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
+		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
+		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	class OpeningCameramanEndState : public ObjState<OpeningCameraman>
+	{
+		OpeningCameramanEndState() {}
+	public:
+		DECLARE_SINGLETON_INSTANCE(OpeningCameramanEndState)
+		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
+		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
+		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+
+	};
+
 }

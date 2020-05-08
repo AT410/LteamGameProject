@@ -1073,7 +1073,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		shared_ptr<AudioResource> RegisterWav(const wstring& Key, const wstring& WavFileName);
 
-		shared_ptr<EffectResource> App::RegisterEffect(const wstring& key, const wstring& EfkFileName, const shared_ptr<EfkInterface>&efkInterface, float magnification);
+		shared_ptr<EffectResource> App::RegisterEffect(const wstring& key, const wstring& EfkFileName, const shared_ptr<EfkInterface>&efkInterface, float magnification =1.0f);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief リソースの確認

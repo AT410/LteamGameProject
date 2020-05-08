@@ -41,7 +41,8 @@ namespace basecross
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
 		//セッター
-		void SetStagePait(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
+		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
+		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
 	private:
 		//コピー禁止
 		GameManager(const GameManager&) = delete;

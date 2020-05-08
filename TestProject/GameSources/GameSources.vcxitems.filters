@@ -70,6 +70,7 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MyCamera.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -132,6 +133,7 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MyCamera.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUI.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

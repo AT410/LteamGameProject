@@ -86,7 +86,9 @@ namespace basecross
 		//セレクト画面にするか
 		if (!MenuActive) 
 		{
+			StagePtr->CreateSharedObjectGroup(L"Rock");
 			Builder.Register<StageTest>(L"Test");
+			Builder.Register<StageTest>(L"Floor");
 			Builder.Register<Player>(L"Player");
 			Builder.Register<Omori>(L"Omori");
 			Builder.Register<HeatStick>(L"HeatStick");
@@ -96,7 +98,18 @@ namespace basecross
 			Builder.Register<GoalTest>(L"Goal");
 			Builder.Register<SwitchObj>(L"Switch");
 
+			Builder.Register<RockTest>(L"Rock");
+			Builder.Register<FixedObj>(L"Wall");
+
 			Builder.StageBuild(StagePtr, FileName);
+
+			//開始イベントをスタート
+			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>();
+			auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+			if (OPCam)
+			{
+				OPCam->SetCameraObject(Ptr);
+			}
 		}
 		else
 		{

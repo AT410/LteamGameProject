@@ -7,6 +7,74 @@
 #include "Project.h"
 
 namespace basecross {
+	//燃焼物
+	void Combustion::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_Pos);
+		transComp->SetScale(m_Scale);
+		transComp->SetRotation(m_Rotation);
+
+		//コリジョンを付ける
+		auto ptrColl = AddComponent<CollisionObb>();
+
+	}
+	void Combustion::OnUpdate()
+	{
+		if (m_Active) {
+			m_Time += App::GetApp()->GetElapsedTime();
+			if (m_Time > 10.0f) {
+				m_Active = false;
+			}
+			auto ptrTrans = GetComponent<Transform>();
+			m_Scale = ptrTrans->GetScale();
+			m_Pos = ptrTrans->GetPosition();
+
+			//横に長い燃焼物
+			if (m_Scale.x > 0) {
+				//火のエフェクト
+				m_Scale.x += -0.05;
+				m_Pos.x += 0.025;
+				if (m_Scale.x <= 0) {
+					//煙のエフェクト
+					GetStage()->RemoveGameObject<Combustion>(GetThis<Combustion>());
+				}
+			}
+			////縦に長い燃焼物
+			//if (m_Scale.y < 0) {
+			//	//火のエフェクト
+			//	m_Scale.y += -0.05;
+			//	m_Pos.y += -0.025;
+			//	if (m_Scale.y <= 0) {
+			//		//煙のエフェクト
+			//		GetStage()->RemoveGameObject<Combustion>(GetThis<Combustion>());
+			//	}
+			//}
+			ptrTrans->SetScale(m_Scale);
+			ptrTrans->SetPosition(m_Pos);
+		}
+	}
+	void Combustion::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	{
+		//プレイヤーの登録
+		auto ObjectPtr_P = GetStage()->GetSharedGameObject<TestPlayer>(L"Player");
+		//燃焼物の登録
+		auto ObjectPtr_C = GetStage()->GetSharedGameObject<Combustion>(L"Combustion");
+
+		//実行時間計測
+		auto elapsedTime = App::GetApp()->GetElapsedTime();
+
+		//Playerタグを持った相手と衝突した時
+		if (Other->FindTag(L"Player")) {
+			ObjectPtr_C->SetActive(true);
+		}
+	}
+
 	//熱棒
 	void HeatStick::OnCreate()
 	{
