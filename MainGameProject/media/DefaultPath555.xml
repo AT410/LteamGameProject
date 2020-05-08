@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Area AreaNumber="0">
+    <StageData StageNumber="0">
+      <Objects Type="Test" Pos="-24.6,-3.63,0" Scale="0.475,0.328125,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="0,0,0" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="9.92,-3.33,5.23" Scale="2.0699,1,12" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="19.41,-6.95,5.86" Scale="12.79977,1,5.584947" Rot="0.5000001,-0.5000001,0.5,0.5" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="-7.88,1.12,0" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="0,0.68,0" Scale="0.475,0.328125,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="4.2,0,5.28" Scale="3.9,1,11.59919" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="31.2,-9.13,4.47" Scale="22.93895,1,10" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="-6.29,-3.77,10.18" Scale="50.30686,1,10" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="-3.26,-4.33,4.47" Scale="46.34319,1,10" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="-20.51,-0.17,1.23" Scale="-11.762,1,3.4094" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="4.39,1.01,4.332538" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="14.50294,-3.86,4.57" Scale="3.9814,0.12079,-4.0766" Rot="0,0.7071068,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="40.05,-8.22,4.47" Scale="5.267241,1,10" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="31.2,-3.77,10.18" Scale="1,0.1000001,10" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="-16.05,-1.18,0.84" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="19.37,0.16,7.13" Scale="1,7.868563,-4.6566" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="1.37,-3.59,0" Scale="0.475,0.328125,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="41.78,-6.23,3.6" Scale="-0.1739063,1,0.46041" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="41.56,-7.24,4.47" Scale="2.172579,1,10" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+      <Objects Type="Test" Pos="19.37,0.15,2.09" Scale="1,7.83469,5.295522" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" />
+    </StageData>
+  </Area>
+</root>
