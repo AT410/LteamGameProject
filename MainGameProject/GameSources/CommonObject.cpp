@@ -145,4 +145,144 @@ namespace basecross
 		FQuat.normalize();
 		ptrTrans->SetQuaternion(FQuat);
 	}
+
+	//--------------------------------------------------------------------------------------
+//　オープニングカメラマン
+//--------------------------------------------------------------------------------------
+	//構築と破棄
+	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr) :
+		GameObject(StagePtr),
+		m_StartPos(0.0f, 0.0f, -75.0f),
+		m_EndPos(0.0f, 0.0f, -1.0f),
+		m_AtStartPos(0.0f, 0.0f, 0.0f),
+		m_AtEndPos(18.0f, 0.0f, 18.0f),
+		m_AtPos(m_AtStartPos),
+		m_TotalTime(0.0f)
+	{}
+
+	OpeningCameraman::~OpeningCameraman() {}
+	//初期化
+	void OpeningCameraman::OnCreate() {
+		//初期位置などの設定
+		auto ptr = GetComponent<Transform>();
+		ptr->SetScale(0.25f, 0.25f, 0.25f);	//直径25センチの球体
+		ptr->SetRotation(0.0f, 0.0f, 0.0f);
+		ptr->SetPosition(m_StartPos);
+		//ステートマシンの構築
+		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
+		//最初のステートをOpeningCameramanToGoalStateに設定
+		m_StateMachine->ChangeState(OpeningCameramanToGoalState::Instance());
+	}
+	//操作
+	void OpeningCameraman::OnUpdate() {
+		//ステートマシンのUpdateを行う
+		//この中でステートの切り替えが行われる
+		m_StateMachine->Update();
+	}
+
+	void OpeningCameraman::ToGoalEnterBehavior() {
+		m_StartPos = Vec3(0.0f, 2.0f, -40.0f);
+		m_AtStartPos = Vec3(0.0f, 2.0f, 0.0f);
+		m_AtEndPos = Vec3(0.0f, 0.0f, 0.0f);
+		m_AtPos = m_AtStartPos;
+		m_TotalTime = 0.0f;
+
+		auto PlayerPtr = GetStage()->GetSharedGameObject<Player>(L"Player");
+		m_AtEndPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
+
+		m_EndPos = m_AtEndPos;
+		m_EndPos.z -= 10.0f;
+	}
+
+	void OpeningCameraman::ToStartEnterBehavior() {
+		m_StartPos = Vec3(0.0f, 0.0f, -60.0f);
+		m_EndPos = Vec3(0.0f, 2.0f, -40.0f);
+		m_AtStartPos = Vec3(0.0f, 0.0f, 0.0f);
+		m_AtEndPos = Vec3(0.0f, 2.0f, 0.0f);
+		m_AtPos = m_AtStartPos;
+		m_TotalTime = 0.0f;
+
+		auto PlayerPtr = GetStage()->GetSharedGameObject<Player>(L"Player");
+		m_AtStartPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
+
+		m_StartPos = GetComponent<Transform>()->GetPosition();
+	}
+
+	bool OpeningCameraman::ExcuteBehavior(float totaltime) {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		m_TotalTime += ElapsedTime;
+		if (m_TotalTime > totaltime) {
+			return true;
+		}
+		Easing<Vec3> easing;
+		auto TgtPos = easing.EaseInOut(EasingType::Cubic, m_StartPos, m_EndPos, m_TotalTime, totaltime);
+		m_AtPos = easing.EaseInOut(EasingType::Cubic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
+		auto ptrTrans = GetComponent<Transform>();
+		ptrTrans->SetPosition(TgtPos);
+		return false;
+	}
+
+	void OpeningCameraman::EndStateEnterBehavior() {
+		auto ptrGameGtage = GetTypeStage<GameStage>();
+		ptrGameGtage->ToMyCamera();
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanToGoalState)
+
+		void OpeningCameramanToGoalState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	{
+		Obj->ToGoalEnterBehavior();
+	}
+
+	void OpeningCameramanToGoalState::Execute(const shared_ptr<OpeningCameraman>&Obj)
+	{
+		if (Obj->ExcuteBehavior(2.0f))
+		{
+			Obj->GetStateMachine()->ChangeState(OpeningCameramanToStartState::Instance());
+		}
+	}
+
+	void OpeningCameramanToGoalState::Exit(const shared_ptr<OpeningCameraman>& Obj)
+	{
+
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanToStartState)
+
+		void OpeningCameramanToStartState::Enter(const shared_ptr<OpeningCameraman>& Obj)
+	{
+		Obj->ToStartEnterBehavior();
+	}
+
+	void OpeningCameramanToStartState::Execute(const shared_ptr<OpeningCameraman>&Obj)
+	{
+		if (Obj->ExcuteBehavior(2.0f))
+		{
+			Obj->GetStateMachine()->ChangeState(OpeningCameramanEndState::Instance());
+		}
+
+	}
+
+	void OpeningCameramanToStartState::Exit(const shared_ptr<OpeningCameraman>&Obj) {}
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanEndState)
+
+		void OpeningCameramanEndState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	{
+		Obj->EndStateEnterBehavior();
+	}
+
+	void OpeningCameramanEndState::Execute(const shared_ptr<OpeningCameraman>&Obj) {}
+
+	void OpeningCameramanEndState::Exit(const shared_ptr<OpeningCameraman>&Obj) {}
+
 }

@@ -39,9 +39,25 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnEvent(const shared_ptr<Event>& event) override;
-
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief イベント取得
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		void SetResoruceData(const wstring ResourcePath);
 		//Debug
 		void SetDebugResoruce();
+
+		shared_ptr<EfkInterface> GetEfkInterface()const
+		{
+			return _EfkInterface;
+		}
+
+	private:
+		//エフェクトインターフェイス
+		shared_ptr<EfkInterface> _EfkInterface;
+
 	};
 
 }

@@ -35,7 +35,7 @@ namespace basecross
 				}
 
 				//スティック押込み
-				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_RIGHT_SHOULDER)
+				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_RIGHT_THUMB)
 				{
 					Obj->OnPushR3();
 				}
