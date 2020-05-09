@@ -193,9 +193,10 @@ namespace basecross{
 			Ptr->SetGoal(true);
 			Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
 			//ゴールエフェクト再生
-			auto Pos = GetComponent<Transform>()->GetPosition();
-			//Pos.y += 2.5f;
-			
+			auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
+			Pos.y += 0.5f;
+			GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK",Pos);
+			m_FireEfk->StopEffect();
 		}
 	}
 

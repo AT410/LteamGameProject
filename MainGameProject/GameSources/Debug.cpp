@@ -29,18 +29,34 @@ namespace basecross
 
 	void AnimSpriteTest::OnUpdate()
 	{
-		auto DrawComp = GetComponent<PCTSpriteDraw>();
-		auto Diffuse = DrawComp->GetDiffuse();
-		if (!m_IsActived)
+		if (!m_IsLoop) 
 		{
-			if (Diffuse.w >= 1.0f)
+			auto DrawComp = GetComponent<PCTSpriteDraw>();
+			auto Diffuse = DrawComp->GetDiffuse();
+			if (!m_IsActived)
 			{
-				m_vol = -1.0f;
+				if (Diffuse.w >= 1.0f)
+				{
+					m_vol = -1.0f;
+				}
+				if (Diffuse.w < 0.0f)
+					m_IsActived = true;
+				Diffuse.w += m_vol * App::GetApp()->GetElapsedTime();
+				DrawComp->SetDiffuse(Diffuse);
 			}
-			if (Diffuse.w < 0.0f)
-				m_IsActived = true;
-			Diffuse.w += m_vol * App::GetApp()->GetElapsedTime();
-			DrawComp->SetDiffuse(Diffuse);
+		}
+		else
+		{
+			float ElapsedTime = App::GetApp()->GetElapsedTime();
+			m_TotalTime += ElapsedTime * 5.0f;
+			if (m_TotalTime >= XM_2PI) {
+				m_TotalTime = 0;
+			}
+			auto PtrDraw = GetComponent<PCTSpriteDraw>();
+			Col4 col(1.0, 1.0, 1.0, 1.0);
+			col.w = sin(m_TotalTime) * 0.5f + 0.5f;
+			PtrDraw->SetDiffuse(col);
+
 		}
 	}
 
@@ -57,7 +73,7 @@ namespace basecross
 
 	void ContTest::OnPushA()
 	{
-		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+		PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), m_StageStr);
 	}
 
 
@@ -219,11 +235,12 @@ namespace basecross
 	{
 		//ï`âÊê›íË
 		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		//DrawComp->SetTextureResource(m_texKey);
+		DrawComp->SetMeshResource(L"GOAL_MD");
+		DrawComp->SetTextureResource(L"GOAL_TX");
 
 		//îzíuê›íË
 		auto TransComp = GetComponent<Transform>();
+		m_pos.y += -0.5f;
 		TransComp->SetPosition(m_pos);
 		TransComp->SetQuaternion(Quat(m_rot));
 		TransComp->SetScale(m_scal);

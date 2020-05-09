@@ -215,8 +215,8 @@ namespace basecross
 			return true;
 		}
 		Easing<Vec3> easing;
-		auto TgtPos = easing.EaseInOut(EasingType::Cubic, m_StartPos, m_EndPos, m_TotalTime, totaltime);
-		m_AtPos = easing.EaseInOut(EasingType::Cubic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
+		auto TgtPos = easing.EaseInOut(EasingType::Quintic, m_StartPos, m_EndPos, m_TotalTime, totaltime);
+		m_AtPos = easing.EaseInOut(EasingType::Quintic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
 		auto ptrTrans = GetComponent<Transform>();
 		ptrTrans->SetPosition(TgtPos);
 		return false;
@@ -239,7 +239,7 @@ namespace basecross
 
 	void OpeningCameramanToGoalState::Execute(const shared_ptr<OpeningCameraman>&Obj)
 	{
-		if (Obj->ExcuteBehavior(2.0f))
+		if (Obj->ExcuteBehavior(3.0f))
 		{
 			Obj->GetStateMachine()->ChangeState(OpeningCameramanToStartState::Instance());
 		}
@@ -262,7 +262,7 @@ namespace basecross
 
 	void OpeningCameramanToStartState::Execute(const shared_ptr<OpeningCameraman>&Obj)
 	{
-		if (Obj->ExcuteBehavior(2.0f))
+		if (Obj->ExcuteBehavior(3.0f))
 		{
 			Obj->GetStateMachine()->ChangeState(OpeningCameramanEndState::Instance());
 		}

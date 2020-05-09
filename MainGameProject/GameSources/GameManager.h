@@ -23,6 +23,16 @@ namespace basecross
 
 		pair<int, int > m_SelectStage;						///<-ステージ選択した値
 
+		wstring m_MapFile;									///<-マップデータファイル
+
+		wstring m_ResFile;									///<-リソースリストファイル
+
+		std::mutex mutex;
+
+		bool m_Loaded;
+
+		void ResorceLoadFunc();								///<-リソースの読込を行う
+
 		GameManager();
 		~GameManager();
 	public:
@@ -34,12 +44,15 @@ namespace basecross
 
 		static void DeleteManager();
 
+		void LoadResources();
+
 		//ステージの生成
 		//ステージから呼ばれる
 		void CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName, const bool MenuActive);
 
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
+		bool GetLoadFlag()const { return m_Loaded; }
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
