@@ -12,8 +12,8 @@ namespace basecross {
 	//	ステージベースクラス実体
 	//--------------------------------------------------------------------------------------
 	void StageBase::CreateViewLight() {
-		const Vec3 eye(0.0f, 2.0f, -40.0f);
-		const Vec3 at(0.0f,2.0f,0.0f);
+		const Vec3 eye(7.0f, 10.0f, -20.0f);
+		const Vec3 at(7.0f,2.0f,0.0f);
 		m_MainView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<Camera>();

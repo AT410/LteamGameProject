@@ -118,6 +118,8 @@ namespace basecross
 
 		shared_ptr<Player> m_TestPlayer;
 
+		shared_ptr<EfkPlay> m_WaterEfk;
+
 	public:
 		Fountain(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)

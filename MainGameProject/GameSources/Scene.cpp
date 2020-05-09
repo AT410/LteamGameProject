@@ -137,7 +137,7 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"Number_TX", MediaPath + L"number.png");
 		App::GetApp()->RegisterTexture(L"SelectNum_TX", MediaPath + L"SelectNum.png");
 
-		App::GetApp()->RegisterEffect(L"TEST_EFK", EFkPath + L"test.efk",_EfkInterface,10.0f);
+		App::GetApp()->RegisterEffect(L"TEST_EFK", EFkPath + L"Clear.efk",_EfkInterface,1.0f);
 		App::GetApp()->RegisterEffect(L"FIRE_EFK", EFkPath + L"Fire.efk", _EfkInterface);
 
 		App::GetApp()->RegisterWav(L"TEST_SD", BGMPath+L"BGMTest.wav");
