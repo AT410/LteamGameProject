@@ -47,6 +47,8 @@ namespace basecross{
 
 		Vec3 GetMoveVector() const;
 
+		shared_ptr<EfkPlay> m_FireEfk;
+
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);
 
