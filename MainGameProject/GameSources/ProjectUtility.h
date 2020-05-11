@@ -47,6 +47,9 @@ namespace basecross
 				else {
 					Obj->OnRemoveLB();
 				}
+				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+					Obj->OnPushRB();
+				}
 			}
 		}
 	};

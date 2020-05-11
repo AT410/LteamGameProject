@@ -10,60 +10,56 @@ namespace basecross
 {
 	class MyCamera :public Camera, public PawnBase<MyCamera>
 	{
+		unique_ptr< StateMachine<MyCamera> > m_StateMachine;
+		weak_ptr<GameObject> m_TargetObj;
+		shared_ptr<GameObject> m_Obj;
+		bsm::Vec3 m_TargetToAt;
+		float m_ArmLen;
+		bool m_CameraJudge;
+		Vec3 m_ExpansionEye;
+		Vec3 m_ExpansionAt;
+		Vec3 m_FocusEye;
+		Vec3 m_FocusAt;
 	public:
 		MyCamera();
-		virtual ~MyCamera();
-
-		void OnCreate()override;
-		void OnUpdate()override;
-
-		void OnPushR3()override;
-
-		//視野角移動
-		void AngleUpdate();
-
-	private:
-		unique_ptr<StateMachine<MyCamera>>m_StateMachine;
+		virtual ~MyCamera() {}
+		virtual void SetEye(const bsm::Vec3& Eye)override;
+		virtual void SetEye(float x, float y, float z)override;
+		virtual void SetAt(const bsm::Vec3& At)override;
+		virtual void SetAt(float x, float y, float z)override;
+		shared_ptr<GameObject> GetTargetObject() const;
+		void SetTargetObject(const shared_ptr<GameObject>& Obj);
+		Vec3 GetExpansionEye() const;
+		void SetExpansionEye(const bsm::Vec3& ExpansionEye);
+		Vec3 GetExpansionAt() const;
+		void SetExpansionAt(const bsm::Vec3& ExpansionAt);
+		void SetExpansion(const Vec3& Eye, const Vec3& At);
+		void SetFocus(const Vec3& Eye, const Vec3& At);
+		void OnPushRB() override;
+		virtual void OnCreate() override;
+		virtual void OnUpdate() override;
 	};
 
 	///通常カメラステート
-	class NormalCameraMode :public ObjState<MyCamera>
-	{
-	private:
-		NormalCameraMode() {}
+	class ExpansionState : public ObjState<MyCamera> {
+		ExpansionState() {}
 	public:
-		DECLARE_SINGLETON_INSTANCE(NormalCameraMode);
-		void Enter(const shared_ptr<MyCamera>& Obj)override;
-		void Execute(const shared_ptr<MyCamera>& Obj)override;
-		void Exit(const shared_ptr<MyCamera>& Obj)override;
+		static shared_ptr<ExpansionState> Instance();
+		virtual void Enter(const shared_ptr<MyCamera>& Cam)override;
+		virtual void Execute(const shared_ptr<MyCamera>& Cam)override;
+		virtual void Exit(const shared_ptr<MyCamera>& Cam)override;
 	};
-	
+
 
 	///広域カメラステート
-	class AreaCameraMode :public ObjState<MyCamera>
-	{
-	private:
-		AreaCameraMode() {}
+	class FocusState : public ObjState<MyCamera> {
+		FocusState() {}
 	public:
-		DECLARE_SINGLETON_INSTANCE(AreaCameraMode);
-		void Enter(const shared_ptr<MyCamera>& Obj)override;
-		void Execute(const shared_ptr<MyCamera>& Obj)override;
-		void Exit(const shared_ptr<MyCamera>& Obj)override;
+		static shared_ptr<FocusState> Instance();
+		virtual void Enter(const shared_ptr<MyCamera>& Cam)override;
+		virtual void Execute(const shared_ptr<MyCamera>& Cam)override;
+		virtual void Exit(const shared_ptr<MyCamera>& Cam)override;
 	};
-
-
-	///Debug用カメラステート
-	class DebugCameraMode :public ObjState<MyCamera>
-	{
-	private:
-		DebugCameraMode(){}
-	public:
-		DECLARE_SINGLETON_INSTANCE(DebugCameraMode)
-		void Enter(const shared_ptr<MyCamera>& Obj)override;
-		void Execute(const shared_ptr<MyCamera>& Obj)override;
-		void Exit(const shared_ptr<MyCamera>& Obj)override;
-	};
-
 
 	//--------------------------------------------------------------------------------------
 	//	オープニングカメラ（コンポーネントではない）

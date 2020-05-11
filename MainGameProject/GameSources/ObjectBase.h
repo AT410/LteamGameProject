@@ -60,6 +60,7 @@ namespace basecross
 		virtual void OnPushL3() {};
 		virtual void OnPushLB() {};
 		virtual void OnRemoveLB() {};
+		virtual void OnPushRB() {};
 	protected:
 		InputHandler<T> m_handler;
 	};

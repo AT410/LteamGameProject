@@ -39,8 +39,12 @@ namespace basecross{
 		
 		//共有登録
 		GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
-	}
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto ptrGameStage = dynamic_pointer_cast<GameStage>(GetStage());
+		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
+		ptrMyCamera->SetTargetObject(ptrPlayer);
 
+	}
 
 	//進行ベクトルへの下方関数
 	Vec3 Player::GetMoveVector() const {

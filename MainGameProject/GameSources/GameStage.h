@@ -24,6 +24,7 @@ namespace basecross {
 		virtual void OnDraw()override {};
 
 		shared_ptr<SingleView> GetOpeningView() { return m_OpeningView; }
+		shared_ptr<SingleView> GetMainView() { return m_MainView; }
 	protected:
 		//ƒrƒ…[‚Ìì¬
 		virtual void CreateViewLight();

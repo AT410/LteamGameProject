@@ -44,7 +44,6 @@ namespace basecross{
 		shared_ptr<GameObject> m_PushObj = nullptr;
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<Player> m_Handler;
-
 		Vec3 GetMoveVector() const;
 
 	public:
