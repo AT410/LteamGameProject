@@ -105,4 +105,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ShaderHeader.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
 </Project>
