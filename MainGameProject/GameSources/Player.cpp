@@ -39,10 +39,9 @@ namespace basecross{
 		
 		//‹¤—L“o˜^
 		GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-		auto ptrGameStage = dynamic_pointer_cast<GameStage>(GetStage());
+		auto ptrGameStage = GetTypeStage<GameStage>();
 		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
-		ptrMyCamera->SetTargetObject(ptrPlayer);
+		ptrMyCamera->SetTargetObject(GetThis<Player>());
 
 		//‰Î‚ğÄ¶
 		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", m_pos);
