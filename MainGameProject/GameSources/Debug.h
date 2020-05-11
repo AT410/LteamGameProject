@@ -40,8 +40,8 @@ namespace basecross
 	class AnimSpriteTest :public GameObject
 	{
 	public:
-		AnimSpriteTest(const shared_ptr<Stage>& StagePtr, const int& num)
-			:GameObject(StagePtr),m_TexNum(num)
+		AnimSpriteTest(const shared_ptr<Stage>& StagePtr, const int& num,bool Loop = false)
+			:GameObject(StagePtr),m_TexNum(num),m_IsLoop(Loop)
 		{
 			float Sizex = (float)App::GetApp()->GetGameWidth() / 2.0f;
 			float Sizey = (float)App::GetApp()->GetGameHeight() / 2.0f;
@@ -55,7 +55,7 @@ namespace basecross
 
 			m_indices = { 0, 1, 2, 1, 3, 2 };
 
-			wstring Leng[5] = { L"Stage1_TX",L"Stage2_TX",L"Stage3_TX",L"Stage4_TX",L"Stage5_TX" };
+			wstring Leng[6] = { L"Stage1_TX",L"Stage2_TX",L"Stage3_TX",L"Stage4_TX",L"Stage5_TX",L"WAIT_TX" };
 			m_TexKey = Leng[num];
 		}
 		virtual ~AnimSpriteTest() {}
@@ -70,7 +70,9 @@ namespace basecross
 		int m_TexNum;
 		wstring m_TexKey;
 		bool m_IsActived=false;
+		bool m_IsLoop = false;
 		float m_vol = 1.0f;
+		float m_TotalTime = 0.0f;
 	};
 
 
@@ -78,8 +80,8 @@ namespace basecross
 	class ContTest :public ObjectBase,public PawnBase<ContTest>
 	{
 	public:
-		ContTest(const shared_ptr<Stage>&StagePtr)
-			:ObjectBase(StagePtr),PawnBase()
+		ContTest(const shared_ptr<Stage>&StagePtr,const wstring& StageStr )
+			:ObjectBase(StagePtr),PawnBase(), m_StageStr(StageStr)
 		{}
 		virtual ~ContTest(){}
 
@@ -88,6 +90,9 @@ namespace basecross
 		void OnUpdate()override;
 
 		void OnPushA()override;
+
+	private:
+		wstring m_StageStr;
 	};
 
 	//ステージ配置テスト

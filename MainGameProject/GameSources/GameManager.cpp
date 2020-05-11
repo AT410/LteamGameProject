@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0)
+		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_Loaded(false)
 	{
 
 	}
@@ -75,6 +75,77 @@ namespace basecross
 		{
 			//îpä¸èàóù
 			m_ins.reset();
+		}
+	}
+
+	void GameManager::ResorceLoadFunc()
+	{
+		mutex.lock();
+		m_Loaded = false;
+		mutex.unlock();
+
+		wstring PathStr;
+		App::GetApp()->GetDataDirectory(PathStr);
+		XmlDocReader ResFile(PathStr + m_ResFile);
+		auto ResPtr = ResFile.GetSelectNodes(L"ResourceDataMap/Resource/ResourceData");
+
+		long count = XmlDocReader::GetLength(ResPtr);
+		for (long index = 0; index < count; index++)
+		{
+			auto ResItem = XmlDocReader::GetItem(ResPtr, index);
+			auto TypeStr = XmlDocReader::GetAttribute(ResItem, L"ResourceType");
+			auto KeyStr = XmlDocReader::GetAttribute(ResItem, L"ResourceKey");
+			auto FileStr = XmlDocReader::GetAttribute(ResItem, L"ResourceFile");
+
+			if (TypeStr == L"Texture")
+			{
+				auto TexPath = PathStr + L"Texture/";
+				App::GetApp()->RegisterTexture(KeyStr, TexPath + FileStr);
+				continue;
+			}
+			else if (TypeStr == L"Mesh")
+			{
+				auto MDPath = PathStr + L"Model/";
+				auto modelMesh = MeshResource::CreateStaticModelMesh(MDPath, FileStr);
+				App::GetApp()->RegisterResource(KeyStr, modelMesh);
+				continue;
+			}
+			else if (TypeStr == L"Sound")
+			{
+				auto SDPath = PathStr + L"Sound/";
+				App::GetApp()->RegisterWav(KeyStr, SDPath + FileStr);
+				continue;
+			}
+			else if (TypeStr == L"Effect")
+			{
+				auto EFKPath = PathStr + L"Effect/";
+				auto MagniStr = XmlDocReader::GetAttribute(ResItem, L"EffectMagni");
+				float Magni = 1.0f;
+				if (MagniStr != L"")
+				{
+					Magni = (float)_wtof(MagniStr.c_str());
+				}
+				auto EfkFace = App::GetApp()->GetScene<Scene>()->GetEfkInterface();
+				App::GetApp()->RegisterEffect(KeyStr, EFKPath + FileStr, EfkFace, Magni);
+				continue;
+			}
+		}
+
+
+		mutex.lock();
+		m_Loaded = true;
+		mutex.unlock();
+	}
+
+	//!end static
+
+	//ÉäÉ\Å[ÉXÇÃì«çû
+	void GameManager::LoadResources()
+	{
+		if (!m_Loaded)
+		{
+			std::thread Loadthread(&GameManager::ResorceLoadFunc, this);
+			Loadthread.detach();
 		}
 	}
 

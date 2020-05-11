@@ -45,7 +45,7 @@ namespace basecross{
 		@return	‚È‚µ
 		*/
 		//--------------------------------------------------------------------------------------
-		void SetResoruceData(const wstring ResourcePath);
+		void LoadUnionResource();
 		//Debug
 		void SetDebugResoruce();
 

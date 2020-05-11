@@ -46,6 +46,8 @@ namespace basecross{
 		InputHandler<Player> m_Handler;
 		Vec3 GetMoveVector() const;
 
+		shared_ptr<EfkPlay> m_FireEfk;
+
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);
 

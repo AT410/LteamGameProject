@@ -44,6 +44,9 @@ namespace basecross{
 		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
 		ptrMyCamera->SetTargetObject(ptrPlayer);
 
+		//火を再生
+		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", m_pos);
+
 	}
 
 	//進行ベクトルへの下方関数
@@ -125,6 +128,7 @@ namespace basecross{
 			auto grav = GetComponent<Gravity>();
 			grav->StartJump(Vec3(0.0f, m_Jumpforce, 0.0f));
 			m_Jumpjudge = false;
+			//GetTypeStage<GameStage>()->Effectplay(L"FIRE_EFK", GetComponent<Transform>()->GetPosition());
 		}
 
 	}
@@ -194,9 +198,9 @@ namespace basecross{
 			Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
 			//ゴールエフェクト再生
 			auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
-			//Pos.y += 2.5f;
-			auto Efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", Pos);
-			
+			Pos.y += 0.5f;
+			GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK",Pos);
+			m_FireEfk->StopEffect();
 		}
 	}
 
@@ -212,6 +216,11 @@ namespace basecross{
 	void Player::OnUpdate() {
 		m_Handler.PushHandler(GetThis<Player>());
 		State();
+		
+		//エフェクトの移動
+		auto TransComp = GetComponent<Transform>();
+		Vec3 Pos = TransComp->GetPosition();
+		m_FireEfk->SetLocation(Pos);
 	}
 
 	void Player::State() {

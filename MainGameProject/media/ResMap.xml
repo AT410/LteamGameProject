@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<ResourceDataMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Resource>
+    <ResourceData ResourceKey="TitleStage_TX" ResourceFile="TitleStage.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="DateSelect_TX" ResourceFile="DataSelect.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="AreaSelect_TX" ResourceFile="AreaSelect.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="GameStage_TX" ResourceFile="GameStage.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="EndingStage_TX" ResourceFile="EndingStage.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage1_TX" ResourceFile="Stage1.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage2_TX" ResourceFile="Stage2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage3_TX" ResourceFile="Stage3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage4_TX" ResourceFile="Stage4.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage5_TX" ResourceFile="Stage5.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="TEST_TX" ResourceFile="kabe.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="FLOOR_TX" ResourceFile="ytail.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="WALL_TX" ResourceFile="Wall2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Rock_TX" ResourceFile="Brown2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Number_TX" ResourceFile="number.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="SelectNum_TX" ResourceFile="SelectNum.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="GOAL_TX" ResourceFile="UV.tga" ResourceType="Texture" />
+    <ResourceData ResourceKey="MAIN_SD" ResourceFile="BGMTest.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="GOAL_MD" ResourceFile="Obj_Torch_2.bmf" ResourceType="Mesh" />
+    <ResourceData ResourceKey="FIRE_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="1" />
+    <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25f" />
+  </Resource>
+</ResourceDataMap>
