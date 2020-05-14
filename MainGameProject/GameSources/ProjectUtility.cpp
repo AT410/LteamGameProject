@@ -46,8 +46,17 @@ namespace basecross
 		}
 	}
 
-	void StageBulider::StageBuild(const shared_ptr<Stage>& StagePtr, const wstring& XMLFileName) {
+	void StageBulider::StageBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName) {
 		try {
+			//カメラ設定値
+			Vec3 Eye, At;
+			float Near, Far;
+
+			Eye = Vec3(7.0f, 10.0f, -20.0f);
+			At = Vec3(7.0f, 2.0f, 0.0f);
+			Near = 0.5f;
+			Far = 1000.0f;
+
 			//ステージ選択値を取得
 			auto Select = GameManager::GetManager()->GetStagePair();
 			int SelectArea = Select.first;
@@ -72,6 +81,31 @@ namespace basecross
 					int StageNum = (int)_wtoi(StageNumStr.c_str());
 					if (StageNum != SelectStage)
 						continue;
+					//カメラ情報取得
+					//auto CameraEyeStr = XmlDocReader::GetAttribute(StageNodes, L"CameraEye");
+					//auto CameraAtStr = XmlDocReader::GetAttribute(StageNodes, L"CameraAt");
+					//auto CameraNearStr = XmlDocReader::GetAttribute(StageNodes, L"CamereNear");
+					//auto CameraFarStr = XmlDocReader::GetAttribute(StageNodes, L"CamereFar");
+
+					////トークン
+					//if (CameraEyeStr != L"") 
+					//{
+					//	vector<wstring> Token;
+					//	Token.clear();
+					//	Util::WStrToTokenVector(Token, CameraEyeStr, L',');
+					//	Eye.x = (float)_wtof(Token[0].c_str());
+					//	Eye.y = (float)_wtof(Token[1].c_str());
+					//	Eye.z = (float)_wtof(Token[2].c_str());
+
+					//	Token.clear();
+					//	Util::WStrToTokenVector(Token, CameraAtStr, L',');
+					//	At.x = (float)_wtof(Token[0].c_str());
+					//	At.y = (float)_wtof(Token[1].c_str());
+					//	At.z = (float)_wtof(Token[2].c_str());
+
+					//	Near = (float)_wtof(CameraNearStr.c_str());
+					//	Far = (float)_wtof(CameraFarStr.c_str());
+					//}
 					//子要素を取得
 					auto ObjNodes = XmlDocReader::GetChildNodes(StageNode);
 					long ObjCount = XmlDocReader::GetLength(ObjNodes);
@@ -85,6 +119,15 @@ namespace basecross
 			}
 
 			//Area
+			//カメラ情報を更新する
+			auto MainView = StagePtr->GetMainView();
+
+			auto Camera = MainView->GetCamera();
+			Camera->SetEye(Eye);
+			Camera->SetAt(At);
+			Camera->SetNear(Near);
+			Camera->SetFar(Far);
+
 		}
 		catch (...) {
 			throw;
