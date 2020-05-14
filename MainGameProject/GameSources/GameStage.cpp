@@ -55,7 +55,7 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"TitleStage_TX");
+			AddGameObject<ShaderTest>(L"WATER_TX");
 			AddGameObject<ContTest>(L"ToDataSelectStage");
 		}
 		catch (...)

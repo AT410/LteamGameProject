@@ -71,7 +71,7 @@ namespace basecross{
 		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
-
+		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
 	}
 
 	void Scene::SetDebugResoruce()

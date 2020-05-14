@@ -37,6 +37,39 @@ namespace basecross
 		wstring m_TexKey;
 	};
 
+	class ShaderTest :public GameObject
+	{
+	public:
+		ShaderTest(const shared_ptr<Stage>& StagePtr, const wstring& TexKey)
+			:GameObject(StagePtr), m_TexKey(TexKey), m_TotalTime(0.0f)
+		{
+			float Sizex = (float)App::GetApp()->GetGameWidth() / 2.0f;
+			float Sizey = (float)App::GetApp()->GetGameHeight() / 2.0f;
+
+			m_vertices.clear();
+			m_indices.clear();
+			m_vertices.push_back(VertexPositionTexture(Vec3(-Sizex, Sizey, 0),Vec2(0.0f, 0.0f)));
+			m_vertices.push_back(VertexPositionTexture(Vec3(Sizex, Sizey, 0), Vec2(1.0f, 0.0f)));
+			m_vertices.push_back(VertexPositionTexture(Vec3(-Sizex, -Sizey, 0), Vec2(0.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionTexture(Vec3(Sizex, -Sizey, 0),Vec2(1.0f, 1.0f)));
+
+			m_indices = { 0, 1, 2, 2, 1, 3};
+		}
+		virtual ~ShaderTest() {}
+
+		void OnCreate()override;
+
+		void OnUpdate()override;
+
+	private:
+		vector<VertexPositionTexture> m_vertices;
+		vector<uint16_t> m_indices;
+		wstring m_TexKey;
+
+		float m_TotalTime;
+	};
+
+
 	class AnimSpriteTest :public GameObject
 	{
 	public:
