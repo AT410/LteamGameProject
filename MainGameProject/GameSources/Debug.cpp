@@ -16,6 +16,42 @@ namespace basecross
 		SetAlphaActive(true);
 	}
 
+	void ShaderTest::OnCreate()
+	{
+
+		Vec3 color(1, 1, 1);
+		Vec2 tipSize = Vec2(1.0f, 1.0f);
+
+		vector<VertexPositionTexture>vertices =
+		{
+			{Vec3(-1.0f,+1.0f,0.0f),Vec2(0		,0)},
+			{Vec3(+1.0f,+1.0f,0.0f),Vec2(tipSize.x,0)},
+			{Vec3(-1.0f,-1.0f,0.0f),Vec2(0		,tipSize.y)},
+			{Vec3(+1.0f,-1.0f,0.0f),Vec2(tipSize.x,tipSize.y)},
+		};
+
+		vector<uint16_t> indices =
+		{
+			0,1,2,
+			2,1,3,
+		};
+
+
+		auto DrawComp = AddComponent<PTWaterDraw>();
+		DrawComp->CreateOriginalMesh<VertexPositionTexture>(vertices, indices);
+		DrawComp->SetOriginalMeshUse(true);
+		DrawComp->SetTextureResource(m_TexKey);
+		DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
+		SetAlphaActive(true);
+	}
+
+	void ShaderTest::OnUpdate()
+	{
+		auto DrawComp = GetComponent<PTWaterDraw>();
+		m_TotalTime += App::GetApp()->GetElapsedTime();
+
+		DrawComp->UpdateUV(m_TotalTime,0.0f);
+	}
 
 	void AnimSpriteTest::OnCreate()
 	{
@@ -103,9 +139,9 @@ namespace basecross
 	}
 
 	//--------------------------------------------------------------------------------------
-//	数字のスクエア
-//--------------------------------------------------------------------------------------
-//構築と破棄
+	//	数字のスクエア
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
 	NumberSquare::NumberSquare(const shared_ptr<Stage>& StagePtr,
 		const shared_ptr<RockTest>& SeekObjectPtr, size_t Number) :
 		GameObject(StagePtr),

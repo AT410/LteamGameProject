@@ -54,6 +54,8 @@ namespace basecross
 		}
 	};
 
+	class StageBase;
+
 	//---------------------------------
 	//ステージビルダーの作成
 	//---------------------------------
@@ -102,7 +104,7 @@ namespace basecross
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
-		void StageBuild(const shared_ptr<Stage>& StagePtr, const wstring& XMLFileName);
+		void StageBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName);
 	private:
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& GetCreatorMap() const;
 
