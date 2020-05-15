@@ -311,4 +311,54 @@ namespace basecross
 		m_Active = true;
 	}
 
+
+	//-----------------------------------------------------------------------------
+	//滝の実体
+	//-----------------------------------------------------------------------------
+	void Waterfall::OnCreate()
+	{
+		//支店と終点からメッシュの作成
+
+		float width = m_Width / 2.0f;
+
+		vector<VertexPositionTexture> vertices = 
+		{
+			{Vec3(m_EndPoint.x- width,m_EndPoint.y,0.0f),Vec2(0,0)},
+			{Vec3(m_EndPoint.x + width,m_EndPoint.y,0.0f),Vec2(1,0)},
+			{Vec3(m_StartPoint.x - width,m_StartPoint.y,0.0f),Vec2(0,1)},
+			{Vec3(m_StartPoint.x+ width,m_StartPoint.y,0.0f),Vec2(1,1)},
+		};
+
+		vector<uint16_t> indices =
+		{
+			0,1,2,
+			2,1,3,
+		};
+
+
+		auto DrawComp = AddComponent<PTWaterDraw>();
+		DrawComp->CreateOriginalMesh<VertexPositionTexture>(vertices, indices);
+		DrawComp->SetOriginalMeshUse(true);
+		DrawComp->SetTextureResource(L"WATER_TX");
+		DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
+		DrawComp->SetSamplerState(SamplerState::LinearWrap);
+
+		SetAlphaActive(true);
+		
+		Vec3 EfkPoint = m_EndPoint;
+
+		//水しぶきのエフェクトの再生
+		m_EfkPlay = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", EfkPoint);
+	}
+
+
+
+	void Waterfall::OnUpdate()
+	{
+		auto DrawComp = GetComponent<PTWaterDraw>();
+		 m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
+
+		DrawComp->UpdateUV(0.0f, -m_TotalTime);
+
+	}
 }

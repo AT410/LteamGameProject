@@ -68,7 +68,7 @@ namespace basecross
 
 	void UIController::OnCreate()
 	{
-		auto Ptr = GetStage()->AddGameObject<TestUI>(Vec3(0, 2, 0), L"4", L"2", L"3", L"2");
+		auto Ptr = GetStage()->AddGameObject<TestUI>(Vec3(0, 2, 0), L"4", L"2", L"3", L"3");
 		m_UIMap[L"1"] = Ptr;
 		m_CurrntUI = Ptr;
 
