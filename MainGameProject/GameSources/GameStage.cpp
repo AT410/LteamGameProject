@@ -55,8 +55,8 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<ShaderTest>(L"WATER_TX");
-			AddGameObject<ContTest>(L"ToDataSelectStage");
+			AddGameObject<UIController>();
+			//AddGameObject<ContTest>(L"ToDataSelectStage");
 		}
 		catch (...)
 		{
