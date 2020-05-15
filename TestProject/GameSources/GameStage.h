@@ -50,6 +50,40 @@ namespace basecross {
 		virtual void OnCreate()override;
 	};
 	//テクスチャ登録の処理を書く
+
+	class Stagechoice :public Stage
+	{
+	public:
+		void CreateTraceSprite();
+		void CreateTraceSprite2();
+		void CreateTraceSprite3();
+		void CreateTraceSprite4();
+		void CreateViewLight();
+		void UIctr();
+		Stagechoice() :Stage() {}
+		virtual ~Stagechoice() {}
+		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+	};
+
+	class Translucent :public Stage
+	{
+	public:
+		void CreateViewLight();
+		Translucent() :Stage() {}
+		virtual ~Translucent() {}
+		virtual void OnCreate()override;
+	};
+
+	class SelectStage :public Stage
+	{
+	public:
+		void CreateTraceSprite2();
+		void CreateViewLight();
+		SelectStage() :Stage() {}
+		virtual ~SelectStage() {}
+		virtual void OnCreate()override;
+	};
 }
 //end basecross
 

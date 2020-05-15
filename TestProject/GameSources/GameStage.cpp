@@ -40,26 +40,26 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 			GamePlayer();
-		AddGameObject<FixBox>(
-			Vec3(30.0f, 0.1f, 10.0f),
-			Vec3(0.0f),
-			Vec3(0.0f, -1.0f, 0.0f)
-			);
-		AddGameObject<FixBox>(
-			Vec3(2.0f, 1.0f, 3.0f),
-			Vec3(0.0f),
-			Vec3(2.0f, -0.5f, 0.0f)
-			);
-		AddGameObject<ReturnCube>(
-			Vec3(0.5f),
-			Vec3(0.0f),
-			Vec3(5.0f, -1.0f, 0.0f)
-			);
-		AddGameObject<PushPullObj>(
-			Vec3(0.3f),
-			Vec3(0.0f),
-			Vec3(-1.0f, -0.7f, 0.0f)
-			);
+			AddGameObject<FixBox>(
+				Vec3(30.0f, 0.1f, 10.0f),
+				Vec3(0.0f),
+				Vec3(0.0f, -1.0f, 0.0f)
+				);
+			AddGameObject<FixBox>(
+				Vec3(2.0f, 1.0f, 3.0f),
+				Vec3(0.0f),
+				Vec3(2.0f, -0.5f, 0.0f)
+				);
+			AddGameObject<ReturnCube>(
+				Vec3(0.5f),
+				Vec3(0.0f),
+				Vec3(5.0f, -1.0f, 0.0f)
+				);
+			AddGameObject<PushPullObj>(
+				Vec3(0.3f),
+				Vec3(0.0f),
+				Vec3(-1.0f, -0.7f, 0.0f)
+				);
 
 
 			AddGameObject<DebugTest>();
@@ -73,8 +73,8 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStageHurukawa::CreateViewLight() {
-			const Vec3 eye(0.0f, 10.0f, -60.0f);
-			const Vec3 at(0.0f);
+		const Vec3 eye(0.0f, 10.0f, -60.0f);
+		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<Camera>();
@@ -97,23 +97,25 @@ namespace basecross {
 			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
 			app->RegisterTexture(L"button", path + L"Texture/button.png");
 			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
-			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");			
+			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");
+			app->RegisterTexture(L"isi", path + L"Texture/isi.jpg");
+			app->RegisterTexture(L"maguma", path + L"Texture/red.jpg");
 			SetPhysicsActive(true);
 			//ビューとライトの作成
 			CreateViewLight();
-				//Floorの追加
-				AddGameObject<Floor2>
+			//Floorの追加
+			AddGameObject<Floor2>
 				(
 					Vec3(50.0f, 1.0f, 50.0f),//sacle x,y,z
 					Vec3(0.0f),//rotate x,y,z
 					Vec3(0.0f, -0.5f, 0.0f)//position x,y,zd
 					);
-				AddGameObject<WaterWheel>
-					(
-						Vec3(5.0f, 5.0f, 5.0f),//sacle x,y,z
-						Vec3(0.0f),//rotate x,y,z
-						Vec3(10.0f, 15.0f, 0.0f)//position x,y,z
-						);
+			AddGameObject<WaterWheel>
+				(
+					Vec3(5.0f, 5.0f, 5.0f),//sacle x,y,z
+					Vec3(0.0f),//rotate x,y,z
+					Vec3(10.0f, 15.0f, 0.0f)//position x,y,z
+					);
 			auto gateptr = AddGameObject<Gate>
 				(
 					Vec3(1.0f, 20.0f, 25.0f),//sacle x,y,z
@@ -168,12 +170,26 @@ namespace basecross {
 					Vec3(0.0f),
 					Vec3(-10.0f, 10.0f, -25.0f)
 					);
+			auto Valvegateptr = AddGameObject<ValveGate>
+				(
+					Vec3(1.0f, 20.0f, 25.0f),//sacle x,y,z
+					Vec3(0.0f, 0, 0),//rotate x,y,z
+					Vec3(15.0f, 10.0f, -12.5f)//position x,y,zd
+					);
+
+			auto Valvegate2ptr = AddGameObject<ValveGate2>
+				(
+					Vec3(1.0f, 20.0f, 25.0f),//sacle x,y,z
+					Vec3(0.0f, 0, 0),//rotate x,y,z
+					Vec3(15.0f, 10.0f, 0.0f)//position x,y,zd
+					);
+			SetSharedGameObject(L"Valvegate", Valvegateptr);
+			SetSharedGameObject(L"Valvegate2", Valvegate2ptr);
 		}
 		catch (...) {
 			throw;
 		}
 	}
-
 
 	//熱棒のステージ
 	void GameStageShogo::CreateViewLight() {
@@ -216,7 +232,7 @@ namespace basecross {
 			AddGameObject<HeatStick>(Vec3(0, 6, 0), Vec3(0), Vec3(10, 1, 1));
 
 			//ボタン
-			AddGameObject<Button>(Vec3(4, 1, 0), Vec3(0), Vec3(2,1,2));
+			AddGameObject<Button>(Vec3(4, 1, 0), Vec3(0), Vec3(2, 1, 2));
 
 			//床(左)
 			AddGameObject<Floor>(Vec3(-8, 0, 0), Vec3(0), Vec3(10, 1, 15));
@@ -253,6 +269,146 @@ namespace basecross {
 		catch (...) {
 			throw;
 		}
+
+
 	}
+
+	int state = 0;
+	void Stagechoice::OnCreate()
+	{
+		
+		try
+		{
+			CreateViewLight();
+			CreateSharedObjectGroup(L"UIGroup");
+			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+			auto path = app->GetDataDirWString();
+			app->RegisterTexture(L"isi", path + L"Texture/isi.jpg");
+			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
+			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
+			app->RegisterTexture(L"sima", path + L"Texture/sima.jpg");
+			app->RegisterTexture(L"maguma", path + L"Texture/red.jpg");
+			auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+			if (KeyState.m_bPushKeyTbl[VK_DOWN])
+			{
+				state + 1;
+			}
+			if (state == 0)
+			{
+				CreateTraceSprite();
+			}
+			if (state == 1)
+			{
+				CreateTraceSprite2();
+			}
+			if (state == 2)
+			{
+				CreateTraceSprite3();
+			}
+			if (state == 3)
+			{
+				CreateTraceSprite4();
+			}
+		}
+		catch (...) 
+		{
+			throw;
+		}
+	}
+	void Stagechoice::OnUpdate()
+	{
+		
+	}
+	void Stagechoice::CreateTraceSprite()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth() ;
+		float Sizey = (float)App::GetApp()->GetGameHeight() ;
+		AddGameObject<TraceSprite>(true,
+			Vec2(Sizex, Sizey), Vec3(-250, 200.0f, 0.0f));
+	}
+	void Stagechoice::CreateTraceSprite2()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth();
+		float Sizey = (float)App::GetApp()->GetGameHeight();
+		AddGameObject<TraceSprite2>(true,
+			Vec2(Sizex, Sizey), Vec3(-250, -200, 0.0f));
+	}
+	void Stagechoice::CreateTraceSprite3()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth();
+		float Sizey = (float)App::GetApp()->GetGameHeight();
+		AddGameObject<TraceSprite3>(true,
+			Vec2(Sizex, Sizey), Vec3(250, 200, 0.0f));
+	}
+	void Stagechoice::CreateTraceSprite4()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth();
+		float Sizey = (float)App::GetApp()->GetGameHeight();
+		AddGameObject<TraceSprite4>(true,
+			Vec2(Sizex, Sizey), Vec3(250, -200, 0.0f));
+	}
+
+
+
+	void Stagechoice::CreateViewLight() {
+		const Vec3 eye(0.0f, 10.0f, -60.0f);
+		const Vec3 at(0.0f);
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<Camera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetEye(eye);
+		PtrCamera->SetAt(at);
+		//マルチライトの作成
+		auto PtrMultiLight = CreateLight<MultiLight>();
+		//デフォルトのライティングを指定
+		PtrMultiLight->SetDefaultLighting();
+	}
+
+
+
+	void SelectStage::CreateViewLight()
+	{
+		const Vec3 eye(0.0f, 10.0f, -60.0f);
+		const Vec3 at(0.0f);
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<Camera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetEye(eye);
+		PtrCamera->SetAt(at);
+		//マルチライトの作成
+		auto PtrMultiLight = CreateLight<MultiLight>();
+		//デフォルトのライティングを指定
+		PtrMultiLight->SetDefaultLighting();
+	}
+
+	void SelectStage::CreateTraceSprite2()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth();
+		float Sizey = (float)App::GetApp()->GetGameHeight();
+		AddGameObject<SelectSprite>(true,
+			Vec2(Sizex, Sizey), Vec3(0.0f, 0.0f, 0.0f));
+	}
+
+	void SelectStage::OnCreate()
+	{
+		try
+		{
+			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+			auto path = app->GetDataDirWString();
+			app->RegisterTexture(L"isi", path + L"Texture/isi.jpg");
+			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
+			CreateViewLight();
+			CreateTraceSprite2();
+			AddGameObject<Select>();
+		}
+
+		catch (...)
+		{
+			throw;
+		}
+	}
+
 }
 //end basecross
