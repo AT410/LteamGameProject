@@ -140,4 +140,36 @@ namespace basecross
 			m_Active = active;
 		}
 	};
+
+
+	//-----------------------------------------------------------------------------
+	//‘êƒNƒ‰ƒX
+	//-----------------------------------------------------------------------------
+	class Waterfall :public ObjectBase
+	{
+	public:
+		Waterfall(const shared_ptr<Stage>&StagePtr,const Vec3& Start,const Vec3& End,const float Width,const float Speed)
+			:ObjectBase(StagePtr),m_StartPoint(Start),m_EndPoint(End),m_Width(Width),m_FallSpeed(Speed){}
+
+		Waterfall(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
+			const wstring TexKey, const wstring MeshKey)
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey)
+		{
+		}
+
+		void OnCreate()override;
+
+		void OnUpdate()override;
+
+	private:
+		Vec3 m_StartPoint;
+		Vec3 m_EndPoint;
+
+		float m_Width;
+		float m_FallSpeed;
+
+		float m_TotalTime = 0;
+
+		shared_ptr<EfkPlay> m_EfkPlay;
+	};
 }

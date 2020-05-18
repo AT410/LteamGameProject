@@ -22,5 +22,6 @@
     <ResourceData ResourceKey="GOAL_MD" ResourceFile="Obj_Torch_2.bmf" ResourceType="Mesh" />
     <ResourceData ResourceKey="FIRE_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="1" />
     <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25f" />
+    <ResourceData ResourceKey="WATERFALL_EFK" ResourceFile="test.efk" ResourceType="Effect" EffectMagni="1.0f" />
   </Resource>
 </ResourceDataMap>

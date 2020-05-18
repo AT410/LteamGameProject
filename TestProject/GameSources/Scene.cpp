@@ -23,6 +23,7 @@ namespace basecross{
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
 			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageHurukawa");
 			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageShogo");
+
 		}
 		catch (...) {
 			throw;
@@ -46,6 +47,16 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToGameStageHurukawa") {
 			//最初のアクティブステージの設定
 			ResetActiveStage<GameStageHurukawa>();
+
+		}
+		if (event->m_MsgStr == L"ToStagechoice") {
+			//最初のアクティブステージの設定
+			ResetActiveStage<Stagechoice>();
+
+		}
+		if (event->m_MsgStr == L"ToSelectStage") {
+			//最初のアクティブステージの設定
+			ResetActiveStage<SelectStage>();
 
 		}
 	}

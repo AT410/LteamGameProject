@@ -12,12 +12,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Gate.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)gate2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Gimmick.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MyCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)reima.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)shogo.cpp" />
@@ -35,13 +33,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gate.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gate2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Gimmick.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MyCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ObjectBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)reima.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />

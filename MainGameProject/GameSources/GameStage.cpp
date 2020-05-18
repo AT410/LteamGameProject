@@ -55,8 +55,9 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<ShaderTest>(L"WATER_TX");
-			AddGameObject<ContTest>(L"ToDataSelectStage");
+			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
+			AddGameObject<UIController>();
+			//AddGameObject<ContTest>(L"ToDataSelectStage");
 		}
 		catch (...)
 		{
@@ -120,7 +121,7 @@ namespace basecross {
 		auto IsLoaded = GameManager::GetManager()->GetLoadFlag();
 		if (IsLoaded)
 		{
-			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToTileStage");
+			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
 		}
 	}
 
@@ -141,10 +142,11 @@ namespace basecross {
 		{
 			SetPhysicsActive(true);
 			CreateViewLight();
-			wstring Test;
-			App::GetApp()->GetDataDirectory(Test);
-			GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"MapData.xml",false);
-			SetBGM(L"MAIN_SD");
+			//wstring Test;
+			//App::GetApp()->GetDataDirectory(Test);
+			//GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"MapData.xml",false);
+			//SetBGM(L"MAIN_SD");
+			AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}
 		catch (...)
