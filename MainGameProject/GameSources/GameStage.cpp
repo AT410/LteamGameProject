@@ -56,7 +56,7 @@ namespace basecross {
 		{
 			CreateViewLight();
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
-			AddGameObject<UIController>();
+			AddGameObject<UIController>(L"WALL_TX");
 			//AddGameObject<ContTest>(L"ToDataSelectStage");
 		}
 		catch (...)

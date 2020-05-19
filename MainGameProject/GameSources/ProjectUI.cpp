@@ -31,7 +31,7 @@ namespace basecross
 		auto DrawComp = AddComponent<PTStaticDraw>();
 		DrawComp->CreateOriginalMesh<VertexPositionTexture>(m_vertices, m_indices);
 		DrawComp->SetOriginalMeshUse(true);
-		
+		DrawComp->SetTextureResource(m_texkey);
 		auto TransComp = GetComponent<Transform>();
 		TransComp->SetPosition(m_Pos);
 
@@ -40,6 +40,7 @@ namespace basecross
 
 	void TestUI::OnUpdate()
 	{
+		
 		auto DrawComp = GetComponent<PTStaticDraw>();
 		if (m_ActiveFlag)
 		{
@@ -53,36 +54,41 @@ namespace basecross
 			col.w = sin(m_TotalTime) * 0.5f + 0.5f;
 			DrawComp->SetDiffuse(col);
 
+			
+
+
 		}
 		else
 		{
 			DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
+			m_TotalTime = 0;
 		}
+
 	}
 
-	UIController::UIController(const shared_ptr<Stage>&StagePtr)
-		:GameObject(StagePtr), m_UIMap()
+	UIController::UIController(const shared_ptr<Stage>&StagePtr, const wstring& TexKey)
+		:GameObject(StagePtr), m_UIMap(), m_TexKey(TexKey)
 	{
 
 	}
 
 	void UIController::OnCreate()
 	{
-		auto Ptr = GetStage()->AddGameObject<TestUI>(Vec3(0, 2, 0), L"4", L"2", L"3", L"3");
+		auto Ptr = GetStage()->AddGameObject<TestUI>(Vec3(-5, 5, 0), L"4", L"2", L"3", L"2", m_TexKey);
 		m_UIMap[L"1"] = Ptr;
 		m_CurrntUI = Ptr;
-
-		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(0, 0, 0), L"1", L"3", L"4", L"4");
+		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(-5, -5, 0), L"1", L"3", L"4", L"4", L"WATER_TX");
 		m_UIMap[L"2"] = Ptr;
-		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(2, 2, 0), L"2", L"4", L"1", L"1");
+		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(5, 5, 0), L"2", L"4", L"1", L"1", L"TEST_TX");
 		m_UIMap[L"3"] = Ptr;
-		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(2,0, 0), L"3", L"1", L"2", L"2");
+		Ptr = GetStage()->AddGameObject<TestUI>(Vec3(5,-5, 0), L"3", L"1", L"2", L"2", m_TexKey);
 		m_UIMap[L"4"] = Ptr;
 		
 	}
 
 	void UIController::OnUpdate()
 	{
+
 		auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 
 		m_CurrntUI->SetActiveFlag(true);
