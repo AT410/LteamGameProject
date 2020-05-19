@@ -14,6 +14,8 @@ namespace basecross{
 		Mat4x4 View;
 		Mat4x4 Proj;
 
+		Vec4 AmbientLight;
+
 		bsm::Col4 Diffuse;
 		bsm::Col4 Emissive;
 
@@ -42,7 +44,7 @@ namespace basecross{
 	DECLARE_DX11_CONSTANT_BUFFER(TestBuffer, BufferTest)
 	DECLARE_DX11_CONSTANT_BUFFER(ControlBuffer, ShaderControl);
 
-	DECLARE_DX11_VERTEX_SHADER(VSWater, VertexPositionTexture)
+	DECLARE_DX11_VERTEX_SHADER(VSWater, VertexPositionNormalTexture)
 	DECLARE_DX11_PIXEL_SHADER(PSWater)
 
 }

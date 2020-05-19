@@ -121,7 +121,7 @@ namespace basecross {
 		auto IsLoaded = GameManager::GetManager()->GetLoadFlag();
 		if (IsLoaded)
 		{
-			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
+			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 		}
 	}
 

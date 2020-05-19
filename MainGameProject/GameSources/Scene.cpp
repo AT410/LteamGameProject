@@ -72,6 +72,8 @@ namespace basecross{
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
 		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
+		App::GetApp()->RegisterTexture(L"WATERSUB_TX", MediaPath + L"water2.jpg");
+		App::GetApp()->RegisterTexture(L"WATERMASK_TX", MediaPath + L"TexMask.png");
 	}
 
 	void Scene::SetDebugResoruce()

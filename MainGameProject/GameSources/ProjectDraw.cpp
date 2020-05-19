@@ -8,7 +8,7 @@
 
 namespace basecross
 {
-	void PTWaterDraw::OnDraw()
+	void PNTWaterDraw::OnDraw()
 	{
 		auto MeshRes = GetMeshResource();
 		if (!MeshRes)
@@ -42,6 +42,11 @@ namespace basecross
 		cb1.View = transpose(View);
 		cb1.Proj = transpose(Proj);
 
+		//環境光
+		auto Light = PtrGameObject->OnGetDrawLight();
+		cb1.AmbientLight = Light.m_Directional;
+		cb1.AmbientLight.w = 1.0f;
+
 		cb1.Diffuse = GetDiffuse();
 		cb1.Emissive = GetEmissive();
 
@@ -74,7 +79,7 @@ namespace basecross
 		auto shTex = GetTextureResource();
 		if (shTex) {
 			//テクスチャがある
-			cb1.ActiveFlag.x = 1;
+			m_Cont.TexFlag.x = 1;
 			pID3D11DeviceContext->PSSetShaderResources(0, 1, shTex->GetShaderResourceView().GetAddressOf());
 			//サンプラーを設定
 			RenderState->SetSamplerState(pID3D11DeviceContext, GetSamplerState(), 0);
@@ -83,7 +88,7 @@ namespace basecross
 			if (m_SubTex)
 			{
 				//テクスチャがある
-				cb1.ActiveFlag.y = 1;
+				m_Cont.TexFlag.y = 1;
 				pID3D11DeviceContext->PSSetShaderResources(1, 1, m_SubTex->GetShaderResourceView().GetAddressOf());
 				//サンプラーを設定
 				RenderState->SetSamplerState(pID3D11DeviceContext, GetSamplerState(), 1);
@@ -91,7 +96,7 @@ namespace basecross
 				if (m_MaskTex)
 				{
 					//テクスチャがある
-					cb1.ActiveFlag.y = 1;
+					m_Cont.TexFlag.z = 1;
 					pID3D11DeviceContext->PSSetShaderResources(2, 1, m_MaskTex->GetShaderResourceView().GetAddressOf());
 					//サンプラーを設定
 					RenderState->SetSamplerState(pID3D11DeviceContext, GetSamplerState(), 2);
@@ -102,7 +107,7 @@ namespace basecross
 		}
 		else {
 			//描画コンポーネントにはテクスチャがない
-			cb1.ActiveFlag.x = 0;
+			m_Cont.TexFlag.x = 0;
 			//シェーダーリソースもクリア
 			pID3D11DeviceContext->PSSetShaderResources(0, D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT, pNull);
 			//サンプラーもクリア

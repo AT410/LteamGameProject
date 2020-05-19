@@ -7,13 +7,13 @@
 
 namespace basecross
 {
-	class PTWaterDraw :public SmBaseDraw
+	class PNTWaterDraw :public SmBaseDraw
 	{
 	public:
-		explicit PTWaterDraw(const shared_ptr<GameObject>&GameObejctPtr)
+		explicit PNTWaterDraw(const shared_ptr<GameObject>&GameObejctPtr)
 			:SmBaseDraw(GameObejctPtr), m_Cont() {}
 
-		virtual ~PTWaterDraw() {}
+		virtual ~PNTWaterDraw() {}
 
 		void OnCreate()override {};
 
