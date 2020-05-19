@@ -123,7 +123,7 @@ namespace basecross
 	void StageTest::OnCreate()
 	{
 		//•`‰æİ’è
-		auto DrawComp = AddComponent<PNTStaticDraw>();
+		auto DrawComp = AddComponent<PNTPointDraw>();
 		DrawComp->SetMeshResource(m_meshKey);
 		DrawComp->SetTextureResource(m_texKey);
 

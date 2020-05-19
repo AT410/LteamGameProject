@@ -142,11 +142,11 @@ namespace basecross {
 		{
 			SetPhysicsActive(true);
 			CreateViewLight();
-			//wstring Test;
-			//App::GetApp()->GetDataDirectory(Test);
-			//GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"MapData.xml",false);
-			//SetBGM(L"MAIN_SD");
-			AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
+			wstring Test;
+			App::GetApp()->GetDataDirectory(Test);
+			GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"MapData.xml",false);
+			SetBGM(L"MAIN_SD");
+			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}
 		catch (...)

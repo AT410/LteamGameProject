@@ -42,4 +42,21 @@ namespace basecross
 		shared_ptr<TextureResource> m_SubTex, m_MaskTex;
 	};
 
+	//-----------------------------------------------------------------------------
+	//点光源ライティング
+	//-----------------------------------------------------------------------------
+	class PNTPointDraw :public SmBaseDraw
+	{
+	public:
+		explicit PNTPointDraw(const shared_ptr<GameObject>&GameObejctPtr)
+			:SmBaseDraw(GameObejctPtr) {}
+
+		virtual ~PNTPointDraw() {}
+
+		void OnCreate()override {};
+
+		void OnUpdate()override {};
+
+		void OnDraw()override;
+	};
 }
