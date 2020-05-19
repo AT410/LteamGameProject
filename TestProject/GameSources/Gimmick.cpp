@@ -70,6 +70,7 @@ namespace basecross
 		//m_StateMachine->Update();
 		if (Moveflg)
 		{
+			//flg‚ªtrue‚É‚È‚Á‚½‚ç“®‚­
 			Move();
 		}
 	};

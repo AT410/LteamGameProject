@@ -55,7 +55,7 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<UIController>();
+			AddGameObject<UIController>(L"WALL_TX");
 			//AddGameObject<ContTest>(L"ToDataSelectStage");
 		}
 		catch (...)

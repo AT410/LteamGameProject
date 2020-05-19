@@ -54,7 +54,7 @@ void Gate2::GateOpen2()
 	//	OpenSpeed = +1;
 	//}
 
-	//gateを動くようにする4/02
+	//y方向にゲートが開く
 	Pos.y += OpenSpeed*deltatime;
 	GetComponent<Transform>()->SetPosition(Pos);
 }
@@ -62,6 +62,7 @@ void Gate2::OnUpdate()
 {
 	if (gateopen2)
 	{
+		//ゲートが開くフラグ
 		Gate2::GateOpen2();
 	}
 }

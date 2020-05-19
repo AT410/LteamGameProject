@@ -56,6 +56,7 @@ namespace basecross
 		//	OpenSpeed = +1;
 		//}
 
+		//y方向にゲートが開く
 		Pos.y += OpenSpeed*deltatime;
 		GetComponent<Transform>()->SetPosition(Pos);
 	}
@@ -63,6 +64,7 @@ namespace basecross
 	{
 		if (gateopen)
 		{
+			//gateopenがtrueになったらgateが開く
 			Gate::GateOpen();
 		}
 	}

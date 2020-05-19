@@ -29,6 +29,7 @@ namespace basecross
 		shadowPtr->SetMeshResource(L"DEFAULT_CUBE");
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		//texture‚ğ‚Â‚¯‚é
 		ptrDraw->SetTextureResource(L"mizuguruma");
 		ptrDraw->SetOwnShadowActive(true);
 
@@ -68,12 +69,14 @@ namespace basecross
 		Vec3 TgtPos, TgtRot;
 		Easing<Vec3> easing;
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+		//R‚ğ‰Ÿ‚·‚Æ…Ô‚ª‰E‰ñ“]
 		if (KeyState.m_bPushKeyTbl['R'])
 		{
 
 			TgtRot = easing.EaseInOut(EasingType::Exponential, EndRot, StartRot, m_TotalTime, 4.0f);
 
 		}
+		//L‚ğ‰Ÿ‚·‚Æ…Ô‚ª¶‰ñ“]‚·‚é
 		if (KeyState.m_bPushKeyTbl['L'])
 		{
 
@@ -148,21 +151,23 @@ namespace basecross
 		Vec3 TgtPos, TgtRot;
 		Easing<Vec3> easing;
 		auto KeyState = App::GetApp()->GetInputDevice().GetKeyState();
+		//K‚ğ‰Ÿ‚·‚Æ‰E‰ñ“]
 		if (KeyState.m_bPushKeyTbl['K'])
 		{
-
+			//‰ñ“]ˆ—
 			TgtRot = easing.EaseInOut(EasingType::Exponential, EndRot, StartRot, m_TotalTime, 4.0f);
 			m_valveTime += 1 * ElapsedTime;
 
 		}
+		//J‚ğ‰Ÿ‚·‚Æ¶‰ñ“]
 		if (KeyState.m_bPushKeyTbl['J'])
 		{
-
+			//‰ñ“]ˆ—
 			TgtRot = easing.EaseInOut(EasingType::Exponential, StartRot, EndRot, m_TotalTime, 4.0f);
 			m_valveTime -= 1 * ElapsedTime;
 		}
 
-
+		//‰ñ“]‚µ‚Ä‚é•b”‚ª1ˆÈã‚¾‚Á‚½‚çƒQ[ƒg‚ªŠJ‚­
 		if (m_valveTime > 1)
 		{
 			GetStage()->GetSharedGameObject<ValveGate>(L"Valvegate")->setopenflg(true);
@@ -228,6 +233,7 @@ namespace basecross
 	{
 		if (gateopen)
 		{
+			//gateopen‚ªtrue‚É‚È‚Á‚½‚çgate‚ªŠJ‚­
 			ValveGate::ValveGateOpen();
 		}
 	}
@@ -281,6 +287,7 @@ namespace basecross
 	{
 		if (gateopen)
 		{
+			//gateopen‚ªtrue‚É‚È‚Á‚½‚çgate2‚ªŠJ‚­
 			ValveGate2::ValveGate2Open();
 		}
 	}
@@ -506,7 +513,6 @@ namespace basecross
 		//};
 	}
 
-	//“ü—Í‚ğ•Ê‚É•`‚­gamestage.cpp‚É   5/14
 
 	void TraceSprite2::OnUpdate()
 	{
