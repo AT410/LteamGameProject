@@ -107,11 +107,11 @@ namespace basecross {
 	}
 
 	void FocusState::Enter(const shared_ptr<MyCamera>& Cam) {
+	}
+	void FocusState::Execute(const shared_ptr<MyCamera>& Cam) {
 		Vec3 ptrPlayerPos = Cam->GetTargetObject()->GetComponent<Transform>()->GetPosition();
 		Cam->SetFocus(Vec3(ptrPlayerPos.x, ptrPlayerPos.y + 2.0f, ptrPlayerPos.z - 6.0f),
 					  Vec3(ptrPlayerPos.x, ptrPlayerPos.y, ptrPlayerPos.z));
-	}
-	void FocusState::Execute(const shared_ptr<MyCamera>& Cam) {
 	}
 	void FocusState::Exit(const shared_ptr<MyCamera>& Cam) {
 
