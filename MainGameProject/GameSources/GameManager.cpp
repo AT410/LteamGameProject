@@ -175,11 +175,16 @@ namespace basecross
 			Builder.StageBuild(StagePtr, FileName);
 
 			//開始イベントをスタート
-			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>();
 			auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
 			if (OPCam)
 			{
+				auto MainCamera = StagePtr->GetMainView()->GetCamera();
+				auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
 				OPCam->SetCameraObject(Ptr);
+				OPCam->SetEye(MainCamera->GetEye());
+				OPCam->SetAt(MainCamera->GetAt());
+				OPCam->SetFar(MainCamera->GetFar());
+				OPCam->SetNear(MainCamera->GetNear());
 			}
 		}
 		else

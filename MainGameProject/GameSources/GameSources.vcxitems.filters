@@ -118,9 +118,18 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)WaterVS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PointPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PointVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Header.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)PointHeader.hlsli">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>

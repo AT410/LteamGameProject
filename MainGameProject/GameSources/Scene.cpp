@@ -17,7 +17,7 @@ namespace basecross{
 			//ƒNƒŠƒA‚·‚éF‚ğİ’è
 			Col4 Col;
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
-			SetClearColor(Col);
+			SetClearColor(Col4(0));
 			_EfkInterface = ObjectFactory::Create<EfkInterface>();
 			LoadUnionResource();
 			GameManager::CreateManager();
@@ -73,7 +73,8 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
 		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
 		//App::GetApp()->RegisterTexture(L"yuka", MediaPath + L"yuka.jpg");
-
+		App::GetApp()->RegisterTexture(L"WATERSUB_TX", MediaPath + L"water2.jpg");
+		App::GetApp()->RegisterTexture(L"WATERMASK_TX", MediaPath + L"TexMask.png");
 	}
 
 	void Scene::SetDebugResoruce()
