@@ -8,6 +8,16 @@
 
 namespace basecross {
 
+	enum class StageType
+	{
+		TitleStage,
+		LoadStage,
+		DataSelectStage,
+		AreaSelectStage,
+		GameStage,
+		EndingStage
+	};
+
 	//--------------------------------------------------------------------------------------
 	//	ステージベースクラス
 	//--------------------------------------------------------------------------------------
@@ -15,13 +25,18 @@ namespace basecross {
 	{
 	public:
 		//構築と破棄
-		StageBase() :Stage() {}
+		StageBase(const StageType Type) 
+			:Stage(),m_StageType(Type) {}
 		virtual ~StageBase() {}
 		//初期化
 		virtual void OnCreate()override = 0;
 		virtual void OnUpdate()override {};
 		virtual void OnDestroy()override;
 		virtual void OnDraw()override {};
+
+		StageType GetStageType()const { return m_StageType; }
+
+		wstring GetStageTypeStr()const;
 
 		shared_ptr<SingleView> GetOpeningView() { return m_OpeningView; }
 		shared_ptr<SingleView> GetMainView() { return m_MainView; }
@@ -32,6 +47,8 @@ namespace basecross {
 		void SetBGM(const wstring& BGMKey);
 
 		shared_ptr<SoundItem> m_BGMPtr = nullptr;
+
+		StageType m_StageType;
 
 		//カメラ
 		shared_ptr<SingleView> m_MainView;
@@ -45,7 +62,7 @@ namespace basecross {
 	{
 	public:
 		//構築と破棄
-		TitleStage():StageBase(){}
+		TitleStage():StageBase(StageType::TitleStage){}
 		virtual ~TitleStage(){}
 		//初期化
 		void OnCreate()override;
@@ -60,7 +77,7 @@ namespace basecross {
 	class DataSelectStage :public StageBase
 	{
 	public:
-		DataSelectStage():StageBase(){}
+		DataSelectStage() :StageBase(StageType::DataSelectStage) {}
 		virtual ~DataSelectStage(){}
 		//初期化
 		void OnCreate()override;
@@ -73,7 +90,7 @@ namespace basecross {
 	class AreaSelectStage :public StageBase
 	{
 	public:
-		AreaSelectStage() :StageBase() {}
+		AreaSelectStage() :StageBase(StageType::AreaSelectStage) {}
 		virtual ~AreaSelectStage() {}
 		//初期化
 		void OnCreate()override;
@@ -86,7 +103,7 @@ namespace basecross {
 	class LoadStage :public StageBase
 	{
 	public:
-		LoadStage() :StageBase(){}
+		LoadStage() :StageBase(StageType::LoadStage){}
 		virtual ~LoadStage(){}
 
 		//初期化
@@ -103,7 +120,7 @@ namespace basecross {
 		int m_EfkCount = 0;
 
 	public:
-		GameStage() :StageBase() {}
+		GameStage() :StageBase(StageType::GameStage) {}
 		virtual ~GameStage() {}
 
 		//ステージの配置
@@ -142,7 +159,7 @@ namespace basecross {
 	class EndingStage :public StageBase
 	{
 	public:
-		EndingStage() :StageBase() {}
+		EndingStage() :StageBase(StageType::EndingStage) {}
 		virtual ~EndingStage() {}
 		//初期化
 		void OnCreate()override;

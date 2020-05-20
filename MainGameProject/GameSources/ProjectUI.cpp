@@ -9,9 +9,38 @@ namespace basecross
 {
 	struct UIBase::Impl
 	{
-		Impl()
-		{
+		Vec3 m_StartPos;
+		wstring m_TexKey;
+		
+		float m_Width;
+		float m_Height;
 
+		Vec3 GetStartPosition()const { return m_StartPos; }
+		wstring GetTexKey()const { return m_TexKey; }
+		float GetUIWidth()const { return m_Width; }
+		float GetUIHeight()const { return m_Height; }
+
+		Impl(){}
+
+		Impl(IXMLDOMNodePtr pNode)
+		{
+			auto PosStr = XmlDocReader::GetAttribute(pNode, L"Pos");
+			//auto TexStr = XmlDocReader::GetAttribute(pNode, L"TexKey");
+			auto WidthStr = XmlDocReader::GetAttribute(pNode, L"Width");
+			auto HeightStr = XmlDocReader::GetAttribute(pNode, L"Height");
+
+			//トークン分け
+			vector<wstring> Tokens;
+
+			Util::WStrToTokenVector(Tokens, PosStr, L',');
+
+			m_StartPos = Vec3(	(float)_wtof(Tokens[0].c_str()),
+								(float)_wtof(Tokens[1].c_str()),
+								(float)_wtof(Tokens[2].c_str()));
+
+			m_Width = (float)_wtof(WidthStr.c_str());
+
+			m_Height = (float)_wtof(HeightStr.c_str());
 		}
 	};
 
@@ -25,6 +54,12 @@ namespace basecross
 	{
 
 	}
+
+	//ゲッター
+	Vec3 UIBase::GetStartPos()const { return pImpl->GetStartPosition(); }
+	wstring UIBase::GetTexKey()const { return pImpl->GetTexKey(); }
+	float UIBase::GetUIWidth()const { return pImpl->GetUIWidth(); }
+	float UIBase::GetUIHeight()const { return pImpl->GetUIHeight(); }
 
 	void TestUI::OnCreate()
 	{

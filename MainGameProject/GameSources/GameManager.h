@@ -27,6 +27,8 @@ namespace basecross
 
 		wstring m_ResFile;									///<-リソースリストファイル
 
+		wstring m_UISetFile;								///<-UIマップデータファイル
+
 		std::mutex mutex;
 
 		bool m_Loaded;
@@ -48,7 +50,9 @@ namespace basecross
 
 		//ステージの生成
 		//ステージから呼ばれる
-		void CreateStage(const shared_ptr<StageBase>&StagePtr,const wstring& FileName, const bool MenuActive);
+		void CreateGameStage(const shared_ptr<StageBase>&StagePtr);
+
+		void CreateUISet(const shared_ptr<StageBase>&StagePtr,const bool DefaultDrawActive =true);
 
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }

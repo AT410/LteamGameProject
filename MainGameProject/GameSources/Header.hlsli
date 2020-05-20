@@ -9,10 +9,12 @@ cbuffer ConstantBuffer : register(b0)
     float4x4 View : packoffset(c4);
     float4x4 Proj : packoffset(c8);
     
-    float4 DiffuseCol : packoffset(c12);
-    float4 EmissveCol : packoffset(c13);
+    float4 AmbientLight : packoffset(c12);
     
-    uint4 ActiveFlag : packoffset(c14);
+    float4 DiffuseCol : packoffset(c13);
+    float4 EmissveCol : packoffset(c14);
+    
+    uint4 ActiveFlag : packoffset(c15);//Active
 }
 
 cbuffer ControlBuffer : register(b1)
@@ -22,15 +24,17 @@ cbuffer ControlBuffer : register(b1)
 }
 
 //VS
-struct VSPTInput
+struct VSPNTInput
 {
     float4 pos : SV_Position;
+    float3 normal : NORMAL;
     float2 tex : TEXCOORD;
 };
 
-struct PSPTInput
+struct PSPNTInput
 {
     float4 pos : SV_Position;
+    float3 normal : NORMAL;
     float2 tex : TEXCOORD;
 };
 

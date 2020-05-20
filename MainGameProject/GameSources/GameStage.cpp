@@ -47,6 +47,35 @@ namespace basecross {
 		XAudioPtr->Stop(m_BGMPtr);
 	}
 
+	wstring StageBase::GetStageTypeStr()const
+	{
+		wstring TypeStr;
+		switch (m_StageType)
+		{
+		case basecross::StageType::TitleStage:
+			TypeStr = L"Title";
+			break;
+		case basecross::StageType::LoadStage:
+			TypeStr = L"Load";
+			break;
+		case basecross::StageType::DataSelectStage:
+			TypeStr = L"DataSelect";
+			break;
+		case basecross::StageType::AreaSelectStage:
+			TypeStr = L"AreaSelect";
+			break;
+		case basecross::StageType::GameStage:
+			TypeStr = L"GameStage";
+			break;
+		case basecross::StageType::EndingStage:
+			TypeStr = L"Ending";
+			break;
+		default:
+			break;
+		}
+		return TypeStr;
+	}
+
 	//--------------------------------------------------------------------------------------
 	//	タイトルステージクラス実体
 	//--------------------------------------------------------------------------------------
@@ -58,6 +87,8 @@ namespace basecross {
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 			AddGameObject<UIController>(L"WALL_TX");
 			//AddGameObject<ContTest>(L"ToDataSelectStage");
+
+			//GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)
 		{
@@ -142,11 +173,11 @@ namespace basecross {
 		{
 			SetPhysicsActive(true);
 			CreateViewLight();
-			//wstring Test;
-			//App::GetApp()->GetDataDirectory(Test);
-			//GameManager::GetManager()->CreateStage(GetThis<StageBase>(), Test + L"MapData.xml",false);
-			//SetBGM(L"MAIN_SD");
-			AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
+			wstring Test;
+			App::GetApp()->GetDataDirectory(Test);
+			GameManager::GetManager()->CreateGameStage(GetThis<StageBase>());
+			SetBGM(L"MAIN_SD");
+			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}
 		catch (...)

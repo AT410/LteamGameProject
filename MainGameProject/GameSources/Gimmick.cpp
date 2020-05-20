@@ -321,12 +321,12 @@ namespace basecross
 
 		float width = m_Width / 2.0f;
 
-		vector<VertexPositionTexture> vertices = 
+		vector<VertexPositionNormalTexture> vertices = 
 		{
-			{Vec3(m_EndPoint.x- width,m_EndPoint.y,0.0f),Vec2(0,0)},
-			{Vec3(m_EndPoint.x + width,m_EndPoint.y,0.0f),Vec2(1,0)},
-			{Vec3(m_StartPoint.x - width,m_StartPoint.y,0.0f),Vec2(0,1)},
-			{Vec3(m_StartPoint.x+ width,m_StartPoint.y,0.0f),Vec2(1,1)},
+			{Vec3(m_EndPoint.x- width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
+			{Vec3(m_EndPoint.x + width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
+			{Vec3(m_StartPoint.x - width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(0,1)},
+			{Vec3(m_StartPoint.x+ width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(1,1)},
 		};
 
 		vector<uint16_t> indices =
@@ -336,15 +336,19 @@ namespace basecross
 		};
 
 
-		auto DrawComp = AddComponent<PTWaterDraw>();
-		DrawComp->CreateOriginalMesh<VertexPositionTexture>(vertices, indices);
+		auto DrawComp = AddComponent<PNTWaterDraw>();
+		DrawComp->CreateOriginalMesh<VertexPositionNormalTexture>(vertices, indices);
 		DrawComp->SetOriginalMeshUse(true);
 		DrawComp->SetTextureResource(L"WATER_TX");
+		DrawComp->SetSubTexResource(L"WATERSUB_TX");
+		DrawComp->SetMaskTexResource(L"WATERMASK_TX");
 		DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		DrawComp->SetSamplerState(SamplerState::LinearWrap);
 
 		SetAlphaActive(true);
 		
+		//当たり判定
+
 		Vec3 EfkPoint = m_EndPoint;
 
 		//水しぶきのエフェクトの再生
@@ -355,7 +359,7 @@ namespace basecross
 
 	void Waterfall::OnUpdate()
 	{
-		auto DrawComp = GetComponent<PTWaterDraw>();
+		auto DrawComp = GetComponent<PNTWaterDraw>();
 		 m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
 
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);

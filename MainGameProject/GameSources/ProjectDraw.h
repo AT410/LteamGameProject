@@ -7,13 +7,13 @@
 
 namespace basecross
 {
-	class PTWaterDraw :public SmBaseDraw
+	class PNTWaterDraw :public SmBaseDraw
 	{
 	public:
-		explicit PTWaterDraw(const shared_ptr<GameObject>&GameObejctPtr)
+		explicit PNTWaterDraw(const shared_ptr<GameObject>&GameObejctPtr)
 			:SmBaseDraw(GameObejctPtr), m_Cont() {}
 
-		virtual ~PTWaterDraw() {}
+		virtual ~PNTWaterDraw() {}
 
 		void OnCreate()override {};
 
@@ -42,4 +42,21 @@ namespace basecross
 		shared_ptr<TextureResource> m_SubTex, m_MaskTex;
 	};
 
+	//-----------------------------------------------------------------------------
+	//点光源ライティング
+	//-----------------------------------------------------------------------------
+	class PNTPointDraw :public SmBaseDraw
+	{
+	public:
+		explicit PNTPointDraw(const shared_ptr<GameObject>&GameObejctPtr)
+			:SmBaseDraw(GameObejctPtr) {}
+
+		virtual ~PNTPointDraw() {}
+
+		void OnCreate()override {};
+
+		void OnUpdate()override {};
+
+		void OnDraw()override;
+	};
 }
