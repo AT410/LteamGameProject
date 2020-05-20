@@ -16,6 +16,7 @@ namespace basecross
 			const Vec3& Position
 		);
 		virtual ~Gate();
+		//gate‚ð‚ ‚¯‚é‚½‚ß‚Ìƒtƒ‰ƒO
 		void setopenflg(bool active)
 		{
 			gateopen = active;

@@ -26,12 +26,15 @@ namespace basecross
 		void Move();
 		virtual void OnCreate() override;
 		virtual void OnUpdate()override;
+		//statemachine‚ÍŽg‚Á‚Ä‚È‚¢
 		shared_ptr<StateMachine<Gimmick>>&GetStateMachine()
 		{
 			return m_StateMachine;
 		}
+		//move‚Ìƒtƒ‰ƒO
 		void setmoveflg(bool active)
 		{
+
 			Moveflg = active;
 		}
 	};

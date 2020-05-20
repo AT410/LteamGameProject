@@ -8,23 +8,28 @@ SamplerState g_Samp : register(s0);
 SamplerState s_SubSamp : register(s1);
 SamplerState s_MaskSamp : register(s2);
 
-float4 main(PSPTInput input) : SV_Target
+float4 main(PSPNTInput input) : SV_Target
 {
-    float4 Light = DiffuseCol + EmissveCol;
-    
+    //ライトの計算
+	//法線ライティング
+    float3 lightdir = normalize(AmbientLight.xyz);
+    float3 N1 = normalize(input.normal);
+    float4 Light = (saturate(dot(N1, lightdir)) * DiffuseCol) + EmissveCol;
     Light.a = DiffuseCol.a;
     
-    float4 tex = g_Texture.Sample(g_Samp, input.tex - BehaviorVal.xy);
+    if (TexFlag.x==1 && TexFlag.y==1 && TexFlag.z==1)
+    {
+        float4 MainTex = g_Texture.Sample(g_Samp, input.tex - BehaviorVal.xy);
+        float4 SubTex = g_SubTex.Sample(s_SubSamp, input.tex - BehaviorVal.xy * 1.5f);
+        float4 MaskTex = g_MaskTex.Sample(s_MaskSamp, input.tex - BehaviorVal.xy * 1.25f);
     
-    float4 Sc = g_SubTex.Sample(s_SubSamp, input.tex - BehaviorVal.xy * 1.5f);
-    float4 Mkc = g_MaskTex.Sample(s_MaskSamp, input.tex-BehaviorVal.xy*1.25f);
+        float4 Gray = ConvertToGray(MaskTex);
     
-    float4 Gray = ConvertToGray(Mkc);
     
-    tex.a = BehaviorVal.z;
-    Sc.a = BehaviorVal.z;
+        float4 result = lerp(MainTex, SubTex, Gray) * Light;
     
-    float4 result = lerp(tex, Sc, Gray);
-    
-    return result;
+        return result;
+
+    }
+    return Light;
 }

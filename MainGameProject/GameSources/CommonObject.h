@@ -69,7 +69,7 @@ namespace basecross
 	{
 	public:
 		//\’z‚Æ”jŠü
-		OpeningCameraman(const shared_ptr<Stage>& StagePtr);
+		OpeningCameraman(const shared_ptr<Stage>& StagePtr,const Vec3& StartPos,const Vec3& AtPos);
 		virtual ~OpeningCameraman();
 		//‰Šú‰»
 		virtual void OnCreate()override;

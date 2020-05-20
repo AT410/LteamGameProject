@@ -6,6 +6,8 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#define WSTR(var) #var
+
 namespace basecross
 {
 	//--------------------------------------------------------------------------------------
@@ -14,8 +16,10 @@ namespace basecross
 //--------------------------------------------------------------------------------------
 	struct StageBulider::Impl {
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML> > m_CreatorMap;
+
 		Impl()
-		{}
+		{
+		}
 		~Impl() {}
 	};
 
@@ -131,6 +135,32 @@ namespace basecross
 		}
 		catch (...) {
 			throw;
+		}
+	}
+
+	void StageBulider::UISetBuild(const shared_ptr<StageBase>&StagePtr, const wstring& XMLFile, const bool DefaultDrawActive)
+	{
+		//XMLリーダー
+		XmlDocReader Reader(XMLFile);
+		auto Nodes = Reader.GetSelectNodes(L"UIRoot/UISet");
+		long UISetCount = XmlDocReader::GetLength(Nodes);
+		for (long i = 0; i < UISetCount; i++) {
+			auto UITypeNode = XmlDocReader::GetItem(Nodes, i);
+			auto UITypeStr = XmlDocReader::GetAttribute(UITypeNode, L"UIType");
+			auto SType = StagePtr->GetStageTypeStr();
+			if (UITypeStr != SType)
+				continue;
+			//子要素を取得
+			auto UIDataNodes = XmlDocReader::GetChildNodes(UITypeNode);
+			long UIDataCount = XmlDocReader::GetLength(UIDataNodes);
+			for (long j = 0; j < UIDataCount; j++)
+			{
+				auto UIDataNode = XmlDocReader::GetItem(UIDataNodes, j);
+				auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
+				//子要素を取得
+				auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
+				Ptr->SetDrawActive(DefaultDrawActive);
+			}
 		}
 	}
 

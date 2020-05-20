@@ -150,13 +150,13 @@ namespace basecross
 //　オープニングカメラマン
 //--------------------------------------------------------------------------------------
 	//構築と破棄
-	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr) :
+	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr ,const Vec3& StartPos, const Vec3& AtPos) :
 		GameObject(StagePtr),
-		m_StartPos(0.0f, 0.0f, -75.0f),
+		m_StartPos(StartPos),
 		m_EndPos(0.0f, 0.0f, -1.0f),
-		m_AtStartPos(0.0f, 0.0f, 0.0f),
+		m_AtStartPos(AtPos),
 		m_AtEndPos(18.0f, 0.0f, 18.0f),
-		m_AtPos(m_AtStartPos),
+		m_AtPos(AtPos),
 		m_TotalTime(0.0f)
 	{}
 

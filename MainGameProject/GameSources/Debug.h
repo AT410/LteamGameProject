@@ -48,10 +48,10 @@ namespace basecross
 
 			m_vertices.clear();
 			m_indices.clear();
-			m_vertices.push_back(VertexPositionTexture(Vec3(-Sizex, Sizey, 0),Vec2(0.0f, 0.0f)));
-			m_vertices.push_back(VertexPositionTexture(Vec3(Sizex, Sizey, 0), Vec2(1.0f, 0.0f)));
-			m_vertices.push_back(VertexPositionTexture(Vec3(-Sizex, -Sizey, 0), Vec2(0.0f, 1.0f)));
-			m_vertices.push_back(VertexPositionTexture(Vec3(Sizex, -Sizey, 0),Vec2(1.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionNormalTexture(Vec3(-Sizex, Sizey, 0),Vec3(1),Vec2(0.0f, 0.0f)));
+			m_vertices.push_back(VertexPositionNormalTexture(Vec3(Sizex, Sizey, 0), Vec3(1), Vec2(1.0f, 0.0f)));
+			m_vertices.push_back(VertexPositionNormalTexture(Vec3(-Sizex, -Sizey, 0), Vec3(1), Vec2(0.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionNormalTexture(Vec3(Sizex, -Sizey, 0), Vec3(1),Vec2(1.0f, 1.0f)));
 
 			m_indices = { 0, 1, 2, 2, 1, 3};
 		}
@@ -62,7 +62,7 @@ namespace basecross
 		void OnUpdate()override;
 
 	private:
-		vector<VertexPositionTexture> m_vertices;
+		vector<VertexPositionNormalTexture> m_vertices;
 		vector<uint16_t> m_indices;
 		wstring m_TexKey;
 
