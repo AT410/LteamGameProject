@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
 	{
 
 	}
@@ -195,6 +195,8 @@ namespace basecross
 		StageBulider Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
+
+		Builder.Register<FlashingUI>(L"Flashing");
 
 		Builder.UISetBuild(StagePtr, PathStr + m_UISetFile,DefaultDrawActive);
 
