@@ -18,6 +18,12 @@ namespace basecross
 
 		virtual void OnUpdate()override {}
 
+		Vec3 GetStartPos()const;
+
+		wstring GetTexKey()const;
+		float GetUIWidth()const;
+		float GetUIHeight()const;
+
 	private:
 		struct Impl;
 		unique_ptr<Impl> pImpl;

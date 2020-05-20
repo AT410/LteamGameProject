@@ -105,6 +105,16 @@ namespace basecross
 		*/
 		//--------------------------------------------------------------------------------------
 		void StageBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief	XMLからUIセットを構築する
+		@param[in]	StagePtr	所属するステージ
+		@param[in]	XMLFileName	XMLファイル名
+		@param[in]	DefaultDrawActive　生成時描画するかどうか。
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		void UISetBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName, const bool DefaultDrawActive);
 	private:
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& GetCreatorMap() const;
 
