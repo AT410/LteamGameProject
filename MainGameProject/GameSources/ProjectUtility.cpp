@@ -86,30 +86,30 @@ namespace basecross
 					if (StageNum != SelectStage)
 						continue;
 					//カメラ情報取得
-					//auto CameraEyeStr = XmlDocReader::GetAttribute(StageNodes, L"CameraEye");
-					//auto CameraAtStr = XmlDocReader::GetAttribute(StageNodes, L"CameraAt");
-					//auto CameraNearStr = XmlDocReader::GetAttribute(StageNodes, L"CamereNear");
-					//auto CameraFarStr = XmlDocReader::GetAttribute(StageNodes, L"CamereFar");
+					auto CameraEyeStr = XmlDocReader::GetAttribute(StageNode, L"CameraEye");
+					auto CameraAtStr = XmlDocReader::GetAttribute(StageNode, L"CameraAt");
+					auto CameraNearStr = XmlDocReader::GetAttribute(StageNode, L"CameraNear");
+					auto CameraFarStr = XmlDocReader::GetAttribute(StageNode, L"CameraFar");
 
-					////トークン
-					//if (CameraEyeStr != L"") 
-					//{
-					//	vector<wstring> Token;
-					//	Token.clear();
-					//	Util::WStrToTokenVector(Token, CameraEyeStr, L',');
-					//	Eye.x = (float)_wtof(Token[0].c_str());
-					//	Eye.y = (float)_wtof(Token[1].c_str());
-					//	Eye.z = (float)_wtof(Token[2].c_str());
+					//トークン
+					if (CameraEyeStr != L"") 
+					{
+						vector<wstring> Token;
+						Token.clear();
+						Util::WStrToTokenVector(Token, CameraEyeStr, L',');
+						Eye.x = (float)_wtof(Token[0].c_str());
+						Eye.y = (float)_wtof(Token[1].c_str());
+						Eye.z = (float)_wtof(Token[2].c_str());
 
-					//	Token.clear();
-					//	Util::WStrToTokenVector(Token, CameraAtStr, L',');
-					//	At.x = (float)_wtof(Token[0].c_str());
-					//	At.y = (float)_wtof(Token[1].c_str());
-					//	At.z = (float)_wtof(Token[2].c_str());
+						Token.clear();
+						Util::WStrToTokenVector(Token, CameraAtStr, L',');
+						At.x = (float)_wtof(Token[0].c_str());
+						At.y = (float)_wtof(Token[1].c_str());
+						At.z = (float)_wtof(Token[2].c_str());
 
-					//	Near = (float)_wtof(CameraNearStr.c_str());
-					//	Far = (float)_wtof(CameraFarStr.c_str());
-					//}
+						Near = (float)_wtof(CameraNearStr.c_str());
+						Far = (float)_wtof(CameraFarStr.c_str());
+					}
 					//子要素を取得
 					auto ObjNodes = XmlDocReader::GetChildNodes(StageNode);
 					long ObjCount = XmlDocReader::GetLength(ObjNodes);
