@@ -84,6 +84,15 @@ namespace basecross
 		m_Right = XmlDocReader::GetAttribute(pNode, L"RightKey");
 		m_MyKey = XmlDocReader::GetAttribute(pNode, L"MyIndexKey");
 		m_EventStr = XmlDocReader::GetAttribute(pNode, L"EventKey");
+
+		if (m_EventStr == L"ToGameStage")
+		{
+			wstring StageNumStr = XmlDocReader::GetAttribute(pNode, L"StageNumber");
+			wstring AreaNumStr = XmlDocReader::GetAttribute(pNode, L"AreaNumber");
+
+			m_AreaNum = (int)_wtoi(AreaNumStr.c_str());
+			m_StageNum = (int)_wtoi(StageNumStr.c_str());
+		}
 	}
 
 	void FlashingUI::OnCreate()
@@ -147,6 +156,11 @@ namespace basecross
 
 	void FlashingUI::StartEvent()
 	{
+		if (m_EventStr == L"ToGameStage")
+		{
+			GameManager::GetManager()->SetStagePair(m_AreaNum, m_StageNum);
+		}
+
 		PostEvent(1.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), m_EventStr);
 	}
 

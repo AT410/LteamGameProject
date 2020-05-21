@@ -43,6 +43,11 @@ namespace basecross{
 		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
 		ptrMyCamera->SetTargetObject(GetThis<Player>());
 
+		for (auto tag : m_tag)
+		{
+			AddTag(tag);
+		}
+
 		//‰Î‚ğÄ¶
 		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", m_pos);
 
@@ -204,7 +209,7 @@ namespace basecross{
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		if (Obj) {
+		if (Obj->FindTag(L"PossibleJump")) {
 			m_Jumpjudge = true;
 		}
 	}

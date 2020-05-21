@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"MapFile.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
 	{
 
 	}
@@ -156,7 +156,7 @@ namespace basecross
 
 		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<StageTest>(L"Test");
+		Builder.Register<FixedObj>(L"Test");
 		Builder.Register<StageTest>(L"Floor");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Omori>(L"Omori");
@@ -166,6 +166,8 @@ namespace basecross
 		Builder.Register<Fountain>(L"Fountain");
 		Builder.Register<GoalTest>(L"Goal");
 		Builder.Register<SwitchObj>(L"Switch");
+		Builder.Register<Door>(L"Door");
+
 
 		Builder.Register<RockTest>(L"Rock");
 		Builder.Register<FixedObj>(L"Wall");

@@ -25,8 +25,8 @@ namespace basecross {
 		m_OpeningView = CreateView<SingleView>();
 		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
 		m_OpeningView->SetCamera(PtrOPCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		PtrOPCamera->SetEye(eye);
+		PtrOPCamera->SetAt(at);
 
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();

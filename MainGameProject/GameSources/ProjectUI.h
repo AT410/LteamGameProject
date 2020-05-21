@@ -57,6 +57,8 @@ namespace basecross
 	private:
 		wstring m_Up, m_Down, m_Right, m_Left,m_MyKey,m_EventStr;
 
+		int m_StageNum,m_AreaNum;
+
 		bool m_ActiveFlashing;
 		float m_FlashingSpeed;
 		float m_TotalTime;

@@ -36,9 +36,14 @@ namespace basecross
 		Vec3 m_scal;
 		wstring m_texKey;
 		wstring m_meshKey;
+
 		vector<wstring> m_tag;
+
 		bool m_SharedActive = false;
 		wstring m_SharedName;
+		// -- ƒCƒxƒ“ƒgİ’è --
+		bool m_EventActive = false;
+		wstring m_ReceiverKey;
 	};
 
 	//---------------------------------------------------

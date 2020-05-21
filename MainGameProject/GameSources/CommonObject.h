@@ -23,6 +23,8 @@ namespace basecross
 		virtual ~FixedObj(){}
 
 		void OnCreate()override;
+
+		void OnEvent(const shared_ptr<Event>&event)override;
 	};
 
 	///<breif>汎用移動オブジェクト<breif/>
