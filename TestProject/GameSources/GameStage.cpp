@@ -54,6 +54,7 @@ namespace basecross {
 
 			AddGameObject<WaterJet>();
 			AddGameObject<WaterLV>();
+			AddGameObject<WaterDrop>();
 		AddGameObject<FixBox>(
 			Vec3(30.0f, 0.1f, 10.0f),
 			Vec3(0.0f),

@@ -1,3 +1,5 @@
+//@breif 水噴射ギミック用
+//@name 松崎　洸樹
 #pragma once
 #include"stdafx.h"
 

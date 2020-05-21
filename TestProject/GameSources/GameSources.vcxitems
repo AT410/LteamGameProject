@@ -33,6 +33,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUtility.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Waterdrop.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)reima.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)shogo.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)reima.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)shogo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Waterdrop.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WaterJet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
