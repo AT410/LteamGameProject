@@ -172,6 +172,15 @@ namespace basecross
 			Builder.Register<RockTest>(L"Rock");
 			Builder.Register<FixedObj>(L"Wall");
 
+			//伊東:Typeの追加
+			Builder.Register<StageTest>(L"Water");
+			Builder.Register<StageTest>(L"WaterDrop");
+			Builder.Register<StageTest>(L"Door");
+			Builder.Register<StageTest>(L"Ladder");
+			Builder.Register<StageTest>(L"Match");
+			Builder.Register<StageTest>(L"FireOn"); 
+			Builder.Register<StageTest>(L"FireLine"); 
+
 			Builder.StageBuild(StagePtr, FileName);
 
 			//開始イベントをスタート
