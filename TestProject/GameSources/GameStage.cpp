@@ -425,5 +425,54 @@ namespace basecross {
 		}
 	}
 
+
+	void TitleStage::CreateTitleSprite()
+	{
+		float Sizex = (float)App::GetApp()->GetGameWidth();
+		float Sizey = (float)App::GetApp()->GetGameHeight();
+		AddGameObject<TitleSprite>(true,
+			Vec2(Sizex, Sizey), Vec3(0.0f, 0.0f, 0.0f));
+	}
+
+
+	void TitleStage::OnCreate()
+	{
+		try {
+
+			auto& app = App::GetApp(); // ゲームアプリ全体に関わるオブジェクト
+
+			auto path = app->GetDataDirWString();
+			app->RegisterTexture(L"iseki", path + L"Texture/iseki.jpg");
+			app->RegisterTexture(L"kabe", path + L"Texture/kabe.jpg");
+			app->RegisterTexture(L"button", path + L"Texture/button.png");
+			app->RegisterTexture(L"gate", path + L"Texture/tobira.jpg");
+			app->RegisterTexture(L"mizuguruma", path + L"Texture/mizuguruma.jpg");
+			app->RegisterTexture(L"isi", path + L"Texture/isi.jpg");
+			app->RegisterTexture(L"maguma", path + L"Texture/red.jpg");
+			SetPhysicsActive(true);
+			//ビューとライトの作成
+			CreateViewLight();
+			CreateTitleSprite();
+		}
+		catch (...)
+		{
+			throw;
+		}
+	}
+	void TitleStage::CreateViewLight()
+	{
+		const Vec3 eye(0.0f, 10.0f, -60.0f);
+		const Vec3 at(0.0f);
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<Camera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetEye(eye);
+		PtrCamera->SetAt(at);
+		//マルチライトの作成
+		auto PtrMultiLight = CreateLight<MultiLight>();
+		//デフォルトのライティングを指定
+		PtrMultiLight->SetDefaultLighting();
+	}
 }
 //end basecross

@@ -85,6 +85,20 @@ namespace basecross {
 		virtual ~SelectStage() {}
 		virtual void OnCreate()override;
 	};
+
+
+	class TitleStage : public Stage {
+		//ƒrƒ…[‚Ìì¬
+		void CreateViewLight();
+		void CreateTitleSprite();
+		bool gateopen = false;
+	public:
+		//\’z‚Æ”jŠü
+		TitleStage() :Stage() {}
+		virtual ~TitleStage() {}
+		//‰Šú‰»
+		virtual void OnCreate()override;
+	};
 }
 //end basecross
 

@@ -678,7 +678,63 @@ namespace basecross
 			drawcomp->SetTextureResource(L"isi");
 
 		}
+
+
+
+
+
+		void Title::OnCreate()
+		{
+			auto drawComp = AddComponent<PNTStaticDraw>();
+			drawComp->SetMeshResource(L"DEFAULT_CUBE");
+
+			auto transComp = GetComponent<Transform>();
+			transComp->SetScale(5, 2, 5);
+		}
+
+
+		TitleSprite::TitleSprite(const shared_ptr<Stage>& StagePtr, bool Trace,
+			const Vec2& StartScale, const Vec3& StartPos) :
+			GameObject(StagePtr),
+			m_Trace(Trace),
+			m_StartScale(StartScale),
+			m_StartPos(StartPos),
+			m_TotalTime(0),
+			m_changespeed(10),
+			m_state(0),
+			m_changespeed2(1)
+		{}
+		TitleSprite::~TitleSprite() {}
+		void TitleSprite::OnCreate() {
+			float helfSize = 0.50f;
+			//頂点配列
+			float sizex = 640;
+			float sizey = 400;
+			m_BackupVertices.clear();
+			m_BackupVertices.push_back(VertexPositionColorTexture(Vec3(-sizex, sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0, 0)));
+			m_BackupVertices.push_back(VertexPositionColorTexture(Vec3(sizex, sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(1, 0)));
+			m_BackupVertices.push_back(VertexPositionColorTexture(Vec3(-sizex, -sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0, 1)));
+			m_BackupVertices.push_back(VertexPositionColorTexture(Vec3(sizex, -sizey, 0), Col4(1.0f, 1.0f, 1, 1.0f), Vec2(1, 1)));
+			//インデックス配列
+			vector<uint16_t> indices = { 0, 1, 2, 1, 3, 2 };
+			//SetAlphaActive(m_Trace);
+			auto ptrTrans = GetComponent<Transform>();
+			//ptrTrans->SetScale(m_StartScale.x, m_StartScale.y, 1.0f);
+			ptrTrans->SetRotation(0, 0, 0);
+			ptrTrans->SetPosition(m_StartPos);
+			//頂点とインデックスを指定してスプライト作成
+			auto drawcomp = AddComponent<PCTSpriteDraw>();
+			drawcomp->CreateMesh<VertexPositionColorTexture>(m_BackupVertices, indices);
+			drawcomp->SetTextureResource(L"isi");
+
+		}
 	}
+
+
+
+
+
+
 	//void Stagechoice::UIctr()
 	//{
 	//	std::vector<std::shared_ptr<TraceSprite>>;
