@@ -11,16 +11,57 @@ namespace basecross
 	{
 	public:
 		UIBase(const shared_ptr<Stage>&StagePtr);
-		
+		UIBase(const shared_ptr<Stage>&StagePtr,IXMLDOMNodePtr pNode);
+
 		virtual ~UIBase();
 
 		void OnCreate()override = 0;
 
 		virtual void OnUpdate()override {}
 
+		Vec3 GetStartPos()const;
+		wstring GetTexKey()const;
+		float GetUIWidth()const;
+		float GetUIHeight()const;
+
 	private:
 		struct Impl;
 		unique_ptr<Impl> pImpl;
+	};
+
+	class FlashingUI :public UIBase
+	{
+	public:
+		FlashingUI(const shared_ptr<Stage>&StagePtr
+			,const wstring& Up, const wstring& Down, const wstring& Right, const wstring& Left)
+			:UIBase(StagePtr),m_FlashingSpeed(0.5f),m_ActiveFlashing(true),
+			m_Up(Up), m_Down(Down), m_Right(Right), m_Left(Left),m_MyKey(L"1"),m_EventStr(L"ToTitleStage") {}
+		FlashingUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~FlashingUI(){}
+
+		void OnCreate()override;
+
+		void OnUpdate()override;
+
+		void SetFlashingSpeed(const float Spped) { m_FlashingSpeed = Spped > 0 ? Spped : 0.5f; }
+		void ChangeActive(const bool bActive) { m_ActiveFlashing = bActive; }
+
+		void StartEvent();
+
+		wstring GetUpStr() { return m_Up; }
+		wstring GetDownStr() { return m_Down; }
+		wstring GetRightStr() { return m_Right; }
+		wstring GetLeftStr() { return m_Left; }
+
+	private:
+		wstring m_Up, m_Down, m_Right, m_Left,m_MyKey,m_EventStr;
+
+		int m_StageNum,m_AreaNum;
+
+		bool m_ActiveFlashing;
+		float m_FlashingSpeed;
+		float m_TotalTime;
 	};
 
 	class TestUI :public GameObject
@@ -68,10 +109,14 @@ namespace basecross
 		bool m_ActiveFlag = false;
 	};
 
-	class UIController :public GameObject
+	class UIController :public GameObject,public PawnBase<UIController>
 	{
 	public:
-		UIController(const shared_ptr<Stage>&StagePtr, const wstring& TexKey);
+		UIController(const shared_ptr<Stage>&StagePtr)
+			:GameObject(StagePtr), PawnBase(), m_UIMap()
+		{
+
+		}
 
 		virtual ~UIController(){}
 
@@ -81,10 +126,18 @@ namespace basecross
 
 		void ChangeActiveUI(const wstring& Key);
 
-		map<wstring, shared_ptr<TestUI>> m_UIMap;
+		void AddPawnUI(const wstring& UIkey, shared_ptr<FlashingUI>& UIPtr) { m_UIMap[UIkey] = UIPtr; }
+
+		void SetCurrntUI();
+
+		//“ü—Íƒnƒ“ƒhƒ‰
+		void OnPushA()override;
+
+	private:
+		map<wstring, shared_ptr<FlashingUI>> m_UIMap;
 
 		wstring m_TexKey;
 
-		shared_ptr<TestUI> m_CurrntUI;
+		shared_ptr<FlashingUI> m_CurrntUI;
 	};
 }

@@ -18,10 +18,15 @@ namespace basecross{
 			Col4 Col;
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
 			SetClearColor(Col);
+			m_EfkInterface = ObjectFactory::Create<EfkInterface>();
+			wstring Path;
+
+			App::GetApp()->GetDataDirectory(Path);
+			App::GetApp()->RegisterEffect(L"TEST_EFK", Path + L"Effect/test.efk", m_EfkInterface);
+
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitleStage");
-			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageHurukawa");
 			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageShogo");
 
 		}

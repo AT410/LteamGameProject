@@ -38,6 +38,21 @@ namespace basecross
 			GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
 		}
 
+		if (m_EventActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
+			this->SetDrawActive(false);
+			this->SetUpdateActive(false);
+		}
+	}
+
+	void FixedObj::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"TestEvent")
+		{
+			this->SetDrawActive(true);
+			this->SetUpdateActive(true);
+		}
 	}
 
 	///<breif>汎用移動オブジェクト<breif/>
@@ -147,8 +162,8 @@ namespace basecross
 	}
 
 	//--------------------------------------------------------------------------------------
-//　オープニングカメラマン
-//--------------------------------------------------------------------------------------
+	//　オープニングカメラマン
+	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr ,const Vec3& StartPos, const Vec3& AtPos) :
 		GameObject(StagePtr),

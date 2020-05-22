@@ -39,6 +39,16 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnEvent(const shared_ptr<Event>& event) override;
+
+		shared_ptr<EfkInterface> GetEfkInterface()const
+		{
+			return m_EfkInterface;
+		}
+
+
+
+	private:
+		shared_ptr<EfkInterface> m_EfkInterface;
 	};
 
 }

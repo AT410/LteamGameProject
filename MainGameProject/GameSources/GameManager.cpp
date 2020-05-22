@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"MapFile.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
 	{
 
 	}
@@ -150,46 +150,64 @@ namespace basecross
 	}
 
 	//ステージ生成
-	void GameManager::CreateStage(const shared_ptr<StageBase>&StagePtr, const wstring& FileName, const bool MenuActive)
+	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
 		StageBulider Builder;
 
 		//セレクト画面にするか
-		if (!MenuActive) 
+		StagePtr->CreateSharedObjectGroup(L"Rock");
+		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<StageTest>(L"Floor");
+		Builder.Register<Player>(L"Player");
+		Builder.Register<Omori>(L"Omori");
+		Builder.Register<HeatStick>(L"HeatStick");
+		Builder.Register<MoveFloor>(L"MoveFloor");
+		Builder.Register<FixedObj>(L"Himo");
+		Builder.Register<Fountain>(L"Fountain");
+		Builder.Register<GoalTest>(L"Goal");
+		Builder.Register<SwitchObj>(L"Switch");
+		Builder.Register<Door>(L"Door");
+
+
+		Builder.Register<RockTest>(L"Rock");
+		Builder.Register<FixedObj>(L"Wall");
+		//伊東:Typeの追加
+		Builder.Register<StageTest>(L"Water");
+		Builder.Register<StageTest>(L"WaterDrop");
+		Builder.Register<StageTest>(L"Door");
+		Builder.Register<StageTest>(L"Ladder");
+		Builder.Register<StageTest>(L"Match");
+		Builder.Register<StageTest>(L"FireOn");
+		Builder.Register<StageTest>(L"FireLine");
+
+		wstring PathStr;
+		App::GetApp()->GetDataDirectory(PathStr);
+
+		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
+
+		//開始イベントをスタート
+		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+		if (OPCam)
 		{
-			StagePtr->CreateSharedObjectGroup(L"Rock");
-			Builder.Register<StageTest>(L"Test");
-			Builder.Register<StageTest>(L"Floor");
-			Builder.Register<Player>(L"Player");
-			Builder.Register<Omori>(L"Omori");
-			Builder.Register<HeatStick>(L"HeatStick");
-			Builder.Register<MoveFloor>(L"MoveFloor");
-			Builder.Register<FixedObj>(L"Himo");
-			Builder.Register<Fountain>(L"Fountain");
-			Builder.Register<GoalTest>(L"Goal");
-			Builder.Register<SwitchObj>(L"Switch");
-
-			Builder.Register<RockTest>(L"Rock");
-			Builder.Register<FixedObj>(L"Wall");
-
-			Builder.StageBuild(StagePtr, FileName);
-
-			//開始イベントをスタート
-			auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
-			if (OPCam)
-			{
-				auto MainCamera = StagePtr->GetMainView()->GetCamera();
-				auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
-				OPCam->SetCameraObject(Ptr);
-				OPCam->SetEye(MainCamera->GetEye());
-				OPCam->SetAt(MainCamera->GetAt());
-				OPCam->SetFar(MainCamera->GetFar());
-				OPCam->SetNear(MainCamera->GetNear());
-			}
+			auto MainCamera = StagePtr->GetMainView()->GetCamera();
+			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
+			OPCam->SetCameraObject(Ptr);
+			OPCam->SetEye(MainCamera->GetEye());
+			OPCam->SetAt(MainCamera->GetAt());
+			OPCam->SetFar(MainCamera->GetFar());
+			OPCam->SetNear(MainCamera->GetNear());
 		}
-		else
-		{
+	}
 
-		}
+	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)
+	{
+		StageBulider Builder;
+		wstring PathStr;
+		App::GetApp()->GetDataDirectory(PathStr);
+
+		Builder.Register<FlashingUI>(L"Flashing");
+
+		Builder.UISetBuild(StagePtr, PathStr + m_UISetFile,DefaultDrawActive);
+
 	}
 }

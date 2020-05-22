@@ -22,6 +22,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MyCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectUI.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WaterJet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Waterdrop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Background.h" />
@@ -46,5 +48,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)shogo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MyCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectUI.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WaterJet.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Waterdrop.h" />
   </ItemGroup>
 </Project>

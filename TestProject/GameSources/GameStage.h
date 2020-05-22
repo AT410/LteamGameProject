@@ -26,6 +26,17 @@ namespace basecross {
 		//‰Šú‰»
 		virtual void OnCreate()override;
 
+		void OnUpdate()override
+		{
+			App::GetApp()->GetScene<Scene>()->GetEfkInterface()->OnUpdate();
+		}
+
+		void OnDraw()override
+		{
+			auto& camera = GetView()->GetTargetCamera();
+			App::GetApp()->GetScene<Scene>()->GetEfkInterface()->SetViewProj(camera->GetViewMatrix(), camera->GetProjMatrix());
+			App::GetApp()->GetScene<Scene>()->GetEfkInterface()->OnDraw();
+		}
 	};
 
 	class GameStageHurukawa : public Stage {

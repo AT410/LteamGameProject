@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<UIRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <UISet UIType="Title">
+    <UIData Type="Flashing" Pos="30,100,0" Width="100" Height="100" TexKey="TEST_TX" MyIndexKey="1" EventKey="ToDataSelectStage" UpKey="2" DownKey="2" LeftKey="3" RightKey="3" />
+    <UIData Type="Flashing" Pos="218,100,0" Width="100" Height="100" TexKey="TEST_TX" MyIndexKey="3" EventKey="ToAreaSelectStage" UpKey="4" DownKey="4" LeftKey="1" RightKey="1" />
+    <UIData Type="Flashing" Pos="218,-93,0" Width="100" Height="100" TexKey="TEST_TX" MyIndexKey="4" EventKey="ToEndingStage" UpKey="3" DownKey="3" LeftKey="2" RightKey="2" />
+    <UIData Type="Flashing" Pos="19,-93,0" Width="100" Height="100" TexKey="TEST_TX" MyIndexKey="2" EventKey="ToGameStage" UpKey="1" DownKey="1" LeftKey="4" RightKey="4" />
+  </UISet>
+</UIRoot>

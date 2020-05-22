@@ -136,6 +136,13 @@ namespace basecross
 		//•¨—”»’è
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetFixed(true);
+
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				break;
+			AddTag(tag);
+		}
 	}
 
 	//--------------------------------------------------------------------------------------
