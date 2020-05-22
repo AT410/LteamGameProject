@@ -91,6 +91,31 @@ namespace basecross
 		float m_TotalTime;
 	};
 
+	//----------------------------------------------------------------------------
+	//スイッチングUI
+	//----------------------------------------------------------------------------
+	class SwitchingUI : public UIBase
+	{
+	public:
+		//-- 構築 --
+		SwitchingUI(const shared_ptr<Stage>& StagePtr)
+			:UIBase(StagePtr)
+		{
+		}
+
+		//-- 破棄 --
+		virtual ~SwitchingUI() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override {}
+
+	private:
+
+	};
+
 	class TestUI :public GameObject
 	{
 	public:

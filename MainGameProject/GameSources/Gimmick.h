@@ -38,6 +38,40 @@ namespace basecross
 		wstring m_EventMsg; //<-イベントメッセージ
 	};
 
+	//----------------------------------------------------------------------------
+	//導火線
+	//----------------------------------------------------------------------------
+	class FireLine : public ObjectBase
+	{
+	public:
+		//-- 構築 --
+		FireLine(const shared_ptr<Stage>& StagePtr)
+			:ObjectBase(StagePtr)
+		{
+		}
+
+		FireLine(const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode);
+
+
+		//-- 破棄 --
+		virtual ~FireLine() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override;
+
+		void OnEvent(const shared_ptr<Event>&event);
+
+	private:
+		float m_Time = 0;
+		bool m_Active = false;
+
+		//イベント設定
+		wstring m_RecipientKey;//<-受信先設定キー
+		wstring m_EventMsg; //<-イベントメッセージ
+	};
 
 	///<breif>熱を伝える棒<breif/>
 	///<name> 作成者：伊藤祥吾<name/>
@@ -107,7 +141,6 @@ namespace basecross
 			m_Active = active;
 		}
 	};
-
 	//-----------------------------------------------------------------------------
 	//扉のオブジェクト
 	//-----------------------------------------------------------------------------

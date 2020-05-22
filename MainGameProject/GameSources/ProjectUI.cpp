@@ -7,6 +7,9 @@
 
 namespace basecross
 {
+	//----------------------------------------------------------------------------
+	//UIBase::Impl構造体
+	//----------------------------------------------------------------------------
 	struct UIBase::Impl
 	{
 		Vec3 m_StartPos;
@@ -48,6 +51,9 @@ namespace basecross
 		}
 	};
 
+	//----------------------------------------------------------------------------
+	//UIBaseの実体
+	//----------------------------------------------------------------------------
 	UIBase::UIBase(const shared_ptr<Stage>&StagePtr)
 		:GameObject(StagePtr), pImpl(make_unique<UIBase::Impl>())
 	{
@@ -200,6 +206,43 @@ namespace basecross
 		}
 
 		PostEvent(1.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), m_EventStr);
+	}
+
+	//----------------------------------------------------------------------------
+	//スイッチングUIの実体
+	//----------------------------------------------------------------------------
+	void SwitchingUI::OnCreate()
+	{
+		// -- メッシュの作成 --
+		Vec2 tipSize = Vec2(1.0f, 1.0f);
+
+		Vec3 StartPos = GetStartPos();
+		float halfWidth = GetUIWidth() / 2.0f;
+		float halfHeight = GetUIHeight() / 2.0f;
+
+		vector<VertexPositionTexture>vertices =
+		{
+			{Vec3(-halfWidth,+halfHeight,0.0f),Vec2(0		,0)},
+			{Vec3(+halfWidth,+halfHeight,0.0f),Vec2(tipSize.x,0)},
+			{Vec3(-halfWidth,-halfHeight,0.0f),Vec2(0		,tipSize.y)},
+			{Vec3(+halfWidth,-halfHeight,0.0f),Vec2(tipSize.x,tipSize.y)}
+		};
+
+		vector<uint16_t> indices =
+		{
+			0,1,2,
+			2,1,3,
+		};
+
+		// -- 描画設定 --
+		auto DrawComp = AddComponent<PTSpriteDraw>();
+		DrawComp->CreateMesh<VertexPositionTexture>(vertices, indices);
+		DrawComp->SetTextureResource(GetTexKey());
+
+		// -- 配置設定 --
+		auto TransComp = GetComponent<Transform>();
+		TransComp->SetPosition(GetStartPos());
+
 	}
 
 	void TestUI::OnCreate()
