@@ -84,12 +84,9 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
-			AddGameObject<UIController>();
-			//AddGameObject<FlashingUI>(L"",L"",L"",L"");
-			//AddGameObject<ContTest>(L"ToDataSelectStage");
-
-			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
+			//AddGameObject<UIController>();
+			AddGameObject<ContTest>(L"ToDataSelectStage");
+			//GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)
 		{
@@ -153,7 +150,7 @@ namespace basecross {
 		auto IsLoaded = GameManager::GetManager()->GetLoadFlag();
 		if (IsLoaded)
 		{
-			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
 		}
 	}
 

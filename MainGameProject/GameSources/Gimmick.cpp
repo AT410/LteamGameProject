@@ -62,6 +62,74 @@ namespace basecross
 		}
 	}
 
+	//----------------------------------------------------------------------------
+	//導火線実体
+	//----------------------------------------------------------------------------
+	FireLine::FireLine(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode)
+	{
+		m_RecipientKey = XmlDocReader::GetAttribute(pNode, L"EventRecipientKey");
+		m_EventMsg = XmlDocReader::GetAttribute(pNode, L"EventMsgStr");
+
+	}
+
+	void FireLine::OnCreate()
+	{
+		//描画
+		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		drawComp->SetMeshResource(m_meshKey);
+		drawComp->SetTextureResource(m_texKey);
+
+		//ポジション、スケール、回転
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_pos);
+		transComp->SetScale(m_scal);
+		transComp->SetQuaternion(Quat(m_rot));
+
+		//コリジョンを付ける
+		//auto ptrColl = AddComponent<CollisionObb>();
+		//ptrColl->SetAfterCollision(AfterCollision::Auto);
+
+		if (m_EventActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<FireLine>());
+		}
+	}
+
+	void FireLine::OnUpdate()
+	{
+		if (m_Active)
+		{
+			m_Time += App::GetApp()->GetElapsedTime();
+			if (m_Time > 10.0f) {
+				m_Active = false;
+			}
+			auto ptrTrans = GetComponent<Transform>();
+			m_scal = ptrTrans->GetScale();
+			m_pos = ptrTrans->GetPosition();
+
+			if (m_scal.x > 0) {
+				m_scal.x += -0.05;
+				m_pos.x += 0.025;
+			}
+			else {
+				PostEvent(0.0f, GetThis<FireLine>(), m_RecipientKey, m_EventMsg);
+				GetStage()->RemoveGameObject<FireLine>(GetThis<FireLine>());
+			}
+			ptrTrans->SetScale(m_scal);
+			ptrTrans->SetPosition(m_pos);
+
+		}
+
+	}
+	
+	void FireLine::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"")
+		{
+			m_Active = true;
+		}
+	}
 
 	//熱棒
 	void HeatStick::OnCreate()

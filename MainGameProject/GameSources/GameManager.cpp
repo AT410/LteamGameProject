@@ -167,7 +167,7 @@ namespace basecross
 		Builder.Register<GoalTest>(L"Goal");
 		Builder.Register<SwitchObj>(L"Switch");
 		Builder.Register<Door>(L"Door");
-
+		Builder.Register<FireLine>(L"FireLine");
 
 		Builder.Register<RockTest>(L"Rock");
 		Builder.Register<FixedObj>(L"Wall");
@@ -177,7 +177,6 @@ namespace basecross
 		Builder.Register<StageTest>(L"Ladder");
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
-		Builder.Register<StageTest>(L"FireLine");
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
