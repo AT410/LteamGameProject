@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"MapFile.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
 	{
 
 	}
@@ -174,7 +174,6 @@ namespace basecross
 		//ˆÉ“Œ:Type‚Ì’Ç‰Á
 		Builder.Register<StageTest>(L"Water");
 		Builder.Register<StageTest>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Door");
 		Builder.Register<StageTest>(L"Ladder");
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
