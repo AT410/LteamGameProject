@@ -19,8 +19,7 @@ namespace basecross
 		{
 		}
 
-		SwitchObj(const shared_ptr<Stage>&StagePtr,IXMLDOMNodePtr pNode)
-			:ObjectBase(StagePtr,pNode){}
+		SwitchObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
 
 		void OnCreate() override;
 		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
@@ -33,6 +32,10 @@ namespace basecross
 		bool m_Active;//ON・OFF判定
 		//押し続ける必要があるか。
 		bool m_IsKeep;
+
+		//イベント設定
+		wstring m_RecipientKey;//<-受信先設定キー
+		wstring m_EventMsg; //<-イベントメッセージ
 	};
 
 
@@ -105,8 +108,47 @@ namespace basecross
 		}
 	};
 
+	//-----------------------------------------------------------------------------
+	//扉のオブジェクト
+	//-----------------------------------------------------------------------------
+	class Door :public ObjectBase
+	{
+	public:
+		Door(const shared_ptr<Stage>&StagePtr)
+			:ObjectBase(StagePtr){}
 
-	//噴水
+		// -- Xmlファイル読込用 --
+		Door(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~Door(){}
+
+		// -- 初期化 --
+		void OnCreate()override;
+
+		// -- 更新処理 --
+		void OnUpdate()override;
+
+		void OnEvent(const shared_ptr<Event>& event)override;
+
+		// -- セッター --
+		void SetOpenActive(bool Active) { m_OpenActive = Active; }
+
+	private:
+		// -- 開門処理 --
+		void OpenProcess();
+		// -- 閉門処理 --
+		void CloseProcess();
+
+		bool MoveBehavior(Vec3 Start,Vec3 End, const float TotalTime);
+
+		float m_TotalTime;
+		bool m_OpenActive;
+		bool m_MoveEnd;
+	};
+
+	//----------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------
 	class Fountain :public ObjectBase
 	{
 	private:

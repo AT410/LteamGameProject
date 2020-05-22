@@ -67,5 +67,14 @@ namespace basecross
 		{
 			m_SharedName = XmlDocReader::GetAttribute(pNode, L"SharedKey");
 		}
+
+		// -- ÉCÉxÉìÉgê›íË --
+		auto EventFStr = XmlDocReader::GetAttribute(pNode, L"EventActive");
+		m_EventActive = (bool)_wtoi(EventFStr.c_str());
+
+		if (m_EventActive)
+		{
+			m_ReceiverKey = XmlDocReader::GetAttribute(pNode, L"EventReceiverKey");
+		}
 	}
 }
