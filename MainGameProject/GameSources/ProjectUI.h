@@ -7,6 +7,9 @@
 
 namespace basecross
 {
+	//----------------------------------------------------------------------------
+	//UI基底クラス
+	//----------------------------------------------------------------------------
 	class UIBase :public GameObject
 	{
 	public:
@@ -29,6 +32,30 @@ namespace basecross
 		unique_ptr<Impl> pImpl;
 	};
 
+
+	//----------------------------------------------------------------------------
+	//通常UI;(常時表示)
+	//----------------------------------------------------------------------------
+	class NormalUI :public UIBase
+	{
+	public:
+		NormalUI(const shared_ptr<Stage>&StagePtr)
+			:UIBase(StagePtr)
+		{}
+
+		NormalUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+			:UIBase(StagePtr, pNode)
+		{}
+
+		virtual ~NormalUI() {}
+
+		void OnCreate()override;
+
+	};
+
+	//----------------------------------------------------------------------------
+	//点滅UI	
+	//----------------------------------------------------------------------------
 	class FlashingUI :public UIBase
 	{
 	public:
