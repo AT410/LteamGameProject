@@ -110,7 +110,7 @@ namespace basecross
 
 			if (m_scal.x > 0) {
 				m_scal.x += -0.05;
-				m_pos.x += 0.025;
+				m_pos.x += -0.025;
 			}
 			else {
 				PostEvent(0.0f, GetThis<FireLine>(), m_RecipientKey, m_EventMsg);
@@ -125,7 +125,7 @@ namespace basecross
 	
 	void FireLine::OnEvent(const shared_ptr<Event>&event)
 	{
-		if (event->m_MsgStr == L"")
+		if (event->m_MsgStr == L"FireSwitch")
 		{
 			m_Active = true;
 		}
