@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<UIRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <UISet UIType="Title">
+    <UIData Type="Flashing" Pos="0,-160,1" Width="1280" Height="612.5" TexKey="TEXTTEST_TX" MyIndexKey="1" EventKey="ToDataSelectStage" UpKey="" DownKey="" LeftKey="" RightKey="" />
+    <UIData Type="Normal" Pos="0,0,-5" Width="1280" Height="800" TexKey="TITLE_TX" />
+  </UISet>
+</UIRoot>
