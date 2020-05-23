@@ -5,13 +5,13 @@
       <Objects Type="Floor" Pos="5,-1.5,0" Scale="3,3,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
       <Objects Type="FireLine" Pos="-5.5,2.25,1.75" Scale="12,0.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="1" EventReceiverKey="FireLine" EventRecipientKey="Door2" EventMsgStr="ToActive" />
       <Objects Type="Door" Pos="-11.25,2,0" Scale="0.5,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="1" EventReceiverKey="Door2" />
-      <Objects Type="Water" Pos="-5,-3.5,0" Scale="7,3,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Water" Pos="-5,-3,0" Scale="7,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" />
       <Objects Type="Wall" Pos="0,5,2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
       <Objects Type="Switch" Pos="0,2,1.5" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" EventRecipientKey="FireLine" EventMsgStr="FireSwitch" />
       <Objects Type="Goal" Pos="12.5,0.5,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
       <Objects Type="Floor" Pos="0,-2.5,0" Scale="3,5,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
       <Objects Type="Water" Pos="-5,7,1.25" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" />
-      <Objects Type="Water" Pos="5,-3.5,0" Scale="7,3,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Water" Pos="5,-3,0" Scale="7,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" />
       <Objects Type="Floor" Pos="-11,-2.5,0" Scale="5,5,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
       <Objects Type="Floor" Pos="11,-2.5,0" Scale="5,5,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
       <Objects Type="Door" Pos="10.75,2,0" Scale="0.5,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="1" EventReceiverKey="Door1" />
