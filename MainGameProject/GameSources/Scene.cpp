@@ -74,6 +74,8 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
 		App::GetApp()->RegisterTexture(L"WATERSUB_TX", MediaPath + L"water2.jpg");
 		App::GetApp()->RegisterTexture(L"WATERMASK_TX", MediaPath + L"TexMask.png");
+		App::GetApp()->RegisterTexture(L"TEXTTEST_TX", MediaPath + L"texttest.png");
+		App::GetApp()->RegisterTexture(L"TITLE_TX", MediaPath + L"title.jpg");
 	}
 
 	void Scene::SetDebugResoruce()

@@ -159,7 +159,7 @@ namespace basecross
 				auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
 				//Žq—v‘f‚ðŽæ“¾
 				auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
-				Ptr->SetDrawActive(DefaultDrawActive);
+				//Ptr->SetDrawActive(DefaultDrawActive);
 			}
 		}
 	}

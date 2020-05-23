@@ -84,9 +84,10 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			//AddGameObject<UIController>();
-			AddGameObject<ContTest>(L"ToDataSelectStage");
-			//GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
+			AddGameObject<UIController>();
+			//AddGameObject<DebugSprite>(L"TITLE_TX");
+			//AddGameObject<ContTest>(L"ToDataSelectStage");
+			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)
 		{
