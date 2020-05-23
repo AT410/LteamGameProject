@@ -26,6 +26,7 @@
 #include "gate2.h"
 #include"WaterJet.h"
 #include"Waterdrop.h"
+#include"UpDownBox.h"
 #include "ControllerTest.h"
 #include "reima.h"
 #include "Uictr.h"
