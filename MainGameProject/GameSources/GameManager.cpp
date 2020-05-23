@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"MapData.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
 	{
 
 	}
@@ -156,7 +156,7 @@ namespace basecross
 
 		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<StageTest>(L"Test");
+		Builder.Register<FixedObj>(L"Test");
 		Builder.Register<StageTest>(L"Floor");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Omori>(L"Omori");
@@ -166,17 +166,17 @@ namespace basecross
 		Builder.Register<Fountain>(L"Fountain");
 		Builder.Register<GoalTest>(L"Goal");
 		Builder.Register<SwitchObj>(L"Switch");
+		Builder.Register<Door>(L"Door");
+		Builder.Register<FireLine>(L"FireLine");
 
 		Builder.Register<RockTest>(L"Rock");
 		Builder.Register<FixedObj>(L"Wall");
 		//ˆÉ“Œ:Type‚Ì’Ç‰Á
 		Builder.Register<StageTest>(L"Water");
 		Builder.Register<StageTest>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Door");
 		Builder.Register<StageTest>(L"Ladder");
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
-		Builder.Register<StageTest>(L"FireLine");
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
@@ -202,6 +202,8 @@ namespace basecross
 		StageBulider Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
+
+		Builder.Register<FlashingUI>(L"Flashing");
 
 		Builder.UISetBuild(StagePtr, PathStr + m_UISetFile,DefaultDrawActive);
 

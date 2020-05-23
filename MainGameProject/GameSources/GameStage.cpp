@@ -25,8 +25,8 @@ namespace basecross {
 		m_OpeningView = CreateView<SingleView>();
 		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
 		m_OpeningView->SetCamera(PtrOPCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		PtrOPCamera->SetEye(eye);
+		PtrOPCamera->SetAt(at);
 
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -84,10 +84,8 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
-			AddGameObject<UIController>(L"WALL_TX");
-			//AddGameObject<ContTest>(L"ToDataSelectStage");
-
+			//AddGameObject<UIController>();
+			AddGameObject<ContTest>(L"ToDataSelectStage");
 			//GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)
@@ -152,7 +150,7 @@ namespace basecross {
 		auto IsLoaded = GameManager::GetManager()->GetLoadFlag();
 		if (IsLoaded)
 		{
-			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+			PostEvent(0.0f, GetThis<LoadStage>(), App::GetApp()->GetScene<Scene>(), L"ToTitleStage");
 		}
 	}
 

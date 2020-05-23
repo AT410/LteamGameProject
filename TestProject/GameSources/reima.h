@@ -349,4 +349,72 @@ namespace basecross
 			//void OnUpdate() override;
 		};
 
+
+
+
+
+		class TitleSprite : public GameObject {
+			bool m_Trace;
+			Vec2 m_StartScale;
+			Vec3 m_StartPos;
+			float m_TotalTime;
+			float m_changespeed;
+			int m_state;
+			float m_changespeed2;
+			//バックアップ頂点データ
+			vector<VertexPositionColorTexture> m_BackupVertices;
+		public:
+			//--------------------------------------------------------------------------------------
+			/*!
+			@brief コンストラクタ
+			@param[in]	StagePtr	ステージ
+			@param[in]	Trace	透明処理するかどうか
+			@param[in]	StartScale	初期スケール
+			@param[in]	StartPos	初期位置
+			*/
+			//--------------------------------------------------------------------------------------
+			TitleSprite(const shared_ptr<Stage>& StagePtr, bool Trace,
+				const Vec2& StartScale, const Vec3& StartPos);
+			//--------------------------------------------------------------------------------------
+			/*!
+			@brief デストラクタ
+			*/
+			//--------------------------------------------------------------------------------------
+			virtual ~TitleSprite();
+			//--------------------------------------------------------------------------------------
+			/*!
+			@brief 初期化
+			@return	なし
+			*/
+			//--------------------------------------------------------------------------------------
+			virtual void OnCreate() override;
+			//--------------------------------------------------------------------------------------
+			/*!
+			@brief 更新
+			@return	なし
+			*/
+			//--------------------------------------------------------------------------------------
+			//virtual void OnUpdate()override;
+		};
+
+
+
+		class Title : public GameObject
+		{
+		public:
+			Title(const std::shared_ptr<Stage>& stage)
+				: GameObject(stage)
+			{
+			}
+
+			Vec3 GetPosition() const
+			{
+				return GetComponent<Transform>()->GetPosition();
+			}
+
+
+			// オブジェクトが生成されたときに一度だけ実行される関数
+			void OnCreate() override;
+			//void OnUpdate() override;
+		};
 }

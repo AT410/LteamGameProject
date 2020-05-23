@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Area AreaNumber="0">
+    <StageData StageNumber="0" CameraEye="0,7.5,-24" CameraAt="0,2,20" CameraNear="0.5" CameraFar="1000">
+      <Objects Type="Floor" Pos="-8.5,-4.5,-1.25" Scale="4,1,1.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="7.45,3,-0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Test" Pos="5.799,6.105,1.003" Scale="1,9.363667,2" Rot="0.0114982,0.001641458,-0.3493088,0.9369357" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" SharedActive="0" EventActive="1" EventReceiverKey="TEST2" />
+      <Objects Type="FireOn" Pos="6,-4,0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="-9,-4.6,1.5" Scale="9,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="0.03,5,2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Goal" Pos="12.5,10.5,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Switch" Pos="12,-3.25,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" EventRecipientKey="TEST1" EventMsgStr="TestEvent" />
+      <Objects Type="FireLine" Pos="6,-0.1600001,0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="7.45,6.84,-0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="WaterDrop" Pos="-12,3.75,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="-8.5,-0.1600001,-1.25" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="4.5,-4.5,0" Scale="18,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-5.5,-4.5,-0.5" Scale="2,1,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="-7,6.84,0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-12,-4.5,-0.5" Scale="3,1,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="6.804,2.5,0" Scale="13.39548,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="-8.5,-4.6,0.25" Scale="4,1,1.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="-14.5,5,0" Scale="2,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-9.217,2.5,0" Scale="8.562593,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" />
+      <Objects Type="Ladder" Pos="1,5,-0.34" Scale="1,4,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="14.5,5,0" Scale="2,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Test" Pos="-2.126,-0.945,-0.878" Scale="1,9.857335,2" Rot="-0.001428769,0.008411593,0.3578719,0.9337317" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" SharedActive="0" EventActive="1" EventReceiverKey="TEST1" />
+      <Objects Type="Switch" Pos="12.5,3.25,-1" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" EventRecipientKey="TEST2" EventMsgStr="TestEvent" />
+      <Objects Type="FireOn" Pos="-8.5,-4,-1.25" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Player" Pos="-12.25,-3,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CAPSULE" TexKey="TEST_TX" Tags="EnabledSwitch" SharedActive="1" SharedKey="Player" EventActive="0" />
+      <Objects Type="FireOn" Pos="-7,3,0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="11,9.5,0" Scale="5,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-2.379,2.5,1.296" Scale="5.115251,1,1.408" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+    </StageData>
+    <StageData StageNumber="1" CameraEye="0,6,-21" CameraAt="0,1,20" CameraNear="0.5" CameraFar="1000">
+      <Objects Type="Floor" Pos="0.5,1.4,0" Scale="3,3,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="0,-2.1,0" Scale="17,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-3,1.4,0" Scale="3,3,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="0,5,2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Goal" Pos="12.5,0.5,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-11,-2.5,0" Scale="5,5,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="11,-2.5,0" Scale="5,5,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="-13.75,5,0" Scale="0.5,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="13.75,5,0" Scale="0.5,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-6.5,1.4,0" Scale="3,3,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Switch" Pos="-9.5,0.25,-1" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Player" Pos="-12.25,1,0" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CAPSULE" TexKey="TEST_TX" Tags="EnabledSwitch" SharedActive="1" SharedKey="Player" EventActive="0" />
+      <Objects Type="Floor" Pos="0,-4.5,0" Scale="17,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Water" Pos="-8.5,-1.9,0" Scale="1,4,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="11,9.5,0" Scale="5,11,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+    </StageData>
+    <StageData StageNumber="2" CameraEye="0,7.5,-24" CameraAt="0,2,20" CameraNear="0.5" CameraFar="1000">
+      <Objects Type="Floor" Pos="-8.5,-4.5,-1.25" Scale="4,1,1.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="7.45,3,-0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Water" Pos="10.93,13.02,1" Scale="1,8,2" Rot="0,0,-0.258819,0.9659259" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="6,-4,0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="-9,-4.6,1.5" Scale="9,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="0,5,2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Goal" Pos="12.5,10.5,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="WaterDrop" Pos="12,-3.25,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="6,-0.1600001,0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="7.45,6.84,-0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="WaterDrop" Pos="-12,3.75,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="-8.5,-0.1600001,-1.25" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="4.5,-4.5,0" Scale="18,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-5.5,-4.5,-0.5" Scale="2,1,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireLine" Pos="-7,6.84,0.5" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="-12,-4.5,-0.5" Scale="3,1,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="0,2.5,0" Scale="27,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="-8.5,-4.6,0.25" Scale="4,1,1.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="-14.5,5,0" Scale="2,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Ladder" Pos="1,5,-0.34" Scale="1,4,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Wall" Pos="14.5,5,0" Scale="2,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Water" Pos="-4.75,5.78,-0.9" Scale="1,8,2" Rot="0,0,0.2588191,0.9659258" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Switch" Pos="12.5,3.25,-1" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="FireOn" Pos="-8.5,-4,-1.25" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Player" Pos="-12.25,-3,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CAPSULE" TexKey="TEST_TX" Tags="EnabledSwitch" SharedActive="1" SharedKey="Player" EventActive="0" />
+      <Objects Type="FireOn" Pos="-7,3,0.5" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" />
+      <Objects Type="Floor" Pos="11,9.5,0" Scale="5,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" />
+    </StageData>
+  </Area>
+</root>

@@ -28,6 +28,7 @@ namespace basecross{
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
 			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageHurukawa");
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
+			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitleStage");
 			//PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStageShogo");
 
 		}
@@ -63,6 +64,11 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToSelectStage") {
 			//最初のアクティブステージの設定
 			ResetActiveStage<SelectStage>();
+
+		}
+		if (event->m_MsgStr == L"ToTitleStage") {
+			//最初のアクティブステージの設定
+			ResetActiveStage<TitleStage>();
 
 		}
 	}
