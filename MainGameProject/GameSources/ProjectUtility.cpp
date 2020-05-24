@@ -126,12 +126,18 @@ namespace basecross
 			//カメラ情報を更新する
 			auto MainView = StagePtr->GetMainView();
 
-			auto Camera = MainView->GetCamera();
-			Camera->SetEye(Eye);
-			Camera->SetAt(At);
-			Camera->SetNear(Near);
-			Camera->SetFar(Far);
+			auto Camera = dynamic_pointer_cast<MyCamera>(MainView->GetCamera());
 
+			if (Camera) 
+			{
+				Camera->SetEye(Eye);
+				Camera->SetAt(At);
+				Camera->SetNear(Near);
+				Camera->SetFar(Far);
+
+				Camera->SetExpansionEye(Eye);
+				Camera->SetExpansionAt(At);
+			}
 		}
 		catch (...) {
 			throw;
@@ -153,13 +159,27 @@ namespace basecross
 			//子要素を取得
 			auto UIDataNodes = XmlDocReader::GetChildNodes(UITypeNode);
 			long UIDataCount = XmlDocReader::GetLength(UIDataNodes);
-			for (long j = 0; j < UIDataCount; j++)
+
+			long CountData = 0;
+
+			for (long Layer =0;Layer < 10;Layer++)
 			{
-				auto UIDataNode = XmlDocReader::GetItem(UIDataNodes, j);
-				auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
-				//子要素を取得
-				auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
-				Ptr->SetDrawActive(DefaultDrawActive);
+				for (long j = 0; j < UIDataCount; j++)
+				{
+					auto UIDataNode = XmlDocReader::GetItem(UIDataNodes, j);
+					auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
+
+					auto LayerStr = XmlDocReader::GetAttribute(UIDataNode, L"Layer");
+
+					long UILayer = (long)_wtol(LayerStr.c_str());
+					if (Layer == UILayer) 
+					{
+						// -- オーダーレイヤーの順に生成する --
+						auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
+						Ptr->SetDrawActive(DefaultDrawActive);
+					}
+				}
+
 			}
 		}
 	}

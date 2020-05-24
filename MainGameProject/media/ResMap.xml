@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ResourceDataMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Resource>
+    <ResourceData ResourceKey="WAIT_TX" ResourceFile="wait.png" ResourceType="Texture" />
     <ResourceData ResourceKey="TitleStage_TX" ResourceFile="TitleStage.png" ResourceType="Texture" />
     <ResourceData ResourceKey="DateSelect_TX" ResourceFile="DataSelect.png" ResourceType="Texture" />
     <ResourceData ResourceKey="AreaSelect_TX" ResourceFile="AreaSelect.png" ResourceType="Texture" />
@@ -21,7 +22,10 @@
     <ResourceData ResourceKey="MAIN_SD" ResourceFile="BGMTest.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="GOAL_MD" ResourceFile="Obj_Torch_2.bmf" ResourceType="Mesh" />
     <ResourceData ResourceKey="FIRE_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="1" />
-    <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25f" />
-    <ResourceData ResourceKey="WATERFALL_EFK" ResourceFile="test.efk" ResourceType="Effect" EffectMagni="1.0f" />
+    <ResourceData ResourceKey="WATER_TX" ResourceFile="water.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25" />
+    <ResourceData ResourceKey="WATERFALL_EFK" ResourceFile="test.efk" ResourceType="Effect" EffectMagni="0.5" />
+    <ResourceData ResourceKey="WATERSUB_TX" ResourceFile="water2.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="WATERMASK_TX" ResourceFile="TexMask.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>

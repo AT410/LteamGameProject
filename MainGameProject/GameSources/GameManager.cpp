@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"UITEST01.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
 	{
 
 	}
@@ -184,17 +184,17 @@ namespace basecross
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
 		//開始イベントをスタート
-		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
-		if (OPCam)
-		{
-			auto MainCamera = StagePtr->GetMainView()->GetCamera();
-			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
-			OPCam->SetCameraObject(Ptr);
-			OPCam->SetEye(MainCamera->GetEye());
-			OPCam->SetAt(MainCamera->GetAt());
-			OPCam->SetFar(MainCamera->GetFar());
-			OPCam->SetNear(MainCamera->GetNear());
-		}
+		//auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+		//if (OPCam)
+		//{
+		//	auto MainCamera = StagePtr->GetMainView()->GetCamera();
+		//	auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
+		//	OPCam->SetCameraObject(Ptr);
+		//	OPCam->SetEye(MainCamera->GetEye());
+		//	OPCam->SetAt(MainCamera->GetAt());
+		//	OPCam->SetFar(MainCamera->GetFar());
+		//	OPCam->SetNear(MainCamera->GetNear());
+		//}
 	}
 
 	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)
@@ -203,6 +203,7 @@ namespace basecross
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
 
+		Builder.Register<NormalUI>(L"Normal");
 		Builder.Register<FlashingUI>(L"Flashing");
 
 		Builder.UISetBuild(StagePtr, PathStr + m_UISetFile,DefaultDrawActive);

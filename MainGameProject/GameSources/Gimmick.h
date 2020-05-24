@@ -36,6 +36,9 @@ namespace basecross
 		//イベント設定
 		wstring m_RecipientKey;//<-受信先設定キー
 		wstring m_EventMsg; //<-イベントメッセージ
+
+		//エフェクト
+		shared_ptr<EfkPlay> m_ActiveEfk;
 	};
 
 	//----------------------------------------------------------------------------

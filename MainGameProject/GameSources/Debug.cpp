@@ -14,6 +14,8 @@ namespace basecross
 		DrawComp->SetTextureResource(m_TexKey);
 		DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		SetAlphaActive(true);
+
+
 	}
 
 	void ShaderTest::OnCreate()
@@ -75,8 +77,11 @@ namespace basecross
 				{
 					m_vol = -1.0f;
 				}
-				if (Diffuse.w < 0.0f)
+				if (Diffuse.w < 0.0f) 
+				{
 					m_IsActived = true;
+					GetStage()->GetSharedGameObject<Player>(L"Player")->SetState(PlayerState::Excute);
+				}
 				Diffuse.w += m_vol * App::GetApp()->GetElapsedTime();
 				DrawComp->SetDiffuse(Diffuse);
 			}
@@ -300,7 +305,7 @@ namespace basecross
 			if (m_count > 2.0f)
 			{
 				auto  StageSelect = GameManager::GetManager()->GetStagePair();
-				if (StageSelect.second != 4)
+				if (StageSelect.second != 2)
 				{
 					StageSelect.second += 1;
 					GameManager::GetManager()->SetStagePair(StageSelect);

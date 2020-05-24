@@ -28,13 +28,13 @@ namespace basecross{
 		ptrTransform->SetScale(m_scal);
 		ptrTransform->SetQuaternion(Quat(m_rot));
 
-		AddComponent<CollisionCapsule>();
+		AddComponent<CollisionObb>();
 		AddComponent<Gravity>();
 
 		auto Shadowptr = AddComponent<Shadowmap>();
-		Shadowptr->SetMeshResource(m_meshKey);
+		Shadowptr->SetMeshResource(L"TESTN_MD");
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
-		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetMeshResource(L"TESTN_MD");
 		m_PlayerState = PlayerState::Start;
 		
 		//共有登録
@@ -49,7 +49,9 @@ namespace basecross{
 		}
 
 		//火を再生
-		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", m_pos);
+		auto EfkPoint = m_pos;
+		EfkPoint.y += 0.5f;
+		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
 
 	}
 
@@ -97,33 +99,9 @@ namespace basecross{
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += m_PlayerAngle * elapsedtime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
-		}
-		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
+
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(m_PlayerAngle, 1.0f);
-		}
-	}
-
-	void Player::StartState() {
-		auto elapsedtime = App::GetApp()->GetElapsedTime();
-		if (m_StopActionTimeJudge) {
-			m_StopActionTime -= elapsedtime;
-		}
-		if (m_StopActionTime <= 0.0f) {
-			m_StopActionTimeJudge = false;
-			m_PlayerState = PlayerState::Excute;
-			m_StopActionTime = 5.0f;
-		}
-
-	}
-
-	void Player::ClearState() {
-		auto elapsedtime = App::GetApp()->GetElapsedTime();
-		if (m_StopActionTimeJudge) {
-			m_StopActionTime -= elapsedtime;
-		}
-		if (m_StopActionTime <= 0.0f) {
-			m_StopActionTime = 5.0f;
 		}
 	}
 
@@ -218,32 +196,28 @@ namespace basecross{
 	}
 
 	void Player::OnUpdate() {
-		m_Handler.PushHandler(GetThis<Player>());
-		State();
-		
-		//エフェクトの移動
-		auto TransComp = GetComponent<Transform>();
-		Vec3 Pos = TransComp->GetPosition();
-		m_FireEfk->SetLocation(Pos);
+		StateUpdate();
 	}
 
-	void Player::State() {
+	void Player::StateUpdate() {
 		switch (m_PlayerState) 
 		{
 			case PlayerState::Start:
 			{
 				m_StopActionTimeJudge = true;
-				StartState();
+				StartBehavior();
 				break;
 			}
 			case PlayerState::Excute:
 			{
-				Move();
+				m_StopActionTimeJudge = false;
+				ExcuteBehavior();
 				break;
 			}
 			case PlayerState::Clear:
 			{
-				ClearState();
+				m_StopActionTimeJudge = true;
+				ClearBehavior();
 				break;
 			}
 			default:
@@ -251,6 +225,41 @@ namespace basecross{
 		}
 	}
 
+	void Player::StartBehavior()
+	{
+		//auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//if (m_StopActionTimeJudge) {
+		//	m_StopActionTime -= elapsedtime;
+		//}
+		//if (m_StopActionTime <= 0.0f) {
+		//	m_StopActionTimeJudge = false;
+		//	m_PlayerState = PlayerState::Excute;
+		//	m_StopActionTime = 5.0f;
+		//}
+	}
+
+	void Player::ExcuteBehavior()
+	{
+		m_Handler.PushHandler(GetThis<Player>());
+		
+		Move();
+
+		//エフェクトの移動
+		auto TransComp = GetComponent<Transform>();
+		Vec3 EfkPoint = TransComp->GetPosition();
+		EfkPoint.y += 1.0f;
+		m_FireEfk->SetLocation(EfkPoint);
+	}
+	void Player::ClearBehavior()
+	{
+		//auto elapsedtime = App::GetApp()->GetElapsedTime();
+		//if (m_StopActionTimeJudge) {
+		//	m_StopActionTime -= elapsedtime;
+		//}
+		//if (m_StopActionTime <= 0.0f) {
+		//	m_StopActionTime = 5.0f;
+		//}
+	}
 }
 //end basecross
 

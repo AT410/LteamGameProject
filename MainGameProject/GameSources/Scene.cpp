@@ -66,14 +66,20 @@ namespace basecross{
 		wstring MediaPath;
 		wstring EFkPath;
 		wstring BGMPath;
+		wstring ModelPath;
 		App::GetApp()->GetDataDirectory(MediaPath);
+		ModelPath = MediaPath + L"Model/";
 		EFkPath = MediaPath + L"Effect/";
 		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
-		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
-		App::GetApp()->RegisterTexture(L"WATERSUB_TX", MediaPath + L"water2.jpg");
-		App::GetApp()->RegisterTexture(L"WATERMASK_TX", MediaPath + L"TexMask.png");
+		App::GetApp()->RegisterTexture(L"BackGround_TX", MediaPath + L"BackGround.png");
+		App::GetApp()->RegisterTexture(L"StageSelect_TX", MediaPath + L"StageSelect.png");
+		App::GetApp()->RegisterTexture(L"One_TX", MediaPath + L"One.png");
+		App::GetApp()->RegisterTexture(L"Two_TX", MediaPath + L"Two.png");
+		App::GetApp()->RegisterTexture(L"Three_TX", MediaPath + L"Three.png");
+		auto MeshRes = MeshResource::CreateStaticModelMesh(ModelPath, L"TestN.bmf");
+		App::GetApp()->RegisterResource(L"TESTN_MD", MeshRes);
 	}
 
 	void Scene::SetDebugResoruce()

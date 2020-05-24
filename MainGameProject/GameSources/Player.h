@@ -79,11 +79,16 @@ namespace basecross{
 		void OnPushLB() override;
 		void OnRemoveLB() override;
 		//プレイヤーステート変化関数
-		void State();
+		void StateUpdate();
 		//プレイヤースタートステート
-		void StartState();
+		void StartBehavior();
+		//
+		void ExcuteBehavior();
 		//プレイヤーゴールステート	
-		void ClearState();
+		void ClearBehavior();
+
+		//
+		void SetState(PlayerState State) { m_PlayerState = State; }
 		void OnCreate() override;
 		void OnUpdate() override;
 		void OnCollisionEnter(shared_ptr<GameObject>& Obj) override;

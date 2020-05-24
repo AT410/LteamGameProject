@@ -42,6 +42,8 @@ namespace basecross
 		if (Other->FindTag(L"EnabledSwitch")) {
 			//スイッチが押された時の判定
 			PostEvent(0.0f, GetThis<SwitchObj>(), m_RecipientKey, m_EventMsg);
+			Vec3 EfkPoint = GetComponent<Transform>()->GetPosition();
+			m_ActiveEfk = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", EfkPoint);
 		}
 	}
 
@@ -59,6 +61,7 @@ namespace basecross
 			return;
 		if (Other->FindTag(L"EnabledSwitch")) {
 			m_Active = m_IsKeep ? false : m_Active;
+			m_ActiveEfk->StopEffect();
 		}
 	}
 
@@ -110,7 +113,7 @@ namespace basecross
 
 			if (m_scal.x > 0) {
 				m_scal.x += -0.05;
-				m_pos.x += 0.025;
+				m_pos.x += -0.025;
 			}
 			else {
 				PostEvent(0.0f, GetThis<FireLine>(), m_RecipientKey, m_EventMsg);
@@ -125,7 +128,7 @@ namespace basecross
 	
 	void FireLine::OnEvent(const shared_ptr<Event>&event)
 	{
-		if (event->m_MsgStr == L"")
+		if (event->m_MsgStr == L"FireSwitch")
 		{
 			m_Active = true;
 		}
