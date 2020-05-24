@@ -112,8 +112,11 @@ namespace basecross
 
 		// -- 配置設定 --
 		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(GetStartPos());
+		auto pos = GetStartPos();
+		pos.z = +0;
+		TransComp->SetPosition(pos);
 
+		SetAlphaActive(true);
 	}
 	//----------------------------------------------------------------------------
 	//点滅UI:(選択可能UI)の実体
@@ -150,10 +153,10 @@ namespace basecross
 
 		vector<VertexPositionColorTexture>vertices =
 		{
-			{Vec3(-halfWidth,+halfHeight,0.0f), color,Vec2(0		,0)},
-			{Vec3(+halfWidth,+halfHeight,0.0f), color,Vec2(tipSize.x,0)},
-			{Vec3(-halfWidth,-halfHeight,0.0f), color,Vec2(0		,tipSize.y)},
-			{Vec3(+halfWidth,-halfHeight,0.0f), color,Vec2(tipSize.x,tipSize.y)},
+			{Vec3(-halfWidth,+halfHeight,1.0f), color,Vec2(0		,0)},
+			{Vec3(+halfWidth,+halfHeight,1.0f), color,Vec2(tipSize.x,0)},
+			{Vec3(-halfWidth,-halfHeight,1.0f), color,Vec2(0		,tipSize.y)},
+			{Vec3(+halfWidth,-halfHeight,1.0f), color,Vec2(tipSize.x,tipSize.y)},
 		};
 
 		vector<uint16_t> indices =
@@ -167,7 +170,9 @@ namespace basecross
 		DrawComp->SetTextureResource(GetTexKey());
 
 		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(GetStartPos());
+		auto pos = GetStartPos();
+		pos.z = 1;
+		TransComp->SetPosition(pos);
 
 		SetAlphaActive(true);
 
