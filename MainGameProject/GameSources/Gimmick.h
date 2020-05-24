@@ -22,6 +22,12 @@ namespace basecross
 		SwitchObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
 
 		void OnCreate() override;
+		void OnUpdate()override
+		{
+			auto transComp = GetComponent<Transform>();
+			transComp->SetPosition(m_pos);
+		}
+
 		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 		void OnCollisionExcute(shared_ptr<GameObject>& Other) override;
 		void OnCollisionExit(shared_ptr<GameObject>& Other)	override;
@@ -313,6 +319,9 @@ namespace basecross
 		void WaterDropJudgement();
 		virtual void OnCreate();
 		virtual void OnUpdate();
+
+		void OnCollisionEnter(shared_ptr<GameObject>&Obj)override;
+
 	};
 
 	//ウォーターレベルクラス
@@ -342,6 +351,8 @@ namespace basecross
 		void WaterLVJudgement();
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		void OnEvent(const shared_ptr<Event>&event);
 	};
 
 

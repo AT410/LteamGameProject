@@ -55,6 +55,48 @@ namespace basecross
 		}
 	}
 
+	//----------------------------------------------------------------------------
+	//引っ張り
+	//----------------------------------------------------------------------------
+	void PullBoxObj::OnCreate()
+	{
+		//描画設定
+		auto DrawComp = AddComponent<PNTStaticDraw>();
+		DrawComp->SetMeshResource(m_meshKey);
+		DrawComp->SetTextureResource(m_texKey);
+
+		//配置設定
+		auto TransComp = GetComponent<Transform>();
+		TransComp->SetPosition(m_pos);
+		TransComp->SetQuaternion(Quat(m_rot));
+		TransComp->SetScale(m_scal);
+
+		//物理判定
+		auto CollComp = AddComponent<CollisionObb>();
+		CollComp->SetFixed(false);
+
+		AddComponent<Gravity>();
+
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				continue;
+			AddTag(tag);
+		}
+
+		if (m_SharedActive)
+		{
+			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PullBoxObj>());
+		}
+
+		if (m_EventActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
+			this->SetDrawActive(false);
+			this->SetUpdateActive(false);
+		}
+	}
+
 	///<breif>汎用移動オブジェクト<breif/>
 	MoveObj::MoveObj(const shared_ptr<Stage>&StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 		const wstring TexKey, const wstring MeshKey, const Vec3 Start, const Vec3 End, const float Speed, const float TotalTime)

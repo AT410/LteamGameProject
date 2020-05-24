@@ -10,19 +10,16 @@
 namespace basecross{
 
 	//--------------------------------------------------------------------------------------
-	///	�Q�[���V�[��
+	///
 	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
-			//�N���A����F��ݒ�
 			Col4 Col;
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
 			SetClearColor(Col);
 			_EfkInterface = ObjectFactory::Create<EfkInterface>();
 			LoadUnionResource();
 			GameManager::CreateManager();
-			//�������g�ɃC�x���g�𑗂�
-			//����ɂ��e�X�e�[�W��I�u�W�F�N�g��Create���ɃV�[���ɃA�N�Z�X�ł���
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToLoadStage");
 		}
 		catch (...) {
@@ -35,7 +32,6 @@ namespace basecross{
 
 	void Scene::OnEvent(const shared_ptr<Event>& event) {
 		if (event->m_MsgStr == L"ToTitleStage") {
-			//�ŏ��̃A�N�e�B�u�X�e�[�W�̐ݒ�
 			ResetActiveStage<TitleStage>();
 		}
 		else if (event->m_MsgStr == L"ToDataSelectStage")
@@ -60,7 +56,6 @@ namespace basecross{
 		}
 	}
 
-	//���\�[�X�̏����Ǎ�
 	void Scene::LoadUnionResource()
 	{
 		wstring MediaPath;
@@ -73,7 +68,7 @@ namespace basecross{
 		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
-		App::GetApp()->RegisterTexture(L"TEXTTEST_TX", MediaPath + L"texttest.png");
+		App::GetApp()->RegisterTexture(L"TEXTTEST_TX", MediaPath + L"PressA.png");
 		App::GetApp()->RegisterTexture(L"TITLE_TX", MediaPath + L"title.jpg");
 		App::GetApp()->RegisterTexture(L"BackGround_TX", MediaPath + L"BackGround.png");
 		App::GetApp()->RegisterTexture(L"StageSelect_TX", MediaPath + L"StageSelect.png");

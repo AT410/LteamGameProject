@@ -42,8 +42,22 @@ namespace basecross
 		if (Other->FindTag(L"EnabledSwitch")) {
 			//スイッチが押された時の判定
 			PostEvent(0.0f, GetThis<SwitchObj>(), m_RecipientKey, m_EventMsg);
-			Vec3 EfkPoint = GetComponent<Transform>()->GetPosition();
-			m_ActiveEfk = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", EfkPoint);
+			if (!m_Active)
+			{
+				Vec3 EfkPoint = GetComponent<Transform>()->GetPosition();
+				m_ActiveEfk = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", EfkPoint);
+				m_Active = true;
+			}
+			else
+			{
+				m_ActiveEfk->StopEffect();
+				m_Active = false;
+			}
+			auto PlayerPtr = dynamic_pointer_cast<Player>(Other);
+			if (PlayerPtr)
+			{
+				PlayerPtr->UpdateResetPositon();
+			}
 		}
 	}
 
@@ -575,7 +589,7 @@ namespace basecross
 				Vec3(m_StartPos.x + m_SizeAABBX, m_StartPos.y, m_StartPos.z + m_SizeAABBZ));
 		}
 
-		m_efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", m_StartPos);
+		m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 	}
 
 	void WaterJet::OnUpdate() {
@@ -596,7 +610,7 @@ namespace basecross
 			}
 			else {
 				m_WaterJetmode = true;
-				m_efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", m_StartPos);
+				m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 			}
 		}
 	}
@@ -628,7 +642,7 @@ namespace basecross
 	{}
 
 	void WaterDrop::OnCreate() {
-		//AddComponent<Gravity>();
+		AddComponent<Gravity>();
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetPosition(m_pos);
 		ptrTransform->SetQuaternion(Quat(m_rot));
@@ -645,11 +659,13 @@ namespace basecross
 		m_WaterAABBX = ptrScale.x / 2;
 		m_WaterAABBY = ptrScale.y / 2;
 		m_WaterAABBZ = ptrScale.z / 2;
+
+		AddComponent<CollisionObb>();
 	}
 
 	void WaterDrop::OnUpdate() {
-		Drop();
-		WaterDropJudgement();
+		//Drop();
+		//WaterDropJudgement();
 	}
 
 	//＠ドロップ関数
@@ -688,6 +704,17 @@ namespace basecross
 
 	}
 
+	void WaterDrop::OnCollisionEnter(shared_ptr<GameObject>&Obj)
+	{
+		auto PPtr = dynamic_pointer_cast<Player>(Obj);
+		if (PPtr)
+		{
+			PPtr->ResetPositon();
+		}
+		GetComponent<Transform>()->SetPosition(m_pos);
+	}
+
+
 	WaterLV::WaterLV(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
 		ObjectBase(Stageptr, pNode)
 	{}
@@ -707,9 +734,16 @@ namespace basecross
 		m_PlayerAABBX = ptrScale.x / 2;
 		m_PlayerAABBY = ptrScale.y / 2;
 		m_PlayerAABBZ = ptrScale.z / 2;
-		auto ptrDraw = AddComponent<PNTPointDraw>();
+		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
+
+		m_WaterLVMode = true;
+
+		if (m_EventActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<WaterLV>());
+		}
 	}
 
 	void WaterLV::OnUpdate() {
@@ -731,10 +765,10 @@ namespace basecross
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrObjPos = ptrTransform->GetPosition();
 		if (m_WaterLVMode) {
-			if (m_WaterCurrentPos.y > m_WaterOldPos.y - 2.0f) {
+			if (m_WaterCurrentPos.y > m_WaterOldPos.y - 4.0f) {
 				m_WaterCurrentPos.y += -0.5f * Elapsedtime;
 			}
-			else if (m_WaterCurrentPos.y < m_WaterOldPos.y - 2.0f) {
+			else if (m_WaterCurrentPos.y < m_WaterOldPos.y - 4.0f) {
 				m_WaterTime += Elapsedtime;
 			}
 			if (m_WaterTime > 6.0f) {
@@ -760,11 +794,17 @@ namespace basecross
 		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
 			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
 		if (HitTest::AABB_AABB(m_WaterLVAABB, PlayerAABB)) {
-			ptrPlayer->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 0.0f);
+			ptrPlayer->ResetPositon();
 		}
 	}
 
-
+	void WaterLV::OnEvent(const shared_ptr<Event>& event)
+	{
+		if (event->m_MsgStr == L"WaterDown")
+		{
+			m_WaterLVMode = true;
+		}
+	}
 
 	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
 		ObjectBase(Stageptr, pNode)
@@ -818,6 +858,7 @@ namespace basecross
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto obj = GetComponent<Transform>()->GetGameObject();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+
 		if (Obj->FindTag(L"Player")) {
 			auto ptrTransform = GetComponent<Transform>();
 			m_CurrentPos.y += -m_Speed * Elapsedtime;

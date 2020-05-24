@@ -99,6 +99,11 @@ namespace basecross{
 		{
 			GetComponent<Transform>()->SetPosition(m_pos);
 		}
+
+		void UpdateResetPositon()
+		{
+			m_pos = GetComponent<Transform>()->GetPosition();
+		}
 	};
 
 
