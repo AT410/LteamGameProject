@@ -244,7 +244,7 @@ namespace basecross
 		m_AtPos = m_AtStartPos;
 		m_TotalTime = 0.0f;
 
-		auto PlayerPtr = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto PlayerPtr = GetStage()->GetSharedGameObject<GoalTest>(L"Goal");
 		m_AtEndPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
 
 		m_EndPos = m_AtEndPos;
@@ -259,7 +259,7 @@ namespace basecross
 		m_AtPos = m_AtStartPos;
 		m_TotalTime = 0.0f;
 
-		auto PlayerPtr = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto PlayerPtr = GetStage()->GetSharedGameObject<GoalTest>(L"Goal");
 		m_AtStartPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
 
 		m_StartPos = GetComponent<Transform>()->GetPosition();

@@ -296,6 +296,8 @@ namespace basecross
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetAfterCollision(AfterCollision::None);
 
+		GetStage()->SetSharedGameObject(L"Goal", GetThis<GoalTest>());
+
 	}
 
 	void GoalTest::OnUpdate()

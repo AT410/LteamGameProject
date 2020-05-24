@@ -189,17 +189,17 @@ namespace basecross
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
 		//開始イベントをスタート
-		//auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
-		//if (OPCam)
-		//{
-		//	auto MainCamera = StagePtr->GetMainView()->GetCamera();
-		//	auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
-		//	OPCam->SetCameraObject(Ptr);
-		//	OPCam->SetEye(MainCamera->GetEye());
-		//	OPCam->SetAt(MainCamera->GetAt());
-		//	OPCam->SetFar(MainCamera->GetFar());
-		//	OPCam->SetNear(MainCamera->GetNear());
-		//}
+		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+		if (OPCam)
+		{
+			auto MainCamera = StagePtr->GetMainView()->GetCamera();
+			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
+			OPCam->SetCameraObject(Ptr);
+			OPCam->SetEye(MainCamera->GetEye());
+			OPCam->SetAt(MainCamera->GetAt());
+			OPCam->SetFar(MainCamera->GetFar());
+			OPCam->SetNear(MainCamera->GetNear());
+		}
 	}
 
 	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)

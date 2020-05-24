@@ -22,11 +22,11 @@ namespace basecross {
 		PtrCamera->SetAt(at);
 		PtrCamera->SetExpansionEye(eye);
 		PtrCamera->SetExpansionAt(at);
-		//m_OpeningView = CreateView<SingleView>();
-		//auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
-		//m_OpeningView->SetCamera(PtrOPCamera);
-		//PtrOPCamera->SetEye(eye);
-		//PtrOPCamera->SetAt(at);
+		m_OpeningView = CreateView<SingleView>();
+		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
+		m_OpeningView->SetCamera(PtrOPCamera);
+		PtrOPCamera->SetEye(eye);
+		PtrOPCamera->SetAt(at);
 
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -165,6 +165,8 @@ namespace basecross {
 	void GameStage::ToMyCamera()
 	{
 		this->SetView(m_MainView);
+		auto Pair = GameManager::GetManager()->GetStagePair();
+		AddGameObject<AnimSpriteTest>(Pair.second);
 	}
 
 	void GameStage::OnCreate()
@@ -177,8 +179,6 @@ namespace basecross {
 			App::GetApp()->GetDataDirectory(Test);
 			GameManager::GetManager()->CreateGameStage(GetThis<StageBase>());
 			SetBGM(L"MAIN_SD");
-			auto Pair = GameManager::GetManager()->GetStagePair();
-			AddGameObject<AnimSpriteTest>(Pair.second);
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}

@@ -252,7 +252,7 @@ namespace basecross
 
 		void StartSound()
 		{
-			 m_WaterSound = App::GetApp()->GetXAudio2Manager()->Start(L"WaterFall_SD", XAUDIO2_LOOP_INFINITE,0.5f);
+			 m_WaterSound = App::GetApp()->GetXAudio2Manager()->Start(L"WaterFall_SD", XAUDIO2_LOOP_INFINITE,0.25f);
 		}
 
 		void StopSound()
