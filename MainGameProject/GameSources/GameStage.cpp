@@ -22,11 +22,11 @@ namespace basecross {
 		PtrCamera->SetAt(at);
 		PtrCamera->SetExpansionEye(eye);
 		PtrCamera->SetExpansionAt(at);
-		m_OpeningView = CreateView<SingleView>();
-		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
-		m_OpeningView->SetCamera(PtrOPCamera);
-		PtrOPCamera->SetEye(eye);
-		PtrOPCamera->SetAt(at);
+		//m_OpeningView = CreateView<SingleView>();
+		//auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
+		//m_OpeningView->SetCamera(PtrOPCamera);
+		//PtrOPCamera->SetEye(eye);
+		//PtrOPCamera->SetAt(at);
 
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -84,9 +84,10 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<UIController>();
-			//AddGameObject<DebugSprite>(L"TITLE_TX");
-			//AddGameObject<ContTest>(L"ToDataSelectStage");
+			//AddGameObject<UIController>();
+			AddGameObject<ContTest>(L"ToAreaSelectStage");
+			//AddGameObject<NormalUI>();
+			//AddGameObject<DebugSprite>(L"TitleStage_TX");
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)
@@ -125,8 +126,10 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"AreaSelect_TX");
-			AddGameObject<ContTest>(L"ToGameStage");
+			//AddGameObject<DebugSprite>(L"AreaSelect_TX");
+			//AddGameObject<ContTest>(L"ToGameStage");
+			AddGameObject<UIController>();
+			GameManager::GetManager()->CreateUISet(GetThis<AreaSelectStage>());
 		}
 		catch (...)
 		{
@@ -162,8 +165,6 @@ namespace basecross {
 	void GameStage::ToMyCamera()
 	{
 		this->SetView(m_MainView);
-		auto Pair = GameManager::GetManager()->GetStagePair();
-		AddGameObject<AnimSpriteTest>(Pair.second);
 	}
 
 	void GameStage::OnCreate()
@@ -175,7 +176,9 @@ namespace basecross {
 			wstring Test;
 			App::GetApp()->GetDataDirectory(Test);
 			GameManager::GetManager()->CreateGameStage(GetThis<StageBase>());
-			SetBGM(L"MAIN_SD");
+			//SetBGM(L"MAIN_SD");
+			auto Pair = GameManager::GetManager()->GetStagePair();
+			AddGameObject<AnimSpriteTest>(Pair.second);
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}

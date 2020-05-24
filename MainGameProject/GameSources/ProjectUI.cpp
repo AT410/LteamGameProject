@@ -41,7 +41,7 @@ namespace basecross
 
 			m_StartPos = Vec3(	(float)_wtof(Tokens[0].c_str()),
 								(float)_wtof(Tokens[1].c_str()),
-								(float)_wtof(Tokens[2].c_str()));
+								0.0f);
 
 			m_Width = (float)_wtof(WidthStr.c_str());
 
@@ -116,6 +116,7 @@ namespace basecross
 		pos.z = +0;
 		TransComp->SetPosition(pos);
 
+		// -- ìßâﬂèàóù --
 		SetAlphaActive(true);
 	}
 	//----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 
 /*!
 @file Scene.cpp
-@brief ƒV[ƒ“À‘Ì
+@brief ï¿½Vï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 
 #include "stdafx.h"
@@ -10,19 +10,19 @@
 namespace basecross{
 
 	//--------------------------------------------------------------------------------------
-	///	ƒQ[ƒ€ƒV[ƒ“
+	///	ï¿½Qï¿½[ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½
 	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
-			//ƒNƒŠƒA‚·‚éF‚ğİ’è
+			//ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½İ’ï¿½
 			Col4 Col;
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
 			SetClearColor(Col);
 			_EfkInterface = ObjectFactory::Create<EfkInterface>();
 			LoadUnionResource();
 			GameManager::CreateManager();
-			//©•ª©g‚ÉƒCƒxƒ“ƒg‚ğ‘—‚é
-			//‚±‚ê‚É‚æ‚èŠeƒXƒe[ƒW‚âƒIƒuƒWƒFƒNƒg‚ªCreate‚ÉƒV[ƒ“‚ÉƒAƒNƒZƒX‚Å‚«‚é
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ÉƒCï¿½xï¿½ï¿½ï¿½gï¿½ğ‘—‚ï¿½
+			//ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½eï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½Createï¿½ï¿½ï¿½ÉƒVï¿½[ï¿½ï¿½ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½Å‚ï¿½ï¿½ï¿½
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToLoadStage");
 		}
 		catch (...) {
@@ -35,7 +35,7 @@ namespace basecross{
 
 	void Scene::OnEvent(const shared_ptr<Event>& event) {
 		if (event->m_MsgStr == L"ToTitleStage") {
-			//Å‰‚ÌƒAƒNƒeƒBƒuƒXƒe[ƒW‚Ìİ’è
+			//ï¿½Åï¿½ï¿½ÌƒAï¿½Nï¿½eï¿½Bï¿½uï¿½Xï¿½eï¿½[ï¿½Wï¿½Ìİ’ï¿½
 			ResetActiveStage<TitleStage>();
 		}
 		else if (event->m_MsgStr == L"ToDataSelectStage")
@@ -60,22 +60,28 @@ namespace basecross{
 		}
 	}
 
-	//ƒŠƒ\[ƒX‚Ì‰Šú“Ç
+	//ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½Çï¿½
 	void Scene::LoadUnionResource()
 	{
 		wstring MediaPath;
 		wstring EFkPath;
 		wstring BGMPath;
+		wstring ModelPath;
 		App::GetApp()->GetDataDirectory(MediaPath);
+		ModelPath = MediaPath + L"Model/";
 		EFkPath = MediaPath + L"Effect/";
 		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
-		App::GetApp()->RegisterTexture(L"WATER_TX", MediaPath + L"water.jpg");
-		App::GetApp()->RegisterTexture(L"WATERSUB_TX", MediaPath + L"water2.jpg");
-		App::GetApp()->RegisterTexture(L"WATERMASK_TX", MediaPath + L"TexMask.png");
 		App::GetApp()->RegisterTexture(L"TEXTTEST_TX", MediaPath + L"texttest.png");
 		App::GetApp()->RegisterTexture(L"TITLE_TX", MediaPath + L"title.jpg");
+		App::GetApp()->RegisterTexture(L"BackGround_TX", MediaPath + L"BackGround.png");
+		App::GetApp()->RegisterTexture(L"StageSelect_TX", MediaPath + L"StageSelect.png");
+		App::GetApp()->RegisterTexture(L"One_TX", MediaPath + L"One.png");
+		App::GetApp()->RegisterTexture(L"Two_TX", MediaPath + L"Two.png");
+		App::GetApp()->RegisterTexture(L"Three_TX", MediaPath + L"Three.png");
+		auto MeshRes = MeshResource::CreateStaticModelMesh(ModelPath, L"TestN.bmf");
+		App::GetApp()->RegisterResource(L"TESTN_MD", MeshRes);
 	}
 
 	void Scene::SetDebugResoruce()
