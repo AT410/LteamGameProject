@@ -275,12 +275,13 @@ namespace basecross
 		wstring m_RecipientKey;//<-受信先設定キー
 		wstring m_EventMsg; //<-イベントメッセージ
 
+		shared_ptr<Waterfall> m_WaterFall;
 
 	public:
 		WaterJet(const shared_ptr<Stage>& Stageptr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
 			: ObjectBase(Stageptr, Position, Rotation, Scale, TexKey, MeshKey),	m_WaterJetmode(false),m_WaterJetDirToUp(false),
-			m_SizeAABBX(2.0f),m_SizeAABBY(3.0f),m_SizeAABBZ(2.0f)
+			m_SizeAABBX(2.0f),m_SizeAABBY(30.0f),m_SizeAABBZ(2.0f)
 		{}
 		WaterJet(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode);
 		virtual ~WaterJet() {}

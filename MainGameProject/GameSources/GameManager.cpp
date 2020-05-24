@@ -174,7 +174,7 @@ namespace basecross
 		Builder.Register<PullBoxObj>(L"PullBox");
 
 		//ˆÉ“Œ:Type‚Ì’Ç‰Á
-		//Builder.Register<StageTest>(L"Water");
+		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
 		Builder.Register<UpDownBox>(L"FloatBox"); //<-•‚‚­
 		Builder.Register<WaterLV>(L"WaterLV");

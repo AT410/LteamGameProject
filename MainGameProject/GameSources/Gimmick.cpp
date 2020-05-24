@@ -531,7 +531,7 @@ namespace basecross
 		Vec3 EfkPoint = m_EndPoint;
 
 		//水しぶきのエフェクトの再生
-		m_EfkPlay = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", EfkPoint);
+		//m_EfkPlay = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", EfkPoint);
 	}
 
 
@@ -546,7 +546,8 @@ namespace basecross
 	}
 
 	WaterJet::WaterJet(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode)
+		ObjectBase(Stageptr, pNode), m_WaterJetmode(false), m_WaterJetDirToUp(false),
+		m_SizeAABBX(2.0f), m_SizeAABBY(20.0f), m_SizeAABBZ(2.0f)
 	{
 
 	}
@@ -570,7 +571,7 @@ namespace basecross
 	}
 
 	void WaterJet::OnCreate() {
-		auto ptrDraw = AddComponent<PNTPointDraw>();
+		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
@@ -589,7 +590,11 @@ namespace basecross
 				Vec3(m_StartPos.x + m_SizeAABBX, m_StartPos.y, m_StartPos.z + m_SizeAABBZ));
 		}
 
-		m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
+		//m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
+		
+		m_WaterFall = GetStage()->AddGameObject<Waterfall>(Vec3(m_StartPos.x,m_StartPos.y,m_StartPos.z),
+			Vec3(m_StartPos.x, m_StartPos.y - m_SizeAABBY/2, m_StartPos.z), 2.0f, 1.0f);
+		m_WaterFall->SetDrawActive(m_WaterJetmode);
 	}
 
 	void WaterJet::OnUpdate() {
@@ -607,10 +612,12 @@ namespace basecross
 			m_JudmentTime = 0.0f;
 			if (m_WaterJetmode) {
 				m_WaterJetmode = false;
+				m_WaterFall->SetDrawActive(false);
 			}
 			else {
 				m_WaterJetmode = true;
-				m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
+				m_WaterFall->SetDrawActive(true);
+				//m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 			}
 		}
 	}
@@ -619,20 +626,20 @@ namespace basecross
 	//＠松崎　洸樹
 	//＠作動している水噴射とプレイヤーに接触した際にプレイヤーで起こることを記述した関数
 	void WaterJet::WaterJetJudgment() {
-		auto ptrTransform = AddComponent<Transform>();
+		auto ptrTransform = GetComponent<Transform>();
 		m_Pos = ptrTransform->GetPosition();
 		auto GetPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 		auto PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
 		AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);
-		auto ptrDraw = AddComponent<BcPNStaticDraw>();
+		auto ptrDraw = GetComponent<PNTStaticDraw>();
 		if (m_WaterJetmode) {
-			ptrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 1.0f));
+			ptrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 1.0f));
 			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
 				GetPlayer->ResetPositon();
 			}
 		}
 		else {
-			ptrDraw->SetColorAndAlpha(Col4(0.0f, 0.0f, 0.0f, 1.0f));
+			ptrDraw->SetDiffuse(Col4(0.0f, 0.0f, 0.0f, 1.0f));
 		}
 	}
 
@@ -738,7 +745,7 @@ namespace basecross
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
-		m_WaterLVMode = true;
+		//m_WaterLVMode = true;
 
 		if (m_EventActive)
 		{
@@ -825,6 +832,13 @@ namespace basecross
 
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
+
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				continue;
+			AddTag(tag);
+		}
 	}
 
 	void UpDownBox::OnUpdate() {

@@ -213,7 +213,8 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"EndingStage_TX");
+			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
+			AddGameObject<ContTest>(L"ToTitleStage");
 		}
 		catch (...)
 		{
