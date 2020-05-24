@@ -48,6 +48,8 @@ namespace basecross{
 
 		shared_ptr<EfkPlay> m_FireEfk;
 
+		shared_ptr<SoundItem> m_ClearSound;
+
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);
 

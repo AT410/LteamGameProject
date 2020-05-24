@@ -53,6 +53,7 @@ namespace basecross{
 		EfkPoint.y += 0.5f;
 		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
 
+		m_ClearSound = nullptr;
 	}
 
 	//進行ベクトルへの下方関数
@@ -181,8 +182,12 @@ namespace basecross{
 			//ゴールエフェクト再生
 			auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
 			Pos.y += 0.5f;
-			GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK",Pos);
+			GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK", Pos);
 			m_FireEfk->StopEffect();
+			if (!m_ClearSound) 
+			{
+				m_ClearSound = App::GetApp()->GetXAudio2Manager()->Start(L"FireStart_SD", 0, 1.0f);
+			}
 		}
 	}
 

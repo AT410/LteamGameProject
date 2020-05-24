@@ -211,6 +211,8 @@ namespace basecross
 	private:
 		bool m_IsGoal;
 		float m_count;
+
+		shared_ptr<SoundItem> m_sound;
 	};
 
 }
