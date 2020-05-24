@@ -111,10 +111,7 @@ namespace basecross
 		DrawComp->SetTextureResource(GetTexKey());
 
 		// -- îzíuê›íË --
-		auto TransComp = GetComponent<Transform>();
-		auto pos = GetStartPos();
-		pos.z = +0;
-		TransComp->SetPosition(pos);
+		GetComponent<Transform>()->SetPosition(GetStartPos());
 
 		// -- ìßâﬂèàóù --
 		SetAlphaActive(true);
@@ -170,10 +167,7 @@ namespace basecross
 		DrawComp->CreateMesh<VertexPositionColorTexture>(vertices, indices);
 		DrawComp->SetTextureResource(GetTexKey());
 
-		auto TransComp = GetComponent<Transform>();
-		auto pos = GetStartPos();
-		pos.z = 1;
-		TransComp->SetPosition(pos);
+		GetComponent<Transform>()->SetPosition(GetStartPos());
 
 		SetAlphaActive(true);
 
