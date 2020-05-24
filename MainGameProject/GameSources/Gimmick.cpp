@@ -527,4 +527,326 @@ namespace basecross
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);
 
 	}
+
+	WaterJet::WaterJet(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
+		ObjectBase(Stageptr, pNode)
+	{
+
+	}
+	//＠AABBX用のセッター関数
+	//＠松崎　洸樹
+	//＠m_SizeAABBXのセッター用の関数
+	void WaterJet::SetSizeAABBX(const float sizeX) {
+		m_SizeAABBX = sizeX;
+	}
+	//＠AABBY用のセッター関数
+	//＠松崎　洸樹
+	//＠m_SizeAABBYのセッター用の関数
+	void WaterJet::SetSizeAABBY(const float sizeY) {
+		m_SizeAABBY = sizeY;
+	}
+	//＠AABBZ用のセッター関数
+	//＠松崎　洸樹
+	//＠m_SizeAABBZのセッター用の関数
+	void WaterJet::SetSizeAABBZ(const float sizeZ) {
+		m_SizeAABBZ = sizeZ;
+	}
+
+	void WaterJet::OnCreate() {
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+
+		auto ptrTransform = AddComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		m_StartPos = ptrTransform->GetPosition();
+		if (m_WaterJetDirToUp) {
+			m_WaterJetAABB = AABB(Vec3(m_StartPos.x - m_SizeAABBX, m_StartPos.y, m_StartPos.z - m_SizeAABBZ),
+				Vec3(m_StartPos.x + m_SizeAABBX, m_StartPos.y + m_SizeAABBY, m_StartPos.z + m_SizeAABBZ));
+		}
+		else {
+			m_WaterJetAABB = AABB(Vec3(m_StartPos.x - m_SizeAABBX, m_StartPos.y - m_SizeAABBY, m_StartPos.z - m_SizeAABBZ),
+				Vec3(m_StartPos.x + m_SizeAABBX, m_StartPos.y, m_StartPos.z + m_SizeAABBZ));
+		}
+
+		m_efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", m_StartPos);
+	}
+
+	void WaterJet::OnUpdate() {
+		StartJudgment();
+		WaterJetJudgment();
+	}
+
+	//＠作動判定関数
+	//＠松崎　洸樹
+	//＠水噴射の機能を作動させるかどうかの判断をさせる関数
+	void WaterJet::StartJudgment() {
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		m_JudmentTime += Elapsedtime;
+		if (m_JudmentTime > 4.0f) {
+			m_JudmentTime = 0.0f;
+			if (m_WaterJetmode) {
+				m_WaterJetmode = false;
+			}
+			else {
+				m_WaterJetmode = true;
+				m_efk = ObjectFactory::Create<EfkPlay>(L"TEST_EFK", m_StartPos);
+			}
+		}
+	}
+
+	//＠水噴射接触判定関数
+	//＠松崎　洸樹
+	//＠作動している水噴射とプレイヤーに接触した際にプレイヤーで起こることを記述した関数
+	void WaterJet::WaterJetJudgment() {
+		auto ptrTransform = AddComponent<Transform>();
+		m_Pos = ptrTransform->GetPosition();
+		auto GetPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
+		AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);
+		auto ptrDraw = AddComponent<BcPNStaticDraw>();
+		if (m_WaterJetmode) {
+			ptrDraw->SetColorAndAlpha(Col4(0.0f, 1.0f, 0.0f, 1.0f));
+			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
+				GetPlayer->ResetPositon();
+			}
+		}
+		else {
+			ptrDraw->SetColorAndAlpha(Col4(0.0f, 0.0f, 0.0f, 1.0f));
+		}
+	}
+
+
+	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
+		ObjectBase(Stageptr, pNode)
+	{}
+
+	void WaterDrop::OnCreate() {
+		//AddComponent<Gravity>();
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		auto ptrScale = ptrTransform->GetScale();
+
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+
+		m_OldPos = ptrTransform->GetPosition();
+		m_CurrentPos = ptrTransform->GetPosition();
+		m_WaterAABBX = ptrScale.x / 2;
+		m_WaterAABBY = ptrScale.y / 2;
+		m_WaterAABBZ = ptrScale.z / 2;
+	}
+
+	void WaterDrop::OnUpdate() {
+		Drop();
+		WaterDropJudgement();
+	}
+
+	//＠ドロップ関数
+	//＠松崎　洸樹
+	//＠水滴を落とす関数
+	void WaterDrop::Drop() {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		m_Speed += m_SpeedAdd;
+		m_CurrentPos.y += -m_Speed * Elapsedtime;
+		m_time += -Elapsedtime;
+		if (m_time <= 0.0f) {
+			m_CurrentPos = m_OldPos;
+			m_time = 3.0f;
+			m_Speed = 0.0f;
+		}
+		ptrTransform->SetPosition(m_CurrentPos);
+	}
+	//＠水滴判定関数
+	//＠松崎　洸樹
+	//＠水滴とプレイヤーの衝突判定用の関数
+	void WaterDrop::WaterDropJudgement() {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto PlayerPos = ptrPlayer->GetComponent<Transform>()->GetPosition();
+		auto PlayerScale = ptrPlayer->GetComponent<Transform>()->GetScale();
+		m_WaterDropAABB = AABB(Vec3(ptrPos.x - m_WaterAABBX, ptrPos.y - m_WaterAABBY, ptrPos.z - m_WaterAABBZ),
+			Vec3(ptrPos.x + m_WaterAABBX, ptrPos.y, ptrPos.z + m_WaterAABBZ));
+		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
+			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
+		if (HitTest::AABB_AABB(m_WaterDropAABB, PlayerAABB)) {
+			ptrPlayer->GetComponent<Transform>()->SetPosition(0.0, 3.0f, 0.0f);
+		}
+
+	}
+
+	WaterLV::WaterLV(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
+		ObjectBase(Stageptr, pNode)
+	{}
+
+	void WaterLV::OnCreate() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		auto ptrScale = ptrTransform->GetScale();
+		m_WaterOldPos = ptrTransform->GetPosition();
+		m_WaterCurrentPos = ptrTransform->GetPosition();
+		m_AABBX = ptrScale.x;
+		m_AABBY = ptrScale.y;
+		m_AABBZ = ptrScale.z;
+		m_PlayerAABBX = ptrScale.x / 2;
+		m_PlayerAABBY = ptrScale.y / 2;
+		m_PlayerAABBZ = ptrScale.z / 2;
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+	}
+
+	void WaterLV::OnUpdate() {
+		WaterLVChange();
+		WaterLVJudgement();
+	}
+
+	//＠ウォーターレベルモードセット関数
+	//＠松崎　洸樹
+	//bool型のウォーターレベルモードのセット関数
+	void WaterLV::SetWaterLVMode(const bool LVMode) {
+		m_WaterLVMode = LVMode;
+	}
+	//＠ウォーターレベル変更関数
+	//＠松崎　洸樹
+	//＠ウォーターレベルの水位状態変化を行う関数
+	void WaterLV::WaterLVChange() {
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrObjPos = ptrTransform->GetPosition();
+		if (m_WaterLVMode) {
+			if (m_WaterCurrentPos.y > m_WaterOldPos.y - 2.0f) {
+				m_WaterCurrentPos.y += -0.5f * Elapsedtime;
+			}
+			else if (m_WaterCurrentPos.y < m_WaterOldPos.y - 2.0f) {
+				m_WaterTime += Elapsedtime;
+			}
+			if (m_WaterTime > 6.0f) {
+				m_WaterCurrentPos.y += 1.0f * Elapsedtime;
+			}
+			if (m_WaterCurrentPos.y > m_WaterOldPos.y) {
+				m_WaterTime = 0.0f;
+				m_WaterCurrentPos.y = m_WaterOldPos.y;
+				m_WaterLVMode = false;
+			}
+		}
+		ptrTransform->SetPosition(m_WaterCurrentPos);
+	}
+	//＠ウォーターレベル判定関数
+	//＠松崎　洸樹
+	//＠ウォーターレベルとプレイヤーのボリューム境界における接触判定を行う関数
+	void WaterLV::WaterLVJudgement() {
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto PlayerPos = ptrPlayer->GetComponent<Transform>()->GetPosition();
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		m_WaterLVAABB = AABB(ptrPos, m_AABBX, m_AABBY, m_AABBZ);
+		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
+			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
+		if (HitTest::AABB_AABB(m_WaterLVAABB, PlayerAABB)) {
+			ptrPlayer->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 0.0f);
+		}
+	}
+
+
+
+	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
+		ObjectBase(Stageptr, pNode)
+	{}
+
+	void UpDownBox::OnCreate() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		auto ptrPos = ptrTransform->GetPosition();
+		auto ptrColl = AddComponent<CollisionObb>();
+
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+
+		m_OldPos = ptrTransform->GetPosition();
+		m_CurrentPos = ptrTransform->GetPosition();
+	}
+
+	void UpDownBox::OnUpdate() {
+		BoxJudgment();
+		//浮く処理
+		m_CurrentPos = GetComponent<Transform>()->GetPosition();
+		FloatMove();
+	}
+	//ボックス判定関数
+	//松崎　洸樹
+	//プレイヤーが離れた時にプレイヤーとボックスの親子化解除をするための関数
+	void UpDownBox::BoxJudgment() {
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+
+		if (!m_ParentJudge) {
+			m_parenttime += Elapsedtime;
+			if (m_parenttime <= 0.0f) {
+				ptrPlayer->GetComponent<Transform>()->ClearParent();
+			}
+		}
+		else {
+			m_parenttime = 2.0f;
+		}
+	}
+	//衝突判定関数（衝突している間）
+	//松崎　洸樹
+	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
+	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
+		m_ParentJudge = true;
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		auto obj = GetComponent<Transform>()->GetGameObject();
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		if (Obj->FindTag(L"Player")) {
+			auto ptrTransform = GetComponent<Transform>();
+			m_CurrentPos.y += -m_Speed * Elapsedtime;
+			ptrTransform->SetPosition(m_CurrentPos);
+			ptrPlayer->GetComponent<Transform>()->SetParent(obj);
+		}
+	}
+	//衝突判定関数（衝突から離れた時）
+	//松崎　洸樹
+	//プレイヤーと離れた時親子化解除するためのbool型の処理をする
+	void UpDownBox::OnCollisionExit(shared_ptr<GameObject>& Obj) {
+		auto m_ParentJudge = false;
+	}
+
+	//床が動く関数
+	//
+	//床が浮き上がる関数
+	bool UpDownBox::FloatMove() {
+		//BoxJudgment();
+		//浮く処理
+		m_totaltime += App::GetApp()->GetElapsedTime();
+		if (m_totaltime > 5.0f)
+		{
+			m_totaltime = 0;
+			return true;
+		}
+
+		Easing<Vec3> easing;
+
+		auto ep = easing.Linear(m_OldPos, m_CurrentPos, m_totaltime, 5.0);
+
+		GetComponent<Transform>()->SetPosition(ep);
+	}
+
 }

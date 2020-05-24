@@ -5,12 +5,13 @@ namespace basecross {
 	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr):
 		ObjectBase(Stageptr),
 		m_Speed(1.0f),
-		m_OldPos(0.0f)
+		m_OldPos(0.0f),
+		m_parenttime(2.0f)
 	{}
 
 	void UpDownBox::OnCreate() {
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(7.0f, 0.0f, -5.0f);
+		ptrTransform->SetPosition(0.0f, 0.0f, -6.0f);
 		ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
 		ptrTransform->SetScale(1.0f, 1.0f, 1.0f);
 		auto ptrPos = ptrTransform->GetPosition();
@@ -24,44 +25,55 @@ namespace basecross {
 	void UpDownBox::BoxJudgment() {
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-		auto ptrPlayerScale = ptrPlayer->GetComponent<Transform>()->GetScale();
-		auto ptrPlayerPos = ptrPlayer->GetComponent<Transform>()->GetPosition();
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrScale = ptrTransform->GetScale();
-		auto ptrPos = ptrTransform->GetPosition();
-		m_PlayerAABBX = ptrPlayerScale.x / 2;
-		m_PlayerAABBY = ptrPlayerScale.y / 2;
-		m_PlayerAABBZ = ptrPlayerScale.z / 2;
-		m_BoxAABBX = ptrScale.x / 2;
-		m_BoxAABBY = ptrScale.y / 2;
-		m_BoxAABBZ = ptrScale.z / 2;
-		m_BoxAABB = AABB(Vec3(ptrPos.x - m_BoxAABBX, ptrPos.y, ptrPos.z - m_BoxAABBZ),
-			Vec3(ptrPos.x + m_BoxAABBX, ptrPos.y + m_BoxAABBY, ptrPos.z + m_BoxAABBZ));
-
-		//auto PlayerAABB = AABB(Vec3(ptrPlayerPos.x, ptrPlayerPos.y - m_BoxAABBY, ptrPlayerPos.z),
-		//					   Vec3(ptrPlayerPos.x, ptrPlayerPos.y, ptrPlayerPos.z));
-		auto PlayerCapsure = CAPSULE(ptrPlayerScale.x, Vec3(ptrPlayerPos.x, ptrPlayerPos.y - m_PlayerAABBY, ptrPlayerPos.z), ptrPlayerPos);
-		Vec3 ReturnVec = Vec3(0.0f);
-		if (HitTest::CAPSULE_AABB(PlayerCapsure, m_BoxAABB,ReturnVec)) {
-			//m_CurrentPos.y += -m_Speed * Elapsedtime;
-			ReturnVec.x += m_PlayerAABBX;
-			ReturnVec.y += m_PlayerAABBY;
-			ReturnVec.z += m_PlayerAABBZ;
-			ptrPlayer->GetComponent<Transform>()->SetPosition(ReturnVec);
+		
+		if (!m_ParentJudge) {
+			m_parenttime += Elapsedtime;
+			if (m_parenttime <= 0.0f) {
+				ptrPlayer->GetComponent<Transform>()->ClearParent();
+			}
 		}
 		else {
-			if (m_CurrentPos.y < m_OldPos.y) {
-				m_CurrentPos.y += m_Speed * Elapsedtime;
-			}
-			else if (m_CurrentPos.y > m_OldPos.y) {
-				m_CurrentPos = m_OldPos;
-			}
+			m_parenttime = 2.0f;
 		}
-		ptrTransform->SetPosition(m_CurrentPos);
+	}
 
+	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
+		m_ParentJudge = true;
+		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		auto obj = GetComponent<Transform>()->GetGameObject();
+		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
+		if (Obj->FindTag(L"Player")) {
+			auto ptrTransform = GetComponent<Transform>();
+			m_CurrentPos.y +=  -m_Speed * Elapsedtime;
+			ptrTransform->SetPosition(m_CurrentPos);
+			ptrPlayer->GetComponent<Transform>()->SetParent(obj);
+		}
+	}
+	void UpDownBox::OnCollisionExit(shared_ptr<GameObject>& Obj) {
+		auto m_ParentJudge = false;
 	}
 
 	void UpDownBox::OnUpdate() {
 		BoxJudgment();
+		//ïÇÇ≠èàóù
+		m_CurrentPos = GetComponent<Transform>()->GetPosition();
+		FloatMove();
+	}
+
+	bool UpDownBox::FloatMove() {
+		//BoxJudgment();
+		//ïÇÇ≠èàóù
+		m_totaltime += App::GetApp()->GetElapsedTime();
+		if (m_totaltime > 5.0f)
+		{
+			m_totaltime = 0;
+			return true;
+		}
+
+		Easing<Vec3> easing;
+
+		auto ep = easing.Linear(m_OldPos, m_CurrentPos, m_totaltime, 5.0);
+
+		GetComponent<Transform>()->SetPosition(ep);
 	}
 }
