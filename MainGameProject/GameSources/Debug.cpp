@@ -295,6 +295,7 @@ namespace basecross
 
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetAfterCollision(AfterCollision::None);
+
 	}
 
 	void GoalTest::OnUpdate()

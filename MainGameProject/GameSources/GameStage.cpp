@@ -37,7 +37,7 @@ namespace basecross {
 	void StageBase::SetBGM(const wstring& BGMKey)
 	{
 		auto XAudioPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGMPtr = XAudioPtr->Start(BGMKey,XAUDIO2_LOOP_INFINITE,0.5f);
+		m_BGMPtr = XAudioPtr->Start(BGMKey,XAUDIO2_LOOP_INFINITE,0.25f);
 	}
 
 	void StageBase::OnDestroy()
@@ -176,7 +176,7 @@ namespace basecross {
 			wstring Test;
 			App::GetApp()->GetDataDirectory(Test);
 			GameManager::GetManager()->CreateGameStage(GetThis<StageBase>());
-			//SetBGM(L"MAIN_SD");
+			SetBGM(L"MAIN_SD");
 			auto Pair = GameManager::GetManager()->GetStagePair();
 			AddGameObject<AnimSpriteTest>(Pair.second);
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);

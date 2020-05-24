@@ -241,9 +241,24 @@ namespace basecross
 		{
 		}
 
+		virtual ~Waterfall()
+		{
+			App::GetApp()->GetXAudio2Manager()->Stop(m_WaterSound);
+		}
+
 		void OnCreate()override;
 
 		void OnUpdate()override;
+
+		void StartSound()
+		{
+			 m_WaterSound = App::GetApp()->GetXAudio2Manager()->Start(L"WaterFall_SD", XAUDIO2_LOOP_INFINITE,0.5f);
+		}
+
+		void StopSound()
+		{
+			App::GetApp()->GetXAudio2Manager()->Stop(m_WaterSound);
+		}
 
 	private:
 		Vec3 m_StartPoint;
@@ -255,6 +270,8 @@ namespace basecross
 		float m_TotalTime = 0;
 
 		shared_ptr<EfkPlay> m_EfkPlay;
+
+		shared_ptr<SoundItem> m_WaterSound;
 	};
 
 	//ウォータージェットクラス

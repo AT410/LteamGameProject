@@ -613,10 +613,12 @@ namespace basecross
 			if (m_WaterJetmode) {
 				m_WaterJetmode = false;
 				m_WaterFall->SetDrawActive(false);
+				m_WaterFall->StopSound();
 			}
 			else {
 				m_WaterJetmode = true;
 				m_WaterFall->SetDrawActive(true);
+				m_WaterFall->StartSound();
 				//m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 			}
 		}
@@ -719,6 +721,8 @@ namespace basecross
 			PPtr->ResetPositon();
 		}
 		GetComponent<Transform>()->SetPosition(m_pos);
+
+		App::GetApp()->GetXAudio2Manager()->Start(L"WaterDrop_SD", 0, 0.1f);
 	}
 
 

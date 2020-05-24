@@ -27,5 +27,9 @@
     <ResourceData ResourceKey="WATERFALL_EFK" ResourceFile="test.efk" ResourceType="Effect" EffectMagni="0.5" />
     <ResourceData ResourceKey="WATERSUB_TX" ResourceFile="water2.jpg" ResourceType="Texture" />
     <ResourceData ResourceKey="WATERMASK_TX" ResourceFile="TexMask.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="WaterFall_SD" ResourceFile="WaterFall.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="FireStart_SD" ResourceFile="FireStart.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="WaterDrop_SD" ResourceFile="Waterdrop.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" />
   </Resource>
 </ResourceDataMap>

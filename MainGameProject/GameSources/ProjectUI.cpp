@@ -337,6 +337,7 @@ namespace basecross
 
 	void UIController::OnPushA()
 	{
+		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
 		//‘Î‰ž‚·‚éƒCƒxƒ“ƒg‚ð”­¶‚³‚¹‚é
 		m_CurrntUI->SetFlashingSpeed(2.5f);
 		m_CurrntUI->StartEvent();
