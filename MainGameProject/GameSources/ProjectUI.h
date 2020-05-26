@@ -34,8 +34,28 @@ namespace basecross
 
 
 	//----------------------------------------------------------------------------
-	//通常UI;(常時表示)
+	//ポーズUI(ボタンを押したとき)
 	//----------------------------------------------------------------------------
+	class PauseUI :public UIBase
+	{
+	public:
+		PauseUI(const shared_ptr<Stage>&StagePtr)
+			:UIBase(StagePtr)
+		{}
+
+		PauseUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+			:UIBase(StagePtr, pNode)
+		{}
+
+		virtual ~PauseUI() {}
+
+		void OnCreate()override;
+
+	};
+
+	//----------------------------------------------------------------------------
+//通常UI;(常時表示)
+//----------------------------------------------------------------------------
 	class NormalUI :public UIBase
 	{
 	public:

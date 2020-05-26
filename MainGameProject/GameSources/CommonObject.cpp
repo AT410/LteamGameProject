@@ -55,6 +55,20 @@ namespace basecross
 		}
 	}
 
+	//透明な壁：前に落ちないようにするため
+	void FrontWallObj::OnCreate()
+	{
+		//配置設定
+		auto TransComp = GetComponent<Transform>();
+		TransComp->SetPosition(m_pos);
+		TransComp->SetQuaternion(Quat(m_rot));
+		TransComp->SetScale(m_scal);
+
+		//物理判定
+		auto CollComp = AddComponent<CollisionObb>();
+		CollComp->SetFixed(true);
+	}
+
 	//----------------------------------------------------------------------------
 	//引っ張り
 	//----------------------------------------------------------------------------
