@@ -818,7 +818,7 @@ namespace basecross
 	}
 
 	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode)
+		ObjectBase(Stageptr, pNode), m_Speed(2.0f), m_OldPos(0.0f), m_parenttime(0.0f)
 	{}
 
 	void UpDownBox::OnCreate() {
@@ -849,7 +849,7 @@ namespace basecross
 		BoxJudgment();
 		//浮く処理
 		m_CurrentPos = GetComponent<Transform>()->GetPosition();
-		FloatMove();
+		//FloatMove();
 	}
 	//ボックス判定関数
 	//松崎　洸樹
@@ -857,38 +857,41 @@ namespace basecross
 	void UpDownBox::BoxJudgment() {
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-
-		if (!m_ParentJudge) {
-			m_parenttime += Elapsedtime;
-			if (m_parenttime <= 0.0f) {
-				ptrPlayer->GetComponent<Transform>()->ClearParent();
-			}
+		auto ptrTransform = GetComponent<Transform>();
+		if (m_ParentJudge) {
+			m_CurrentPos.y += /*-m_Speed **/ Elapsedtime;
+			ptrTransform->SetPosition(m_CurrentPos);
 		}
 		else {
-			m_parenttime = 2.0f;
+			m_parenttime += -Elapsedtime;
+			if (m_parenttime <= 0.0f) {
+				FloatMove();
+			}
+			else if (m_parenttime > 0.0f) {
+				m_CurrentPos.y += -/*m_Speed **/ Elapsedtime;
+				ptrTransform->SetPosition(m_CurrentPos);
+
+			}
 		}
 	}
 	//衝突判定関数（衝突している間）
 	//松崎　洸樹
 	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		m_ParentJudge = true;
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto obj = GetComponent<Transform>()->GetGameObject();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 
-		if (Obj->FindTag(L"Player")) {
-			auto ptrTransform = GetComponent<Transform>();
-			m_CurrentPos.y += -m_Speed * Elapsedtime;
-			ptrTransform->SetPosition(m_CurrentPos);
-			ptrPlayer->GetComponent<Transform>()->SetParent(obj);
+		if (Obj->FindTag(L"EnabledSwitch")) {
+			m_ParentJudge = true;
+			m_parenttime = 2.0f;
 		}
 	}
 	//衝突判定関数（衝突から離れた時）
 	//松崎　洸樹
 	//プレイヤーと離れた時親子化解除するためのbool型の処理をする
 	void UpDownBox::OnCollisionExit(shared_ptr<GameObject>& Obj) {
-		auto m_ParentJudge = false;
+		m_ParentJudge = false;
 	}
 
 	//床が動く関数

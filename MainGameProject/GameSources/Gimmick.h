@@ -386,7 +386,7 @@ namespace basecross
 	public:
 		UpDownBox(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
-			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey), m_Speed(1.0f), m_OldPos(0.0f), m_parenttime(2.0f){}
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey){}
 		UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode);
 		virtual ~UpDownBox() {}
 		void BoxJudgment();
