@@ -647,7 +647,7 @@ namespace basecross
 
 
 	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode)
+		ObjectBase(Stageptr, pNode), m_time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)
 	{}
 
 	void WaterDrop::OnCreate() {
@@ -657,58 +657,38 @@ namespace basecross
 		ptrTransform->SetQuaternion(Quat(m_rot));
 		ptrTransform->SetScale(m_scal);
 
-		auto ptrScale = ptrTransform->GetScale();
-
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
-		m_WaterAABBX = ptrScale.x / 2;
-		m_WaterAABBY = ptrScale.y / 2;
-		m_WaterAABBZ = ptrScale.z / 2;
-
 		AddComponent<CollisionObb>();
 	}
 
 	void WaterDrop::OnUpdate() {
-		//Drop();
-		//WaterDropJudgement();
+		CoolTime();
 	}
-
-	//＠ドロップ関数
-	//＠松崎　洸樹
-	//＠水滴を落とす関数
-	void WaterDrop::Drop() {
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
+	//ウォータードロップクール関数
+	//松崎　洸樹
+	//ウォータードロップの時間的感覚を作る関数
+	void WaterDrop::CoolTime() {
+		auto ptrGrav = GetComponent<Gravity>();
+		auto ptrDraw = GetComponent<PNTPointDraw>();
+		auto ptrColl = GetComponent<CollisionObb>();
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		m_Speed += m_SpeedAdd;
-		m_CurrentPos.y += -m_Speed * Elapsedtime;
-		m_time += -Elapsedtime;
-		if (m_time <= 0.0f) {
-			m_CurrentPos = m_OldPos;
-			m_time = 3.0f;
-			m_Speed = 0.0f;
+		if (m_Cooltime > 0.0f) {
+			GetComponent<Transform>()->SetPosition(m_pos);
+
+			m_Cooltime += -Elapsedtime;
+			ptrGrav->SetUpdateActive(false);
+			ptrDraw->SetDrawActive(false);
+			ptrColl->SetUpdateActive(false);
 		}
-		ptrTransform->SetPosition(m_CurrentPos);
-	}
-	//＠水滴判定関数
-	//＠松崎　洸樹
-	//＠水滴とプレイヤーの衝突判定用の関数
-	void WaterDrop::WaterDropJudgement() {
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-		auto PlayerPos = ptrPlayer->GetComponent<Transform>()->GetPosition();
-		auto PlayerScale = ptrPlayer->GetComponent<Transform>()->GetScale();
-		m_WaterDropAABB = AABB(Vec3(ptrPos.x - m_WaterAABBX, ptrPos.y - m_WaterAABBY, ptrPos.z - m_WaterAABBZ),
-			Vec3(ptrPos.x + m_WaterAABBX, ptrPos.y, ptrPos.z + m_WaterAABBZ));
-		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
-			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
-		if (HitTest::AABB_AABB(m_WaterDropAABB, PlayerAABB)) {
-			ptrPlayer->GetComponent<Transform>()->SetPosition(0.0, 3.0f, 0.0f);
+		else {
+			ptrGrav->SetUpdateActive(true);
+			ptrDraw->SetDrawActive(true);
+			ptrColl->SetUpdateActive(true);
 		}
 
 	}
@@ -720,8 +700,7 @@ namespace basecross
 		{
 			PPtr->ResetPositon();
 		}
-		GetComponent<Transform>()->SetPosition(m_pos);
-
+		m_Cooltime = m_CooltimeMax;
 		App::GetApp()->GetXAudio2Manager()->Start(L"WaterDrop_SD", 0, 0.1f);
 	}
 
@@ -859,7 +838,7 @@ namespace basecross
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 		auto ptrTransform = GetComponent<Transform>();
 		if (m_ParentJudge) {
-			m_CurrentPos.y += /*-m_Speed **/ Elapsedtime;
+			m_CurrentPos.y += -Elapsedtime;
 			ptrTransform->SetPosition(m_CurrentPos);
 		}
 		else {
@@ -868,7 +847,7 @@ namespace basecross
 				FloatMove();
 			}
 			else if (m_parenttime > 0.0f) {
-				m_CurrentPos.y += -/*m_Speed **/ Elapsedtime;
+				m_CurrentPos.y += -Elapsedtime;
 				ptrTransform->SetPosition(m_CurrentPos);
 
 			}
@@ -883,8 +862,8 @@ namespace basecross
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 
 		if (Obj->FindTag(L"EnabledSwitch")) {
-			m_ParentJudge = true;
 			m_parenttime = 2.0f;
+			m_ParentJudge = true;
 		}
 	}
 	//衝突判定関数（衝突から離れた時）

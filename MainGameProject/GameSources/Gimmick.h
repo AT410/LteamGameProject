@@ -313,28 +313,20 @@ namespace basecross
 
 
 	class WaterDrop : public ObjectBase {
-		float m_Speed;
-		float m_FallSpeed;
 		float m_time;
-		float m_SpeedAdd;
-		float m_WaterAABBX;
-		float m_WaterAABBY;
-		float m_WaterAABBZ;
-		float m_PlayerAABBX;
-		float m_PlayerAABBY;
-		float m_PlayerAABBZ;
+		float m_Cooltime;
+		float m_CooltimeMax;
 		Vec3 m_OldPos;
 		Vec3 m_CurrentPos;
 		AABB m_WaterDropAABB;
 	public:
 		WaterDrop(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
-			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey), m_Speed(0.0f),m_FallSpeed(0.0f),m_time(3.0f),m_SpeedAdd(0.4f)
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey)
 		{}
 		WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode);
 		virtual ~WaterDrop() {}
-		void Drop();
-		void WaterDropJudgement();
+		void CoolTime();
 		virtual void OnCreate();
 		virtual void OnUpdate();
 
