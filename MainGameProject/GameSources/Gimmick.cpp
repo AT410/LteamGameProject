@@ -88,6 +88,9 @@ namespace basecross
 		m_RecipientKey = XmlDocReader::GetAttribute(pNode, L"EventRecipientKey");
 		m_EventMsg = XmlDocReader::GetAttribute(pNode, L"EventMsgStr");
 
+		auto ConfiguStr = XmlDocReader::GetAttribute(pNode, L"FireLineDirection");
+		m_Configu = (FireLineConfigu)_wtoi(ConfiguStr.c_str());
+		
 	}
 
 	void FireLine::OnCreate()
@@ -117,24 +120,50 @@ namespace basecross
 	{
 		if (m_Active)
 		{
-			m_Time += App::GetApp()->GetElapsedTime();
-			if (m_Time > 10.0f) {
-				m_Active = false;
-			}
 			auto ptrTrans = GetComponent<Transform>();
-			m_scal = ptrTrans->GetScale();
-			m_pos = ptrTrans->GetPosition();
+			Vec3 ChangeScale = ptrTrans->GetScale();
+			Vec3 MovePos = ptrTrans->GetPosition();
 
-			if (m_scal.x > 0) {
-				m_scal.x += -0.05;
-				m_pos.x += -0.025;
+			switch (m_Configu)
+			{
+			case basecross::FireLine::None:
+				break;
+			case basecross::FireLine::LeftToRight:
+				MovePos.x = FireLineBehaviorPos(-1, MovePos.x);
+				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				break;
+			case basecross::FireLine::RightToLeft:
+				MovePos.x = FireLineBehaviorPos(+1, MovePos.x);
+				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				break;
+			case basecross::FireLine::UpToDown:
+				MovePos.y = FireLineBehaviorPos(-1, MovePos.y);
+				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				break;
+			case basecross::FireLine::DownToUp:
+				MovePos.y = FireLineBehaviorPos(+1, MovePos.y);
+				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				break;
+			case basecross::FireLine::FrontToBack:
+				MovePos.z = FireLineBehaviorPos(+1, MovePos.z);
+				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				break;
+			case basecross::FireLine::BackToFront:
+				MovePos.z = FireLineBehaviorPos(-1, MovePos.z);
+				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				break;
+			default:
+				break;
 			}
-			else {
+
+			if (ChangeScale.x <= 0|| ChangeScale.y <= 0|| ChangeScale.z <= 0)
+			{
+				m_Active = false;
 				PostEvent(0.0f, GetThis<FireLine>(), m_RecipientKey, m_EventMsg);
 				GetStage()->RemoveGameObject<FireLine>(GetThis<FireLine>());
 			}
-			ptrTrans->SetScale(m_scal);
-			ptrTrans->SetPosition(m_pos);
+			ptrTrans->SetScale(ChangeScale);
+			ptrTrans->SetPosition(MovePos);
 
 		}
 
@@ -647,7 +676,7 @@ namespace basecross
 
 
 	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode)
+		ObjectBase(Stageptr, pNode), m_time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)
 	{}
 
 	void WaterDrop::OnCreate() {
@@ -657,58 +686,38 @@ namespace basecross
 		ptrTransform->SetQuaternion(Quat(m_rot));
 		ptrTransform->SetScale(m_scal);
 
-		auto ptrScale = ptrTransform->GetScale();
-
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
-		m_WaterAABBX = ptrScale.x / 2;
-		m_WaterAABBY = ptrScale.y / 2;
-		m_WaterAABBZ = ptrScale.z / 2;
-
 		AddComponent<CollisionObb>();
 	}
 
 	void WaterDrop::OnUpdate() {
-		//Drop();
-		//WaterDropJudgement();
+		CoolTime();
 	}
-
-	//＠ドロップ関数
-	//＠松崎　洸樹
-	//＠水滴を落とす関数
-	void WaterDrop::Drop() {
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
+	//ウォータードロップクール関数
+	//松崎　洸樹
+	//ウォータードロップの時間的感覚を作る関数
+	void WaterDrop::CoolTime() {
+		auto ptrGrav = GetComponent<Gravity>();
+		auto ptrDraw = GetComponent<PNTPointDraw>();
+		auto ptrColl = GetComponent<CollisionObb>();
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		m_Speed += m_SpeedAdd;
-		m_CurrentPos.y += -m_Speed * Elapsedtime;
-		m_time += -Elapsedtime;
-		if (m_time <= 0.0f) {
-			m_CurrentPos = m_OldPos;
-			m_time = 3.0f;
-			m_Speed = 0.0f;
+		if (m_Cooltime > 0.0f) {
+			GetComponent<Transform>()->SetPosition(m_pos);
+
+			m_Cooltime += -Elapsedtime;
+			ptrGrav->SetUpdateActive(false);
+			ptrDraw->SetDrawActive(false);
+			ptrColl->SetUpdateActive(false);
 		}
-		ptrTransform->SetPosition(m_CurrentPos);
-	}
-	//＠水滴判定関数
-	//＠松崎　洸樹
-	//＠水滴とプレイヤーの衝突判定用の関数
-	void WaterDrop::WaterDropJudgement() {
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-		auto PlayerPos = ptrPlayer->GetComponent<Transform>()->GetPosition();
-		auto PlayerScale = ptrPlayer->GetComponent<Transform>()->GetScale();
-		m_WaterDropAABB = AABB(Vec3(ptrPos.x - m_WaterAABBX, ptrPos.y - m_WaterAABBY, ptrPos.z - m_WaterAABBZ),
-			Vec3(ptrPos.x + m_WaterAABBX, ptrPos.y, ptrPos.z + m_WaterAABBZ));
-		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
-			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
-		if (HitTest::AABB_AABB(m_WaterDropAABB, PlayerAABB)) {
-			ptrPlayer->GetComponent<Transform>()->SetPosition(0.0, 3.0f, 0.0f);
+		else {
+			ptrGrav->SetUpdateActive(true);
+			ptrDraw->SetDrawActive(true);
+			ptrColl->SetUpdateActive(true);
 		}
 
 	}
@@ -720,8 +729,7 @@ namespace basecross
 		{
 			PPtr->ResetPositon();
 		}
-		GetComponent<Transform>()->SetPosition(m_pos);
-
+		m_Cooltime = m_CooltimeMax;
 		App::GetApp()->GetXAudio2Manager()->Start(L"WaterDrop_SD", 0, 0.1f);
 	}
 
@@ -818,7 +826,7 @@ namespace basecross
 	}
 
 	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode)
+		ObjectBase(Stageptr, pNode), m_Speed(2.0f), m_OldPos(0.0f), m_parenttime(0.0f)
 	{}
 
 	void UpDownBox::OnCreate() {
@@ -849,7 +857,7 @@ namespace basecross
 		BoxJudgment();
 		//浮く処理
 		m_CurrentPos = GetComponent<Transform>()->GetPosition();
-		FloatMove();
+		//FloatMove();
 	}
 	//ボックス判定関数
 	//松崎　洸樹
@@ -857,38 +865,41 @@ namespace basecross
 	void UpDownBox::BoxJudgment() {
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-
-		if (!m_ParentJudge) {
-			m_parenttime += Elapsedtime;
-			if (m_parenttime <= 0.0f) {
-				ptrPlayer->GetComponent<Transform>()->ClearParent();
-			}
+		auto ptrTransform = GetComponent<Transform>();
+		if (m_ParentJudge) {
+			m_CurrentPos.y += -Elapsedtime;
+			ptrTransform->SetPosition(m_CurrentPos);
 		}
 		else {
-			m_parenttime = 2.0f;
+			m_parenttime += -Elapsedtime;
+			if (m_parenttime <= 0.0f) {
+				FloatMove();
+			}
+			else if (m_parenttime > 0.0f) {
+				m_CurrentPos.y += -Elapsedtime;
+				ptrTransform->SetPosition(m_CurrentPos);
+
+			}
 		}
 	}
 	//衝突判定関数（衝突している間）
 	//松崎　洸樹
 	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		m_ParentJudge = true;
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto obj = GetComponent<Transform>()->GetGameObject();
 		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 
-		if (Obj->FindTag(L"Player")) {
-			auto ptrTransform = GetComponent<Transform>();
-			m_CurrentPos.y += -m_Speed * Elapsedtime;
-			ptrTransform->SetPosition(m_CurrentPos);
-			ptrPlayer->GetComponent<Transform>()->SetParent(obj);
+		if (Obj->FindTag(L"EnabledSwitch")) {
+			m_parenttime = 2.0f;
+			m_ParentJudge = true;
 		}
 	}
 	//衝突判定関数（衝突から離れた時）
 	//松崎　洸樹
 	//プレイヤーと離れた時親子化解除するためのbool型の処理をする
 	void UpDownBox::OnCollisionExit(shared_ptr<GameObject>& Obj) {
-		auto m_ParentJudge = false;
+		m_ParentJudge = false;
 	}
 
 	//床が動く関数
