@@ -74,6 +74,27 @@ namespace basecross
 		void OnEvent(const shared_ptr<Event>&event);
 
 	private:
+		float FireLineBehaviorPos(float Key, float Pos)
+		{
+			return Pos += Key * 0.025f;
+		}
+
+		float FireLineBehaviorScale(float Scale)
+		{
+			return Scale += -0.05f;
+		}
+
+		enum FireLineConfigu
+		{
+			None = 0,
+			LeftToRight,
+			RightToLeft,
+			UpToDown,
+			DownToUp,
+			FrontToBack,
+			BackToFront
+		}m_Configu = FireLine::None;
+
 		float m_Time = 0;
 		bool m_Active = false;
 

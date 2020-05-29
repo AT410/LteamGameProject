@@ -9,7 +9,7 @@
 #include "EfkInterface.h"
 #include "ProjectShader.h"
 #include "ProjectDraw.h"
-#include "ProjectBehavior.h"
+#include "ProjectComponent.h"
 #include "ProjectUtility.h"
 #include "ObjectBase.h"
 #include "ProjectUI.h"

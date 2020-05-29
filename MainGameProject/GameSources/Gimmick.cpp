@@ -88,6 +88,9 @@ namespace basecross
 		m_RecipientKey = XmlDocReader::GetAttribute(pNode, L"EventRecipientKey");
 		m_EventMsg = XmlDocReader::GetAttribute(pNode, L"EventMsgStr");
 
+		auto ConfiguStr = XmlDocReader::GetAttribute(pNode, L"FireLineDirection");
+		m_Configu = (FireLineConfigu)_wtoi(ConfiguStr.c_str());
+		
 	}
 
 	void FireLine::OnCreate()
@@ -117,24 +120,50 @@ namespace basecross
 	{
 		if (m_Active)
 		{
-			m_Time += App::GetApp()->GetElapsedTime();
-			if (m_Time > 10.0f) {
-				m_Active = false;
-			}
 			auto ptrTrans = GetComponent<Transform>();
-			m_scal = ptrTrans->GetScale();
-			m_pos = ptrTrans->GetPosition();
+			Vec3 ChangeScale = ptrTrans->GetScale();
+			Vec3 MovePos = ptrTrans->GetPosition();
 
-			if (m_scal.x > 0) {
-				m_scal.x += -0.05;
-				m_pos.x += -0.025;
+			switch (m_Configu)
+			{
+			case basecross::FireLine::None:
+				break;
+			case basecross::FireLine::LeftToRight:
+				MovePos.x = FireLineBehaviorPos(-1, MovePos.x);
+				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				break;
+			case basecross::FireLine::RightToLeft:
+				MovePos.x = FireLineBehaviorPos(+1, MovePos.x);
+				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				break;
+			case basecross::FireLine::UpToDown:
+				MovePos.y = FireLineBehaviorPos(-1, MovePos.y);
+				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				break;
+			case basecross::FireLine::DownToUp:
+				MovePos.y = FireLineBehaviorPos(+1, MovePos.y);
+				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				break;
+			case basecross::FireLine::FrontToBack:
+				MovePos.z = FireLineBehaviorPos(+1, MovePos.z);
+				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				break;
+			case basecross::FireLine::BackToFront:
+				MovePos.z = FireLineBehaviorPos(-1, MovePos.z);
+				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				break;
+			default:
+				break;
 			}
-			else {
+
+			if (ChangeScale.x <= 0|| ChangeScale.y <= 0|| ChangeScale.z <= 0)
+			{
+				m_Active = false;
 				PostEvent(0.0f, GetThis<FireLine>(), m_RecipientKey, m_EventMsg);
 				GetStage()->RemoveGameObject<FireLine>(GetThis<FireLine>());
 			}
-			ptrTrans->SetScale(m_scal);
-			ptrTrans->SetPosition(m_pos);
+			ptrTrans->SetScale(ChangeScale);
+			ptrTrans->SetPosition(MovePos);
 
 		}
 
