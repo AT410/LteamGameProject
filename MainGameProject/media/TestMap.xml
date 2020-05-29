@@ -48,9 +48,9 @@
       <Objects Type="Water" Pos="7.45,2.76,-0.9" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Type="Test" Pos="4.66,6.03,0.99" Scale="1,12.5,2" Rot="0,0,-0.4617486,0.8870109" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" SharedActive="0" EventActive="1" EventReceiverKey="TEST2" StartAnimetionActive="1" EventAnimetionActive="0" EndAnimetionActive="0">
         <Animetions CallPoint="Start" MaxFlameCount="3">
-          <AnimetionData FlameCount="1" MotionType="Postion" Value="10.1,9.5,0.99,0" />
-          <AnimetionData FlameCount="2" MotionType="Scale" Value="1,1,2,0" />
-          <AnimetionData FlameCount="3" MotionType="Rotation" Value="0,0,0.7071068,0.7071068" />
+          <AnimationPosData FlameCount="3" Value="10,9.5,0.99,0" />
+          <AnimationRotData FlameCount="3" Value="0,0,-0.7071068,0.7071068" />
+          <AnimationScalData FlameCount="3" Value="1,1,2,0" />
         </Animetions>
       </Objects>
       <Objects Type="Water" Pos="6,-4.24,0.74" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
@@ -73,16 +73,15 @@
       <Objects Type="Floor" Pos="-11,2.5,0" Scale="5,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Type="Door" Pos="-1,9,0" Scale="1,4,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="1" EventReceiverKey="TEST3" StartAnimetionActive="1" EventAnimetionActive="0" EndAnimetionActive="0">
         <Animetions CallPoint="Start" MaxFlameCount="3">
-          <AnimetionData FlameCount="3" MotionType="Postion" Value="-1,5,0,0" />
+          <AnimationPosData FlameCount="1" Value="-1,5,0,0" />
         </Animetions>
       </Objects>
       <Objects Type="Wall" Pos="14.5,5,0" Scale="2,20,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Type="Test" Pos="-2.66,-0.95,-1" Scale="1,14.07274,2" Rot="0,0,0.5,0.8660254" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" SharedActive="0" EventActive="1" EventReceiverKey="TEST1" StartAnimetionActive="1" EventAnimetionActive="0" EndAnimetionActive="0">
-        <Animetions CallPoint="Start" MaxFlameCount="4">
-          <AnimetionData FlameCount="1" MotionType="Postion" Value="-6,2.5,-1,0" />
-          <AnimetionData FlameCount="2" MotionType="Scale" Value="1,5,2,0" />
-          <AnimetionData FlameCount="3" MotionType="Rotation" Value="0,0,0.7,0.7" />
-          <AnimetionData FlameCount="4" MotionType="Postion" Value="-6,2.5,-1,0" />
+        <Animetions CallPoint="Start" MaxFlameCount="8">
+          <AnimationPosData FlameCount="5" Value="-6,2.5,-1,0" />
+          <AnimationRotData FlameCount="8" Value="0,0,0.7071068,0.7071068" />
+          <AnimationScalData FlameCount="5" Value="1,5,2,0" />
         </Animetions>
       </Objects>
       <Objects Type="Switch" Pos="12.5,3.25,-1" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" EventRecipientKey="TEST2" EventMsgStr="TestEvent" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
@@ -91,6 +90,7 @@
       <Objects Type="Water" Pos="-9.6,2.76,0.74" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Type="Floor" Pos="11.5,9.5,0" Scale="4,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Type="Floor" Pos="-6,2.5,1" Scale="5,1,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="FrontWall" Pos="0,5,-2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
     </StageData>
   </Area>
 </root>
