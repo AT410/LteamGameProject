@@ -88,6 +88,7 @@ namespace basecross {
 			//AddGameObject<ContTest>(L"ToAreaSelectStage");
 			//AddGameObject<NormalUI>();
 			//AddGameObject<DebugSprite>(L"TitleStage_TX");
+			//AddGameObject<ActionTest>();
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 		}
 		catch (...)

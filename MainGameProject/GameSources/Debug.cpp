@@ -150,6 +150,36 @@ namespace basecross
 		}
 	}
 
+	ActionTest::ActionTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode)
+	{
+
+	}
+
+	void ActionTest::OnCreate()
+	{
+		auto DrawComp = AddComponent<PNTStaticDraw>();
+		DrawComp->SetMeshResource(L"DEFAULT_CUBE");
+
+		//配置設定
+		//auto TransComp = GetComponent<Transform>();
+		//TransComp->SetPosition(m_pos);
+		//TransComp->SetQuaternion(Quat(m_rot));
+		//TransComp->SetScale(m_scal);
+
+
+
+		auto ActionComp = AddComponent<Actions>();
+		ActionComp->AddMoveBy(L"Test", 2.0f, Vec3(0, 0, 5.0f));
+		ActionComp->AddMoveBy(L"Test", 2.0f, Vec3(0, 0, -5.0f));
+		ActionComp->AddMoveTo(L"Test2", 2.0f, Vec3(2.0f, 0, 5.0f));
+		ActionComp->AddMoveTo(L"Test2", 2.0f, Vec3(-2.0f, 0, -5.0f));
+
+		ActionComp->AddRotateTo(L"Test2", 2.0f, Quat(Vec4(0.5f)));
+
+		ActionComp->Run(L"Test2");
+	}
+
 	//--------------------------------------------------------------------------------------
 	//	数字のスクエア
 	//--------------------------------------------------------------------------------------
