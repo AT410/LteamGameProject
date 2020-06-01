@@ -17,7 +17,8 @@ namespace basecross{
 		m_Jumpforce(4.0f),
 		m_StopActionTime(5.0f),
 		m_Jumpjudge(false),
-		m_StopActionTimeJudge(false)
+		m_StopActionTimeJudge(false),
+		m_PushBoxActiv(false)
 	{}
 
 
@@ -125,6 +126,7 @@ namespace basecross{
 			auto obj = m_PushObj->GetComponent<Transform>();
 			auto objpos = obj->GetPosition();
 			auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
+			m_PushBoxActiv = true;
 			if (Cont.fThumbLX > 0.8f) {
 				pos.x += elapsedtime;
 				objpos.x += elapsedtime;
@@ -156,6 +158,7 @@ namespace basecross{
 	void Player::OnRemoveLB() {
 		m_PushObj = nullptr;
 		m_PushPull = false;
+		m_PushBoxActiv = false;
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {

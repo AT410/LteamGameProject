@@ -893,4 +893,89 @@ namespace basecross
 		GetComponent<Transform>()->SetPosition(ep);
 	}
 
+	PushObj::PushObj(const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode):
+	ObjectBase(StagePtr, pNode),m_Boxmode(true)
+	{}
+
+	void PushObj::OnCreate() {
+		AddComponent<Gravity>();
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				continue;
+			AddTag(tag);
+		}
+
+		if (m_SharedActive)
+		{
+			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PushObj>());
+		}
+
+	}
+
+	void PushObj::OnUpdate() {
+		BoxState();
+	}
+
+	void PushObj::BoxFixed() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_CurrentPos);
+	}
+	
+	void PushObj::BoxMoved() {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		m_CurrentPos = ptrPos;
+		ptrTransform->SetPosition(m_CurrentPos);
+
+	}
+
+	void PushObj::BoxState() {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		if (m_Boxmode) {
+			//BoxMoved();
+			m_CurrentPos = ptrPos;
+			ptrTransform->SetPosition(m_CurrentPos);
+		}
+		else {
+			ptrTransform->SetPosition(m_CurrentPos);
+		}
+	}
+
+	void PushObj::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
+		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		m_CurrentPos = ptrPos;
+		m_Boxmode = false;
+	}
+
+	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
+		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrFloor = dynamic_pointer_cast<StageTest>(Obj);
+			if (ptrPlayer) {
+				//BoxMoved();
+				m_Boxmode = false;
+				if (ptrPlayer->GetPushBoxActiv()) {
+					//BoxMoved();
+					m_Boxmode = true;
+				}
+				else {
+					m_Boxmode = false;
+				}
+			}
+		
+	}
 }
