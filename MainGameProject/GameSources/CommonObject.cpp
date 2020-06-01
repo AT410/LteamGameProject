@@ -11,38 +11,45 @@ namespace basecross
 	
 	void FixedObj::OnCreate()
 	{
-		//描画設定
-		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
+		////描画設定
+		//auto DrawComp = AddComponent<PNTStaticDraw>();
+		//DrawComp->SetMeshResource(m_meshKey);
+		//DrawComp->SetTextureResource(m_texKey);
 
-		//配置設定
-		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
+		////配置設定
+		//auto TransComp = GetComponent<Transform>();
+		//TransComp->SetPosition(m_pos);
+		//TransComp->SetQuaternion(Quat(m_rot));
+		//TransComp->SetScale(m_scal);
 
-		//物理判定
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetFixed(true);
+		////物理判定
+		//auto CollComp = AddComponent<CollisionObb>();
+		//CollComp->SetFixed(true);
 
-		for (auto tag : m_tag)
+		//for (auto tag : m_tag)
+		//{
+		//	if (tag == L"")
+		//		continue;
+		//	AddTag(tag);
+		//}
+
+		//if (m_SharedActive)
+		//{
+		//	GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
+		//}
+
+		DefaultSettings();
+		SetActions();
+
+		//if (m_EventActive)
+		//{
+		//	this->SetDrawActive(false);
+		//	this->SetUpdateActive(false);
+		//}
+
+		if (m_StartActionActive)
 		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
-		}
-
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
-			this->SetDrawActive(false);
-			this->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
 		}
 	}
 

@@ -348,26 +348,28 @@ namespace basecross
 	// -- 初期化 --
 	void Door::OnCreate()
 	{
-		// -- 描画設定 --
-		auto DrawComp = AddComponent<PNTPointDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
+		//// -- 描画設定 --
+		//auto DrawComp = AddComponent<PNTPointDraw>();
+		//DrawComp->SetMeshResource(m_meshKey);
+		//DrawComp->SetTextureResource(m_texKey);
 
-		// -- 配置設定 --
-		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
+		//// -- 配置設定 --
+		//auto transComp = GetComponent<Transform>();
+		//transComp->SetPosition(m_pos);
+		//transComp->SetScale(m_scal);
+		//transComp->SetQuaternion(Quat(m_rot));
 
-		// -- 物理判定 --
-		auto ColComp = AddComponent<CollisionObb>();
-		ColComp->SetFixed(true);
+		//// -- 物理判定 --
+		//auto ColComp = AddComponent<CollisionObb>();
+		//ColComp->SetFixed(true);
 
-		// -- イベント設定 --
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<Door>());
-		}
+		//// -- イベント設定 --
+		//if (m_EventActive)
+		//{
+		//	App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<Door>());
+		//}
+
+		DefaultSettings();
 	}
 	
 	// -- 更新処理 --

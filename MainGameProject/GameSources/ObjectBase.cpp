@@ -59,6 +59,15 @@ namespace basecross
 
 		m_tag = Tokens;
 
+		// -- 物理設定 --
+		auto CollsionActiveStr = XmlDocReader::GetAttribute(pNode, L"CollisionActive");
+		m_CollisionActive = (bool)_wtoi(CollsionActiveStr.c_str());
+		if (m_CollisionActive)
+		{
+			auto CollsionFixedStr = XmlDocReader::GetAttribute(pNode, L"CollisionFixedActive");
+			m_CollisionSetFixed = (bool)_wtoi(CollsionFixedStr.c_str());
+		}
+
 		//共有設定
 		auto SharedFStr = XmlDocReader::GetAttribute(pNode, L"SharedActive");
 		m_SharedActive = (bool)_wtoi(SharedFStr.c_str());
@@ -75,6 +84,122 @@ namespace basecross
 		if (m_EventActive)
 		{
 			m_ReceiverKey = XmlDocReader::GetAttribute(pNode, L"EventReceiverKey");
+		}
+
+		// -- アニメーション設定 --
+		m_AnimationNodes = XmlDocReader::GetChildNodes(pNode);
+		long AnimationsCount = XmlDocReader::GetLength(m_AnimationNodes);
+		if (AnimationsCount != 0)
+		{
+			m_AnimationActive = true;
+		}
+	}
+
+	void ObjectBase::DefaultSettings()
+	{
+		// -- 描画設定 --
+		auto DrawComp = AddComponent<PNTStaticDraw>();
+		DrawComp->SetMeshResource(m_meshKey);
+		DrawComp->SetTextureResource(m_texKey);
+		
+		// -- 配置設定 --
+		auto TransComp = GetComponent<Transform>();
+		TransComp->SetScale(m_scal);
+		TransComp->SetQuaternion(Quat(m_rot));
+		TransComp->SetPosition(m_pos);
+
+		// -- 物理設定 --
+		if (m_CollisionActive)
+		{
+			auto CollComp = AddComponent<CollisionObb>();
+			CollComp->SetFixed(m_CollisionSetFixed);
+		}
+
+		// -- タグ設定 --
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				continue;
+			AddTag(tag);
+		}
+
+		// -- 共有設定 --
+		if (m_SharedActive)
+		{
+			GetStage()->SetSharedGameObject(m_SharedName, GetThis<ObjectBase>());
+		}
+
+		// -- イベント設定 --
+		if (m_EventActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
+		}
+	}
+
+	void ObjectBase::SetActions()
+	{
+		if (m_AnimationActive) {
+			auto ActionPtr = AddComponent<Actions>();
+			long AnimationsCount = XmlDocReader::GetLength(m_AnimationNodes);
+			for (long a = 0; a < AnimationsCount; a++)
+			{
+				auto AnimationNode = XmlDocReader::GetItem(m_AnimationNodes, a);
+				wstring AnimationKey = XmlDocReader::GetAttribute(AnimationNode, L"CallPoint");
+
+				if (AnimationKey == L"Start")
+					m_StartActionActive = true;
+
+				// -- アニメーションデータ --
+				auto AnimationDatas = XmlDocReader::GetChildNodes(AnimationNode);
+				long DataCount = XmlDocReader::GetLength(AnimationDatas);
+				vector<wstring> Tokens;
+				for (long l = 0; l < DataCount; l++)
+				{
+					auto AnimationData = XmlDocReader::GetItem(AnimationDatas, l);
+					wstring FlameStr = XmlDocReader::GetAttribute(AnimationData, L"FlameCount");
+					wstring TypeStr = XmlDocReader::GetAttribute(AnimationData, L"Type");
+					wstring ValueStr = XmlDocReader::GetAttribute(AnimationData, L"Value");
+
+					float FlameCount = (float)_wtof(FlameStr.c_str());
+					if (TypeStr == L"Postion")
+					{
+						Tokens.clear();
+						Util::WStrToTokenVector(Tokens, ValueStr, L',');
+						Vec3 Pos = Vec3(
+							(float)_wtof(Tokens[0].c_str()),
+							(float)_wtof(Tokens[1].c_str()),
+							(float)_wtof(Tokens[2].c_str())
+						);
+						ActionPtr->AddMoveTo(AnimationKey, FlameCount, Pos);
+					}
+					else if (TypeStr == L"Rotation")
+					{
+						//Rot
+						Tokens.clear();
+						Util::WStrToTokenVector(Tokens, ValueStr, L',');
+						//回転は「XM_PIDIV2」の文字列になっている場合がある
+						Vec4 Rot;
+						Rot.x = (Tokens[0] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[0].c_str());
+						Rot.y = (Tokens[1] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[1].c_str());
+						Rot.z = (Tokens[2] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[2].c_str());
+						Rot.w = (Tokens[3] == L"XM_PIDIV2") ? XM_PIDIV2 : (float)_wtof(Tokens[3].c_str());
+
+						ActionPtr->AddRotateTo(AnimationKey, FlameCount, Quat(Rot));
+					}
+					else if (TypeStr == L"Scale")
+					{
+						Tokens.clear();
+						Util::WStrToTokenVector(Tokens, ValueStr, L',');
+						Vec3 Scale = Vec3(
+							(float)_wtof(Tokens[0].c_str()),
+							(float)_wtof(Tokens[1].c_str()),
+							(float)_wtof(Tokens[2].c_str())
+						);
+
+						ActionPtr->AddScaleTo(AnimationKey, FlameCount, Scale);
+					}
+				}
+			}
 		}
 	}
 }
