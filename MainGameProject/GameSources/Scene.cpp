@@ -16,7 +16,7 @@ namespace basecross{
 		try {
 			Col4 Col;
 			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
-			SetClearColor(Col);
+			SetClearColor(Col4(0));
 			_EfkInterface = ObjectFactory::Create<EfkInterface>();
 			LoadUnionResource();
 			GameManager::CreateManager();
