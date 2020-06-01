@@ -44,6 +44,33 @@ namespace basecross
 		void OnCreate()override;
 	};
 
+	//----------------------------------------------------------------------------
+	//アニメーションオブジェクト:アニメーションデータを持ったオブジェクトクラス
+	//----------------------------------------------------------------------------
+	class AnimationObj : public ObjectBase
+	{
+	public:
+		//-- 構築 --
+		AnimationObj(const shared_ptr<Stage>& StagePtr)
+			:ObjectBase(StagePtr)
+		{
+		}
+		// -- 構築(ステージビルダーで呼ばれる) --
+		//AnimationObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		//-- 破棄 --
+		virtual ~AnimationObj() {}
+
+		//-- 初期化 --
+		void OnCreate()override {}
+
+		//-- 更新処理 --
+		void OnUpdate()override {}
+
+	private:
+
+	};
+
 
 	///<breif>汎用固定オブジェクト<breif/>
 	///<name>作成者：阿部達哉<name/>
