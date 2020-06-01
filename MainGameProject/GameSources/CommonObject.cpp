@@ -49,6 +49,7 @@ namespace basecross
 
 		if (m_StartActionActive)
 		{
+			GetComponent<Collision>()->SetUpdateActive(false);
 			GetComponent<Actions>()->Run(L"Start");
 		}
 	}

@@ -168,6 +168,7 @@ namespace basecross {
 		this->SetView(m_MainView);
 		auto Pair = GameManager::GetManager()->GetStagePair();
 		AddGameObject<AnimSpriteTest>(Pair.second);
+		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
 	}
 
 	void GameStage::OnCreate()

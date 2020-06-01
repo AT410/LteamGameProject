@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestStage4.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
 	{
 
 	}
@@ -175,6 +175,7 @@ namespace basecross
 		Builder.Register<PullBoxObj>(L"PullBox");
 
 		//ˆÉ“Œ:Type‚Ì’Ç‰Á
+		Builder.Register<Slope>(L"Slope");
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
 		Builder.Register<UpDownBox>(L"FloatBox"); //<-•‚‚­

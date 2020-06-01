@@ -333,7 +333,43 @@ namespace basecross
 			//ptrTrans->SetQuaternion(FQuat);
 		}
 	}
+	//----------------------------------------------------------------------------
+	//スロープの実態
+	//----------------------------------------------------------------------------
+	// -- Xmlファイル用コンストラクタ --
+	Slope::Slope(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode)
+	{
 
+	}
+
+	void Slope::OnCreate()
+	{
+		DefaultSettings();
+		SetActions();
+	}
+
+	void Slope::OnUpdate()
+	{
+		if (GetComponent<Actions>()->GetArrived())
+		{
+			GetComponent<Collision>()->SetUpdateActive(true);
+		}
+	}
+
+	void Slope::OnEvent(const shared_ptr<Event>& event)
+	{
+		if (event->m_MsgStr == L"StartAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
+		}
+		else if (event->m_MsgStr == L"EndAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"End");
+		}
+	}
 
 	//----------------------------------------------------------------------------
 	//扉クラスの実態
@@ -342,7 +378,7 @@ namespace basecross
 	Door::Door(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
 		:ObjectBase(StagePtr, pNode),m_OpenActive(false),m_MoveEnd(false),m_TotalTime(0.0f)
 	{
-
+		
 	}
 
 	// -- 初期化 --
@@ -370,6 +406,7 @@ namespace basecross
 		//}
 
 		DefaultSettings();
+		SetActions();
 	}
 	
 	// -- 更新処理 --
@@ -377,6 +414,11 @@ namespace basecross
 	{
 		if (m_MoveEnd)
 			return;
+
+		if (GetComponent<Actions>()->GetArrived())
+		{
+			GetComponent<Collision>()->SetUpdateActive(true);
+		}
 
 		if (m_OpenActive)
 		{
@@ -432,6 +474,17 @@ namespace basecross
 		{
 			m_OpenActive = true;
 		}
+		else if (event->m_MsgStr == L"StartAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
+		}
+		else if (event->m_MsgStr == L"EndAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"End");
+		}
+
 	}
 	//----------------------------------------------------------------------------
 	//噴水クラスの実体

@@ -133,6 +133,11 @@ namespace basecross
 		if (m_EventActive)
 		{
 			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
+			if (m_AnimationActive)
+			{
+				App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Start", GetThis<ObjectInterface>());
+				App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"End", GetThis<ObjectInterface>());
+			}
 		}
 	}
 
