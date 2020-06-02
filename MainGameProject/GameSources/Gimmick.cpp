@@ -369,6 +369,11 @@ namespace basecross
 			GetComponent<Collision>()->SetUpdateActive(false);
 			GetComponent<Actions>()->Run(L"End");
 		}
+		else if (event->m_MsgStr == L"TestEvent")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"OnEvent");
+		}
 	}
 
 	//----------------------------------------------------------------------------
