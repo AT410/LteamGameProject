@@ -11,38 +11,46 @@ namespace basecross
 	
 	void FixedObj::OnCreate()
 	{
-		//描画設定
-		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
+		////描画設定
+		//auto DrawComp = AddComponent<PNTStaticDraw>();
+		//DrawComp->SetMeshResource(m_meshKey);
+		//DrawComp->SetTextureResource(m_texKey);
 
-		//配置設定
-		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
+		////配置設定
+		//auto TransComp = GetComponent<Transform>();
+		//TransComp->SetPosition(m_pos);
+		//TransComp->SetQuaternion(Quat(m_rot));
+		//TransComp->SetScale(m_scal);
 
-		//物理判定
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetFixed(true);
+		////物理判定
+		//auto CollComp = AddComponent<CollisionObb>();
+		//CollComp->SetFixed(true);
 
-		for (auto tag : m_tag)
+		//for (auto tag : m_tag)
+		//{
+		//	if (tag == L"")
+		//		continue;
+		//	AddTag(tag);
+		//}
+
+		//if (m_SharedActive)
+		//{
+		//	GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
+		//}
+
+		DefaultSettings();
+		SetActions();
+
+		//if (m_EventActive)
+		//{
+		//	this->SetDrawActive(false);
+		//	this->SetUpdateActive(false);
+		//}
+
+		if (m_StartActionActive)
 		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
-		}
-
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
-			this->SetDrawActive(false);
-			this->SetUpdateActive(false);
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
 		}
 	}
 
@@ -221,13 +229,15 @@ namespace basecross
 	//　オープニングカメラマン
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr ,const Vec3& StartPos, const Vec3& AtPos) :
+	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr ,const Vec3& StartEye, const Vec3& StartAt) :
 		GameObject(StagePtr),
-		m_StartPos(StartPos),
-		m_EndPos(0.0f, 0.0f, -1.0f),
-		m_AtStartPos(AtPos),
+		m_StartEye(StartEye),
+		m_EndEye(0.0f, 0.0f, -1.0f),
+		m_AtStartPos(StartAt),
 		m_AtEndPos(18.0f, 0.0f, 18.0f),
-		m_AtPos(AtPos),
+		m_AtPos(StartAt),
+		m_CreatePosEye(StartEye),
+		m_CreatePosAt(StartAt),
 		m_TotalTime(0.0f)
 	{}
 
@@ -238,7 +248,7 @@ namespace basecross
 		auto ptr = GetComponent<Transform>();
 		ptr->SetScale(0.25f, 0.25f, 0.25f);	//直径25センチの球体
 		ptr->SetRotation(0.0f, 0.0f, 0.0f);
-		ptr->SetPosition(m_StartPos);
+		ptr->SetPosition(m_CreatePosEye);
 		//ステートマシンの構築
 		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
 		//最初のステートをOpeningCameramanToGoalStateに設定
@@ -252,8 +262,7 @@ namespace basecross
 	}
 
 	void OpeningCameraman::ToGoalEnterBehavior() {
-		m_StartPos = Vec3(7.0f, 10.0f, -20.0f);
-		m_AtStartPos = Vec3(7.0f, 2.0f, 0.0f);
+		m_AtStartPos = m_CreatePosAt;
 		m_AtEndPos = Vec3(0.0f, 0.0f, 0.0f);
 		m_AtPos = m_AtStartPos;
 		m_TotalTime = 0.0f;
@@ -261,22 +270,25 @@ namespace basecross
 		auto PlayerPtr = GetStage()->GetSharedGameObject<GoalTest>(L"Goal");
 		m_AtEndPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
 
-		m_EndPos = m_AtEndPos;
-		m_EndPos.z -= 10.0f;
+
+		// -- Eyeを求める --
+		Vec3 recVec = m_CreatePosEye*2.0f+m_AtEndPos;
+		recVec /= 3.0f;
+		m_EndEye = recVec;
 	}
 
 	void OpeningCameraman::ToStartEnterBehavior() {
-		m_StartPos = Vec3(0.0f, 0.0f, -60.0f);
-		m_EndPos = Vec3(7.0f, 10.0f, -20.0f);
+		m_EndEye = m_CreatePosEye;
 		m_AtStartPos = Vec3(0.0f, 0.0f, 0.0f);
-		m_AtEndPos = Vec3(7.0f, 2.0f, 0.0f);
-		m_AtPos = m_AtStartPos;
+		m_AtEndPos = m_CreatePosAt;
 		m_TotalTime = 0.0f;
 
 		auto PlayerPtr = GetStage()->GetSharedGameObject<GoalTest>(L"Goal");
 		m_AtStartPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
 
-		m_StartPos = GetComponent<Transform>()->GetPosition();
+		m_AtPos = m_AtStartPos;
+
+		m_StartEye = GetComponent<Transform>()->GetPosition();
 	}
 
 	bool OpeningCameraman::ExcuteBehavior(float totaltime) {
@@ -286,7 +298,7 @@ namespace basecross
 			return true;
 		}
 		Easing<Vec3> easing;
-		auto TgtPos = easing.EaseInOut(EasingType::Quintic, m_StartPos, m_EndPos, m_TotalTime, totaltime);
+		auto TgtPos = easing.EaseInOut(EasingType::Quintic, m_StartEye, m_EndEye, m_TotalTime, totaltime);
 		m_AtPos = easing.EaseInOut(EasingType::Quintic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
 		auto ptrTrans = GetComponent<Transform>();
 		ptrTrans->SetPosition(TgtPos);

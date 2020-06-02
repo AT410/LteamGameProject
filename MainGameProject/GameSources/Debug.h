@@ -139,6 +139,20 @@ namespace basecross
 		void OnCreate()	override;
 	};
 
+	class ActionTest :public ObjectBase
+	{
+	public:
+		ActionTest(const shared_ptr<Stage>&StagePtr)
+			:ObjectBase(StagePtr)
+		{}
+
+		ActionTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~ActionTest() {}
+
+		void OnCreate()	override;
+	};
+
 	//--------------------------------------------------------------------------------------
 	///	数字のスクエア
 	//--------------------------------------------------------------------------------------

@@ -171,6 +171,37 @@ namespace basecross
 			m_Active = active;
 		}
 	};
+
+	//----------------------------------------------------------------------------
+	//スロープオブジェクト
+	//----------------------------------------------------------------------------
+	class Slope : public ObjectBase
+	{
+	public:
+		//-- 構築 --
+		Slope(const shared_ptr<Stage>& StagePtr) 
+			:ObjectBase(StagePtr)
+		{
+		}
+
+		// -- Xmlファイル読込用 --
+		Slope(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+
+		//-- 破棄 --
+		virtual ~Slope() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override;
+
+		void OnEvent(const shared_ptr<Event>& event)override;
+
+	private:
+
+	};
 	//-----------------------------------------------------------------------------
 	//扉のオブジェクト
 	//-----------------------------------------------------------------------------

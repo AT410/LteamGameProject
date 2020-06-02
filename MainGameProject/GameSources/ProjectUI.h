@@ -7,6 +7,8 @@
 
 namespace basecross
 {
+	enum class StageType;
+
 	//----------------------------------------------------------------------------
 	//UI基底クラス
 	//----------------------------------------------------------------------------
@@ -30,27 +32,6 @@ namespace basecross
 	private:
 		struct Impl;
 		unique_ptr<Impl> pImpl;
-	};
-
-
-	//----------------------------------------------------------------------------
-	//ポーズUI(ボタンを押したとき)
-	//----------------------------------------------------------------------------
-	class PauseUI :public UIBase
-	{
-	public:
-		PauseUI(const shared_ptr<Stage>&StagePtr)
-			:UIBase(StagePtr)
-		{}
-
-		PauseUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-			:UIBase(StagePtr, pNode)
-		{}
-
-		virtual ~PauseUI() {}
-
-		void OnCreate()override;
-
 	};
 
 	//----------------------------------------------------------------------------
@@ -184,8 +165,8 @@ namespace basecross
 	class UIController :public GameObject,public PawnBase<UIController>
 	{
 	public:
-		UIController(const shared_ptr<Stage>&StagePtr)
-			:GameObject(StagePtr), PawnBase(), m_UIMap()
+		UIController(const shared_ptr<Stage>&StagePtr,const StageType Type,const bool DefalutActive = true)
+			:GameObject(StagePtr), PawnBase(), m_UIMap(), m_Type(Type), m_Active(DefalutActive)
 		{
 
 		}
@@ -206,6 +187,15 @@ namespace basecross
 		void OnPushA()override;
 
 	private:
+		// -- UI操作 --
+		void OperationUI(const CONTROLER_STATE Cont);
+
+		// -- 表示・非表示 --
+		void ShowHideUI(const bool ShowActive);
+
+		StageType m_Type;
+		bool m_Active;
+
 		map<wstring, shared_ptr<FlashingUI>> m_UIMap;
 
 		wstring m_TexKey;

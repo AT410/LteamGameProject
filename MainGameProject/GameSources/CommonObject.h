@@ -158,8 +158,13 @@ namespace basecross
 		void EndStateEnterBehavior();
 
 	private:
-		Vec3 m_StartPos;
-		Vec3 m_EndPos;
+		// -- ˆÚ“®•Ï” --
+		Vec3 m_StartEye;
+		Vec3 m_EndEye;
+
+		Vec3 m_CreatePosEye;
+		Vec3 m_CreatePosAt;
+
 		Vec3 m_AtStartPos;
 		Vec3 m_AtEndPos;
 		Vec3 m_AtPos;
