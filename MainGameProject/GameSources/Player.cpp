@@ -202,9 +202,23 @@ namespace basecross{
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		if (Obj->FindTag(L"PossibleJump")) {
-			m_Jumpjudge = true;
+		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
+			auto ptrPos = GetComponent<Transform>()->GetPosition();
+			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetPosition();
+			auto ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
+			m_JumpPos = ptrJFloorPos.y + (ptrJFloorScale.y / 2);
+			if (ptrPos.y > m_JumpPos) {
+				m_Jumpjudge = true;
+
+			}
 		}
+		//else if (Obj->FindTag(L"PossibleJump") && Obj->FindTag(L"Ladder")) {
+		//	auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		//	auto ptrTransform = GetComponent<Transform>();
+		//	auto ptrPos = ptrTransform->GetPosition();
+
+		//}
+
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {

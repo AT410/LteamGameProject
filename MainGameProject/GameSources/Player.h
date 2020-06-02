@@ -32,6 +32,8 @@ namespace basecross{
 		float m_StopActionTime;
 		//プレイヤーとオブジェクトの距離
 		float m_distance;
+
+		float m_JumpPos;
 		//プレイヤーのジャンプ判断
 		bool m_Jumpjudge;
 		//プレイヤーの動作停止判断
