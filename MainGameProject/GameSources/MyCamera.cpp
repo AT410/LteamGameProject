@@ -86,6 +86,8 @@ namespace basecross
 
 	}
 	void MyCamera::OnUpdate() {
+		if (!GameManager::GetManager()->GetUpdateActive())
+			return;
 		m_handler.PushHandler(GetThis<MyCamera>());
 		m_StateMachine->Update();
 		Camera::OnUpdate();

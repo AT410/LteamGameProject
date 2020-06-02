@@ -118,48 +118,6 @@ namespace basecross
 	}
 
 	//----------------------------------------------------------------------------
-//ポーズUIの実体
-//----------------------------------------------------------------------------
-// -- 初期化 --
-	void PauseUI::OnCreate()
-	{
-		// -- メッシュの作成 --
-		Vec2 tipSize = Vec2(1.0f, 1.0f);
-
-		Vec3 StartPos = GetStartPos();
-		float halfWidth = GetUIWidth() / 2.0f;
-		float halfHeight = GetUIHeight() / 2.0f;
-
-		vector<VertexPositionTexture>vertices =
-		{
-			{Vec3(-halfWidth,+halfHeight,0.0f),Vec2(0		,0)},
-			{Vec3(+halfWidth,+halfHeight,0.0f),Vec2(tipSize.x,0)},
-			{Vec3(-halfWidth,-halfHeight,0.0f),Vec2(0		,tipSize.y)},
-			{Vec3(+halfWidth,-halfHeight,0.0f),Vec2(tipSize.x,tipSize.y)}
-		};
-
-		vector<uint16_t> indices =
-		{
-			0,1,2,
-			2,1,3,
-		};
-
-		// -- 描画設定 --
-		auto DrawComp = AddComponent<PTSpriteDraw>();
-		DrawComp->CreateMesh<VertexPositionTexture>(vertices, indices);
-		DrawComp->SetTextureResource(GetTexKey());
-
-		// -- 配置設定 --
-		auto TransComp = GetComponent<Transform>();
-		auto pos = GetStartPos();
-		pos.z = +0;
-		TransComp->SetPosition(pos);
-
-		SetAlphaActive(true);
-	}
-
-
-	//----------------------------------------------------------------------------
 	//点滅UI:(選択可能UI)の実体
 	//----------------------------------------------------------------------------
 	FlashingUI::FlashingUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
@@ -243,7 +201,7 @@ namespace basecross
 
 	void FlashingUI::StartEvent()
 	{
-		if (m_EventStr == L"ToGameStage")
+		if (m_EventStr == L"ToGameStage"&& m_AreaNum>=0&&m_StageNum>=0)
 		{
 			GameManager::GetManager()->SetStagePair(m_AreaNum, m_StageNum);
 		}
@@ -331,38 +289,67 @@ namespace basecross
 	{
 		GetStage()->SetSharedGameObject(L"UIController", GetThis<UIController>());
 		m_CurrntUI = nullptr;
+		
+		if (m_Type == StageType::GameStage)
+		{
+			GetStage()->CreateSharedObjectGroup(L"GameStageUI");
+		}
+
 	}
 
 	void UIController::OnUpdate()
 	{
-		SetCurrntUI();
 
 		auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 
-		if (Cont.wPressedButtons == XINPUT_GAMEPAD_DPAD_UP)
+		if (Cont.wPressedButtons == XINPUT_GAMEPAD_START)
+			m_Active = !m_Active;
+
+		if (m_Active||m_Type != StageType::GameStage) 
+		{
+			if (m_Type == StageType::GameStage)
+				ShowHideUI(true);
+			SetCurrntUI();
+
+			OperationUI(Cont);
+
+			//入力Handler
+			m_handler.PushHandler(GetThis<UIController>());
+
+			// -- UIがアクティブの時は、更新を止める --
+			GameManager::GetManager()->SetUpdateActive(false);
+		}
+		else
+		{
+			// -- UIを非表示に --
+			ShowHideUI(false);
+			GameManager::GetManager()->SetUpdateActive(true);
+		}
+	}
+
+	void UIController::OperationUI(const CONTROLER_STATE Cont)
+	{
+		if (m_handler.GetUpArrow())
 		{
 			wstring UpStr = m_CurrntUI->GetUpStr();
 			ChangeActiveUI(UpStr);
 		}
-		else if (Cont.wPressedButtons == XINPUT_GAMEPAD_DPAD_DOWN)
+		else if (m_handler.GetDownArrow())
 		{
 			wstring DownStr = m_CurrntUI->GetDownStr();
 			ChangeActiveUI(DownStr);
 		}
 
-		if (Cont.wPressedButtons == XINPUT_GAMEPAD_DPAD_LEFT)
+		if (m_handler.GetLeftArrow())
 		{
 			wstring LeftStr = m_CurrntUI->GetLeftStr();
 			ChangeActiveUI(LeftStr);
 		}
-		else if (Cont.wPressedButtons == XINPUT_GAMEPAD_DPAD_RIGHT)
+		else if (m_handler.GetRightArrow())
 		{
 			wstring RightStr = m_CurrntUI->GetRightStr();
 			ChangeActiveUI(RightStr);
 		}
-
-		//入力Handler
-		m_handler.PushHandler(GetThis<UIController>());
 	}
 
 	void UIController::SetCurrntUI()
@@ -395,6 +382,20 @@ namespace basecross
 			m_CurrntUI = m_UIMap[Key];
 
 			m_CurrntUI->ChangeActive(true);
+		}
+	}
+
+	// -- 表示・非表示 --
+	void UIController::ShowHideUI(const bool ShowActive)
+	{
+		// -- 対象となるUIを操作 --
+		auto GroupPtr = GetStage()->GetSharedObjectGroup(L"GameStageUI",false);
+		if (GroupPtr)
+		{
+			for (auto ptr : GroupPtr->GetGroupVector())
+			{
+				ptr.lock()->SetDrawActive(ShowActive);
+			}
 		}
 	}
 }

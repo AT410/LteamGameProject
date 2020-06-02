@@ -84,7 +84,7 @@ namespace basecross {
 		try 
 		{
 			CreateViewLight();
-			AddGameObject<UIController>();
+			AddGameObject<UIController>(GetStageType());
 			//AddGameObject<ContTest>(L"ToAreaSelectStage");
 			//AddGameObject<NormalUI>();
 			//AddGameObject<DebugSprite>(L"TitleStage_TX");
@@ -129,7 +129,7 @@ namespace basecross {
 			CreateViewLight();
 			//AddGameObject<DebugSprite>(L"AreaSelect_TX");
 			//AddGameObject<ContTest>(L"ToGameStage");
-			AddGameObject<UIController>();
+			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<AreaSelectStage>());
 		}
 		catch (...)
@@ -180,6 +180,9 @@ namespace basecross {
 			wstring Test;
 			App::GetApp()->GetDataDirectory(Test);
 			GameManager::GetManager()->CreateGameStage(GetThis<StageBase>());
+
+			AddGameObject<UIController>(GetStageType(),false);
+			GameManager::GetManager()->CreateUISet(GetThis<StageBase>(), false);
 			SetBGM(L"MAIN_SD");
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 

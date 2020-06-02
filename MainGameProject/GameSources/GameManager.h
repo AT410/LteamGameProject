@@ -33,6 +33,8 @@ namespace basecross
 
 		bool m_Loaded;
 
+		bool m_UpdateActive;								///<-更新可能かどうか
+
 		void ResorceLoadFunc();								///<-リソースの読込を行う
 
 		GameManager();
@@ -57,9 +59,11 @@ namespace basecross
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
 		bool GetLoadFlag()const { return m_Loaded; }
+		bool GetUpdateActive()const { return m_UpdateActive; }
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
+		void SetUpdateActive(const bool Active) { m_UpdateActive = Active; }
 	private:
 		//コピー禁止
 		GameManager(const GameManager&) = delete;

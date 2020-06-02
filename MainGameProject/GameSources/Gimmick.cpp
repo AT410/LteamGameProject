@@ -419,10 +419,11 @@ namespace basecross
 	{
 		if (m_MoveEnd)
 			return;
-
-		if (GetComponent<Actions>()->GetArrived())
+		auto ActionPtr = GetComponent<Actions>(false);
+		if (ActionPtr)
 		{
-			GetComponent<Collision>()->SetUpdateActive(true);
+			if(ActionPtr->GetArrived())
+				GetComponent<Collision>()->SetUpdateActive(true);
 		}
 
 		if (m_OpenActive)

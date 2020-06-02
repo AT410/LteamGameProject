@@ -31,5 +31,10 @@
     <ResourceData ResourceKey="FireStart_SD" ResourceFile="FireStart.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="WaterDrop_SD" ResourceFile="Waterdrop.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="UITitle_TX" ResourceFile="UITitle.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Menu_TX" ResourceFile="menu.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="ReStart_TX" ResourceFile="ReStart.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Select_TX" ResourceFile="Select.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="BackSprite_TX" ResourceFile="BackSprite.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>
