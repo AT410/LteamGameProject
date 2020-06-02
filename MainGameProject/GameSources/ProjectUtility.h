@@ -17,7 +17,7 @@ namespace basecross
 		//Vec2 m_LStickVol;//Lスティック
 		//Vec2 m_RStickVol;//Rスティック
 
-		//bool m_ConvertStickToDbadActoive;
+		bool m_ConvertStickToDbadActoive;
 
 		void PushHandler(const shared_ptr<T>& Obj)
 		{
@@ -51,6 +51,92 @@ namespace basecross
 					Obj->OnPushRB();
 				}
 			}
+		}
+
+		WORD CovertToDPAD(const Vec2 Stick)
+		{
+			//if (m_ConvertStickToDbadActoive)
+			//	return;
+
+			if (Stick.x > 0.5f)
+			{
+				return XINPUT_GAMEPAD_DPAD_RIGHT;
+			}
+			else if (Stick.x < -0.5f)
+			{
+				return XINPUT_GAMEPAD_DPAD_LEFT;
+			}
+
+			if (Stick.y > 0.5f)
+			{
+				return XINPUT_GAMEPAD_DPAD_UP;
+			}
+			else if (Stick.y < -0.5f)
+			{
+				return XINPUT_GAMEPAD_DPAD_DOWN;
+			}
+
+			return 0;
+		}
+
+		bool GetUpArrow()
+		{
+			auto InputDevice = App::GetApp()->GetInputDevice();
+			auto ContInput = InputDevice.GetControlerVec()[0];
+
+			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
+
+			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_UP || DPAD == XINPUT_GAMEPAD_DPAD_UP)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool GetDownArrow()
+		{
+			auto InputDevice = App::GetApp()->GetInputDevice();
+			auto ContInput = InputDevice.GetControlerVec()[0];
+
+			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
+
+			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_DOWN || DPAD == XINPUT_GAMEPAD_DPAD_DOWN)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool GetRightArrow()
+		{
+			auto InputDevice = App::GetApp()->GetInputDevice();
+			auto ContInput = InputDevice.GetControlerVec()[0];
+
+			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
+
+			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_RIGHT || DPAD == XINPUT_GAMEPAD_DPAD_RIGHT)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool GetLeftArrow()
+		{
+			auto InputDevice = App::GetApp()->GetInputDevice();
+			auto ContInput = InputDevice.GetControlerVec()[0];
+
+			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
+
+			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_LEFT || DPAD == XINPUT_GAMEPAD_DPAD_LEFT)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	};
 

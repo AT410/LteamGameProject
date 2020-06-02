@@ -201,6 +201,8 @@ namespace basecross{
 	}
 
 	void Player::OnUpdate() {
+		if (!GameManager::GetManager()->GetUpdateActive())
+			return;
 		StateUpdate();
 	}
 

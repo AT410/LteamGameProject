@@ -176,7 +176,13 @@ namespace basecross
 					{
 						// -- オーダーレイヤーの順に生成する --
 						auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
-						Ptr->SetDrawActive(DefaultDrawActive);
+						if (Ptr) {
+							Ptr->SetDrawActive(DefaultDrawActive);
+							if (StagePtr->GetStageType() == StageType::GameStage)
+							{
+								StagePtr->GetSharedObjectGroup(L"GameStageUI")->IntoGroup(Ptr);
+							}
+						}
 					}
 				}
 
