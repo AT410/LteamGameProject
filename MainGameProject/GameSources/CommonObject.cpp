@@ -11,41 +11,8 @@ namespace basecross
 	
 	void FixedObj::OnCreate()
 	{
-		////ï`âÊê›íË
-		//auto DrawComp = AddComponent<PNTStaticDraw>();
-		//DrawComp->SetMeshResource(m_meshKey);
-		//DrawComp->SetTextureResource(m_texKey);
-
-		////îzíuê›íË
-		//auto TransComp = GetComponent<Transform>();
-		//TransComp->SetPosition(m_pos);
-		//TransComp->SetQuaternion(Quat(m_rot));
-		//TransComp->SetScale(m_scal);
-
-		////ï®óùîªíË
-		//auto CollComp = AddComponent<CollisionObb>();
-		//CollComp->SetFixed(true);
-
-		//for (auto tag : m_tag)
-		//{
-		//	if (tag == L"")
-		//		continue;
-		//	AddTag(tag);
-		//}
-
-		//if (m_SharedActive)
-		//{
-		//	GetStage()->SetSharedGameObject(m_SharedName, GetThis<FixedObj>());
-		//}
-
 		DefaultSettings();
 		SetActions();
-
-		//if (m_EventActive)
-		//{
-		//	this->SetDrawActive(false);
-		//	this->SetUpdateActive(false);
-		//}
 
 		if (m_StartActionActive)
 		{
@@ -55,6 +22,44 @@ namespace basecross
 	}
 
 	void FixedObj::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"TestEvent")
+		{
+			this->SetDrawActive(true);
+			this->SetUpdateActive(true);
+		}
+	}
+
+	void LoopTexObj::OnCreate()
+	{
+		DefaultSettings();
+		SetActions();
+
+		auto DrawComp = GetComponent<SmBaseDraw>();
+		auto MeshRes = DrawComp->GetMeshResource();
+		DrawComp->SetSamplerState(SamplerState::LinearWrap);
+
+		auto Vertex = MeshRes->GetBackupVerteces<VertexPositionNormalTexture>();
+		for (int i = 0; i < Vertex.size(); i++)
+		{
+			auto v = Vertex[i].textureCoordinate;
+			float Value = m_scal.length();
+			v.x *= Value;
+			v.y *= Value;
+			//v.y = PALSE * sinf((i + _cnt) / 20.0f);
+			Vertex[i].textureCoordinate = v;
+		}
+		//_cnt++;
+		DrawComp->UpdateVertices(Vertex);
+
+		if (m_StartActionActive)
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
+		}
+	}
+
+	void LoopTexObj::OnEvent(const shared_ptr<Event>&event)
 	{
 		if (event->m_MsgStr == L"TestEvent")
 		{

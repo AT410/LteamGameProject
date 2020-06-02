@@ -22,7 +22,7 @@ namespace basecross
 	void SwitchObj::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(m_meshKey);
 		drawComp->SetTextureResource(m_texKey);
 
@@ -616,7 +616,6 @@ namespace basecross
 		Vec3 EfkPoint = m_EndPoint;
 
 		//水しぶきのエフェクトの再生
-		//m_EfkPlay = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", EfkPoint);
 	}
 
 
@@ -624,7 +623,7 @@ namespace basecross
 	void Waterfall::OnUpdate()
 	{
 		auto DrawComp = GetComponent<PNTWaterDraw>();
-		 m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
+		m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
 
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);
 
@@ -724,12 +723,54 @@ namespace basecross
 			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
 				GetPlayer->ResetPositon();
 			}
+			// -- 真下にエフェクトを飛ばす --
+			auto Floor = m_Floor.lock();
+
+			if (Floor)
+			{
+				auto TransComp = GetComponent<Transform>();
+
+				auto FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
+				auto Pos = TransComp->GetPosition();
+
+				Vec3 recVec;
+				HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
+
+				if(!m_efk)
+					m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", recVec);
+			}
+			else
+			{
+				GetUnderFloor();
+			}
+
 		}
 		else {
 			ptrDraw->SetDiffuse(Col4(0.0f, 0.0f, 0.0f, 1.0f));
+			if (m_efk)
+				m_efk.reset();
 		}
 	}
 
+	void WaterJet::GetUnderFloor()
+	{
+		Vec3 Near, Far;
+		Near = GetComponent<Transform>()->GetPosition();
+		Far = Near + Vec3(0, -50, 0);
+		for (auto& v : GetStage()->GetGameObjectVec()) {
+			auto FloatFloor = dynamic_pointer_cast<UpDownBox>(v);
+			if (v) {
+				auto ColObb = v->GetComponent<CollisionObb>(false);
+				if (ColObb) {
+					auto Obb = ColObb->GetObb();
+					if (HitTest::SEGMENT_OBB(Near, Far, Obb)) {
+						m_Floor = v;
+					}
+				}
+			}
+		}
+
+	}
 
 	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
 		ObjectBase(Stageptr, pNode), m_time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)

@@ -98,7 +98,7 @@ namespace basecross
 	void ObjectBase::DefaultSettings()
 	{
 		// -- •`‰æİ’è --
-		auto DrawComp = AddComponent<PNTStaticDraw>();
+		auto DrawComp = AddComponent<PNTPointDraw>();
 		DrawComp->SetMeshResource(m_meshKey);
 		DrawComp->SetTextureResource(m_texKey);
 		
