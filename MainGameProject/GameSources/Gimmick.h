@@ -412,6 +412,8 @@ namespace basecross
 	class PushObj : public ObjectBase {
 		bool m_Boxmode;
 		Vec3 m_CurrentPos;
+		Vec3 m_StopPos;
+		Vec3 m_PastPos;
 		Vec3 m_FixedBox;
 	public:
 		PushObj(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
@@ -419,10 +421,8 @@ namespace basecross
 			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey) {}
 		PushObj(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode);
 		virtual ~PushObj() {}
-		void BoxFixed();
-		void BoxMoved();
 		void BoxState();
-		void GetBoxActive();
+		Vec3 GetCurrentPos() { return m_CurrentPos; }
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj)override;
 		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
 		virtual void OnCreate()override;

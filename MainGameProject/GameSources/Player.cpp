@@ -163,6 +163,7 @@ namespace basecross{
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
+		auto ptrGetPos = ptrTransform->GetPosition();
 		if (Obj->FindTag(L"Deth")) {
 			ptrTransform->SetPosition(0.0f, 0.5f, 0.0f);
 			ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
@@ -173,8 +174,14 @@ namespace basecross{
 			m_PlayerState = PlayerState::Clear;
 		}
 		if (Obj->FindTag(L"PushPullObj")) {
-			m_PushPull = true;
-			m_PushObj = Obj;
+			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
+			auto ptrBoxPos = ptrPullBox->GetCurrentPos();
+			if (ptrBoxPos.y > ptrGetPos.y) {
+				m_PushPull = true;
+				m_PushObj = Obj;
+			}
+
+
 		}
 
 		auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);

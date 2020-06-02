@@ -956,55 +956,52 @@ namespace basecross
 		BoxState();
 	}
 
-	void PushObj::BoxFixed() {
-		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_CurrentPos);
-	}
-	
-	void PushObj::BoxMoved() {
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
-		m_CurrentPos = ptrPos;
-		ptrTransform->SetPosition(m_CurrentPos);
-
-	}
-
+	//ボックス状態関数
+	//松崎　洸樹
+	//ボックスの動かせる状態と静止している状態を分けている
 	void PushObj::BoxState() {
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrPos = ptrTransform->GetPosition();
+		
 		if (m_Boxmode) {
-			//BoxMoved();
 			m_CurrentPos = ptrPos;
+			m_PastPos = ptrPos;
 			ptrTransform->SetPosition(m_CurrentPos);
 		}
 		else {
-			ptrTransform->SetPosition(m_CurrentPos);
+			
+			ptrTransform->SetPosition(m_StopPos);
 		}
+
 	}
 
 	void PushObj::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
 		auto ptrTransform = GetComponent<Transform>();
+		auto ptrFloor = dynamic_pointer_cast<StageTest>(Obj);
 		auto ptrPos = ptrTransform->GetPosition();
-		m_CurrentPos = ptrPos;
-		m_Boxmode = false;
+		if (!ptrPlayer) {
+			m_StopPos = m_PastPos;
+			m_CurrentPos = m_PastPos;
+		}
+		else {
+			m_StopPos = m_PastPos;
+			m_CurrentPos = m_PastPos;
+		}
+
 	}
 
 	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
 		auto ptrTransform = GetComponent<Transform>();
-		auto ptrFloor = dynamic_pointer_cast<StageTest>(Obj);
 			if (ptrPlayer) {
-				//BoxMoved();
 				m_Boxmode = false;
 				if (ptrPlayer->GetPushBoxActiv()) {
-					//BoxMoved();
 					m_Boxmode = true;
 				}
-				else {
+				else if(!ptrPlayer->GetPushBoxActiv()){
 					m_Boxmode = false;
 				}
 			}
-		
 	}
 }
