@@ -113,11 +113,19 @@ namespace basecross
 					//Žq—v‘f‚ðŽæ“¾
 					auto ObjNodes = XmlDocReader::GetChildNodes(StageNode);
 					long ObjCount = XmlDocReader::GetLength(ObjNodes);
-					for (long k = 0; k < ObjCount; k++)
+					for (long k = 0; k < 3; k++) 
 					{
-						auto ObjNode = XmlDocReader::GetItem(ObjNodes, k);
-						auto TypeStr = XmlDocReader::GetAttribute(ObjNode, L"Type");
-						CreateFromXML(TypeStr, StagePtr, ObjNode);
+						for (long l = 0; l < ObjCount; l++)
+						{
+							auto ObjNode = XmlDocReader::GetItem(ObjNodes, l);
+							auto TypeStr = XmlDocReader::GetAttribute(ObjNode, L"Type");
+							auto OrderStr = XmlDocReader::GetAttribute(ObjNode, L"Order");
+							int Order = (int)_wtoi(OrderStr.c_str());
+							if (Order != k)
+								continue;
+
+							CreateFromXML(TypeStr, StagePtr, ObjNode);
+						}
 					}
 				}
 			}

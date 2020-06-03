@@ -312,6 +312,17 @@ namespace basecross
 			App::GetApp()->GetXAudio2Manager()->Stop(m_WaterSound);
 		}
 
+		void UpdateEndPoint(const Vec3& EndPoint)
+		{
+			m_vertices =
+			{
+				{Vec3(EndPoint.x - m_Width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
+				{Vec3(EndPoint.x + m_Width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
+				{Vec3(m_StartPoint.x - m_Width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(0,1)},
+				{Vec3(m_StartPoint.x + m_Width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(1,1)},
+			};
+		}
+
 	private:
 		Vec3 m_StartPoint;
 		Vec3 m_EndPoint;
@@ -324,6 +335,8 @@ namespace basecross
 		shared_ptr<EfkPlay> m_EfkPlay;
 
 		shared_ptr<SoundItem> m_WaterSound;
+
+		vector<VertexPositionNormalTexture> m_vertices;
 	};
 
 	//ウォータージェットクラス
