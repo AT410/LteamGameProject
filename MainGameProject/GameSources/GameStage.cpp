@@ -64,6 +64,9 @@ namespace basecross {
 		case basecross::StageType::AreaSelectStage:
 			TypeStr = L"AreaSelect";
 			break;
+		case basecross::StageType::StageSelectStage:
+			TypeStr = L"StageSelect";
+			break;
 		case basecross::StageType::GameStage:
 			TypeStr = L"GameStage";
 			break;
@@ -131,6 +134,23 @@ namespace basecross {
 			//AddGameObject<ContTest>(L"ToGameStage");
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<AreaSelectStage>());
+		}
+		catch (...)
+		{
+
+		}
+	}
+
+	//--------------------------------------------------------------------------------------
+	//エリアセレクトステージ
+	//--------------------------------------------------------------------------------------
+	void StageSelectStage::OnCreate()
+	{
+		try
+		{
+			CreateViewLight();
+			AddGameObject<UIController>(GetStageType());
+			GameManager::GetManager()->CreateUISet(GetThis<StageSelectStage>());
 		}
 		catch (...)
 		{

@@ -63,6 +63,8 @@ namespace basecross
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
+		void SetAreaNumber(int AreaNum) { m_SelectStage.first = AreaNum; }
+		void SetStageNumber(int StageNum) { m_SelectStage.second = StageNum; }
 		void SetUpdateActive(const bool Active) { m_UpdateActive = Active; }
 	private:
 		//コピー禁止

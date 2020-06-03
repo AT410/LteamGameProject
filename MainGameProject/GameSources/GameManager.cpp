@@ -1,6 +1,6 @@
 /*!
-@breif ƒQ[ƒ€‘S‘Ì‚ÌŠÇ—À‘Ì
-@name@ì¬Ò:ˆ¢•”’BÆ
+@breif ï¿½Qï¿½[ï¿½ï¿½ï¿½Sï¿½Ì‚ÌŠÇ—ï¿½ï¿½ï¿½ï¿½ï¿½
+@nameï¿½@ï¿½ì¬ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½
 */
 
 #include "stdafx.h"
@@ -8,12 +8,11 @@
 
 namespace basecross
 {
-	//static•Ï”‚ÌÀ‘Ì
+	//staticï¿½Ïï¿½ï¿½Ìï¿½ï¿½ï¿½
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
 		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
-
 	{
 
 	}
@@ -23,7 +22,7 @@ namespace basecross
 
 	}
 
-	//staticŠÖ”
+	//staticï¿½Öï¿½
 	void GameManager::CreateManager()
 	{
 		try
@@ -47,7 +46,7 @@ namespace basecross
 			if (m_ins.get() == 0)
 			{
 				throw(BaseException(
-					L"GameManager‚ª¶¬‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ",
+					L"GameManagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½",
 					L"if(m_ins.get()==0)",
 					L"GameManager::GetManager"
 				));
@@ -74,7 +73,7 @@ namespace basecross
 	{
 		if (m_ins.get() == 0)
 		{
-			//”pŠüˆ—
+			//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			m_ins.reset();
 		}
 	}
@@ -140,7 +139,7 @@ namespace basecross
 
 	//!end static
 
-	//ƒŠƒ\[ƒX‚Ì“Ç
+	//ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ì“Çï¿½
 	void GameManager::LoadResources()
 	{
 		if (!m_Loaded)
@@ -150,12 +149,12 @@ namespace basecross
 		}
 	}
 
-	//ƒXƒe[ƒW¶¬
+	//ï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
 		StageBulider Builder;
 
-		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
+		//ï¿½Zï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½Ê‚É‚ï¿½ï¿½é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
 		Builder.Register<FixedObj>(L"Test");
 		Builder.Register<LoopTexObj>(L"Floor");
@@ -172,14 +171,14 @@ namespace basecross
 
 		Builder.Register<RockTest>(L"Rock");
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //‘O–Ê‚Ì“§–¾‚È•Ç
+		Builder.Register<FrontWallObj>(L"FrontWall"); //ï¿½Oï¿½Ê‚Ì“ï¿½ï¿½ï¿½ï¿½È•ï¿½
 		Builder.Register<PushObj>(L"PullBox");
 
-		//ˆÉ“Œ:Type‚Ì’Ç‰Á
+		//ï¿½É“ï¿½:Typeï¿½Ì’Ç‰ï¿½
 		Builder.Register<Slope>(L"Slope");
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); //<-•‚‚­
+		Builder.Register<UpDownBox>(L"FloatBox"); //<-ï¿½ï¿½ï¿½ï¿½
 		Builder.Register<WaterLV>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
 		Builder.Register<StageTest>(L"Ladder");
@@ -191,7 +190,7 @@ namespace basecross
 
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
-		//ŠJnƒCƒxƒ“ƒg‚ğƒXƒ^[ƒg
+		//ï¿½Jï¿½nï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½g
 		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
 		if (OPCam)
 		{
