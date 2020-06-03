@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <UIRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <UISet UIType="AreaSelect">
-    <UIData Type="Normal" Pos="0,247" Width="800" Height="100" TexKey="StageSelect_TX" Layer="1" />
-    <UIData Type="Flashing" Pos="-350,-150" Width="300" Height="300" TexKey="One_TX" Layer="1" MyIndexKey="1" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="3" RightKey="2" AreaNumber="0" StageNumber="0" />
-    <UIData Type="Flashing" Pos="0,-150" Width="300" Height="300" TexKey="Two_TX" Layer="1" MyIndexKey="2" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="1" RightKey="3" AreaNumber="0" StageNumber="1" />
-    <UIData Type="Flashing" Pos="350,-150" Width="300" Height="300" TexKey="Three_TX" Layer="1" MyIndexKey="3" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="2" RightKey="1" AreaNumber="0" StageNumber="2" />
+    <UIData Type="Normal" Pos="0,247" Width="800" Height="100" TexKey="AreaSelectStr_TX" Layer="1" />
+    <UIData Type="Flashing" Pos="-350,-150" Width="300" Height="300" TexKey="One_TX" Layer="1" MyIndexKey="1" EventKey="ToStageSelectStage" UpKey="" DownKey="" LeftKey="3" RightKey="2" AreaNumber="0" StageNumber="-1" />
+    <UIData Type="Flashing" Pos="0,-150" Width="300" Height="300" TexKey="Two_TX" Layer="1" MyIndexKey="2" EventKey="ToStageSelectStage" UpKey="" DownKey="" LeftKey="1" RightKey="3" AreaNumber="1" StageNumber="-1" />
+    <UIData Type="Flashing" Pos="350,-150" Width="300" Height="300" TexKey="Three_TX" Layer="1" MyIndexKey="3" EventKey="ToStageSelectStage" UpKey="" DownKey="" LeftKey="2" RightKey="1" AreaNumber="2" StageNumber="-1" />
     <UIData Type="Normal" Pos="0,0" Width="1280" Height="800" TexKey="BackGround_TX" Layer="0" />
   </UISet>
   <UISet UIType="GameStage">
@@ -13,6 +13,13 @@
     <UIData Type="Normal" Pos="0,0" Width="1280" Height="800" TexKey="BackSprite_TX" Layer="0" />
     <UIData Type="Flashing" Pos="0,-50" Width="300" Height="100" TexKey="Select_TX" Layer="1" MyIndexKey="2" EventKey="ToAreaSelectStage" UpKey="1" DownKey="3" LeftKey="" RightKey="" />
     <UIData Type="Flashing" Pos="0,-200" Width="300" Height="100" TexKey="UITitle_TX" Layer="1" MyIndexKey="3" EventKey="ToTitleStage" UpKey="2" DownKey="" LeftKey="" RightKey="" />
+  </UISet>
+  <UISet UIType="StageSelect">
+    <UIData Type="Normal" Pos="0,247" Width="800" Height="100" TexKey="StageSelect_TX" Layer="1" />
+    <UIData Type="Flashing" Pos="-350,-150" Width="300" Height="300" TexKey="One_TX" Layer="1" MyIndexKey="1" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="3" RightKey="2" AreaNumber="-1" StageNumber="0" />
+    <UIData Type="Flashing" Pos="0,-150" Width="300" Height="300" TexKey="Two_TX" Layer="1" MyIndexKey="2" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="1" RightKey="3" AreaNumber="-1" StageNumber="1" />
+    <UIData Type="Flashing" Pos="350,-150" Width="300" Height="300" TexKey="Three_TX" Layer="1" MyIndexKey="3" EventKey="ToGameStage" UpKey="" DownKey="" LeftKey="2" RightKey="1" AreaNumber="-1" StageNumber="2" />
+    <UIData Type="Normal" Pos="0,0" Width="1280" Height="800" TexKey="BackGround_TX" Layer="0" />
   </UISet>
   <UISet UIType="Title">
     <UIData Type="Flashing" Pos="-35,-246" Width="800" Height="100" TexKey="TEXTTEST_TX" Layer="1" MyIndexKey="1" EventKey="ToAreaSelectStage" UpKey="" DownKey="" LeftKey="" RightKey="" />

@@ -216,7 +216,10 @@ namespace basecross{
 			auto Elapsedtime = App::GetApp()->GetElapsedTime();
 			auto ptrTransform = GetComponent<Transform>();
 			auto ptrPos = ptrTransform->GetPosition();
-			m_RisePos += 1.0f * Elapsedtime;
+			m_RisePos += 0.4f * Elapsedtime;
+			if (m_RisePos > 0.4f) {
+				m_RisePos = 0.4f;
+			}
 			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
 		}
 

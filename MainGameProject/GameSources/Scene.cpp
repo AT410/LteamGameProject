@@ -42,6 +42,10 @@ namespace basecross{
 		{
 			ResetActiveStage<AreaSelectStage>();
 		}
+		else if (event->m_MsgStr == L"ToStageSelectStage")
+		{
+			ResetActiveStage<StageSelectStage>();
+		}
 		else if (event->m_MsgStr == L"ToLoadStage")
 		{
 			ResetActiveStage<LoadStage>();
@@ -72,6 +76,7 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"TITLE_TX", MediaPath + L"title.jpg");
 		App::GetApp()->RegisterTexture(L"BackGround_TX", MediaPath + L"BackGround.png");
 		App::GetApp()->RegisterTexture(L"StageSelect_TX", MediaPath + L"StageSelect.png");
+		App::GetApp()->RegisterTexture(L"AreaSelectStr_TX", MediaPath + L"AreaSelectStr.png");
 		App::GetApp()->RegisterTexture(L"One_TX", MediaPath + L"One.png");
 		App::GetApp()->RegisterTexture(L"Two_TX", MediaPath + L"Two.png");
 		App::GetApp()->RegisterTexture(L"Three_TX", MediaPath + L"Three.png");
