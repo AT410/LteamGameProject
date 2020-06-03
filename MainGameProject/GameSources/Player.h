@@ -24,6 +24,7 @@ namespace basecross{
 	private:
 		//プレイヤーの進行方向の向き
 		Vec3 m_PlayerAngle;
+
 		//プレイヤーの速さ
 		float m_Speed;
 		//プレイヤーのジャンプの強さ
@@ -34,6 +35,8 @@ namespace basecross{
 		float m_distance;
 
 		float m_JumpPos;
+
+		float m_RisePos;
 		//プレイヤーのジャンプ判断
 		bool m_Jumpjudge;
 		//プレイヤーの動作停止判断

@@ -212,16 +212,20 @@ namespace basecross{
 
 			}
 		}
-		//else if (Obj->FindTag(L"PossibleJump") && Obj->FindTag(L"Ladder")) {
-		//	auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		//	auto ptrTransform = GetComponent<Transform>();
-		//	auto ptrPos = ptrTransform->GetPosition();
-
-		//}
+		else if (Obj->FindTag(L"PossibleJump") && Obj->FindTag(L"Ladder")) {
+			auto Elapsedtime = App::GetApp()->GetElapsedTime();
+			auto ptrTransform = GetComponent<Transform>();
+			auto ptrPos = ptrTransform->GetPosition();
+			m_RisePos += 1.0f * Elapsedtime;
+			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
+		}
 
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		m_RisePos = 0.0f;
 	}
 
 	void Player::OnUpdate() {
