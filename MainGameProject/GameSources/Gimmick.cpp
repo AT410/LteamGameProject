@@ -22,7 +22,7 @@ namespace basecross
 	void SwitchObj::OnCreate()
 	{
 		//描画
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
+		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(m_meshKey);
 		drawComp->SetTextureResource(m_texKey);
 
@@ -333,7 +333,48 @@ namespace basecross
 			//ptrTrans->SetQuaternion(FQuat);
 		}
 	}
+	//----------------------------------------------------------------------------
+	//スロープの実態
+	//----------------------------------------------------------------------------
+	// -- Xmlファイル用コンストラクタ --
+	Slope::Slope(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode)
+	{
 
+	}
+
+	void Slope::OnCreate()
+	{
+		DefaultSettings();
+		SetActions();
+	}
+
+	void Slope::OnUpdate()
+	{
+		if (GetComponent<Actions>()->GetArrived())
+		{
+			GetComponent<Collision>()->SetUpdateActive(true);
+		}
+	}
+
+	void Slope::OnEvent(const shared_ptr<Event>& event)
+	{
+		if (event->m_MsgStr == L"StartAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
+		}
+		else if (event->m_MsgStr == L"EndAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"End");
+		}
+		else if (event->m_MsgStr == L"TestEvent")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"OnEvent");
+		}
+	}
 
 	//----------------------------------------------------------------------------
 	//扉クラスの実態
@@ -342,32 +383,35 @@ namespace basecross
 	Door::Door(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
 		:ObjectBase(StagePtr, pNode),m_OpenActive(false),m_MoveEnd(false),m_TotalTime(0.0f)
 	{
-
+		
 	}
 
 	// -- 初期化 --
 	void Door::OnCreate()
 	{
-		// -- 描画設定 --
-		auto DrawComp = AddComponent<PNTPointDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
+		//// -- 描画設定 --
+		//auto DrawComp = AddComponent<PNTPointDraw>();
+		//DrawComp->SetMeshResource(m_meshKey);
+		//DrawComp->SetTextureResource(m_texKey);
 
-		// -- 配置設定 --
-		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
+		//// -- 配置設定 --
+		//auto transComp = GetComponent<Transform>();
+		//transComp->SetPosition(m_pos);
+		//transComp->SetScale(m_scal);
+		//transComp->SetQuaternion(Quat(m_rot));
 
-		// -- 物理判定 --
-		auto ColComp = AddComponent<CollisionObb>();
-		ColComp->SetFixed(true);
+		//// -- 物理判定 --
+		//auto ColComp = AddComponent<CollisionObb>();
+		//ColComp->SetFixed(true);
 
-		// -- イベント設定 --
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<Door>());
-		}
+		//// -- イベント設定 --
+		//if (m_EventActive)
+		//{
+		//	App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<Door>());
+		//}
+
+		DefaultSettings();
+		SetActions();
 	}
 	
 	// -- 更新処理 --
@@ -375,6 +419,12 @@ namespace basecross
 	{
 		if (m_MoveEnd)
 			return;
+		auto ActionPtr = GetComponent<Actions>(false);
+		if (ActionPtr)
+		{
+			if(ActionPtr->GetArrived())
+				GetComponent<Collision>()->SetUpdateActive(true);
+		}
 
 		if (m_OpenActive)
 		{
@@ -430,6 +480,17 @@ namespace basecross
 		{
 			m_OpenActive = true;
 		}
+		else if (event->m_MsgStr == L"StartAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start");
+		}
+		else if (event->m_MsgStr == L"EndAction")
+		{
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"End");
+		}
+
 	}
 	//----------------------------------------------------------------------------
 	//噴水クラスの実体
@@ -560,7 +621,6 @@ namespace basecross
 		Vec3 EfkPoint = m_EndPoint;
 
 		//水しぶきのエフェクトの再生
-		//m_EfkPlay = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", EfkPoint);
 	}
 
 
@@ -568,7 +628,7 @@ namespace basecross
 	void Waterfall::OnUpdate()
 	{
 		auto DrawComp = GetComponent<PNTWaterDraw>();
-		 m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
+		m_TotalTime += App::GetApp()->GetElapsedTime()*m_FallSpeed;
 
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);
 
@@ -668,12 +728,54 @@ namespace basecross
 			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
 				GetPlayer->ResetPositon();
 			}
+			// -- 真下にエフェクトを飛ばす --
+			auto Floor = m_Floor.lock();
+
+			if (Floor)
+			{
+				auto TransComp = GetComponent<Transform>();
+
+				auto FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
+				auto Pos = TransComp->GetPosition();
+
+				Vec3 recVec;
+				HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
+
+				if(!m_efk)
+					m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", recVec);
+			}
+			else
+			{
+				GetUnderFloor();
+			}
+
 		}
 		else {
 			ptrDraw->SetDiffuse(Col4(0.0f, 0.0f, 0.0f, 1.0f));
+			if (m_efk)
+				m_efk.reset();
 		}
 	}
 
+	void WaterJet::GetUnderFloor()
+	{
+		Vec3 Near, Far;
+		Near = GetComponent<Transform>()->GetPosition();
+		Far = Near + Vec3(0, -50, 0);
+		for (auto& v : GetStage()->GetGameObjectVec()) {
+			auto FloatFloor = dynamic_pointer_cast<UpDownBox>(v);
+			if (v) {
+				auto ColObb = v->GetComponent<CollisionObb>(false);
+				if (ColObb) {
+					auto Obb = ColObb->GetObb();
+					if (HitTest::SEGMENT_OBB(Near, Far, Obb)) {
+						m_Floor = v;
+					}
+				}
+			}
+		}
+
+	}
 
 	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
 		ObjectBase(Stageptr, pNode), m_time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)
@@ -922,4 +1024,86 @@ namespace basecross
 		GetComponent<Transform>()->SetPosition(ep);
 	}
 
+	PushObj::PushObj(const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode):
+	ObjectBase(StagePtr, pNode),m_Boxmode(true)
+	{}
+
+	void PushObj::OnCreate() {
+		AddComponent<Gravity>();
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetQuaternion(Quat(m_rot));
+		ptrTransform->SetScale(m_scal);
+
+		auto ptrDraw = AddComponent<PNTPointDraw>();
+		ptrDraw->SetMeshResource(m_meshKey);
+		ptrDraw->SetTextureResource(m_texKey);
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		for (auto tag : m_tag)
+		{
+			if (tag == L"")
+				continue;
+			AddTag(tag);
+		}
+
+		if (m_SharedActive)
+		{
+			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PushObj>());
+		}
+
+	}
+
+	void PushObj::OnUpdate() {
+		BoxState();
+	}
+
+	//ボックス状態関数
+	//松崎　洸樹
+	//ボックスの動かせる状態と静止している状態を分けている
+	void PushObj::BoxState() {
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrPos = ptrTransform->GetPosition();
+		
+		if (m_Boxmode) {
+			m_CurrentPos = ptrPos;
+			m_PastPos = ptrPos;
+			ptrTransform->SetPosition(m_CurrentPos);
+		}
+		else {
+			
+			ptrTransform->SetPosition(m_StopPos);
+		}
+
+	}
+
+	void PushObj::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
+		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
+		auto ptrTransform = GetComponent<Transform>();
+		auto ptrFloor = dynamic_pointer_cast<StageTest>(Obj);
+		auto ptrPos = ptrTransform->GetPosition();
+		if (!ptrPlayer) {
+			m_StopPos = m_PastPos;
+			m_CurrentPos = m_PastPos;
+		}
+		else {
+			m_StopPos = m_PastPos;
+			m_CurrentPos = m_PastPos;
+		}
+
+	}
+
+	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
+		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
+		auto ptrTransform = GetComponent<Transform>();
+			if (ptrPlayer) {
+				m_Boxmode = false;
+				if (ptrPlayer->GetPushBoxActiv()) {
+					m_Boxmode = true;
+				}
+				else if(!ptrPlayer->GetPushBoxActiv()){
+					m_Boxmode = false;
+				}
+			}
+	}
 }

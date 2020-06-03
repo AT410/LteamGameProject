@@ -13,7 +13,8 @@
     <ResourceData ResourceKey="Stage4_TX" ResourceFile="Stage4.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Stage5_TX" ResourceFile="Stage5.png" ResourceType="Texture" />
     <ResourceData ResourceKey="TEST_TX" ResourceFile="kabe.jpg" ResourceType="Texture" />
-    <ResourceData ResourceKey="FLOOR_TX" ResourceFile="ytail.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="FLOOR_TX" ResourceFile="Tx_StoneFloor_1.png" ResourceType="Texture" />    
+    <ResourceData ResourceKey="Switch_TX" ResourceFile="Tx_Switch_1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="WALL_TX" ResourceFile="Wall2.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Rock_TX" ResourceFile="Brown2.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Number_TX" ResourceFile="number.png" ResourceType="Texture" />
@@ -22,7 +23,7 @@
     <ResourceData ResourceKey="MAIN_SD" ResourceFile="BGMTest.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="GOAL_MD" ResourceFile="Obj_Torch_2.bmf" ResourceType="Mesh" />
     <ResourceData ResourceKey="FIRE_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="1" />
-    <ResourceData ResourceKey="WATER_TX" ResourceFile="water.jpg" ResourceType="Texture" />
+    <ResourceData ResourceKey="WATER_TX" ResourceFile="Tx_water.png" ResourceType="Texture" />
     <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25" />
     <ResourceData ResourceKey="WATERFALL_EFK" ResourceFile="test.efk" ResourceType="Effect" EffectMagni="0.5" />
     <ResourceData ResourceKey="WATERSUB_TX" ResourceFile="water2.jpg" ResourceType="Texture" />
@@ -31,5 +32,10 @@
     <ResourceData ResourceKey="FireStart_SD" ResourceFile="FireStart.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="WaterDrop_SD" ResourceFile="Waterdrop.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="UITitle_TX" ResourceFile="UITitle.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Menu_TX" ResourceFile="menu.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="ReStart_TX" ResourceFile="ReStart.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Select_TX" ResourceFile="Select.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="BackSprite_TX" ResourceFile="BackSprite.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>

@@ -32,12 +32,16 @@ namespace basecross{
 		float m_StopActionTime;
 		//プレイヤーとオブジェクトの距離
 		float m_distance;
+
+		float m_JumpPos;
 		//プレイヤーのジャンプ判断
 		bool m_Jumpjudge;
 		//プレイヤーの動作停止判断
 		bool m_StopActionTimeJudge;
 		//押し出し引き判断
 		bool m_PushPull;
+		//押し出す引き出すオブジェクト判断
+		bool m_PushBoxActiv;
 		//プレイヤーステート取得変数
 		PlayerState m_PlayerState;
 
@@ -59,7 +63,8 @@ namespace basecross{
 			m_Jumpforce(4.0f),
 			m_StopActionTime(5.0f),
 			m_Jumpjudge(false),
-			m_StopActionTimeJudge(false)
+			m_StopActionTimeJudge(false),
+			m_PushBoxActiv(false)
 
 		{
 		}
@@ -69,7 +74,8 @@ namespace basecross{
 			m_Jumpforce(4.0f),
 			m_StopActionTime(5.0f),
 			m_Jumpjudge(false),
-			m_StopActionTimeJudge(false)
+			m_StopActionTimeJudge(false),
+			m_PushBoxActiv(false)
 		{}
 
 		virtual ~Player() {}
@@ -90,6 +96,7 @@ namespace basecross{
 		void ClearBehavior();
 
 		//
+		bool GetPushBoxActiv() { return m_PushBoxActiv; };
 		void SetState(PlayerState State) { m_PlayerState = State; }
 		void OnCreate() override;
 		void OnUpdate() override;

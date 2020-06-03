@@ -17,7 +17,8 @@ namespace basecross{
 		m_Jumpforce(4.0f),
 		m_StopActionTime(5.0f),
 		m_Jumpjudge(false),
-		m_StopActionTimeJudge(false)
+		m_StopActionTimeJudge(false),
+		m_PushBoxActiv(false)
 	{}
 
 
@@ -125,6 +126,7 @@ namespace basecross{
 			auto obj = m_PushObj->GetComponent<Transform>();
 			auto objpos = obj->GetPosition();
 			auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
+			m_PushBoxActiv = true;
 			if (Cont.fThumbLX > 0.8f) {
 				pos.x += elapsedtime;
 				objpos.x += elapsedtime;
@@ -156,10 +158,12 @@ namespace basecross{
 	void Player::OnRemoveLB() {
 		m_PushObj = nullptr;
 		m_PushPull = false;
+		m_PushBoxActiv = false;
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
+		auto ptrGetPos = ptrTransform->GetPosition();
 		if (Obj->FindTag(L"Deth")) {
 			ptrTransform->SetPosition(0.0f, 0.5f, 0.0f);
 			ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
@@ -170,8 +174,14 @@ namespace basecross{
 			m_PlayerState = PlayerState::Clear;
 		}
 		if (Obj->FindTag(L"PushPullObj")) {
-			m_PushPull = true;
-			m_PushObj = Obj;
+			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
+			auto ptrBoxPos = ptrPullBox->GetCurrentPos();
+			if (ptrBoxPos.y > ptrGetPos.y) {
+				m_PushPull = true;
+				m_PushObj = Obj;
+			}
+
+
 		}
 
 		auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);
@@ -192,15 +202,31 @@ namespace basecross{
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		if (Obj->FindTag(L"PossibleJump")) {
-			m_Jumpjudge = true;
+		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
+			auto ptrPos = GetComponent<Transform>()->GetPosition();
+			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetPosition();
+			auto ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
+			m_JumpPos = ptrJFloorPos.y + (ptrJFloorScale.y / 2);
+			if (ptrPos.y > m_JumpPos) {
+				m_Jumpjudge = true;
+
+			}
 		}
+		//else if (Obj->FindTag(L"PossibleJump") && Obj->FindTag(L"Ladder")) {
+		//	auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		//	auto ptrTransform = GetComponent<Transform>();
+		//	auto ptrPos = ptrTransform->GetPosition();
+
+		//}
+
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 	}
 
 	void Player::OnUpdate() {
+		if (!GameManager::GetManager()->GetUpdateActive())
+			return;
 		StateUpdate();
 	}
 

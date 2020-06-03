@@ -31,6 +31,12 @@ namespace basecross
 		virtual void OnUpdate()override {};
 
 	protected:
+		// -- 基本設定関数 --
+		void DefaultSettings();
+
+		// -- アクションの追加 --
+		void SetActions();
+
 		Vec3 m_pos;
 		Vec4 m_rot;
 		Vec3 m_scal;
@@ -39,11 +45,19 @@ namespace basecross
 
 		vector<wstring> m_tag;
 
+		bool m_CollisionActive = false;
+		bool m_CollisionSetFixed = false;
+
 		bool m_SharedActive = false;
 		wstring m_SharedName;
 		// -- イベント設定 --
 		bool m_EventActive = false;
 		wstring m_ReceiverKey;
+
+		// -- アニメーション設定 --
+		IXMLDOMNodeListPtr m_AnimationNodes;
+		bool m_AnimationActive = false;
+		bool m_StartActionActive = false;
 	};
 
 	//---------------------------------------------------

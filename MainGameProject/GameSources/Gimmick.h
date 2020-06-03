@@ -171,6 +171,37 @@ namespace basecross
 			m_Active = active;
 		}
 	};
+
+	//----------------------------------------------------------------------------
+	//スロープオブジェクト
+	//----------------------------------------------------------------------------
+	class Slope : public ObjectBase
+	{
+	public:
+		//-- 構築 --
+		Slope(const shared_ptr<Stage>& StagePtr) 
+			:ObjectBase(StagePtr)
+		{
+		}
+
+		// -- Xmlファイル読込用 --
+		Slope(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+
+		//-- 破棄 --
+		virtual ~Slope() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override;
+
+		void OnEvent(const shared_ptr<Event>& event)override;
+
+	private:
+
+	};
 	//-----------------------------------------------------------------------------
 	//扉のオブジェクト
 	//-----------------------------------------------------------------------------
@@ -315,6 +346,7 @@ namespace basecross
 
 		shared_ptr<Waterfall> m_WaterFall;
 
+		weak_ptr<GameObject> m_Floor;
 	public:
 		WaterJet(const shared_ptr<Stage>& Stageptr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
@@ -328,6 +360,10 @@ namespace basecross
 		void SetSizeAABBZ(const float sizeZ);
 		void WaterJetJudgment();
 		void StartJudgment();
+
+		// -- 真下の地面を取得する --
+		void GetUnderFloor();
+
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 	};
@@ -409,4 +445,23 @@ namespace basecross
 		virtual void OnUpdate()override;
 	};
 
+	class PushObj : public ObjectBase {
+		bool m_Boxmode;
+		Vec3 m_CurrentPos;
+		Vec3 m_StopPos;
+		Vec3 m_PastPos;
+		Vec3 m_FixedBox;
+	public:
+		PushObj(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
+			const wstring TexKey, const wstring MeshKey)
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey) {}
+		PushObj(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode);
+		virtual ~PushObj() {}
+		void BoxState();
+		Vec3 GetCurrentPos() { return m_CurrentPos; }
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj)override;
+		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
+		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+	};
 }

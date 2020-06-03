@@ -12,7 +12,8 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestStage2.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+
 	{
 
 	}
@@ -157,7 +158,7 @@ namespace basecross
 		//セレクト画面にするか
 		StagePtr->CreateSharedObjectGroup(L"Rock");
 		Builder.Register<FixedObj>(L"Test");
-		Builder.Register<StageTest>(L"Floor");
+		Builder.Register<LoopTexObj>(L"Floor");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Omori>(L"Omori");
 		Builder.Register<HeatStick>(L"HeatStick");
@@ -172,9 +173,10 @@ namespace basecross
 		Builder.Register<RockTest>(L"Rock");
 		Builder.Register<FixedObj>(L"Wall");
 		Builder.Register<FrontWallObj>(L"FrontWall"); //前面の透明な壁
-		Builder.Register<PullBoxObj>(L"PullBox");
+		Builder.Register<PushObj>(L"PullBox");
 
 		//伊東:Typeの追加
+		Builder.Register<Slope>(L"Slope");
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
 		Builder.Register<UpDownBox>(L"FloatBox"); //<-浮く

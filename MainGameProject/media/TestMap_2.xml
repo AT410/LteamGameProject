@@ -1,30 +1,73 @@
 <?xml version="1.0"?>
 <root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Area AreaNumber="0">
-    <StageData StageNumber="0" CameraEye="-0.16,11.6,-20.65" CameraAt="0,8.43,6.98" CameraNear="0.5" CameraFar="1000">
-      <Objects Type="Player" Pos="-11.4985,18.04,2.306564" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CAPSULE" TexKey="TEST_TX" Tags="EnabledSwitch" SharedActive="1" SharedKey="Player" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Wall" Pos="14.4,10.08,-0.09" Scale="10,20,0.5000003" Rot="0,0.7071068,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="-10.786,4.19,2.47" Scale="4.872988,5,2" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Wall" Pos="0.4,10.2,5.13" Scale="28,20,0.5000003" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="-6.884,15.89,2.471" Scale="13.2376,5,2" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="2.434,9.21,2.47" Scale="12.25679,5,1" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="11.016,15.95,2.47" Scale="5.932961,5,2" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="0.44,0,2.71" Scale="15.01606,5,1" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="PullBox" Pos="-2.62,3.38,2.54" Scale="1.501665,5.729292,4.658" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PushPullObj,PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Water" Pos="-5.48,0.54,3.85" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="WaterDrop" Pos="-5.14,14.27,4.27" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="10.997,0,2.63" Scale="6.198108,5,1" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="PullBox" Pos="-7.66,2.19,2.54" Scale="1.501665,4.050623,4.658" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PushPullObj,PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Goal" Pos="12.45,17.51,2.264137" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="PullBox" Pos="7.51,15.01,2.54" Scale="1.501665,3.923592,4.658" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump,PushPullObj" SharedActive="0" EventActive="1" EventReceiverKey="downactive" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Wall" Pos="-13.6,9.98,0.05" Scale="10,20,0.5000003" Rot="0,0.7071068,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="PullBox" Pos="0.96,14.782,2.54" Scale="2,9.803107,5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PushPullObj,PossibleJump" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="PullBox" Pos="-10.21,6.246,2.54" Scale="1.501665,2.223792,4.658" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump,PushPullObj" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Wall" Pos="0.6,20.07,0.095" Scale="28,10.18,0.5000002" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Water" Pos="6.67,0.54,1.4" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="WaterDrop" Pos="6.83,8.18,1.02" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="WATER_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Switch" Pos="-12.45,0.79,2.47" Scale="1.315133,1.307453,0.5" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" SharedActive="0" EventActive="1" EventReceiverKey="" EventRecipientKey="downstone" EventMsgStr="downactive" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
-      <Objects Type="Floor" Pos="-10.512,0,2.71" Scale="6.972,5,1" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+    <StageData StageNumber="0" CameraEye="0,14,-22.5" CameraAt="0,-2,20" CameraNear="0.5" CameraFar="1000">
+      <Objects Type="Floor" Pos="18,-5,0" Scale="9,2,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Slope" Pos="2.5,-4.5,0" Scale="2,2,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="1" EventReceiverKey="Floor2" StartAnimetionActive="1" EventAnimetionActive="1" EndAnimetionActive="0">
+        <Animetions CallPoint="Start" MaxFlameCount="2">
+          <AnimationData FlameCount="1" Type="Postion" Value="2.5,-5.5,0,0" />
+        </Animetions>
+        <Animetions CallPoint="OnEvent" MaxFlameCount="2">
+          <AnimationData FlameCount="2" Type="Postion" Value="2.5,-4.5,0,0" />
+        </Animetions>
+      </Objects>
+      <Objects Type="Slope" Pos="1.5,2.4,0.75" Scale="16,1,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="1" EventReceiverKey="Floor1" StartAnimetionActive="1" EventAnimetionActive="1" EndAnimetionActive="0">
+        <Animetions CallPoint="Start" MaxFlameCount="5">
+          <AnimationData FlameCount="5" Type="Postion" Value="10,2.4,0.75,0" />
+          <AnimationData FlameCount="5" Type="Scale" Value="1,1,2,0" />
+        </Animetions>
+        <Animetions CallPoint="OnEvent" MaxFlameCount="5">
+          <AnimationData FlameCount="5" Type="Postion" Value="1.5,2.4,0.75,0" />
+          <AnimationData FlameCount="5" Type="Scale" Value="16,1,2,0" />
+        </Animetions>
+      </Objects>
+      <Objects Type="Water" Pos="4.5,-5.1,0" Scale="10,2,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="-15.5,9.5,0" Scale="4,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Wall" Pos="1,5,2" Scale="43,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="FrontWall" Pos="0,5,-2" Scale="28,20,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="2,9.5,0.75" Scale="9,1,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Goal" Pos="12.5,-3.5,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Switch" Pos="12,3.75,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" EventRecipientKey="Floor1" EventMsgStr="TestEvent" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="0,13.5,0" Scale="27,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="WaterDrop" Pos="7.5,12.5,-0.9" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="WATER_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Wall" Pos="-15.5,14,0" Scale="4,2,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Switch" Pos="12.35,10.75,-1" Scale="0.5,1.5,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" EventRecipientKey="TEST1" EventMsgStr="TestEvent" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="7.5,-4.5,-0.9" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="1" EventReceiverKey="Floor2" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="-11.5,-5.5,0" Scale="4,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="WaterDrop" Pos="-5,8.4,0.75" Scale="0.5,0.8,0.5" Rot="0,0,0,1" MeshKey="DEFAULT_SPHERE" TexKey="WATER_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="11.5,-5,0" Scale="4,2,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Slope" Pos="6.5,-4.5,0" Scale="2,2,3" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="1" EventReceiverKey="Floor2" StartAnimetionActive="1" EventAnimetionActive="1" EndAnimetionActive="0">
+        <Animetions CallPoint="Start" MaxFlameCount="2">
+          <AnimationData FlameCount="1" Type="Postion" Value="6.5,-5.5,0,0" />
+        </Animetions>
+        <Animetions CallPoint="OnEvent" MaxFlameCount="2">
+          <AnimationData FlameCount="2" Type="Postion" Value="6.5,-4.5,0,0" />
+        </Animetions>
+      </Objects>
+      <Objects Type="Floor" Pos="-5,-5,0" Scale="9,2,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="11.5,2.5,0" Scale="4,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Wall" Pos="-15.5,1.5,0" Scale="4,15,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="FloatBox" Pos="-11.5,2.41,0" Scale="4,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Wall" Pos="15.5,5.5,0" Scale="4,19,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Slope" Pos="2.61,5.98,-1" Scale="1,16.22761,2" Rot="0,0,0.5299192,0.8480481" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="1" EventReceiverKey="TEST1" StartAnimetionActive="1" EventAnimetionActive="1" EndAnimetionActive="0">
+        <Animetions CallPoint="Start" MaxFlameCount="5">
+          <AnimationData FlameCount="5" Type="Postion" Value="-5,9.5,-1,0" />
+          <AnimationData FlameCount="5" Type="Rotation" Value="0,0,0.7071068,0.7071068" />
+          <AnimationData FlameCount="5" Type="Scale" Value="1,1,2,0" />
+        </Animetions>
+        <Animetions CallPoint="OnEvent" MaxFlameCount="5">
+          <AnimationData FlameCount="5" Type="Postion" Value="2.61,5.98,-1,0" />
+          <AnimationData FlameCount="5" Type="Rotation" Value="0,0,0.5299192,0.8480481" />
+          <AnimationData FlameCount="5" Type="Scale" Value="1,16.22761,2,0" />
+        </Animetions>
+      </Objects>
+      <Objects Type="Switch" Pos="-11.5,-4.7,-1" Scale="1,0.5,1" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="TEST_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" EventRecipientKey="Floor2" EventMsgStr="TestEvent" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="-9,9.5,0" Scale="9,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Water" Pos="-5,-4.24,0.75" Scale="2,0.5,2" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WATER_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Player" Pos="-12,11,-1" Scale="1,1,1" Rot="0,0,0,1" MeshKey="DEFAULT_CAPSULE" TexKey="TEST_TX" Tags="EnabledSwitch" CollisionActive="1" CollisionFixedActive="0" SharedActive="1" SharedKey="Player" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="FrontWall" Pos="-15.5,11.5,0" Scale="4,3,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="11,9.5,0" Scale="5,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Type="Floor" Pos="-8,2.5,0" Scale="3,1,4" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
     </StageData>
   </Area>
 </root>
