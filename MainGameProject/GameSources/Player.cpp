@@ -156,6 +156,10 @@ namespace basecross{
 	}
 
 	void Player::OnRemoveLB() {
+		PushPullRelese();
+	}
+
+	void Player::PushPullRelese() {
 		m_PushObj = nullptr;
 		m_PushPull = false;
 		m_PushBoxActiv = false;

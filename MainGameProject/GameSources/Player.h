@@ -89,6 +89,8 @@ namespace basecross{
 		//objectBase継承->LBボタン入力物引っ張る関数
 		void OnPushLB() override;
 		void OnRemoveLB() override;
+		//物の引っ張り押し込み解除
+		void PushPullRelese();
 		//プレイヤーステート変化関数
 		void StateUpdate();
 		//プレイヤースタートステート
@@ -110,6 +112,7 @@ namespace basecross{
 		void ResetPositon()
 		{
 			GetComponent<Transform>()->SetPosition(m_pos);
+			PushPullRelese();
 		}
 
 		void UpdateResetPositon()
