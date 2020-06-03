@@ -27,6 +27,26 @@ namespace basecross
 		void OnEvent(const shared_ptr<Event>&event)override;
 	};
 
+	///<breif>汎用固定オブジェクト<breif/>
+	///<name>作成者：阿部達哉<name/>
+	class LoopTexObj :public ObjectBase
+	{
+	public:
+		LoopTexObj(const shared_ptr<Stage>&StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
+			const wstring TexKey, const wstring MeshKey)
+			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey) {}
+
+		LoopTexObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+			:ObjectBase(StagePtr, pNode) {}
+
+		virtual ~LoopTexObj() {}
+
+		void OnCreate()override;
+
+		void OnEvent(const shared_ptr<Event>&event)override;
+	};
+
+
 	//作成：伊東祥吾
 	//前面の透明な壁
 	class FrontWallObj :public ObjectBase

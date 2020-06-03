@@ -346,6 +346,7 @@ namespace basecross
 
 		shared_ptr<Waterfall> m_WaterFall;
 
+		weak_ptr<GameObject> m_Floor;
 	public:
 		WaterJet(const shared_ptr<Stage>& Stageptr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
@@ -359,6 +360,10 @@ namespace basecross
 		void SetSizeAABBZ(const float sizeZ);
 		void WaterJetJudgment();
 		void StartJudgment();
+
+		// -- ^‰º‚Ì’n–Ê‚ğæ“¾‚·‚é --
+		void GetUnderFloor();
+
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 	};

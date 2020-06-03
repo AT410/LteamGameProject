@@ -12,11 +12,8 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-<<<<<<< HEAD
 		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
-=======
-		:m_SelectStage(0,0),m_MapFile(L"TestStage5.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
->>>>>>> hurukawareima
+
 	{
 
 	}
@@ -161,7 +158,7 @@ namespace basecross
 		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
 		Builder.Register<FixedObj>(L"Test");
-		Builder.Register<StageTest>(L"Floor");
+		Builder.Register<LoopTexObj>(L"Floor");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Omori>(L"Omori");
 		Builder.Register<HeatStick>(L"HeatStick");
