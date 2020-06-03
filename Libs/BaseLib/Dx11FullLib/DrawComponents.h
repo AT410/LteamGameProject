@@ -1926,10 +1926,10 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		template <typename T>
 		void UpdateVertices(const vector<T>& Vertices) {
-			auto MeshRes = GetOriginalMeshResource();
+			auto MeshRes = GetMeshResource();
 			if (!MeshRes) {
 				throw BaseException(
-					L"オリジナルメッシュが作成されていません",
+					L"メッシュが作成されていません",
 					L"if (!GetOriginalMeshResource())",
 					L"StaticBaseDraw::UpdateVertices()"
 				);

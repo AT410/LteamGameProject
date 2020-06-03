@@ -161,7 +161,7 @@ namespace basecross
 		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
 		Builder.Register<FixedObj>(L"Test");
-		Builder.Register<StageTest>(L"Floor");
+		Builder.Register<LoopTexObj>(L"Floor");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Omori>(L"Omori");
 		Builder.Register<HeatStick>(L"HeatStick");
