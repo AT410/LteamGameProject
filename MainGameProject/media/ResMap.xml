@@ -13,7 +13,7 @@
     <ResourceData ResourceKey="Stage4_TX" ResourceFile="Stage4.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Stage5_TX" ResourceFile="Stage5.png" ResourceType="Texture" />
     <ResourceData ResourceKey="TEST_TX" ResourceFile="kabe.jpg" ResourceType="Texture" />
-    <ResourceData ResourceKey="FLOOR_TX" ResourceFile="Tx_StoneFloor_1.png" ResourceType="Texture" />    
+    <ResourceData ResourceKey="FLOOR_TX" ResourceFile="Tx_StoneFloor_1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Switch_TX" ResourceFile="Tx_Switch_1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="WALL_TX" ResourceFile="Wall2.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Rock_TX" ResourceFile="Brown2.png" ResourceType="Texture" />
@@ -37,5 +37,8 @@
     <ResourceData ResourceKey="ReStart_TX" ResourceFile="ReStart.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Select_TX" ResourceFile="Select.png" ResourceType="Texture" />
     <ResourceData ResourceKey="BackSprite_TX" ResourceFile="BackSprite.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Door_TX" ResourceFile="Tx_Door.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Match_TX" ResourceFile="Tx_Match.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Slope_TX" ResourceFile="Tx_Slope.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>
