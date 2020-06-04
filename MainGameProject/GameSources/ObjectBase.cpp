@@ -100,7 +100,7 @@ namespace basecross
 		// -- ï`âÊê›íË --
 		auto DrawComp = AddComponent<PNTStaticDraw>();
 		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
+		DrawComp->SetTextureResource(m_texKey,false);
 		
 		// -- îzíuê›íË --
 		auto TransComp = GetComponent<Transform>();
@@ -133,11 +133,12 @@ namespace basecross
 		if (m_EventActive)
 		{
 			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
-			if (m_AnimationActive)
-			{
-				App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Start", GetThis<ObjectInterface>());
-				App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"End", GetThis<ObjectInterface>());
-			}
+		}
+
+		if (m_AnimationActive)
+		{
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Start", GetThis<ObjectInterface>());
+			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"End", GetThis<ObjectInterface>());
 		}
 	}
 
