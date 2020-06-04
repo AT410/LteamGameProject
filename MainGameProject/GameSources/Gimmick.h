@@ -314,12 +314,14 @@ namespace basecross
 
 		void UpdateEndPoint(const Vec3& EndPoint)
 		{
+			float width = m_Width / 2.0f;
+
 			m_vertices =
 			{
-				{Vec3(EndPoint.x - m_Width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
-				{Vec3(EndPoint.x + m_Width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
-				{Vec3(m_StartPoint.x - m_Width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(0,1)},
-				{Vec3(m_StartPoint.x + m_Width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(1,1)},
+				{Vec3(EndPoint.x - width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
+				{Vec3(EndPoint.x + width,EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
+				{Vec3(m_StartPoint.x - width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(0,1)},
+				{Vec3(m_StartPoint.x + width,m_StartPoint.y,0.0f), Vec3(1,0,1),Vec2(1,1)},
 			};
 		}
 
