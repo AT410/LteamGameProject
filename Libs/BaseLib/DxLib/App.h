@@ -634,7 +634,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float Delay, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのPOST（キューに入れる）
@@ -647,7 +647,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのSEND（キューに入れずにそのまま送る）
@@ -659,7 +659,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのSEND（キューに入れずにそのまま送る）
@@ -671,7 +671,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 
 		//--------------------------------------------------------------------------------------
 		/*!

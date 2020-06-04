@@ -1819,6 +1819,8 @@ namespace basecross{
 		weak_ptr<ObjectInterface> m_Receiver;
 		///	メッセージ文字列
 		wstring m_MsgStr;
+		///	メッセージ文字列2
+		wstring m_MsgStr2;
 		///	追加情報をもつオブジェクトのポインタ
 		shared_ptr<void> m_Info;
 		//--------------------------------------------------------------------------------------
@@ -1832,11 +1834,12 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		Event(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr,const shared_ptr<void>& Info = shared_ptr<void>()) :
+			const wstring& MsgStr,const wstring& MsgStr2 = L"NULL",const shared_ptr<void>& Info = shared_ptr<void>()) :
 			m_DispatchTime(DispatchTime),
 			m_Sender(Sender),
 			m_Receiver(Receiver),
 			m_MsgStr(MsgStr),
+			m_MsgStr2(MsgStr2),
 			m_Info(Info)
 		{}
 		//--------------------------------------------------------------------------------------
@@ -1936,7 +1939,7 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのPOST（キューに入れる）
@@ -1949,7 +1952,7 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -1962,7 +1965,7 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのSEND（キューに入れずにそのまま送る）
@@ -1974,7 +1977,7 @@ namespace basecross{
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントを受け取る

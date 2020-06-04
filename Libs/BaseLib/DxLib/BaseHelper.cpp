@@ -559,23 +559,22 @@ namespace basecross{
 	///	CreateとPreCreateを持ち、Thisスマートポインタがとれるインターフェイス
 	//--------------------------------------------------------------------------------------
 	void ObjectInterface::PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-		const wstring& MsgStr,const shared_ptr<void>& Info) {
-		App::GetApp()->GetEventDispatcher()->PostEvent(DispatchTime, Sender, Receiver, MsgStr, Info);
+		const wstring& MsgStr, const wstring& MsgStr2,const shared_ptr<void>& Info) {
+		App::GetApp()->GetEventDispatcher()->PostEvent(DispatchTime, Sender, Receiver, MsgStr,MsgStr2, Info);
 	}
 	void ObjectInterface::PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-		const wstring& MsgStr, const shared_ptr<void>& Info) {
-		App::GetApp()->GetEventDispatcher()->PostEvent(DispatchTime, Sender, ReceiverKey, MsgStr, Info);
-
+		const wstring& MsgStr, const wstring& MsgStr2, const shared_ptr<void>& Info) {
+		App::GetApp()->GetEventDispatcher()->PostEvent(DispatchTime, Sender, ReceiverKey, MsgStr,MsgStr2, Info);
 	}
 
 	void ObjectInterface::SendEvent(const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-		const wstring& MsgStr, const shared_ptr<void>& Info) {
-		App::GetApp()->GetEventDispatcher()->SendEvent(Sender, Receiver, MsgStr, Info);
+		const wstring& MsgStr, const wstring& MsgStr2, const shared_ptr<void>& Info) {
+		App::GetApp()->GetEventDispatcher()->SendEvent(Sender, Receiver, MsgStr,MsgStr2, Info);
 	}
 
 	void ObjectInterface::SendEvent(const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-		const wstring& MsgStr, const shared_ptr<void>& Info) {
-		App::GetApp()->GetEventDispatcher()->SendEvent(Sender, ReceiverKey, MsgStr, Info);
+		const wstring& MsgStr, const wstring& MsgStr2, const shared_ptr<void>& Info) {
+		App::GetApp()->GetEventDispatcher()->SendEvent(Sender, ReceiverKey, MsgStr,MsgStr2, Info);
 	}
 
 
