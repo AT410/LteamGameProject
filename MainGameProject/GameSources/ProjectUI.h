@@ -202,4 +202,54 @@ namespace basecross
 
 		shared_ptr<FlashingUI> m_CurrntUI;
 	};
+
+	//----------------------------------------------------------------------------
+	//フェードクラス
+	//----------------------------------------------------------------------------
+	enum class FadeType
+	{
+		FadeIn,
+		FadeOut
+	};
+
+	class FadeObj : public GameObject
+	{
+	public:
+		//-- 構築 --
+		FadeObj(const shared_ptr<Stage>& StagePtr,const FadeType Type) 
+			:GameObject(StagePtr),m_CurrntType(Type)
+		{
+			float Sizex = (float)App::GetApp()->GetGameWidth() / 2.0f;
+			float Sizey = (float)App::GetApp()->GetGameHeight() / 2.0f;
+
+			m_vertices.clear();
+			m_indices.clear();
+			m_vertices.push_back(VertexPositionColor(Vec3(-Sizex, Sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionColor(Vec3(Sizex, Sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionColor(Vec3(-Sizex, -Sizey, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f)));
+			m_vertices.push_back(VertexPositionColor(Vec3(Sizex, -Sizey, 0), Col4(1.0f, 1.0f, 1.0, 1.0f)));
+
+			m_indices = { 0, 1, 2, 1, 3, 2 };
+		}
+
+		//-- 破棄 --
+		virtual ~FadeObj() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override;
+
+		void OnEvent(const shared_ptr<Event>& event);
+
+	private:
+		vector<VertexPositionColor> m_vertices;
+		vector<uint16_t> m_indices;
+
+		FadeType m_CurrntType;
+
+		bool m_ActiveFade;
+		wstring m_EventMsgStr;
+	};
 }

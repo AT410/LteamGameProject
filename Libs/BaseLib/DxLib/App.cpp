@@ -443,15 +443,15 @@ namespace basecross {
 
 	//イベントのPOST（キューに入れる）
 	void EventDispatcher::PostEvent(float Delay, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-		const wstring& MsgStr, const  shared_ptr<void>& Info) {
+		const wstring& MsgStr, const wstring& MsgStr2, const  shared_ptr<void>& Info) {
 		//イベントの作成 
-		auto Ptr = make_shared<Event>(Delay, Sender, Receiver, MsgStr, Info);
+		auto Ptr = make_shared<Event>(Delay, Sender, Receiver, MsgStr,MsgStr2, Info);
 		//キューにためる
 		pImpl->m_PriorityQ.push_back(Ptr);
 	}
 
 	void EventDispatcher::PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-		const wstring& MsgStr, const  shared_ptr<void>& Info) {
+		const wstring& MsgStr,const wstring& MsgStr2, const  shared_ptr<void>& Info) {
 		//ReceiverKeyによる相手の特定
 		//重複キーの検査
 		auto it = pImpl->m_EventInterfaceGroupMap.find(ReceiverKey);
@@ -461,7 +461,7 @@ namespace basecross {
 				auto shptr = v.lock();
 				if (shptr) {
 					//イベントの作成 
-					auto Ptr = make_shared<Event>(0.0f, Sender, shptr, MsgStr, Info);
+					auto Ptr = make_shared<Event>(0.0f, Sender, shptr, MsgStr,MsgStr2, Info);
 					//キューにためる
 					pImpl->m_PriorityQ.push_back(Ptr);
 				}
@@ -473,15 +473,15 @@ namespace basecross {
 
 	//イベントのSEND（キューに入れずにそのまま送る）
 	void EventDispatcher::SendEvent(const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-		const wstring& MsgStr, const  shared_ptr<void>& Info) {
+		const wstring& MsgStr, const wstring& MsgStr2, const  shared_ptr<void>& Info) {
 		//イベントの作成 
-		auto Ptr = make_shared<Event>(0.0f, Sender, Receiver, MsgStr, Info);
+		auto Ptr = make_shared<Event>(0.0f, Sender, Receiver, MsgStr,MsgStr2, Info);
 		//送信
 		pImpl->Discharge(Ptr);
 	}
 
 	void EventDispatcher::SendEvent(const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-		const wstring& MsgStr, const  shared_ptr<void>& Info) {
+		const wstring& MsgStr, const wstring& MsgStr2, const  shared_ptr<void>& Info) {
 		//ReceiverKeyによる相手の特定
 		//重複キーの検査
 		auto it = pImpl->m_EventInterfaceGroupMap.find(ReceiverKey);
@@ -491,7 +491,7 @@ namespace basecross {
 				auto shptr = v.lock();
 				if (shptr) {
 					//イベントの作成 
-					auto Ptr = make_shared<Event>(0.0f, Sender, shptr, MsgStr, Info);
+					auto Ptr = make_shared<Event>(0.0f, Sender, shptr, MsgStr,MsgStr2, Info);
 					//イベントの送出
 					pImpl->Discharge(Ptr);
 				}

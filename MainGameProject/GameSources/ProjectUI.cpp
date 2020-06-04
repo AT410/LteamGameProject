@@ -211,7 +211,7 @@ namespace basecross
 			GameManager::GetManager()->SetStageNumber(m_StageNum);
 		}
 
-		PostEvent(1.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), m_EventStr);
+		PostEvent(1.0f, GetThis<ObjectInterface>(),L"Fade", m_EventStr,L"FadeOut");
 	}
 
 	//----------------------------------------------------------------------------
@@ -401,6 +401,86 @@ namespace basecross
 			{
 				ptr.lock()->SetDrawActive(ShowActive);
 			}
+		}
+	}
+
+	//----------------------------------------------------------------------------
+	//フェードクラス
+	//----------------------------------------------------------------------------
+	void FadeObj::OnCreate()
+	{
+		auto DrawComp = AddComponent<PCSpriteDraw>();
+		DrawComp->CreateMesh<VertexPositionColor>(m_vertices, m_indices);
+
+		m_ActiveFade = true;
+
+		switch (m_CurrntType)
+		{
+		case basecross::FadeType::FadeIn:
+			DrawComp->SetDiffuse(Col4(0,0,0,1));
+			break;
+		case basecross::FadeType::FadeOut:
+			DrawComp->SetDiffuse(Col4(0));
+			break;
+		default:
+			break;
+		}
+
+		SetAlphaActive(true);
+
+		App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Fade", GetThis<FadeObj>());
+	}
+
+	void FadeObj::OnUpdate()
+	{
+		if (m_ActiveFade)
+		{
+			auto DrawComp = GetComponent<PCSpriteDraw>();
+			Col4 Diffuse = DrawComp->GetDiffuse();
+			switch (m_CurrntType)
+			{
+			case basecross::FadeType::FadeIn:
+				Diffuse.w -= App::GetApp()->GetElapsedTime();
+				if (Diffuse.w < 0.0f)
+				{
+					Diffuse.w = 0.0f;
+					m_ActiveFade = false;
+				}
+				break;
+			case basecross::FadeType::FadeOut:
+				Diffuse.w += App::GetApp()->GetElapsedTime();
+				if (Diffuse.w > 1.0f)
+				{
+					Diffuse.w = 1.0f;
+					m_ActiveFade = false;
+					// -- 暗転したらイベント飛ばす --
+					PostEvent(0.0f, GetThis<FadeObj>(), App::GetApp()->GetScene<Scene>(), m_EventMsgStr);
+				}
+				break;
+			default:
+				break;
+			}
+
+			DrawComp->SetDiffuse(Diffuse);			
+		}
+	}
+
+	void FadeObj::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr2 == L"FadeIn")
+		{
+			auto DrawComp = GetComponent<PCSpriteDraw>();
+			DrawComp->SetDiffuse(Col4(0, 0, 0, 1));
+			m_EventMsgStr = event->m_MsgStr;
+			m_ActiveFade = true;
+		}
+		else if (event->m_MsgStr2 == L"FadeOut")
+		{
+			auto DrawComp = GetComponent<PCSpriteDraw>();
+			DrawComp->SetDiffuse(Col4(0, 0, 0, 0));
+			m_EventMsgStr = event->m_MsgStr;
+			m_ActiveFade = true;
+			m_CurrntType = FadeType::FadeOut;
 		}
 	}
 }
