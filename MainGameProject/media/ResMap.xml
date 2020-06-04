@@ -22,6 +22,7 @@
     <ResourceData ResourceKey="GOAL_TX" ResourceFile="UV.tga" ResourceType="Texture" />
     <ResourceData ResourceKey="MAIN_SD" ResourceFile="BGMTest.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="GOAL_MD" ResourceFile="Obj_Torch_2.bmf" ResourceType="Mesh" />
+    <ResourceData ResourceKey="Player_MD" ResourceFile="TestN.bmf" ResourceType="Mesh" />
     <ResourceData ResourceKey="FIRE_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="1" />
     <ResourceData ResourceKey="WATER_TX" ResourceFile="Tx_water.png" ResourceType="Texture" />
     <ResourceData ResourceKey="GOAL_EFK" ResourceFile="Fire.efk" ResourceType="Effect" EffectMagni="0.25" />
