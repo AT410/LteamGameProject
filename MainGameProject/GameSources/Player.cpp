@@ -24,30 +24,23 @@ namespace basecross{
 
 
 	void Player::OnCreate() {
+		DefaultSettings();
+		SetActions();
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetScale(m_scal);
-		ptrTransform->SetQuaternion(Quat(m_rot));
 
 		AddComponent<CollisionObb>();
 		AddComponent<Gravity>();
 
 		auto Shadowptr = AddComponent<Shadowmap>();
-		Shadowptr->SetMeshResource(L"TESTN_MD");
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"TESTN_MD");
 		m_PlayerState = PlayerState::Start;
 		
 		//共有登録
-		GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
+		//GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
 		auto ptrGameStage = GetTypeStage<GameStage>();
 		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
 		ptrMyCamera->SetTargetObject(GetThis<Player>());
 
-		for (auto tag : m_tag)
-		{
-			AddTag(tag);
-		}
 
 		//火を再生
 		auto EfkPoint = m_pos;
@@ -93,7 +86,9 @@ namespace basecross{
 		angle.y = 0;
 		return angle;
 	}
-
+	//動作関数
+	//松崎　洸樹
+	//プレイヤーが動くための関数
 	void Player::Move() {
 		auto elapsedtime = App::GetApp()->GetElapsedTime();
 		m_PlayerAngle = GetMoveVector();
@@ -117,7 +112,9 @@ namespace basecross{
 
 	}
 
-
+	//Lボタン押し込み時の関数
+	//松崎　洸樹
+	//条件を満たした状態でボタンを押すことで物を押したり引っ張ったりする関数
 	void Player::OnPushLB() {
 		if (m_PushPull) {
 			auto elapsedtime = App::GetApp()->GetElapsedTime();
@@ -154,28 +151,43 @@ namespace basecross{
 		}
 
 	}
-
+	//Lボタン離したときの関数
+	//松崎　洸樹
+	//ボタンを離したときに発動する関数
 	void Player::OnRemoveLB() {
 		PushPullRelese();
 	}
-
+	//プッシュプル解除関数
+	//松崎　洸樹
+	//物の押し出し引っ張りを解除する関数
 	void Player::PushPullRelese() {
 		m_PushObj = nullptr;
 		m_PushPull = false;
 		m_PushBoxActiv = false;
 	}
-
+	//接触時判定関数
+	//松崎　洸樹
+	//オブジェクトの衝突時に各条件にあった処理を行う関数（ゴール時の処理、物の押し込み引っ張り状態の処理）
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrGetPos = ptrTransform->GetPosition();
-		if (Obj->FindTag(L"Deth")) {
-			ptrTransform->SetPosition(0.0f, 0.5f, 0.0f);
-			ptrTransform->SetRotation(0.0f, 0.0f, 0.0f);
-			m_StopActionTimeJudge = true;
-			m_PlayerState = PlayerState::Start;
-		}
 		if (Obj->FindTag(L"Goal")) {
 			m_PlayerState = PlayerState::Clear;
+			auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);
+			if (Ptr)
+			{
+				Ptr->SetGoal(true);
+				Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
+				//ゴールエフェクト再生
+				auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
+				Pos.y += 0.5f;
+				GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK", Pos);
+				m_FireEfk->StopEffect();
+				if (!m_ClearSound) 
+				{
+					m_ClearSound = App::GetApp()->GetXAudio2Manager()->Start(L"FireStart_SD", 0, 1.0f);
+				}
+			}
 		}
 		if (Obj->FindTag(L"PushPullObj")) {
 			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
@@ -184,27 +196,11 @@ namespace basecross{
 				m_PushPull = true;
 				m_PushObj = Obj;
 			}
-
-
-		}
-
-		auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);
-		if (Ptr)
-		{
-			Ptr->SetGoal(true);
-			Ptr->GetComponent<PNTStaticDraw>()->SetEmissive(Col4(1.0f, 0, 0, 0));
-			//ゴールエフェクト再生
-			auto Pos = Ptr->GetComponent<Transform>()->GetPosition();
-			Pos.y += 0.5f;
-			GetTypeStage<GameStage>()->Effectplay(L"GOAL_EFK", Pos);
-			m_FireEfk->StopEffect();
-			if (!m_ClearSound) 
-			{
-				m_ClearSound = App::GetApp()->GetXAudio2Manager()->Start(L"FireStart_SD", 0, 1.0f);
-			}
 		}
 	}
-
+	//接触中関数
+	//松崎　洸樹
+	//衝突している間に各処理を行う関数（ジャンプできるかの処理、梯子に上る処理）
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
 			auto ptrPos = GetComponent<Transform>()->GetPosition();
@@ -228,7 +224,9 @@ namespace basecross{
 		}
 
 	}
-
+	//接触解除関数
+	//松崎　洸樹
+	//接触しているオブジェクトから離れる関数（梯子から離れる時）
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrPos = ptrTransform->GetPosition();
@@ -269,15 +267,7 @@ namespace basecross{
 
 	void Player::StartBehavior()
 	{
-		//auto elapsedtime = App::GetApp()->GetElapsedTime();
-		//if (m_StopActionTimeJudge) {
-		//	m_StopActionTime -= elapsedtime;
-		//}
-		//if (m_StopActionTime <= 0.0f) {
-		//	m_StopActionTimeJudge = false;
-		//	m_PlayerState = PlayerState::Excute;
-		//	m_StopActionTime = 5.0f;
-		//}
+
 	}
 
 	void Player::ExcuteBehavior()
@@ -294,13 +284,7 @@ namespace basecross{
 	}
 	void Player::ClearBehavior()
 	{
-		//auto elapsedtime = App::GetApp()->GetElapsedTime();
-		//if (m_StopActionTimeJudge) {
-		//	m_StopActionTime -= elapsedtime;
-		//}
-		//if (m_StopActionTime <= 0.0f) {
-		//	m_StopActionTime = 5.0f;
-		//}
+
 	}
 }
 //end basecross

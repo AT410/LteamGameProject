@@ -21,16 +21,12 @@ namespace basecross
 
 	void SwitchObj::OnCreate()
 	{
+		DefaultSettings();
 		//描画
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -95,25 +91,21 @@ namespace basecross
 
 	void FireLine::OnCreate()
 	{
-		//描画
+		//この状態だと導火線作動時に位置がずれる
+		DefaultSettings();
+		SetActions();
+		//描画 
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
+		//drawComp->SetMeshResource(m_meshKey);
+		//drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		//auto ptrColl = AddComponent<CollisionObb>();
 		//ptrColl->SetAfterCollision(AfterCollision::Auto);
 
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<FireLine>());
-		}
 	}
 
 	void FireLine::OnUpdate()
@@ -180,23 +172,22 @@ namespace basecross
 	//熱棒
 	void HeatStick::OnCreate()
 	{
+		DefaultSettings();
+		SetActions();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//熱棒のエリア-5、-1、０からポジションまで
 		//可変可能に修正
 		m_HeatArea = AABB(Vec3(-3, -1, 0), m_pos);
 
 		//コリジョンを付ける
-		auto ptrColl = AddComponent<CollisionObb>();
-		ptrColl->SetFixed(true);
+		//auto ptrColl = AddComponent<CollisionObb>();
+		//ptrColl->SetFixed(true);
 	}
 
 
@@ -242,16 +233,12 @@ namespace basecross
 	//重り
 	void Omori::OnCreate()
 	{
+		DefaultSettings();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -262,14 +249,10 @@ namespace basecross
 		//無効にしておく
 		grav->SetUpdateActive(false);
 
-		//タグ
-		for (auto Tag : m_tag) {
-			AddTag(Tag);
-		}
 
 		//AddTag(L"EnabledSwitch");
 		//共有設定
-		GetStage()->SetSharedGameObject(L"Omori", GetThis<Omori>());
+		//GetStage()->SetSharedGameObject(L"Omori", GetThis<Omori>());
 	}
 
 	void Omori::OnCollisionEnter(shared_ptr<GameObject>& Other) {
@@ -280,27 +263,19 @@ namespace basecross
 	//動く床
 	void MoveFloor::OnCreate()
 	{
+		DefaultSettings();
+		SetActions();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 		//原点の座標を変更
 		transComp->SetPivot(3, 0.1f, 5);
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<MoveFloor>());
-		}
 	}
 	void MoveFloor::OnUpdate()
 	{
@@ -932,14 +907,12 @@ namespace basecross
 	{}
 
 	void UpDownBox::OnCreate() {
+		DefaultSettings();
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetQuaternion(Quat(m_rot));
-		ptrTransform->SetScale(m_scal);
 
 		auto ptrPos = ptrTransform->GetPosition();
 		auto ptrColl = AddComponent<CollisionObb>();
-
+		//↓メッシュ・テクスチャ消すとエラー起こしてゲームできない
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
@@ -947,12 +920,6 @@ namespace basecross
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
 
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
 	}
 
 	void UpDownBox::OnUpdate() {
@@ -1029,28 +996,15 @@ namespace basecross
 	{}
 
 	void PushObj::OnCreate() {
+		DefaultSettings();
 		AddComponent<Gravity>();
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetQuaternion(Quat(m_rot));
-		ptrTransform->SetScale(m_scal);
-
+		//↓消すとエラー起こしてゲームできない
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
 		auto ptrColl = AddComponent<CollisionObb>();
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PushObj>());
-		}
 
 	}
 

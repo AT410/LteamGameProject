@@ -88,6 +88,7 @@ namespace basecross{
 		void OnPushA() override;
 		//objectBase継承->LBボタン入力物引っ張る関数
 		void OnPushLB() override;
+		//objectBase継承->LBボタン離す物引っ張る解除関数
 		void OnRemoveLB() override;
 		//物の引っ張り押し込み解除
 		void PushPullRelese();
@@ -95,7 +96,7 @@ namespace basecross{
 		void StateUpdate();
 		//プレイヤースタートステート
 		void StartBehavior();
-		//
+		
 		void ExcuteBehavior();
 		//プレイヤーゴールステート	
 		void ClearBehavior();

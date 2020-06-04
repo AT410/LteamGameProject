@@ -156,32 +156,32 @@ namespace basecross
 
 		//�Z���N�g��ʂɂ��邩
 		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<FixedObj>(L"Test");
-		Builder.Register<LoopTexObj>(L"Floor");
-		Builder.Register<Player>(L"Player");
-		Builder.Register<Omori>(L"Omori");
-		Builder.Register<HeatStick>(L"HeatStick");
-		Builder.Register<MoveFloor>(L"MoveFloor");
-		Builder.Register<FixedObj>(L"Himo");
+		Builder.Register<FixedObj>(L"Test");//ok
+		Builder.Register<LoopTexObj>(L"Floor");//ok
+		Builder.Register<Player>(L"Player");//ok テストマップに書き直し必要あり
+		Builder.Register<Omori>(L"Omori");//使用されてない要確認
+		Builder.Register<HeatStick>(L"HeatStick");//ok
+		Builder.Register<MoveFloor>(L"MoveFloor");//ok
+		Builder.Register<FixedObj>(L"Himo");//上のFixedObj同様
 		Builder.Register<Fountain>(L"Fountain");
-		Builder.Register<GoalTest>(L"Goal");
-		Builder.Register<SwitchObj>(L"Switch");
-		Builder.Register<Door>(L"Door");
-		Builder.Register<FireLine>(L"FireLine");
+		Builder.Register<GoalTest>(L"Goal");//マップにメッシュ・テクスチャ登録されておらず
+		Builder.Register<SwitchObj>(L"Switch");//ok
+		Builder.Register<Door>(L"Door");//ok
+		Builder.Register<FireLine>(L"FireLine");//アニメーション作動時位置ずれる
 
-		Builder.Register<RockTest>(L"Rock");
+		Builder.Register<RockTest>(L"Rock");//ok
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //�O�ʂ̓����ȕ�
-		Builder.Register<PushObj>(L"PullBox");
+		Builder.Register<FrontWallObj>(L"FrontWall"); //�O�ʂ̓����ȕ�　透明なテクスチャが必要
+		Builder.Register<PushObj>(L"PullBox");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
 
 		//�ɓ�:Type�̒ǉ�
-		Builder.Register<Slope>(L"Slope");
+		Builder.Register<Slope>(L"Slope");//ok
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); //<-����
+		Builder.Register<UpDownBox>(L"FloatBox"); //<-����　defaultsettingsにするとメッシュ・テクスチャでエラー起こす
 		Builder.Register<WaterLV>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Ladder");
+		Builder.Register<StageTest>(L"Ladder");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
 
