@@ -1144,13 +1144,16 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		template <typename T>
-		shared_ptr<T> GetResource(const wstring& Key) const {
+		shared_ptr<T> GetResource(const wstring& Key,const bool ExceptionActive = true) const {
 			if (Key == L"") {
-				throw BaseException(
-					L"キーが空白です",
-					L"if(Key == L\"\")",
-					L"App::GetResource()"
-				);
+				if (ExceptionActive) {
+					throw BaseException(
+						L"キーが空白です",
+						L"if(Key == L\"\")",
+						L"App::GetResource()"
+					);
+				}
+				return nullptr;
 			}
 			map<wstring, shared_ptr<BaseResource> >::const_iterator it;
 			it = m_ResMap.find(Key);
@@ -1161,25 +1164,33 @@ namespace basecross {
 					return pT;
 				}
 				else {
+					if (ExceptionActive)
+					{
+						wstring keyerr = Key;
+						wstring str = L"指定のキーは";
+						str += Util::GetWSTypeName<T>();
+						str += L"*型に変換できません";
+						throw BaseException(
+							str,
+							keyerr,
+							L"App::GetResource()"
+						);
+					}
+					return nullptr;
+				}
+			}
+			else {
+				if (ExceptionActive) 
+				{
+					//見つからない
 					wstring keyerr = Key;
-					wstring str = L"指定のキーは";
-					str += Util::GetWSTypeName<T>();
-					str += L"*型に変換できません";
 					throw BaseException(
-						str,
+						L"指定のキーは存在しません",
 						keyerr,
 						L"App::GetResource()"
 					);
 				}
-			}
-			else {
-				//見つからない
-				wstring keyerr = Key;
-				throw BaseException(
-					L"指定のキーは存在しません",
-					keyerr,
-					L"App::GetResource()"
-				);
+				return nullptr;
 			}
 		}
 		//--------------------------------------------------------------------------------------
