@@ -565,7 +565,7 @@ namespace basecross
 
 		float width = m_Width / 2.0f;
 
-		vector<VertexPositionNormalTexture> vertices = 
+		m_vertices = 
 		{
 			{Vec3(m_EndPoint.x- width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
 			{Vec3(m_EndPoint.x + width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
@@ -581,7 +581,7 @@ namespace basecross
 
 
 		auto DrawComp = AddComponent<PNTWaterDraw>();
-		DrawComp->CreateOriginalMesh<VertexPositionNormalTexture>(vertices, indices);
+		DrawComp->CreateOriginalMesh<VertexPositionNormalTexture>(m_vertices, indices);
 		DrawComp->SetOriginalMeshUse(true);
 		DrawComp->SetTextureResource(L"WATER_TX");
 		DrawComp->SetSubTexResource(L"WATERSUB_TX");
@@ -607,6 +607,7 @@ namespace basecross
 
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);
 
+		DrawComp->UpdateVertices<VertexPositionNormalTexture>(m_vertices);
 	}
 
 	WaterJet::WaterJet(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
@@ -656,8 +657,24 @@ namespace basecross
 
 		//m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 		
+		GetUnderFloor();
+		auto Floor = m_Floor.lock();
+		Vec3 End = Vec3(m_StartPos.x, m_StartPos.y - m_SizeAABBY / 2, m_StartPos.z);
+		if (Floor)
+		{
+			auto TransComp = GetComponent<Transform>();
+
+			auto FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
+			auto Pos = TransComp->GetPosition();
+
+			Vec3 recVec;
+			HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
+
+			End = recVec;
+		}
+
 		m_WaterFall = GetStage()->AddGameObject<Waterfall>(Vec3(m_StartPos.x,m_StartPos.y,m_StartPos.z),
-			Vec3(m_StartPos.x, m_StartPos.y - m_SizeAABBY/2, m_StartPos.z), 2.0f, 1.0f);
+			End, 2.0f, 1.0f);
 		m_WaterFall->SetDrawActive(m_WaterJetmode);
 	}
 
@@ -716,6 +733,8 @@ namespace basecross
 				Vec3 recVec;
 				HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
 
+				m_WaterFall->UpdateEndPoint(recVec);
+
 				if(!m_efk)
 					m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", recVec);
 			}
@@ -738,8 +757,7 @@ namespace basecross
 		Near = GetComponent<Transform>()->GetPosition();
 		Far = Near + Vec3(0, -50, 0);
 		for (auto& v : GetStage()->GetGameObjectVec()) {
-			auto FloatFloor = dynamic_pointer_cast<UpDownBox>(v);
-			if (v) {
+			if (v->FindTag(L"WaterJetEnd")) {
 				auto ColObb = v->GetComponent<CollisionObb>(false);
 				if (ColObb) {
 					auto Obb = ColObb->GetObb();
@@ -955,10 +973,6 @@ namespace basecross
 	//松崎　洸樹
 	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		auto obj = GetComponent<Transform>()->GetGameObject();
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-
 		if (Obj->FindTag(L"EnabledSwitch")) {
 			m_parenttime = 2.0f;
 			m_ParentJudge = true;
