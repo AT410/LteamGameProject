@@ -118,9 +118,7 @@
     <None Include="$(MSBuildThisFileDirectory)PointHeader.hlsli">
       <Filter>Shader</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)SpriteHeader.hlsli">
-      <Filter>Shader</Filter>
-    </None>
+    <None Include="$(MSBuildThisFileDirectory)SpriteHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)WaterPS.hlsl">

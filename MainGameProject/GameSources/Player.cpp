@@ -28,11 +28,8 @@ namespace basecross{
 		SetActions();
 		auto ptrTransform = GetComponent<Transform>();
 
-		AddComponent<CollisionObb>();
 		AddComponent<Gravity>();
 
-		auto Shadowptr = AddComponent<Shadowmap>();
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 		m_PlayerState = PlayerState::Start;
 		
 		//共有登録
@@ -260,6 +257,12 @@ namespace basecross{
 				ClearBehavior();
 				break;
 			}
+			case PlayerState::Restart:
+			{
+				m_StopActionTimeJudge = true;
+				RestartBehabior();
+				break;
+			}
 			default:
 				break;
 		}
@@ -285,6 +288,18 @@ namespace basecross{
 	void Player::ClearBehavior()
 	{
 
+	}
+
+	void Player::RestartBehabior() {
+		m_FireEfk->StopEffect();
+		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
+		//ゲームステージのマネージャーでフェードを初めて
+	}
+
+	void Player::OnEvent(const shared_ptr<Event>& Eve) {
+		if (Eve->m_MsgStr == L"ExcuteActive") {
+			m_PlayerState = PlayerState::Excute;
+		}
 	}
 }
 //end basecross

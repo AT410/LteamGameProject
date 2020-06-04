@@ -15,6 +15,7 @@ namespace basecross{
 		Start,
 		Excute,
 		Clear,
+		Restart,
 	};
 	//---------------------------------------------------
 	//プレイヤークラス
@@ -100,12 +101,13 @@ namespace basecross{
 		void ExcuteBehavior();
 		//プレイヤーゴールステート	
 		void ClearBehavior();
-
+		void RestartBehabior();
 		//
 		bool GetPushBoxActiv() { return m_PushBoxActiv; };
 		void SetState(PlayerState State) { m_PlayerState = State; }
 		void OnCreate() override;
 		void OnUpdate() override;
+		void OnEvent(const shared_ptr<Event>& Eve) override;
 		void OnCollisionEnter(shared_ptr<GameObject>& Obj) override;
 		void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
 		void OnCollisionExit(shared_ptr<GameObject>& Obj)override;
@@ -114,6 +116,9 @@ namespace basecross{
 		{
 			GetComponent<Transform>()->SetPosition(m_pos);
 			PushPullRelese();
+			auto EfkPoint = m_pos;
+			EfkPoint.y += 0.5f;
+			m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
 		}
 
 		void UpdateResetPositon()
