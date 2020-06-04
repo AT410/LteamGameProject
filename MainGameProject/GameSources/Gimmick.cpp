@@ -21,16 +21,12 @@ namespace basecross
 
 	void SwitchObj::OnCreate()
 	{
+		DefaultSettings();
 		//描画
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -95,25 +91,21 @@ namespace basecross
 
 	void FireLine::OnCreate()
 	{
-		//描画
+		//この状態だと導火線作動時に位置がずれる
+		DefaultSettings();
+		SetActions();
+		//描画 
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
+		//drawComp->SetMeshResource(m_meshKey);
+		//drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		//auto ptrColl = AddComponent<CollisionObb>();
 		//ptrColl->SetAfterCollision(AfterCollision::Auto);
 
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<FireLine>());
-		}
 	}
 
 	void FireLine::OnUpdate()
@@ -180,23 +172,22 @@ namespace basecross
 	//熱棒
 	void HeatStick::OnCreate()
 	{
+		DefaultSettings();
+		SetActions();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//熱棒のエリア-5、-1、０からポジションまで
 		//可変可能に修正
 		m_HeatArea = AABB(Vec3(-3, -1, 0), m_pos);
 
 		//コリジョンを付ける
-		auto ptrColl = AddComponent<CollisionObb>();
-		ptrColl->SetFixed(true);
+		//auto ptrColl = AddComponent<CollisionObb>();
+		//ptrColl->SetFixed(true);
 	}
 
 
@@ -242,16 +233,12 @@ namespace basecross
 	//重り
 	void Omori::OnCreate()
 	{
+		DefaultSettings();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -262,14 +249,10 @@ namespace basecross
 		//無効にしておく
 		grav->SetUpdateActive(false);
 
-		//タグ
-		for (auto Tag : m_tag) {
-			AddTag(Tag);
-		}
 
 		//AddTag(L"EnabledSwitch");
 		//共有設定
-		GetStage()->SetSharedGameObject(L"Omori", GetThis<Omori>());
+		//GetStage()->SetSharedGameObject(L"Omori", GetThis<Omori>());
 	}
 
 	void Omori::OnCollisionEnter(shared_ptr<GameObject>& Other) {
@@ -280,27 +263,19 @@ namespace basecross
 	//動く床
 	void MoveFloor::OnCreate()
 	{
+		DefaultSettings();
+		SetActions();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		drawComp->SetMeshResource(m_meshKey);
-		drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_pos);
-		transComp->SetScale(m_scal);
-		transComp->SetQuaternion(Quat(m_rot));
 		//原点の座標を変更
 		transComp->SetPivot(3, 0.1f, 5);
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<MoveFloor>());
-		}
 	}
 	void MoveFloor::OnUpdate()
 	{
@@ -590,7 +565,7 @@ namespace basecross
 
 		float width = m_Width / 2.0f;
 
-		vector<VertexPositionNormalTexture> vertices = 
+		m_vertices = 
 		{
 			{Vec3(m_EndPoint.x- width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(0,0)},
 			{Vec3(m_EndPoint.x + width,m_EndPoint.y,0.0f), Vec3(1,0,1),Vec2(1,0)},
@@ -606,7 +581,7 @@ namespace basecross
 
 
 		auto DrawComp = AddComponent<PNTWaterDraw>();
-		DrawComp->CreateOriginalMesh<VertexPositionNormalTexture>(vertices, indices);
+		DrawComp->CreateOriginalMesh<VertexPositionNormalTexture>(m_vertices, indices);
 		DrawComp->SetOriginalMeshUse(true);
 		DrawComp->SetTextureResource(L"WATER_TX");
 		DrawComp->SetSubTexResource(L"WATERSUB_TX");
@@ -632,6 +607,7 @@ namespace basecross
 
 		DrawComp->UpdateUV(0.0f, -m_TotalTime);
 
+		DrawComp->UpdateVertices<VertexPositionNormalTexture>(m_vertices);
 	}
 
 	WaterJet::WaterJet(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
@@ -681,8 +657,24 @@ namespace basecross
 
 		//m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", m_StartPos);
 		
+		GetUnderFloor();
+		auto Floor = m_Floor.lock();
+		Vec3 End = Vec3(m_StartPos.x, m_StartPos.y - m_SizeAABBY / 2, m_StartPos.z);
+		if (Floor)
+		{
+			auto TransComp = GetComponent<Transform>();
+
+			auto FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
+			auto Pos = TransComp->GetPosition();
+
+			Vec3 recVec;
+			HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
+
+			End = recVec;
+		}
+
 		m_WaterFall = GetStage()->AddGameObject<Waterfall>(Vec3(m_StartPos.x,m_StartPos.y,m_StartPos.z),
-			Vec3(m_StartPos.x, m_StartPos.y - m_SizeAABBY/2, m_StartPos.z), 2.0f, 1.0f);
+			End, 2.0f, 1.0f);
 		m_WaterFall->SetDrawActive(m_WaterJetmode);
 	}
 
@@ -741,6 +733,8 @@ namespace basecross
 				Vec3 recVec;
 				HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
 
+				m_WaterFall->UpdateEndPoint(recVec);
+
 				if(!m_efk)
 					m_efk = ObjectFactory::Create<EfkPlay>(L"WATERFALL_EFK", recVec);
 			}
@@ -763,8 +757,7 @@ namespace basecross
 		Near = GetComponent<Transform>()->GetPosition();
 		Far = Near + Vec3(0, -50, 0);
 		for (auto& v : GetStage()->GetGameObjectVec()) {
-			auto FloatFloor = dynamic_pointer_cast<UpDownBox>(v);
-			if (v) {
+			if (v->FindTag(L"WaterJetEnd")) {
 				auto ColObb = v->GetComponent<CollisionObb>(false);
 				if (ColObb) {
 					auto Obb = ColObb->GetObb();
@@ -932,14 +925,12 @@ namespace basecross
 	{}
 
 	void UpDownBox::OnCreate() {
+		DefaultSettings();
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetQuaternion(Quat(m_rot));
-		ptrTransform->SetScale(m_scal);
 
 		auto ptrPos = ptrTransform->GetPosition();
 		auto ptrColl = AddComponent<CollisionObb>();
-
+		//↓メッシュ・テクスチャ消すとエラー起こしてゲームできない
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
@@ -947,12 +938,6 @@ namespace basecross
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
 
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
 	}
 
 	void UpDownBox::OnUpdate() {
@@ -988,10 +973,6 @@ namespace basecross
 	//松崎　洸樹
 	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
-		auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		auto obj = GetComponent<Transform>()->GetGameObject();
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-
 		if (Obj->FindTag(L"EnabledSwitch")) {
 			m_parenttime = 2.0f;
 			m_ParentJudge = true;
@@ -1029,28 +1010,15 @@ namespace basecross
 	{}
 
 	void PushObj::OnCreate() {
+		DefaultSettings();
 		AddComponent<Gravity>();
 		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetPosition(m_pos);
-		ptrTransform->SetQuaternion(Quat(m_rot));
-		ptrTransform->SetScale(m_scal);
-
+		//↓消すとエラー起こしてゲームできない
 		auto ptrDraw = AddComponent<PNTPointDraw>();
 		ptrDraw->SetMeshResource(m_meshKey);
 		ptrDraw->SetTextureResource(m_texKey);
 
 		auto ptrColl = AddComponent<CollisionObb>();
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
-
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PushObj>());
-		}
 
 	}
 

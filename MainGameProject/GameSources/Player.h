@@ -24,6 +24,7 @@ namespace basecross{
 	private:
 		//プレイヤーの進行方向の向き
 		Vec3 m_PlayerAngle;
+
 		//プレイヤーの速さ
 		float m_Speed;
 		//プレイヤーのジャンプの強さ
@@ -34,6 +35,8 @@ namespace basecross{
 		float m_distance;
 
 		float m_JumpPos;
+
+		float m_RisePos;
 		//プレイヤーのジャンプ判断
 		bool m_Jumpjudge;
 		//プレイヤーの動作停止判断
@@ -85,12 +88,15 @@ namespace basecross{
 		void OnPushA() override;
 		//objectBase継承->LBボタン入力物引っ張る関数
 		void OnPushLB() override;
+		//objectBase継承->LBボタン離す物引っ張る解除関数
 		void OnRemoveLB() override;
+		//物の引っ張り押し込み解除
+		void PushPullRelese();
 		//プレイヤーステート変化関数
 		void StateUpdate();
 		//プレイヤースタートステート
 		void StartBehavior();
-		//
+		
 		void ExcuteBehavior();
 		//プレイヤーゴールステート	
 		void ClearBehavior();
@@ -107,6 +113,7 @@ namespace basecross{
 		void ResetPositon()
 		{
 			GetComponent<Transform>()->SetPosition(m_pos);
+			PushPullRelese();
 		}
 
 		void UpdateResetPositon()

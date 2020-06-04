@@ -1,6 +1,6 @@
 /*!
-@breif ƒQ[ƒ€‘S‘Ì‚ÌŠÇ—À‘Ì
-@name@ì¬Ò:ˆ¢•”’BÆ
+@breif ï¿½Qï¿½[ï¿½ï¿½ï¿½Sï¿½Ì‚ÌŠÇ—ï¿½ï¿½ï¿½ï¿½ï¿½
+@nameï¿½@ï¿½ì¬ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½
 */
 
 #include "stdafx.h"
@@ -8,12 +8,11 @@
 
 namespace basecross
 {
-	//static•Ï”‚ÌÀ‘Ì
+	//staticï¿½Ïï¿½ï¿½Ìï¿½ï¿½ï¿½
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestStage3.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
-
+		:m_SelectStage(0,0),m_MapFile(L"TestMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
 	{
 
 	}
@@ -23,7 +22,7 @@ namespace basecross
 
 	}
 
-	//staticŠÖ”
+	//staticï¿½Öï¿½
 	void GameManager::CreateManager()
 	{
 		try
@@ -47,7 +46,7 @@ namespace basecross
 			if (m_ins.get() == 0)
 			{
 				throw(BaseException(
-					L"GameManager‚ª¶¬‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ",
+					L"GameManagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½",
 					L"if(m_ins.get()==0)",
 					L"GameManager::GetManager"
 				));
@@ -74,7 +73,7 @@ namespace basecross
 	{
 		if (m_ins.get() == 0)
 		{
-			//”pŠüˆ—
+			//ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			m_ins.reset();
 		}
 	}
@@ -140,7 +139,7 @@ namespace basecross
 
 	//!end static
 
-	//ƒŠƒ\[ƒX‚Ì“Ç
+	//ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ì“Çï¿½
 	void GameManager::LoadResources()
 	{
 		if (!m_Loaded)
@@ -150,39 +149,39 @@ namespace basecross
 		}
 	}
 
-	//ƒXƒe[ƒW¶¬
+	//ï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
 		StageBulider Builder;
 
-		//ƒZƒŒƒNƒg‰æ–Ê‚É‚·‚é‚©
+		//ï¿½Zï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½Ê‚É‚ï¿½ï¿½é‚©
 		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<FixedObj>(L"Test");
-		Builder.Register<LoopTexObj>(L"Floor");
-		Builder.Register<Player>(L"Player");
-		Builder.Register<Omori>(L"Omori");
-		Builder.Register<HeatStick>(L"HeatStick");
-		Builder.Register<MoveFloor>(L"MoveFloor");
-		Builder.Register<FixedObj>(L"Himo");
+		Builder.Register<FixedObj>(L"Test");//ok
+		Builder.Register<LoopTexObj>(L"Floor");//ok
+		Builder.Register<Player>(L"Player");//ok ãƒ†ã‚¹ãƒˆãƒãƒƒãƒ—ã«æ›¸ãç›´ã—å¿…è¦ã‚ã‚Š
+		Builder.Register<Omori>(L"Omori");//ä½¿ç”¨ã•ã‚Œã¦ãªã„è¦ç¢ºèª
+		Builder.Register<HeatStick>(L"HeatStick");//ok
+		Builder.Register<MoveFloor>(L"MoveFloor");//ok
+		Builder.Register<FixedObj>(L"Himo");//ä¸Šã®FixedObjåŒæ§˜
 		Builder.Register<Fountain>(L"Fountain");
-		Builder.Register<GoalTest>(L"Goal");
-		Builder.Register<SwitchObj>(L"Switch");
-		Builder.Register<Door>(L"Door");
-		Builder.Register<FireLine>(L"FireLine");
+		Builder.Register<GoalTest>(L"Goal");//ãƒãƒƒãƒ—ã«ãƒ¡ãƒƒã‚·ãƒ¥ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ç™»éŒ²ã•ã‚Œã¦ãŠã‚‰ãš
+		Builder.Register<SwitchObj>(L"Switch");//ok
+		Builder.Register<Door>(L"Door");//ok
+		Builder.Register<FireLine>(L"FireLine");//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä½œå‹•æ™‚ä½ç½®ãšã‚Œã‚‹
 
-		Builder.Register<RockTest>(L"Rock");
+		Builder.Register<RockTest>(L"Rock");//ok
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //‘O–Ê‚Ì“§–¾‚È•Ç
-		Builder.Register<PushObj>(L"PullBox");
+		Builder.Register<FrontWallObj>(L"FrontWall"); //ï¿½Oï¿½Ê‚Ì“ï¿½ï¿½ï¿½ï¿½È•ï¿½ã€€é€æ˜ãªãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒå¿…è¦
+		Builder.Register<PushObj>(L"PullBox");//defaultsettingsã«ã™ã‚‹ã¨ãƒ¡ãƒƒã‚·ãƒ¥ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ã‚¨ãƒ©ãƒ¼èµ·ã“ã™
 
-		//ˆÉ“Œ:Type‚Ì’Ç‰Á
-		Builder.Register<Slope>(L"Slope");
+		//ï¿½É“ï¿½:Typeï¿½Ì’Ç‰ï¿½
+		Builder.Register<Slope>(L"Slope");//ok
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); //<-•‚‚­
+		Builder.Register<UpDownBox>(L"FloatBox"); //<-ï¿½ï¿½ï¿½ï¿½ã€€defaultsettingsã«ã™ã‚‹ã¨ãƒ¡ãƒƒã‚·ãƒ¥ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ã‚¨ãƒ©ãƒ¼èµ·ã“ã™
 		Builder.Register<WaterLV>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Ladder");
+		Builder.Register<StageTest>(L"Ladder");//defaultsettingsã«ã™ã‚‹ã¨ãƒ¡ãƒƒã‚·ãƒ¥ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ã‚¨ãƒ©ãƒ¼èµ·ã“ã™
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
 
@@ -191,7 +190,7 @@ namespace basecross
 
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
-		//ŠJnƒCƒxƒ“ƒg‚ğƒXƒ^[ƒg
+		//ï¿½Jï¿½nï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½g
 		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
 		if (OPCam)
 		{

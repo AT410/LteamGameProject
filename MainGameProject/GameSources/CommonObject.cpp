@@ -71,7 +71,9 @@ namespace basecross
 	//透明な壁：前に落ちないようにするため
 	void FrontWallObj::OnCreate()
 	{
-		//配置設定
+		//セットしたらテクスチャ貼った壁になるためコメント化↓
+		//DefaultSettings();
+		//配置設定　透明なテクスチャ出来たら削除
 		auto TransComp = GetComponent<Transform>();
 		TransComp->SetPosition(m_pos);
 		TransComp->SetQuaternion(Quat(m_rot));
@@ -87,16 +89,13 @@ namespace basecross
 	//----------------------------------------------------------------------------
 	void PullBoxObj::OnCreate()
 	{
+		DefaultSettings();
+		SetActions();
 		//描画設定
 		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
 
 		//配置設定
 		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
 
 		//物理判定
 		auto CollComp = AddComponent<CollisionObb>();
@@ -104,24 +103,18 @@ namespace basecross
 
 		AddComponent<Gravity>();
 
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				continue;
-			AddTag(tag);
-		}
 
-		if (m_SharedActive)
-		{
-			GetStage()->SetSharedGameObject(m_SharedName, GetThis<PullBoxObj>());
-		}
+		//if (m_SharedActive)
+		//{
+		//	GetStage()->SetSharedGameObject(m_SharedName, GetThis<PullBoxObj>());
+		//}
 
-		if (m_EventActive)
-		{
-			App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
-			this->SetDrawActive(false);
-			this->SetUpdateActive(false);
-		}
+		//if (m_EventActive)
+		//{
+		//	App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<ObjectInterface>());
+		//	this->SetDrawActive(false);
+		//	this->SetUpdateActive(false);
+		//}
 	}
 
 	///<breif>汎用移動オブジェクト<breif/>

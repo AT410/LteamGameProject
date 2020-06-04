@@ -127,27 +127,19 @@ namespace basecross
 
 	void StageTest::OnCreate()
 	{
-		//描画設定
+		DefaultSettings();
+		//描画設定　メッシュ・テクスチャ消すとエラー起こす
 		auto DrawComp = AddComponent<PNTPointDraw>();
 		DrawComp->SetMeshResource(m_meshKey);
 		DrawComp->SetTextureResource(m_texKey);
 
 		//配置設定
 		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
 
 		//物理判定
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetFixed(true);
 
-		for (auto tag : m_tag)
-		{
-			if (tag == L"")
-				break;
-			AddTag(tag);
-		}
 	}
 
 	ActionTest::ActionTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
@@ -282,17 +274,12 @@ namespace basecross
 
 	void RockTest::OnCreate()
 	{
+		DefaultSettings();
 		//描画設定
 		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		//DrawComp->SetTextureResource(m_texKey);
 
 		//配置設定
 		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
-
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetAfterCollision(AfterCollision::None);
 
@@ -313,21 +300,21 @@ namespace basecross
 	{
 		//描画設定
 		auto DrawComp = AddComponent<PNTStaticDraw>();
-		DrawComp->SetMeshResource(L"GOAL_MD");
-		DrawComp->SetTextureResource(L"GOAL_TX");
+		//マップに登録されてない（DEFAULT_CUBE, TEST_TXになってる）↓
+		//DrawComp->SetMeshResource(L"GOAL_MD");
+		//DrawComp->SetTextureResource(L"GOAL_TX");
 
 		//配置設定
 		auto TransComp = GetComponent<Transform>();
 		m_pos.y += -0.5f;
-		TransComp->SetPosition(m_pos);
-		TransComp->SetQuaternion(Quat(m_rot));
-		TransComp->SetScale(m_scal);
 
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetAfterCollision(AfterCollision::None);
-
+		//マップにアクティブ化してない↓
 		GetStage()->SetSharedGameObject(L"Goal", GetThis<GoalTest>());
 
+		DefaultSettings();
+		
 	}
 
 	void GoalTest::OnUpdate()

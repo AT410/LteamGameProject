@@ -14,6 +14,7 @@ namespace basecross {
 		LoadStage,
 		DataSelectStage,
 		AreaSelectStage,
+		StageSelectStage,
 		GameStage,
 		EndingStage
 	};
@@ -92,6 +93,19 @@ namespace basecross {
 	public:
 		AreaSelectStage() :StageBase(StageType::AreaSelectStage) {}
 		virtual ~AreaSelectStage() {}
+		//初期化
+		void OnCreate()override;
+		void OnUpdate()override {};
+	};
+
+	//--------------------------------------------------------------------------------------
+	// ステージセレクトステージクラス
+	//--------------------------------------------------------------------------------------
+	class StageSelectStage :public StageBase
+	{
+	public:
+		StageSelectStage() :StageBase(StageType::StageSelectStage) {}
+		virtual ~StageSelectStage() {}
 		//初期化
 		void OnCreate()override;
 		void OnUpdate()override {};
