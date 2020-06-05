@@ -1972,10 +1972,11 @@ namespace basecross {
 		/*!
 		@brief	テクスチャリソースの設定
 		@param[in]	TextureKey	登録されているテクスチャキー
+		@param[in]	ExceptionActive	エラー時に例外が発生するかどうか
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
-		void SetTextureResource(const wstring& TextureKey);
+		void SetTextureResource(const wstring& TextureKey,const bool ExceptionActive = true);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	テクスチャリソースの取得

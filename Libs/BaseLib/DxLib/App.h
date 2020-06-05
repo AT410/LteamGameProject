@@ -634,7 +634,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float Delay, const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのPOST（キューに入れる）
@@ -647,7 +647,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void PostEvent(float DispatchTime, const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのSEND（キューに入れずにそのまま送る）
@@ -659,7 +659,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const shared_ptr<ObjectInterface>& Receiver,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	イベントのSEND（キューに入れずにそのまま送る）
@@ -671,7 +671,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void SendEvent(const shared_ptr<ObjectInterface>& Sender, const wstring& ReceiverKey,
-			const wstring& MsgStr, const  shared_ptr<void>& Info = shared_ptr<void>());
+			const wstring& MsgStr, const wstring& MsgStr2 = L"NULL", const  shared_ptr<void>& Info = shared_ptr<void>());
 
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -1144,13 +1144,16 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		template <typename T>
-		shared_ptr<T> GetResource(const wstring& Key) const {
+		shared_ptr<T> GetResource(const wstring& Key,const bool ExceptionActive = true) const {
 			if (Key == L"") {
-				throw BaseException(
-					L"キーが空白です",
-					L"if(Key == L\"\")",
-					L"App::GetResource()"
-				);
+				if (ExceptionActive) {
+					throw BaseException(
+						L"キーが空白です",
+						L"if(Key == L\"\")",
+						L"App::GetResource()"
+					);
+				}
+				return nullptr;
 			}
 			map<wstring, shared_ptr<BaseResource> >::const_iterator it;
 			it = m_ResMap.find(Key);
@@ -1161,25 +1164,33 @@ namespace basecross {
 					return pT;
 				}
 				else {
+					if (ExceptionActive)
+					{
+						wstring keyerr = Key;
+						wstring str = L"指定のキーは";
+						str += Util::GetWSTypeName<T>();
+						str += L"*型に変換できません";
+						throw BaseException(
+							str,
+							keyerr,
+							L"App::GetResource()"
+						);
+					}
+					return nullptr;
+				}
+			}
+			else {
+				if (ExceptionActive) 
+				{
+					//見つからない
 					wstring keyerr = Key;
-					wstring str = L"指定のキーは";
-					str += Util::GetWSTypeName<T>();
-					str += L"*型に変換できません";
 					throw BaseException(
-						str,
+						L"指定のキーは存在しません",
 						keyerr,
 						L"App::GetResource()"
 					);
 				}
-			}
-			else {
-				//見つからない
-				wstring keyerr = Key;
-				throw BaseException(
-					L"指定のキーは存在しません",
-					keyerr,
-					L"App::GetResource()"
-				);
+				return nullptr;
 			}
 		}
 		//--------------------------------------------------------------------------------------

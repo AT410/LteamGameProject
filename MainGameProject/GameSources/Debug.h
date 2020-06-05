@@ -7,8 +7,6 @@
 
 namespace basecross
 {
-	class RockTest;
-
 	class DebugSprite :public GameObject
 	{
 	public:
@@ -152,61 +150,6 @@ namespace basecross
 
 		void OnCreate()	override;
 	};
-
-	//--------------------------------------------------------------------------------------
-	///	数字のスクエア
-	//--------------------------------------------------------------------------------------
-	class NumberSquare : public GameObject {
-		weak_ptr<RockTest> m_SeekObject;
-		//このオブジェクトのみで使用するスクエアメッシュ
-		shared_ptr<MeshResource> m_SquareMeshResource;
-		//背番号
-		size_t m_Number;
-
-		Quat Billboard(const Vec3& Line) {
-			Vec3 Temp = Line;
-			Mat4x4 RotMatrix;
-			Vec3 DefUp(0, 1.0f, 0);
-			Vec2 TempVec2(Temp.x, Temp.z);
-			if (TempVec2.length() < 0.1f) {
-				DefUp = Vec3(0, 0, 1.0f);
-			}
-			Temp.normalize();
-			RotMatrix = XMMatrixLookAtLH(Vec3(0, 0, 0), Temp, DefUp);
-			RotMatrix.inverse();
-			Quat Qt;
-			Qt = RotMatrix.quatInMatrix();
-			Qt.normalize();
-			return Qt;
-		}
-
-	public:
-		//構築と破棄
-		NumberSquare(const shared_ptr<Stage>& StagePtr,
-			const shared_ptr<RockTest>& SeekObjectPtr, size_t Number);
-		virtual ~NumberSquare();
-		//初期化
-		virtual void OnCreate() override;
-		//変化
-		virtual void OnUpdate() override;
-	};
-
-
-	//ステージ配置テスト
-	class RockTest :public ObjectBase
-	{
-	public:
-		RockTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
-
-		virtual ~RockTest() {}
-
-		void OnCreate()	override;
-
-	private:
-		size_t num = 0;
-	};
-
-
 
 	//ステージ配置テスト
 	class GoalTest :public ObjectBase

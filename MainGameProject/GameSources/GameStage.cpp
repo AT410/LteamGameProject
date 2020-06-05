@@ -93,6 +93,7 @@ namespace basecross {
 			//AddGameObject<DebugSprite>(L"TitleStage_TX");
 			//AddGameObject<ActionTest>();
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
+			AddGameObject<FadeObj>(FadeType::FadeIn);
 		}
 		catch (...)
 		{
@@ -134,6 +135,7 @@ namespace basecross {
 			//AddGameObject<ContTest>(L"ToGameStage");
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<AreaSelectStage>());
+			AddGameObject<FadeObj>(FadeType::FadeIn);
 		}
 		catch (...)
 		{
@@ -151,6 +153,7 @@ namespace basecross {
 			CreateViewLight();
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<StageSelectStage>());
+			AddGameObject<FadeObj>(FadeType::FadeIn);
 		}
 		catch (...)
 		{
@@ -204,6 +207,7 @@ namespace basecross {
 			AddGameObject<UIController>(GetStageType(),false);
 			GameManager::GetManager()->CreateUISet(GetThis<StageBase>(), false);
 			SetBGM(L"MAIN_SD");
+			AddGameObject<FadeObj>(FadeType::FadeIn);
 			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}
