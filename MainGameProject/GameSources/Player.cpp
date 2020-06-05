@@ -240,7 +240,9 @@ namespace basecross{
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
 			return;
-		StateUpdate();
+		if (!m_ResetActive) {
+			StateUpdate();
+		}
 	}
 
 	void Player::StateUpdate() {
@@ -301,12 +303,17 @@ namespace basecross{
 		m_FireEfk->StopEffect();
 		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
 		//ゲームステージのマネージャーでフェードを初めて
-
+		PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ReStart", L"FadeOut");
+		m_ResetActive = true;
 	}
 
 	void Player::OnEvent(const shared_ptr<Event>& Eve) {
 		if (Eve->m_MsgStr == L"ExcuteActive") {
+		}
+		else if (Eve->m_MsgStr == L"ReStart") {
+			ResetPositon();
 			m_PlayerState = PlayerState::Excute;
+
 		}
 	}
 }

@@ -908,7 +908,7 @@ namespace basecross
 		auto PlayerAABB = AABB(Vec3(PlayerPos.x - m_PlayerAABBX, PlayerPos.y, PlayerPos.z - m_PlayerAABBZ),
 			Vec3(PlayerPos.x + m_PlayerAABBX, PlayerPos.y + m_PlayerAABBY, PlayerPos.z + m_PlayerAABBZ));
 		if (HitTest::AABB_AABB(m_WaterLVAABB, PlayerAABB)) {
-			ptrPlayer->ResetPositon();
+			ptrPlayer->SetPlayerState(PlayerState::Restart);
 		}
 	}
 

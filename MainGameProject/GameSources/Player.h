@@ -49,6 +49,8 @@ namespace basecross{
 		//プレイヤーステート取得変数
 		PlayerState m_PlayerState;
 
+		bool m_ResetActive = false;
+
 		shared_ptr<GameObject> m_PushObj = nullptr;
 		//入力ハンドラー
 		InputHandler<Player> m_Handler;
@@ -120,11 +122,16 @@ namespace basecross{
 			auto EfkPoint = m_pos;
 			EfkPoint.y += 0.5f;
 			m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
+			m_ResetActive = false;
 		}
 
 		void UpdateResetPositon()
 		{
 			m_pos = GetComponent<Transform>()->GetPosition();
+		}
+
+		void SetPlayerState(const PlayerState playerstate) {
+			m_PlayerState = playerstate;
 		}
 	};
 

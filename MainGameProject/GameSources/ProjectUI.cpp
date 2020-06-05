@@ -455,6 +455,12 @@ namespace basecross
 					m_ActiveFade = false;
 					// -- ˆÃ“]‚µ‚½‚çƒCƒxƒ“ƒg”ò‚Î‚· --
 					PostEvent(0.0f, GetThis<FadeObj>(), m_Resiver, m_EventMsgStr);
+					if (m_EventMsgStr == L"ReStart") {
+						auto DrawComp = GetComponent<PCSpriteDraw>();
+						DrawComp->SetDiffuse(Col4(0, 0, 0, 1));
+						m_CurrntType = FadeType::FadeIn;
+						m_ActiveFade = true;
+					}
 				}
 				break;
 			default:
@@ -482,16 +488,15 @@ namespace basecross
 			m_ActiveFade = true;
 			m_CurrntType = FadeType::FadeOut;
 			auto SendPtr = event->m_Sender.lock();
-			if (SendPtr) {
-				auto PlayerPtr = dynamic_pointer_cast<Player>(SendPtr);
-				if (PlayerPtr)
+			if (SendPtr)
+			{
+				if (event->m_MsgStr == L"ReStart")
 				{
-					m_Resiver = PlayerPtr;
-					return;
+					m_Resiver = SendPtr;
 				}
+				else 
+					m_Resiver = App::GetApp()->GetScene<Scene>();
 			}
-			m_Resiver = App::GetApp()->GetScene<Scene>();
-			return;
 		}
 	}
 }
