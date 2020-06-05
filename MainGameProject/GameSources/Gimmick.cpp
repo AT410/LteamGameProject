@@ -718,7 +718,7 @@ namespace basecross
 		if (m_WaterJetmode) {
 			ptrDraw->SetDiffuse(Col4(0.0f, 1.0f, 0.0f, 1.0f));
 			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
-				GetPlayer->ResetPositon();
+				GetPlayer->SetPlayerState(PlayerState::Restart);
 			}
 			// -- 真下にエフェクトを飛ばす --
 			auto Floor = m_Floor.lock();
@@ -822,7 +822,7 @@ namespace basecross
 		auto PPtr = dynamic_pointer_cast<Player>(Obj);
 		if (PPtr)
 		{
-			PPtr->ResetPositon();
+			PPtr->SetPlayerState(PlayerState::Restart);
 		}
 		m_Cooltime = m_CooltimeMax;
 		App::GetApp()->GetXAudio2Manager()->Start(L"WaterDrop_SD", 0, 0.1f);
