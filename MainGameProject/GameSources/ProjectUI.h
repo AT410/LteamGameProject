@@ -249,6 +249,8 @@ namespace basecross
 
 		FadeType m_CurrntType;
 
+		shared_ptr<ObjectInterface> m_Resiver;
+
 		bool m_ActiveFade;
 		wstring m_EventMsgStr;
 	};

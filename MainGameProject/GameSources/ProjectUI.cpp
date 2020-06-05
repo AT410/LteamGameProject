@@ -454,7 +454,7 @@ namespace basecross
 					Diffuse.w = 1.0f;
 					m_ActiveFade = false;
 					// -- ˆÃ“]‚µ‚½‚çƒCƒxƒ“ƒg”ò‚Î‚· --
-					PostEvent(0.0f, GetThis<FadeObj>(), App::GetApp()->GetScene<Scene>(), m_EventMsgStr);
+					PostEvent(0.0f, GetThis<FadeObj>(), m_Resiver, m_EventMsgStr);
 				}
 				break;
 			default:
@@ -481,6 +481,17 @@ namespace basecross
 			m_EventMsgStr = event->m_MsgStr;
 			m_ActiveFade = true;
 			m_CurrntType = FadeType::FadeOut;
+			auto SendPtr = event->m_Sender.lock();
+			if (SendPtr) {
+				auto PlayerPtr = dynamic_pointer_cast<Player>(SendPtr);
+				if (PlayerPtr)
+				{
+					m_Resiver = PlayerPtr;
+					return;
+				}
+			}
+			m_Resiver = App::GetApp()->GetScene<Scene>();
+			return;
 		}
 	}
 }
