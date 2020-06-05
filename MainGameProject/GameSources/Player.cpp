@@ -221,6 +221,13 @@ namespace basecross{
 		}
 
 	}
+	void Player::StopPhysics() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetUpdateActive(false);
+		auto ptrGrav = GetComponent<Gravity>();
+		ptrGrav->SetGravityZero();
+		
+	}
 	//接触解除関数
 	//松崎　洸樹
 	//接触しているオブジェクトから離れる関数（梯子から離れる時）
@@ -294,6 +301,7 @@ namespace basecross{
 		m_FireEfk->StopEffect();
 		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
 		//ゲームステージのマネージャーでフェードを初めて
+
 	}
 
 	void Player::OnEvent(const shared_ptr<Event>& Eve) {

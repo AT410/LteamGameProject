@@ -93,6 +93,7 @@ namespace basecross{
 		void OnRemoveLB() override;
 		//物の引っ張り押し込み解除
 		void PushPullRelese();
+		void StopPhysics();
 		//プレイヤーステート変化関数
 		void StateUpdate();
 		//プレイヤースタートステート
