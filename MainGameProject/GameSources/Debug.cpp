@@ -181,8 +181,9 @@ namespace basecross
 
 	void GoalTest::OnCreate()
 	{
+		DefaultSettings();
 		//描画設定
-		auto DrawComp = AddComponent<PNTStaticDraw>();
+		//auto DrawComp = AddComponent<PNTStaticDraw>();
 		//マップに登録されてない（DEFAULT_CUBE, TEST_TXになってる）↓
 		//DrawComp->SetMeshResource(L"GOAL_MD");
 		//DrawComp->SetTextureResource(L"GOAL_TX");
@@ -196,7 +197,6 @@ namespace basecross
 		//マップにアクティブ化してない↓
 		GetStage()->SetSharedGameObject(L"Goal", GetThis<GoalTest>());
 
-		DefaultSettings();
 		
 	}
 
