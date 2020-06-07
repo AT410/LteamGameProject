@@ -334,6 +334,11 @@ namespace basecross
 
 	void UIController::OperationUI(const CONTROLER_STATE Cont)
 	{
+		if (m_IsSent)
+			return;
+
+		WORD Test = m_handler.CovertToDPAD(Vec2(Cont.fThumbLX, Cont.fThumbLY));
+
 		if (m_handler.GetUpArrow())
 		{
 			wstring UpStr = m_CurrntUI->GetUpStr();
