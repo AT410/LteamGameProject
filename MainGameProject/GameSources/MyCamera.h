@@ -35,6 +35,7 @@ namespace basecross
 		void SetExpansionAt(const bsm::Vec3& ExpansionAt);
 		void SetExpansion(const Vec3& Eye, const Vec3& At);
 		void SetFocus(const Vec3& Eye, const Vec3& At);
+		void ControlForcus();
 		void OnPushRB() override;
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;

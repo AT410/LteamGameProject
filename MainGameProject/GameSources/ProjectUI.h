@@ -166,7 +166,7 @@ namespace basecross
 	{
 	public:
 		UIController(const shared_ptr<Stage>&StagePtr,const StageType Type,const bool DefalutActive = true)
-			:GameObject(StagePtr), PawnBase(), m_UIMap(), m_Type(Type), m_Active(DefalutActive)
+			:GameObject(StagePtr), PawnBase(), m_UIMap(), m_Type(Type), m_Active(DefalutActive), m_IsSent(false)
 		{
 
 		}
@@ -195,6 +195,8 @@ namespace basecross
 
 		StageType m_Type;
 		bool m_Active;
+
+		bool m_IsSent;
 
 		map<wstring, shared_ptr<FlashingUI>> m_UIMap;
 

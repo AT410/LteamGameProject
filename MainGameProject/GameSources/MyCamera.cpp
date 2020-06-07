@@ -10,7 +10,7 @@ namespace basecross
 {
 	MyCamera::MyCamera() :
 		m_TargetToAt(0.0f, 0.0f, 0.0f),
-		m_ArmLen(1.0f),
+		m_ArmLen(5.0f),
 		m_CameraJudge(false), Camera(), PawnBase()
 	{}
 
@@ -78,6 +78,29 @@ namespace basecross
 		SetAt(At);
 	}
 
+	void MyCamera::ControlForcus()
+	{
+		auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
+		float Val = Cont.fThumbRY;
+		m_ArmLen += Val;
+		if (m_ArmLen < 5.0f)
+		{
+			m_ArmLen = 5.0f;
+		}
+		else if (m_ArmLen > 10.0f)
+		{
+			m_ArmLen = 10.0f;
+		}
+		Vec3 ptrPlayerPos = GetTargetObject()->GetComponent<Transform>()->GetPosition();
+		Vec3 Eye = Vec3(ptrPlayerPos.x, ptrPlayerPos.y + 2.0f, ptrPlayerPos.z - 6.0f);
+		Vec3 At = Vec3(ptrPlayerPos.x, ptrPlayerPos.y, ptrPlayerPos.z);
+		Vec3 SightVec = Eye - At;
+		SightVec.normalize();
+		SightVec *= m_ArmLen;
+		SetFocus(Vec3(ptrPlayerPos.x,SightVec.y,SightVec.z), At);
+
+	}
+
 	void MyCamera::OnCreate() {
 		m_ExpansionEye = GetEye();
 		m_ExpansionAt = GetAt();
@@ -125,9 +148,7 @@ namespace basecross
 	void FocusState::Enter(const shared_ptr<MyCamera>& Cam) {
 	}
 	void FocusState::Execute(const shared_ptr<MyCamera>& Cam) {
-		Vec3 ptrPlayerPos = Cam->GetTargetObject()->GetComponent<Transform>()->GetPosition();
-		Cam->SetFocus(Vec3(ptrPlayerPos.x, ptrPlayerPos.y + 2.0f, ptrPlayerPos.z - 6.0f),
-			Vec3(ptrPlayerPos.x, ptrPlayerPos.y, ptrPlayerPos.z));
+		Cam->ControlForcus();
 	}
 	void FocusState::Exit(const shared_ptr<MyCamera>& Cam) {
 
