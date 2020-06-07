@@ -189,7 +189,9 @@ namespace basecross{
 		if (Obj->FindTag(L"PushPullObj")) {
 			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
 			auto ptrBoxPos = ptrPullBox->GetCurrentPos();
-			if (ptrBoxPos.y > ptrGetPos.y) {
+			auto ptrBoxScal = ptrPullBox->GetComponent<Transform>()->GetScale();
+			Vec3 BoxScale = ptrBoxScal / 2;
+			if (ptrBoxPos.y + BoxScale.y > ptrGetPos.y) {
 				m_PushPull = true;
 				m_PushObj = Obj;
 			}

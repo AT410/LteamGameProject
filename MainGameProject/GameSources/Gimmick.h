@@ -478,6 +478,5 @@ namespace basecross
 		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
-		virtual void OnEvent(const shared_ptr<Event>& Eve)override;
 	};
 }

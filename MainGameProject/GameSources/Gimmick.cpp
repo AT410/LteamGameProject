@@ -1019,7 +1019,7 @@ namespace basecross
 		ptrDraw->SetTextureResource(m_texKey);
 
 		auto ptrColl = AddComponent<CollisionObb>();
-
+		GetStage()->SetSharedGameObject(L"PushObj", GetThis<PushObj>());
 	}
 
 	void PushObj::OnUpdate() {
@@ -1075,9 +1075,4 @@ namespace basecross
 			}
 	}
 
-	void PushObj::OnEvent(const shared_ptr<Event>& Eve) {
-		if (Eve->m_MsgStr == L"ReStart") {
-			GetComponent<Transform>()->SetPosition(m_pos);
-		}
-	}
 }
