@@ -337,25 +337,25 @@ namespace basecross
 		if (m_IsSent)
 			return;
 
-		WORD Test = m_handler.CovertToDPAD(Vec2(Cont.fThumbLX, Cont.fThumbLY));
+		WORD Dpad = m_handler.CovertToDPAD(Vec2(Cont.fThumbLX, Cont.fThumbLY));
 
-		if (m_handler.GetUpArrow())
+		if (m_handler.GetUpArrow(Dpad))
 		{
 			wstring UpStr = m_CurrntUI->GetUpStr();
 			ChangeActiveUI(UpStr);
 		}
-		else if (m_handler.GetDownArrow())
+		else if (m_handler.GetDownArrow(Dpad))
 		{
 			wstring DownStr = m_CurrntUI->GetDownStr();
 			ChangeActiveUI(DownStr);
 		}
 
-		if (m_handler.GetLeftArrow())
+		if (m_handler.GetLeftArrow(Dpad))
 		{
 			wstring LeftStr = m_CurrntUI->GetLeftStr();
 			ChangeActiveUI(LeftStr);
 		}
-		else if (m_handler.GetRightArrow())
+		else if (m_handler.GetRightArrow(Dpad))
 		{
 			wstring RightStr = m_CurrntUI->GetRightStr();
 			ChangeActiveUI(RightStr);
