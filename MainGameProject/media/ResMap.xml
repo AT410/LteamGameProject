@@ -41,5 +41,6 @@
     <ResourceData ResourceKey="Door_TX" ResourceFile="Tx_Door.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Match_TX" ResourceFile="Tx_Match.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Slope_TX" ResourceFile="Tx_Slope.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="FireLine_TX" ResourceFile="Tx_FireLine.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>
