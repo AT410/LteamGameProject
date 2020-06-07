@@ -1074,4 +1074,10 @@ namespace basecross
 				}
 			}
 	}
+
+	void PushObj::OnEvent(const shared_ptr<Event>& Eve) {
+		if (Eve->m_MsgStr == L"ReStart") {
+			GetComponent<Transform>()->SetPosition(m_pos);
+		}
+	}
 }
