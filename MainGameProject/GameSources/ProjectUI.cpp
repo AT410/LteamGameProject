@@ -372,10 +372,13 @@ namespace basecross
 
 	void UIController::OnPushA()
 	{
+		if (m_IsSent)
+			return;
 		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
 		//‘Î‰ž‚·‚éƒCƒxƒ“ƒg‚ð”­¶‚³‚¹‚é
 		m_CurrntUI->SetFlashingSpeed(2.5f);
 		m_CurrntUI->StartEvent();
+		m_IsSent = true;
 	}
 	void UIController::ChangeActiveUI(const wstring& Key)
 	{
