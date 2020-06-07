@@ -17,7 +17,12 @@ namespace basecross
 		//Vec2 m_LStickVol;//Lスティック
 		//Vec2 m_RStickVol;//Rスティック
 
-		bool m_ConvertStickToDbadActoive;
+		WORD wDpad = 0;
+		WORD wLastStick = 0;
+		bool m_ConvertStickToDbadActoiveUp = false;
+		bool m_ConvertStickToDbadActoiveDown = false;
+		bool m_ConvertStickToDbadActoiveLeft = false;
+		bool m_ConvertStickToDbadActoiveRight = false;
 
 		void PushHandler(const shared_ptr<T>& Obj)
 		{
@@ -55,28 +60,27 @@ namespace basecross
 
 		WORD CovertToDPAD(const Vec2 Stick)
 		{
-			//if (m_ConvertStickToDbadActoive)
-			//	return;
-
 			if (Stick.x > 0.5f)
 			{
-				return XINPUT_GAMEPAD_DPAD_RIGHT;
+				wDpad = XINPUT_GAMEPAD_DPAD_RIGHT;
+				return wDpad;
 			}
 			else if (Stick.x < -0.5f)
 			{
-				return XINPUT_GAMEPAD_DPAD_LEFT;
+				wDpad = XINPUT_GAMEPAD_DPAD_LEFT;
+				return wDpad;
 			}
 
 			if (Stick.y > 0.5f)
 			{
-				return XINPUT_GAMEPAD_DPAD_UP;
+				wDpad = XINPUT_GAMEPAD_DPAD_UP;
+				return wDpad;
 			}
 			else if (Stick.y < -0.5f)
 			{
-				return XINPUT_GAMEPAD_DPAD_DOWN;
+				wDpad = XINPUT_GAMEPAD_DPAD_DOWN;
+				return wDpad;
 			}
-
-			return 0;
 		}
 
 		bool GetUpArrow()
@@ -131,7 +135,7 @@ namespace basecross
 
 			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
 
-			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_LEFT || DPAD == XINPUT_GAMEPAD_DPAD_LEFT)
+			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_LEFT || DPAD & XINPUT_GAMEPAD_DPAD_LEFT)
 			{
 				return true;
 			}

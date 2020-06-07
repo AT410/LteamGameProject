@@ -322,6 +322,23 @@ namespace basecross
 	{
 		DefaultSettings();
 		SetActions();
+
+		auto DrawComp = GetComponent<SmBaseDraw>();
+		auto MeshRes = DrawComp->GetMeshResource();
+		DrawComp->SetSamplerState(SamplerState::LinearWrap);
+
+		auto Vertex = MeshRes->GetBackupVerteces<VertexPositionNormalTexture>();
+		for (int i = 0; i < Vertex.size(); i++)
+		{
+			auto v = Vertex[i].textureCoordinate;
+			float Value = m_scal.length();
+			v.x *= Value;
+			Vertex[i].textureCoordinate = v;
+		}
+		//_cnt++;
+		DrawComp->UpdateVertices(Vertex);
+
+
 	}
 
 	void Slope::OnUpdate()
