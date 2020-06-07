@@ -18,8 +18,10 @@ namespace basecross
 		//Vec2 m_RStickVol;//Rスティック
 
 		WORD wDpad = 0;
+		WORD wPressedDpad = 0;
+		WORD wNowStick;
 		WORD wLastStick = 0;
-		bool m_ConvertStickToDbadActoiveUp = false;
+		bool m_ConvertStickToDbadActoive= false;
 		bool m_ConvertStickToDbadActoiveDown = false;
 		bool m_ConvertStickToDbadActoiveLeft = false;
 		bool m_ConvertStickToDbadActoiveRight = false;
@@ -60,35 +62,47 @@ namespace basecross
 
 		WORD CovertToDPAD(const Vec2 Stick)
 		{
+			// -- 一フレーム前 --
+			wLastStick = wDpad;
+
+			wDpad = 0;
 			if (Stick.x > 0.5f)
 			{
-				wDpad = XINPUT_GAMEPAD_DPAD_RIGHT;
-				return wDpad;
+				wDpad |= XINPUT_GAMEPAD_DPAD_RIGHT;
 			}
 			else if (Stick.x < -0.5f)
 			{
-				wDpad = XINPUT_GAMEPAD_DPAD_LEFT;
-				return wDpad;
+				wDpad |= XINPUT_GAMEPAD_DPAD_LEFT;
 			}
 
 			if (Stick.y > 0.5f)
 			{
-				wDpad = XINPUT_GAMEPAD_DPAD_UP;
-				return wDpad;
+				wDpad |= XINPUT_GAMEPAD_DPAD_UP;
 			}
 			else if (Stick.y < -0.5f)
 			{
-				wDpad = XINPUT_GAMEPAD_DPAD_DOWN;
+				wDpad |= XINPUT_GAMEPAD_DPAD_DOWN;
+			}
+
+			if (wDpad != wLastStick && m_ConvertStickToDbadActoive)
+				m_ConvertStickToDbadActoive = false;
+
+			if (m_ConvertStickToDbadActoive)
+			{
+				return 0;
+			}
+			else
+			{
+				m_ConvertStickToDbadActoive = true;
+				wLastStick = wDpad;
 				return wDpad;
 			}
 		}
 
-		bool GetUpArrow()
+		bool GetUpArrow(const WORD DPAD)
 		{
 			auto InputDevice = App::GetApp()->GetInputDevice();
 			auto ContInput = InputDevice.GetControlerVec()[0];
-
-			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
 
 			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_UP || DPAD == XINPUT_GAMEPAD_DPAD_UP)
 			{
@@ -98,12 +112,10 @@ namespace basecross
 			return false;
 		}
 
-		bool GetDownArrow()
+		bool GetDownArrow(const WORD DPAD)
 		{
 			auto InputDevice = App::GetApp()->GetInputDevice();
 			auto ContInput = InputDevice.GetControlerVec()[0];
-
-			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
 
 			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_DOWN || DPAD == XINPUT_GAMEPAD_DPAD_DOWN)
 			{
@@ -113,12 +125,10 @@ namespace basecross
 			return false;
 		}
 
-		bool GetRightArrow()
+		bool GetRightArrow(const WORD DPAD)
 		{
 			auto InputDevice = App::GetApp()->GetInputDevice();
 			auto ContInput = InputDevice.GetControlerVec()[0];
-
-			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
 
 			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_RIGHT || DPAD == XINPUT_GAMEPAD_DPAD_RIGHT)
 			{
@@ -128,12 +138,10 @@ namespace basecross
 			return false;
 		}
 
-		bool GetLeftArrow()
+		bool GetLeftArrow(const WORD DPAD)
 		{
 			auto InputDevice = App::GetApp()->GetInputDevice();
 			auto ContInput = InputDevice.GetControlerVec()[0];
-
-			auto DPAD = CovertToDPAD(Vec2(ContInput.fThumbLX, ContInput.fThumbLY));
 
 			if (ContInput.wPressedButtons == XINPUT_GAMEPAD_DPAD_LEFT || DPAD & XINPUT_GAMEPAD_DPAD_LEFT)
 			{
