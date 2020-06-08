@@ -385,6 +385,46 @@ namespace basecross
 		m_CurrntUI->StartEvent();
 		m_IsSent = true;
 	}
+
+	void UIController::OnPushB()
+	{
+		if (m_IsSent)
+			return;
+
+		wstring BackEventMsg;
+		switch (m_Type)
+		{
+		case basecross::StageType::TitleStage:
+			return;
+			break;
+		case basecross::StageType::LoadStage:
+			return;
+			break;
+		case basecross::StageType::DataSelectStage:
+			return;
+			break;
+		case basecross::StageType::AreaSelectStage:
+			BackEventMsg = L"ToTitleStage";
+			break;
+		case basecross::StageType::StageSelectStage:
+			BackEventMsg = L"ToAreaSelectStage";
+			break;
+		case basecross::StageType::GameStage:
+			m_Active = false;
+			return;
+			break;
+		case basecross::StageType::EndingStage:
+			return;
+			break;
+		default:
+			break;
+		}
+
+		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
+		PostEvent(0.0f, GetThis<UIController>(), L"Fade", BackEventMsg, L"FadeOut");
+		m_IsSent = true;
+	}
+
 	void UIController::ChangeActiveUI(const wstring& Key)
 	{
 		auto it = m_UIMap.find(Key);

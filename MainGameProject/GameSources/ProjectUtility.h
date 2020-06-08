@@ -41,6 +41,14 @@ namespace basecross
 					Obj->OnPushA();
 				}
 
+				/*!
+				@breif 戻るボタン
+				*/
+				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_B)
+				{
+					Obj->OnPushB();
+				}
+
 				//スティック押込み
 				if (ContInput.wPressedButtons == XINPUT_GAMEPAD_RIGHT_THUMB)
 				{
