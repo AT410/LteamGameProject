@@ -32,7 +32,8 @@
     <ResourceData ResourceKey="WaterFall_SD" ResourceFile="WaterFall.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="FireStart_SD" ResourceFile="FireStart.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="WaterDrop_SD" ResourceFile="Waterdrop.wav" ResourceType="Sound" />
-    <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" />
+    <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" /> 
+    <ResourceData ResourceKey="Ending_SD" ResourceFile="Refreshing_Morning.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="UITitle_TX" ResourceFile="UITitle.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Menu_TX" ResourceFile="menu.png" ResourceType="Texture" />
     <ResourceData ResourceKey="ReStart_TX" ResourceFile="ReStart.png" ResourceType="Texture" />
