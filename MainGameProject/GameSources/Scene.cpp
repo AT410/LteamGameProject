@@ -1,17 +1,7 @@
-
-/*!
-@file Scene.cpp
-@brief �V�[������
-*/
-
 #include "stdafx.h"
 #include "Project.h"
 
 namespace basecross{
-
-	//--------------------------------------------------------------------------------------
-	///
-	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
 			Col4 Col;
@@ -81,8 +71,6 @@ namespace basecross{
 		App::GetApp()->RegisterTexture(L"Two_TX", MediaPath + L"Two.png");
 		App::GetApp()->RegisterTexture(L"Three_TX", MediaPath + L"Three.png");
 		App::GetApp()->RegisterTexture(L"GAMECLEAR_TX", MediaPath + L"GameClear.png");
-		//auto MeshRes = MeshResource::CreateStaticModelMeshWithTangent(ModelPath, L"TestN.bmf");
-		//App::GetApp()->RegisterResource(L"TESTN_MD", MeshRes);
 	}
 
 	void Scene::SetDebugResoruce()

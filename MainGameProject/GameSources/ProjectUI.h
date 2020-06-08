@@ -186,6 +186,8 @@ namespace basecross
 		//“ü—Íƒnƒ“ƒhƒ‰
 		void OnPushA()override;
 
+		void OnPushB()override;
+
 	private:
 		// -- UI‘€ì --
 		void OperationUI(const CONTROLER_STATE Cont);

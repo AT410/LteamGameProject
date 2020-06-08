@@ -213,7 +213,7 @@ namespace basecross
 				{
 					StageSelect.second += 1;
 					GameManager::GetManager()->SetStagePair(StageSelect);
-					PostEvent(0.0, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+					PostEvent(0.0, GetThis<ObjectInterface>(), L"Fade", L"ToGameStage",L"FadeOutGoal");
 				}
 				else
 				{
@@ -222,13 +222,14 @@ namespace basecross
 						StageSelect.first += 1;
 						StageSelect.second = 0;
 						GameManager::GetManager()->SetStagePair(StageSelect);
-						PostEvent(0.0, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Fade", L"ToGameStage", L"FadeOutGoal");
 					}
 					else 
 					{
-						PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEndingStage");
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Fade", L"ToEndingStage", L"FadeOutGoal");
 					}
 				}
+				m_IsGoal = false;
 			}
 		}
 	}

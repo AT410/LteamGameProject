@@ -186,6 +186,11 @@ namespace basecross{
 				}
 			}
 		}
+		if (Obj->FindTag(L"MoveFloor"))
+		{
+			ptrTransform->SetParent(Obj);
+		}
+
 		if (Obj->FindTag(L"PushPullObj")) {
 			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
 			auto ptrBoxPos = ptrPullBox->GetCurrentPos();
@@ -220,14 +225,7 @@ namespace basecross{
 			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
 		}
 
-	}
-	void Player::StopPhysics() {
-		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetUpdateActive(false);
-		auto ptrGrav = GetComponent<Gravity>();
-		ptrGrav->SetGravityZero();
-		
-	}
+	}	
 	//接触解除関数
 	//松崎　洸樹
 	//接触しているオブジェクトから離れる関数（梯子から離れる時）
@@ -235,8 +233,21 @@ namespace basecross{
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrPos = ptrTransform->GetPosition();
 		m_RisePos = 0.0f;
+
+		if (Obj->FindTag(L"MoveFloor"))
+		{
+			ptrTransform->ClearParent();
+		}
 	}
 
+
+	void Player::StopPhysics() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetUpdateActive(false);
+		auto ptrGrav = GetComponent<Gravity>();
+		ptrGrav->SetGravityZero();
+		
+	}
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
 			return;

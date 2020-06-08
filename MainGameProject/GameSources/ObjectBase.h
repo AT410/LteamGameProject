@@ -59,6 +59,13 @@ namespace basecross
 		bool m_AnimationActive = false;
 		bool m_StartActionActive = false;
 		bool m_IsStartActionLoop = false;
+
+		bool m_EventActionActive = false;
+		bool m_IsEventActionLoop = false;
+
+		bool m_EndActionActive = false;
+		bool m_IsEndActionLoop = false;
+
 	};
 
 	//---------------------------------------------------
