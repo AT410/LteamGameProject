@@ -13,7 +13,7 @@ namespace basecross
 	//----------------------------------------------------------------------------
 	// -- Xmlマップデータ用コンストラクタ --
 	SwitchObj::SwitchObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-		:ObjectBase(StagePtr, pNode)
+		:ObjectBase(StagePtr, pNode),m_IsKeep(false)
 	{
 		m_RecipientKey = XmlDocReader::GetAttribute(pNode, L"EventRecipientKey");
 		m_EventMsg = XmlDocReader::GetAttribute(pNode, L"EventMsgStr");
@@ -29,7 +29,7 @@ namespace basecross
 		auto transComp = GetComponent<Transform>();
 
 		//コリジョンを付ける
-		auto ptrColl = AddComponent<CollisionObb>();
+		auto ptrColl = GetComponent<CollisionObb>();
 		ptrColl->SetAfterCollision(AfterCollision::Auto);
 	}
 
@@ -41,13 +41,14 @@ namespace basecross
 			if (!m_Active)
 			{
 				Vec3 EfkPoint = GetComponent<Transform>()->GetPosition();
-				m_ActiveEfk = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", EfkPoint);
 				m_Active = true;
+				if(!m_ActiveEfk)
+					m_ActiveEfk = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", EfkPoint);
 			}
 			else
 			{
-				m_ActiveEfk->StopEffect();
-				m_Active = false;
+				//m_ActiveEfk.reset();
+				//m_Active = false;
 			}
 			auto PlayerPtr = dynamic_pointer_cast<Player>(Other);
 			if (PlayerPtr)
@@ -1022,14 +1023,6 @@ namespace basecross
 	void PushObj::OnCreate() {
 		DefaultSettings();
 		AddComponent<Gravity>();
-		auto ptrTransform = GetComponent<Transform>();
-		//↓消すとエラー起こしてゲームできない
-		auto ptrDraw = AddComponent<PNTPointDraw>();
-		ptrDraw->SetMeshResource(m_meshKey);
-		ptrDraw->SetTextureResource(m_texKey);
-
-		auto ptrColl = AddComponent<CollisionObb>();
-
 	}
 
 	void PushObj::OnUpdate() {
