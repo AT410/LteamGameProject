@@ -64,53 +64,6 @@ namespace basecross
 		void OnCreate()override;
 	};
 
-	//----------------------------------------------------------------------------
-	//アニメーションオブジェクト:アニメーションデータを持ったオブジェクトクラス
-	//----------------------------------------------------------------------------
-	class AnimationObj : public ObjectBase
-	{
-	public:
-		//-- 構築 --
-		AnimationObj(const shared_ptr<Stage>& StagePtr)
-			:ObjectBase(StagePtr)
-		{
-		}
-		// -- 構築(ステージビルダーで呼ばれる) --
-		//AnimationObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
-
-		//-- 破棄 --
-		virtual ~AnimationObj() {}
-
-		//-- 初期化 --
-		void OnCreate()override {}
-
-		//-- 更新処理 --
-		void OnUpdate()override {}
-
-	private:
-
-	};
-
-
-	///<breif>汎用固定オブジェクト<breif/>
-	///<name>作成者：阿部達哉<name/>
-	class PullBoxObj :public ObjectBase
-	{
-	public:
-		PullBoxObj(const shared_ptr<Stage>&StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
-			const wstring TexKey, const wstring MeshKey)
-			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey) {}
-
-		PullBoxObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-			:ObjectBase(StagePtr, pNode) {}
-
-		virtual ~PullBoxObj() {}
-
-		void OnCreate()override;
-
-	};
-
-
 	///<breif>汎用移動オブジェクト<breif/>
 	///<name>作成者：阿部達哉<name/>
 	enum class MovingType

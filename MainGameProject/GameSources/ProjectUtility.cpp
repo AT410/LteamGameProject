@@ -67,14 +67,22 @@ namespace basecross
 			int SelectStage = Select.second;
 			//XMLリーダー
 			XmlDocReader Reader(XMLFileName);
-			auto Nodes = Reader.GetSelectNodes(L"root/Area");
-			long AreaCountNode = XmlDocReader::GetLength(Nodes);
+			auto rootNode = Reader.GetSelectSingleNode(L"root");
+			auto AreaCountStr = XmlDocReader::GetAttribute(rootNode, L"AreaCount");
+			int AreaCount = (int)_wtoi(AreaCountStr.c_str());
+			GameManager::GetManager()->SetMaxAreaCount(AreaCount);
+
+			auto AreaNodes = XmlDocReader::GetChildNodes(rootNode);
+			long AreaCountNode = XmlDocReader::GetLength(AreaNodes);
 			for (long i = 0; i < AreaCountNode; i++) {
-				auto AreaNode = XmlDocReader::GetItem(Nodes, i);
+				auto AreaNode = XmlDocReader::GetItem(AreaNodes, i);
 				auto AreaNumStr = XmlDocReader::GetAttribute(AreaNode, L"AreaNumber");
 				int AreaNum = (int)_wtoi(AreaNumStr.c_str());
 				if (AreaNum != SelectArea)
 					continue;
+				auto StageCountStr = XmlDocReader::GetAttribute(AreaNode, L"StageCount");
+				int StageCount = (int)_wtoi(StageCountStr.c_str());
+				GameManager::GetManager()->SetMaxStageCount(StageCount);
 				//子要素を取得
 				auto StageNodes = XmlDocReader::GetChildNodes(AreaNode);
 				long StageCountNode = XmlDocReader::GetLength(StageNodes);

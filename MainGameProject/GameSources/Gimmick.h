@@ -304,12 +304,16 @@ namespace basecross
 
 		void StartSound()
 		{
-			 m_WaterSound = App::GetApp()->GetXAudio2Manager()->Start(L"WaterFall_SD", XAUDIO2_LOOP_INFINITE,0.25f);
+			if (!m_SoundActive) {
+				m_WaterSound = App::GetApp()->GetXAudio2Manager()->Start(L"WaterFall_SD", XAUDIO2_LOOP_INFINITE, 0.25f);
+				m_SoundActive = true;
+			}
 		}
 
 		void StopSound()
 		{
 			App::GetApp()->GetXAudio2Manager()->Stop(m_WaterSound);
+			m_SoundActive = false;
 		}
 
 		void UpdateEndPoint(const Vec3& EndPoint)
@@ -334,6 +338,8 @@ namespace basecross
 
 		float m_TotalTime = 0;
 
+		bool m_SoundActive;
+
 		shared_ptr<EfkPlay> m_EfkPlay;
 
 		shared_ptr<SoundItem> m_WaterSound;
@@ -349,7 +355,12 @@ namespace basecross
 		bool m_WaterJetmode; //水噴射のON/OFFスイッチ
 		bool m_WaterJetDirToUp; //水噴射の向き　trueが上向き falseが下向き
 		AABB m_WaterJetAABB;
+
 		float m_JudmentTime;
+		float m_IntervalTime;
+		bool m_IntervalFlag;
+		float m_FlashTime;
+
 		float m_SizeAABBX;
 		float m_SizeAABBY;
 		float m_SizeAABBZ;

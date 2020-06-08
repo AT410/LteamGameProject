@@ -361,8 +361,9 @@ namespace basecross
 			TgtVector[TgtIndex]->Run();
 		}
 	}
-	void Actions::Run(wstring ActionKey) {
+	void Actions::Run(wstring ActionKey, const bool bLoopActive) {
 		pImpl->SetCurrntActionKey(ActionKey);
+		SetLooped(bLoopActive);
 		RunSub(pImpl->m_ScaleVec[pImpl->m_CurrntMapKey], pImpl->m_ScaleActiveIndex);
 		RunSub(pImpl->m_RotateVec[pImpl->m_CurrntMapKey], pImpl->m_RotateActiveIndex);
 		RunSub(pImpl->m_MoveVec[pImpl->m_CurrntMapKey], pImpl->m_MoveActiveIndex);

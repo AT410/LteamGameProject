@@ -58,6 +58,7 @@ namespace basecross
 		IXMLDOMNodeListPtr m_AnimationNodes;
 		bool m_AnimationActive = false;
 		bool m_StartActionActive = false;
+		bool m_IsStartActionLoop = false;
 	};
 
 	//---------------------------------------------------

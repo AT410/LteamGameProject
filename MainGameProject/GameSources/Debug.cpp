@@ -208,7 +208,8 @@ namespace basecross
 			if (m_count > 2.0f)
 			{
 				auto  StageSelect = GameManager::GetManager()->GetStagePair();
-				if (StageSelect.second != 2)
+				auto MaxStageCount = GameManager::GetManager()->GetMaxStagePair();
+				if (StageSelect.second != MaxStageCount.second-1)
 				{
 					StageSelect.second += 1;
 					GameManager::GetManager()->SetStagePair(StageSelect);
@@ -216,7 +217,17 @@ namespace basecross
 				}
 				else
 				{
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEndingStage");
+					if (StageSelect.first != MaxStageCount.first-1)
+					{
+						StageSelect.first += 1;
+						StageSelect.second = 0;
+						GameManager::GetManager()->SetStagePair(StageSelect);
+						PostEvent(0.0, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+					}
+					else 
+					{
+						PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEndingStage");
+					}
 				}
 			}
 		}

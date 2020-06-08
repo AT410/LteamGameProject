@@ -354,7 +354,7 @@ namespace basecross
 		@return	‚È‚µ
 		*/
 		//--------------------------------------------------------------------------------------
-		virtual void Run(wstring ActionKey);
+		virtual void Run(wstring ActionKey, const bool bLoopActive = false);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief ƒAƒNƒVƒ‡ƒ“‚ðŽ~‚ß‚é

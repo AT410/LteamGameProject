@@ -12,7 +12,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"StageMap2.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"TestStage3.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
 	{
 
 	}
@@ -170,7 +170,7 @@ namespace basecross
 		Builder.Register<FireLine>(L"FireLine");//アニメーション作動時位置ずれる
 
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //�O�ʂ̓����ȕ�　透明なテクスチャが必要
+		Builder.Register<FrontWallObj>(L"FrontWall"); //透明なテクスチャが必要
 		Builder.Register<PushObj>(L"PullBox");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
 
 		//�ɓ�:Type�̒ǉ�

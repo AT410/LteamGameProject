@@ -151,9 +151,13 @@ namespace basecross
 			{
 				auto AnimationNode = XmlDocReader::GetItem(m_AnimationNodes, a);
 				wstring AnimationKey = XmlDocReader::GetAttribute(AnimationNode, L"CallPoint");
+				auto LoopFlagStr = XmlDocReader::GetAttribute(AnimationNode, L"LoopActive");
 
-				if (AnimationKey == L"Start")
+				if (AnimationKey == L"Start") 
+				{
 					m_StartActionActive = true;
+					m_IsStartActionLoop = (bool)_wtoi(LoopFlagStr.c_str());
+				}
 
 				// -- アニメーションデータ --
 				auto AnimationDatas = XmlDocReader::GetChildNodes(AnimationNode);
