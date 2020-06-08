@@ -1,14 +1,8 @@
-/*!
-@breif �Q�[���S�̂̊Ǘ�����
-@name�@�쐬��:�����B��
-*/
-
 #include "stdafx.h"
 #include "Project.h"
 
 namespace basecross
 {
-	//static�ϐ��̎���
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
@@ -22,7 +16,6 @@ namespace basecross
 
 	}
 
-	//static�֐�
 	void GameManager::CreateManager()
 	{
 		try
@@ -38,7 +31,6 @@ namespace basecross
 		}
 	}
 
-	//Get
 	unique_ptr<GameManager, GameManager::GMDeleter>& GameManager::GetManager()
 	{
 		try
@@ -46,7 +38,7 @@ namespace basecross
 			if (m_ins.get() == 0)
 			{
 				throw(BaseException(
-					L"GameManager����������Ă��܂���",
+					L"GameManager",
 					L"if(m_ins.get()==0)",
 					L"GameManager::GetManager"
 				));
@@ -73,7 +65,6 @@ namespace basecross
 	{
 		if (m_ins.get() == 0)
 		{
-			//�p������
 			m_ins.reset();
 		}
 	}
@@ -137,9 +128,7 @@ namespace basecross
 		mutex.unlock();
 	}
 
-	//!end static
 
-	//���\�[�X�̓Ǎ�
 	void GameManager::LoadResources()
 	{
 		if (!m_Loaded)
@@ -149,38 +138,35 @@ namespace basecross
 		}
 	}
 
-	//�X�e�[�W����
 	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
 		StageBulider Builder;
 
-		//�Z���N�g��ʂɂ��邩
 		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<FixedObj>(L"Test");//ok
-		Builder.Register<LoopTexObj>(L"Floor");//ok
-		Builder.Register<Player>(L"Player");//ok テストマップに書き直し必要あり
-		Builder.Register<Omori>(L"Omori");//使用されてない要確認
-		Builder.Register<HeatStick>(L"HeatStick");//ok
-		Builder.Register<MoveFloor>(L"MoveFloor");//ok
-		Builder.Register<FixedObj>(L"Himo");//上のFixedObj同様
+		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<LoopTexObj>(L"Floor");
+		Builder.Register<Player>(L"Player");
+		Builder.Register<Omori>(L"Omori");
+		Builder.Register<HeatStick>(L"HeatStick");
+		Builder.Register<MoveFloor>(L"MoveFloor");
+		Builder.Register<FixedObj>(L"Himo");
 		Builder.Register<Fountain>(L"Fountain");
-		Builder.Register<GoalTest>(L"Goal");//マップにメッシュ・テクスチャ登録されておらず
-		Builder.Register<SwitchObj>(L"Switch");//ok
-		Builder.Register<Door>(L"Door");//ok
-		Builder.Register<FireLine>(L"FireLine");//アニメーション作動時位置ずれる
+		Builder.Register<GoalTest>(L"Goal");
+		Builder.Register<SwitchObj>(L"Switch");
+		Builder.Register<Door>(L"Door");
+		Builder.Register<FireLine>(L"FireLine");
 
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //透明なテクスチャが必要
-		Builder.Register<PushObj>(L"PullBox");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
+		Builder.Register<FrontWallObj>(L"FrontWall"); 
+		Builder.Register<PushObj>(L"PullBox");
 
-		//�ɓ�:Type�̒ǉ�
-		Builder.Register<Slope>(L"Slope");//ok
+		Builder.Register<Slope>(L"Slope");
 		Builder.Register<WaterLV>(L"Water");
 		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); //<-����　defaultsettingsにするとメッシュ・テクスチャでエラー起こす
+		Builder.Register<UpDownBox>(L"FloatBox"); 
 		Builder.Register<WaterLV>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Ladder");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
+		Builder.Register<StageTest>(L"Ladder");
 		Builder.Register<StageTest>(L"Match");
 		Builder.Register<StageTest>(L"FireOn");
 
@@ -189,7 +175,6 @@ namespace basecross
 
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
-		//�J�n�C�x���g���X�^�[�g
 		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
 		if (OPCam)
 		{

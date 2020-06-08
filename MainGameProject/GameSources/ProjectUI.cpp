@@ -385,6 +385,46 @@ namespace basecross
 		m_CurrntUI->StartEvent();
 		m_IsSent = true;
 	}
+
+	void UIController::OnPushB()
+	{
+		if (m_IsSent)
+			return;
+
+		wstring BackEventMsg;
+		switch (m_Type)
+		{
+		case basecross::StageType::TitleStage:
+			return;
+			break;
+		case basecross::StageType::LoadStage:
+			return;
+			break;
+		case basecross::StageType::DataSelectStage:
+			return;
+			break;
+		case basecross::StageType::AreaSelectStage:
+			BackEventMsg = L"ToTitleStage";
+			break;
+		case basecross::StageType::StageSelectStage:
+			BackEventMsg = L"ToAreaSelectStage";
+			break;
+		case basecross::StageType::GameStage:
+			m_Active = false;
+			return;
+			break;
+		case basecross::StageType::EndingStage:
+			return;
+			break;
+		default:
+			break;
+		}
+
+		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
+		PostEvent(0.0f, GetThis<UIController>(), L"Fade", BackEventMsg, L"FadeOut");
+		m_IsSent = true;
+	}
+
 	void UIController::ChangeActiveUI(const wstring& Key)
 	{
 		auto it = m_UIMap.find(Key);
@@ -505,6 +545,16 @@ namespace basecross
 				else 
 					m_Resiver = App::GetApp()->GetScene<Scene>();
 			}
+		}
+		else if (event->m_MsgStr2 == L"FadeOutGoal")
+		{
+			auto DrawComp = GetComponent<PCSpriteDraw>();
+			DrawComp->SetDiffuse(Col4(1, 1, 1, 0));
+			m_EventMsgStr = event->m_MsgStr;
+			m_ActiveFade = true;
+			m_CurrntType = FadeType::FadeOut;
+
+			m_Resiver = App::GetApp()->GetScene<Scene>();
 		}
 	}
 }

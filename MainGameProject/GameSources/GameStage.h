@@ -45,7 +45,7 @@ namespace basecross {
 		//ƒrƒ…[‚Ìì¬
 		virtual void CreateViewLight();
 
-		void SetBGM(const wstring& BGMKey);
+		void SetBGM(const wstring& BGMKey,const bool LoopActive = true);
 
 		shared_ptr<SoundItem> m_BGMPtr = nullptr;
 
