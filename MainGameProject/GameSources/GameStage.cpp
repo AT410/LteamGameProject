@@ -34,10 +34,18 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void StageBase::SetBGM(const wstring& BGMKey)
+	void StageBase::SetBGM(const wstring& BGMKey, const bool LoopActive)
 	{
 		auto XAudioPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGMPtr = XAudioPtr->Start(BGMKey,XAUDIO2_LOOP_INFINITE,0.25f);
+
+		if (LoopActive) 
+		{
+			m_BGMPtr = XAudioPtr->Start(BGMKey, XAUDIO2_LOOP_INFINITE, 0.25f);
+		}
+		else
+		{
+			m_BGMPtr = XAudioPtr->Start(BGMKey, 0, 0.25f);
+		}
 	}
 
 	void StageBase::OnDestroy()
@@ -244,7 +252,7 @@ namespace basecross {
 			CreateViewLight();
 			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
 			AddGameObject<ContTest>(L"ToTitleStage");
-			SetBGM(L"Ending_SD");
+			SetBGM(L"Ending_SD",false);
 		}
 		catch (...)
 		{
