@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseCrossDx11VS2017", "Dx11\BaseCrossDx11VS2017.vcxproj", "{5184B598-9842-4856-85C8-5C2BBD8E5035}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnderRuins", "Dx11\BaseCrossDx11VS2017.vcxproj", "{5184B598-9842-4856-85C8-5C2BBD8E5035}"
 	ProjectSection(ProjectDependencies) = postProject
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77} = {371B9FA9-4C90-4AC6-A123-ACED756D6C77}
 	EndProjectSection
@@ -28,12 +28,12 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\Libs\BaseLib\Dx11FullLib\Dx11FullLib.vcxitems*{12b4ea0b-bf4f-4c4e-b659-dd6561ea2666}*SharedItemsImports = 9
 		..\Libs\BaseLib\Dx11Lib\Dx11Lib.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
-		GameSources\GameSources.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\Dx11FullLib\Dx11FullLib.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\Dx11Lib\Dx11Lib.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\DxLib\DxLib.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\DxShaders\DxShaders.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\SharedLib\SharedLib.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
+		GameSources\GameSources.vcxitems*{5184b598-9842-4856-85c8-5c2bbd8e5035}*SharedItemsImports = 4
 		..\Libs\BaseLib\DxShaders\DxShaders.vcxitems*{577bccee-82df-4f0e-bfcd-c4787d95afd3}*SharedItemsImports = 9
 		GameSources\GameSources.vcxitems*{8c1d084c-c178-4a5d-84d5-9d8b94e39ab0}*SharedItemsImports = 9
 		..\Libs\BaseLib\DxLib\DxLib.vcxitems*{974c28f3-3934-456b-be8e-408774ef14cf}*SharedItemsImports = 9
