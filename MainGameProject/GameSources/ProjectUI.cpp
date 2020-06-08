@@ -546,5 +546,15 @@ namespace basecross
 					m_Resiver = App::GetApp()->GetScene<Scene>();
 			}
 		}
+		else if (event->m_MsgStr2 == L"FadeOutGoal")
+		{
+			auto DrawComp = GetComponent<PCSpriteDraw>();
+			DrawComp->SetDiffuse(Col4(1, 1, 1, 0));
+			m_EventMsgStr = event->m_MsgStr;
+			m_ActiveFade = true;
+			m_CurrntType = FadeType::FadeOut;
+
+			m_Resiver = App::GetApp()->GetScene<Scene>();
+		}
 	}
 }

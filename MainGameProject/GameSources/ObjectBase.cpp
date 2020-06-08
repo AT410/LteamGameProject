@@ -158,6 +158,16 @@ namespace basecross
 					m_StartActionActive = true;
 					m_IsStartActionLoop = (bool)_wtoi(LoopFlagStr.c_str());
 				}
+				else if (AnimationKey == L"OnEvent")
+				{
+					m_EventActionActive = true;
+					m_IsEventActionLoop = true;
+				}
+				else if (AnimationKey == L"End")
+				{
+					m_EndActionActive = true;
+					m_IsEndActionLoop = true;
+				}
 
 				// -- アニメーションデータ --
 				auto AnimationDatas = XmlDocReader::GetChildNodes(AnimationNode);
