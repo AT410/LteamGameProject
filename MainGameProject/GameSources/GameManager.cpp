@@ -170,7 +170,7 @@ namespace basecross
 		Builder.Register<FireLine>(L"FireLine");//アニメーション作動時位置ずれる
 
 		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); //�O�ʂ̓����ȕ�　透明なテクスチャが必要
+		Builder.Register<FrontWallObj>(L"FrontWall"); //透明なテクスチャが必要
 		Builder.Register<PushObj>(L"PullBox");//defaultsettingsにするとメッシュ・テクスチャでエラー起こす
 
 		//�ɓ�:Type�̒ǉ�

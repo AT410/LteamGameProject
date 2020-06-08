@@ -244,6 +244,7 @@ namespace basecross {
 			CreateViewLight();
 			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
 			AddGameObject<ContTest>(L"ToTitleStage");
+			SetBGM(L"Ending_SD");
 		}
 		catch (...)
 		{

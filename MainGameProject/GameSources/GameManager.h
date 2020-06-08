@@ -23,6 +23,8 @@ namespace basecross
 
 		pair<int, int > m_SelectStage;						///<-ステージ選択した値
 
+		pair<int, int> m_MaxStageCount;						///<-最大ステージ登録数
+
 		wstring m_MapFile;									///<-マップデータファイル
 
 		wstring m_ResFile;									///<-リソースリストファイル
@@ -58,6 +60,7 @@ namespace basecross
 
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
+		pair<int, int> GetMaxStagePair()const { return m_MaxStageCount; }
 		bool GetLoadFlag()const { return m_Loaded; }
 		bool GetUpdateActive()const { return m_UpdateActive; }
 		//セッター
@@ -65,6 +68,9 @@ namespace basecross
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
 		void SetAreaNumber(int AreaNum) { m_SelectStage.first = AreaNum; }
 		void SetStageNumber(int StageNum) { m_SelectStage.second = StageNum; }
+
+		void SetMaxAreaCount(int AreaCount) { m_MaxStageCount.first = AreaCount; }
+		void SetMaxStageCount(int StageCount) { m_MaxStageCount.second = StageCount; }
 		void SetUpdateActive(const bool Active) { m_UpdateActive = Active; }
 	private:
 		//コピー禁止
