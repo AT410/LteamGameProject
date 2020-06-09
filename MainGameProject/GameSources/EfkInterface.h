@@ -96,11 +96,12 @@ namespace basecross
 		void SetLocation(const bsm::Vec3& Location);
 		//--------------------------------------------------------------------------------------
 		/*!
-		@brief	エフェクトを移動する
-		@param[in]	Location	移動ベクトル（絶対方向）
+		@brief	変換行列を設定する
+		@param[in]	Mat4x4	親要素の行列
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
+		void SetTransMat4x4(const bsm::Mat4x4& TransMat);
 	private:
 		::Effekseer::Handle m_Handle;
 		weak_ptr<EfkInterface> m_EfkInterface;

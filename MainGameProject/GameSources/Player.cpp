@@ -205,8 +205,8 @@ namespace basecross{
 	//衝突している間に各処理を行う関数（ジャンプできるかの処理、梯子に上る処理）
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
-			auto ptrPos = GetComponent<Transform>()->GetPosition();
-			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetPosition();
+			auto ptrPos = GetComponent<Transform>()->GetWorldPosition();
+			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetWorldPosition();
 			auto ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
 			m_JumpPos = ptrJFloorPos.y + (ptrJFloorScale.y / 2);
 			if (ptrPos.y > m_JumpPos) {
@@ -301,7 +301,7 @@ namespace basecross{
 
 		//エフェクトの移動
 		auto TransComp = GetComponent<Transform>();
-		Vec3 EfkPoint = TransComp->GetPosition();
+		Vec3 EfkPoint = TransComp->GetWorldPosition();
 		EfkPoint.y += 1.0f;
 		m_FireEfk->SetLocation(EfkPoint);
 	}
