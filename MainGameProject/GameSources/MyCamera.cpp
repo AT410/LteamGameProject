@@ -10,7 +10,7 @@ namespace basecross
 {
 	MyCamera::MyCamera() :
 		m_TargetToAt(0.0f, 0.0f, 0.0f),
-		m_ArmLen(5.0f),
+		m_ArmLen(10.0f),
 		m_CameraJudge(false), Camera(), PawnBase()
 	{}
 
@@ -81,23 +81,23 @@ namespace basecross
 	void MyCamera::ControlForcus()
 	{
 		auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
-		float Val = Cont.fThumbRY;
+		float Val = -Cont.fThumbRY;
 		m_ArmLen += Val;
 		if (m_ArmLen < 5.0f)
 		{
 			m_ArmLen = 5.0f;
 		}
-		else if (m_ArmLen > 10.0f)
+		else if (m_ArmLen > 15.0f)
 		{
-			m_ArmLen = 10.0f;
+			m_ArmLen = 15.0f;
 		}
-		Vec3 ptrPlayerPos = GetTargetObject()->GetComponent<Transform>()->GetPosition();
+		Vec3 ptrPlayerPos = GetTargetObject()->GetComponent<Transform>()->GetWorldPosition();
 		Vec3 Eye = Vec3(ptrPlayerPos.x, ptrPlayerPos.y + 2.0f, ptrPlayerPos.z - 6.0f);
 		Vec3 At = Vec3(ptrPlayerPos.x, ptrPlayerPos.y, ptrPlayerPos.z);
 		Vec3 SightVec = Eye - At;
 		SightVec.normalize();
 		SightVec *= m_ArmLen;
-		SetFocus(Vec3(ptrPlayerPos.x,SightVec.y,SightVec.z), At);
+		SetFocus(Vec3(ptrPlayerPos.x, Eye.y+SightVec.y,Eye.z+SightVec.z), At);
 
 	}
 

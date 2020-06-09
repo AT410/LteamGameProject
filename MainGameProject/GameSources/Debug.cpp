@@ -128,18 +128,7 @@ namespace basecross
 	void StageTest::OnCreate()
 	{
 		DefaultSettings();
-		//描画設定　メッシュ・テクスチャ消すとエラー起こす
-		auto DrawComp = AddComponent<PNTPointDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
-
-		//配置設定
-		auto TransComp = GetComponent<Transform>();
-
-		//物理判定
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetFixed(true);
-
+		SetActions();
 	}
 
 	ActionTest::ActionTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)

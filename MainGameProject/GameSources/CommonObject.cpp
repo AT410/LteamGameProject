@@ -237,9 +237,11 @@ namespace basecross
 
 
 		// -- EyeÇãÅÇﬂÇÈ --
-		Vec3 recVec = m_CreatePosEye*2.0f+m_AtEndPos;
-		recVec /= 3.0f;
-		m_EndEye = recVec;
+		Vec3 Eye = Vec3(m_AtEndPos.x, m_AtEndPos.y + 2.0f, m_AtEndPos.z - 6.0f);
+		Vec3 SightVec = Eye - m_AtEndPos;
+		SightVec.normalize();
+		SightVec *= 5.0f;
+		m_EndEye = Vec3(m_AtEndPos.x, Eye.y + SightVec.y, Eye.z + SightVec.z);
 	}
 
 	void OpeningCameraman::ToStartEnterBehavior() {
