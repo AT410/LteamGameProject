@@ -102,6 +102,16 @@ namespace basecross
 		*/
 		//--------------------------------------------------------------------------------------
 		void SetTransMat4x4(const bsm::Mat4x4& TransMat);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brie	ˆêŽž’âŽ~‚·‚é
+		@param[in]	bool ’âŽ~‚·‚é‚©‚Ç‚¤‚©
+		@return	‚È‚µ
+		*/
+		//--------------------------------------------------------------------------------------
+		void SetPaused(const bool PauseActive);
+
+		void SetColor(const uint8_t R, const uint8_t G, const uint8_t B, const uint8_t A);
 	private:
 		::Effekseer::Handle m_Handle;
 		weak_ptr<EfkInterface> m_EfkInterface;

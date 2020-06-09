@@ -43,7 +43,6 @@ namespace basecross{
 		auto EfkPoint = m_pos;
 		EfkPoint.y += 0.5f;
 		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
-
 		m_ClearSound = nullptr;
 	}
 
@@ -250,7 +249,10 @@ namespace basecross{
 	}
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
+		{
+			//m_FireEfk->SetPaused(true);
 			return;
+		}
 		if (!m_ResetActive) {
 			StateUpdate();
 		}
@@ -300,6 +302,7 @@ namespace basecross{
 		Move();
 
 		//エフェクトの移動
+		//m_FireEfk->SetPaused(false);
 		auto TransComp = GetComponent<Transform>();
 		Vec3 EfkPoint = TransComp->GetWorldPosition();
 		EfkPoint.y += 1.0f;

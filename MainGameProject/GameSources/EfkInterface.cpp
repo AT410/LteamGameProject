@@ -129,6 +129,29 @@ namespace basecross
 		}
 	}
 
+	void EfkPlay::SetPaused(const bool PauseActive)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			shptr->m_Manager->SetPaused(m_Handle, PauseActive);
+		}
+	}
+
+	void EfkPlay::SetColor(const uint8_t R, const uint8_t G, const uint8_t B, const uint8_t A)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			Effekseer::Color col;
+			col.R = R;
+			col.G = G;
+			col.B = B;
+			col.A = A;
+			shptr->m_Manager->SetAllColor(m_Handle,col);
+		}
+	}
+
 	//--------------------------------------------------------------------------------------
 	///	Effekseerエフェクトのインターフェイス
 	//--------------------------------------------------------------------------------------
