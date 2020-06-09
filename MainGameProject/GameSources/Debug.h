@@ -71,8 +71,8 @@ namespace basecross
 	class AnimSpriteTest :public GameObject
 	{
 	public:
-		AnimSpriteTest(const shared_ptr<Stage>& StagePtr, const int& num,bool Loop = false)
-			:GameObject(StagePtr),m_TexNum(num),m_IsLoop(Loop)
+		AnimSpriteTest(const shared_ptr<Stage>& StagePtr, const wstring TexKey, const bool Loop = false)
+			:GameObject(StagePtr), m_TexKey(TexKey),m_IsLoop(Loop)
 		{
 			float Sizex = (float)App::GetApp()->GetGameWidth() / 2.0f;
 			float Sizey = (float)App::GetApp()->GetGameHeight() / 2.0f;
@@ -86,8 +86,6 @@ namespace basecross
 
 			m_indices = { 0, 1, 2, 1, 3, 2 };
 
-			wstring Leng[6] = { L"Stage1_TX",L"Stage2_TX",L"Stage3_TX",L"Stage4_TX",L"Stage5_TX",L"WAIT_TX" };
-			m_TexKey = Leng[num];
 		}
 		virtual ~AnimSpriteTest() {}
 
@@ -98,7 +96,6 @@ namespace basecross
 	private:
 		vector<VertexPositionColorTexture> m_vertices;
 		vector<uint16_t> m_indices;
-		int m_TexNum;
 		wstring m_TexKey;
 		bool m_IsActived=false;
 		bool m_IsLoop = false;

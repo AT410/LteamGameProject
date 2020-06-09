@@ -59,7 +59,7 @@ namespace basecross
 	{
 		auto DrawComp = AddComponent<PCTSpriteDraw>();
 		DrawComp->CreateMesh<VertexPositionColorTexture>(m_vertices, m_indices);
-		DrawComp->SetTextureResource(m_TexKey);
+		DrawComp->SetTextureResource(m_TexKey,false);
 		DrawComp->SetDiffuse(Col4(1, 1, 1, 0));
 		DrawComp->SetEmissive(Col4(1, 0, 0, 0));
 		SetAlphaActive(true);

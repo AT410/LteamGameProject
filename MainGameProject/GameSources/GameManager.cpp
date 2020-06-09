@@ -6,7 +6,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestStage4.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0,0),m_MapFile(L"StageMap.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
 	{
 
 	}
@@ -77,7 +77,7 @@ namespace basecross
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
-		XmlDocReader ResFile(PathStr + m_ResFile);
+		XmlDocReader ResFile(PathStr + L"XMLFiles/" + m_ResFile);
 		auto ResPtr = ResFile.GetSelectNodes(L"ResourceDataMap/Resource/ResourceData");
 
 		long count = XmlDocReader::GetLength(ResPtr);
@@ -172,7 +172,7 @@ namespace basecross
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
-
+		PathStr += L"XMLFiles/";
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
 		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
@@ -193,6 +193,7 @@ namespace basecross
 		StageBulider Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
+		PathStr += L"XMLFiles/";
 
 		Builder.Register<NormalUI>(L"Normal");
 		Builder.Register<FlashingUI>(L"Flashing");

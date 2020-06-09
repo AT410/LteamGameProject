@@ -178,7 +178,7 @@ namespace basecross {
 		//リソースのロードを行う
 		GameManager::GetManager()->LoadResources();
 
-		AddGameObject<AnimSpriteTest>(5, true);
+		AddGameObject<AnimSpriteTest>(L"WAIT_TX", true);
 	}
 
 	void LoadStage::OnUpdate()
@@ -198,7 +198,12 @@ namespace basecross {
 	{
 		this->SetView(m_MainView);
 		auto Pair = GameManager::GetManager()->GetStagePair();
-		AddGameObject<AnimSpriteTest>(Pair.second);
+		// -- テクスチャ設定 --
+		wstring AreaStr = Util::IntToWStr(Pair.first + 1);
+		wstring StageStr = Util::IntToWStr(Pair.second + 1);
+		wstring TexKey = L"Stage" + AreaStr + L"-" + StageStr + L"_TX";
+
+		AddGameObject<AnimSpriteTest>(TexKey);
 		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
 	}
 

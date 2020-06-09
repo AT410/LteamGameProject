@@ -39,6 +39,7 @@ namespace basecross{
 		ptrMyCamera->SetTargetObject(GetThis<Player>());
 
 
+		AddTag(L"Player");
 		//火を再生
 		auto EfkPoint = m_pos;
 		EfkPoint.y += 0.5f;
@@ -250,6 +251,52 @@ namespace basecross{
 		ptrGrav->SetGravityZero();
 		
 	}
+
+	void Player::FireHitTest()
+	{
+		bool Dirty = false;
+		auto TransComp = GetComponent<Transform>();
+		Vec3 EfkPoint = TransComp->GetWorldPosition();
+		EfkPoint.y += 1.0f;
+		m_FireEfk->SetLocation(EfkPoint);
+
+		//Vec3 PlayerPos = TransComp->GetWorldPosition();
+		//Vec3 Botton = EfkPoint;
+		//Botton.y += 0.5f;
+		//Vec3 Top = EfkPoint;
+		//Top.y += 5.0f;
+		//m_FireCapsule = CAPSULE(0.5f, Botton,Top);
+		
+		// -- マップファイルが更新されるまでコメント化 --
+		//for (auto& v : GetStage()->GetGameObjectVec())
+		//{
+		//	if (v->FindTag(L"FireIgnore"))
+		//		continue;
+
+		//	auto CollObb = v->GetComponent<CollisionObb>(false);
+		//	if (CollObb)
+		//	{
+		//		auto Obb = CollObb->GetObb();
+		//		Vec3 recvec;
+		//		if (HitTest::CAPSULE_OBB(m_FireCapsule, Obb, recvec))
+		//		{
+		//			Vec3 length =recvec-m_FireCapsule.GetCenter();
+
+		//			float s = length.y / 2.0f > 0.0f ? length.y / 2.0f : 0.1f;
+
+		//			m_FireEfk->SetLocation(recvec);
+		//			Dirty = true;
+		//			return;
+		//		}
+		//	}
+		//}
+
+		//if (!Dirty)
+		//{
+		//	m_FireEfk->SetLocation(EfkPoint);
+		//}
+	}
+
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
 		{
@@ -306,10 +353,7 @@ namespace basecross{
 
 		//エフェクトの移動
 		//m_FireEfk->SetPaused(false);
-		auto TransComp = GetComponent<Transform>();
-		Vec3 EfkPoint = TransComp->GetWorldPosition();
-		EfkPoint.y += 1.0f;
-		m_FireEfk->SetLocation(EfkPoint);
+		FireHitTest();
 	}
 	void Player::ClearBehavior()
 	{

@@ -109,6 +109,16 @@ namespace basecross
 		}
 	}
 
+	void EfkPlay::SetScale(const bsm::Vec3 &Scale)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr && m_Handle != -1)
+		{
+			shptr->m_Manager->SetScale(m_Handle, Scale.x, Scale.y, Scale.z);
+		}
+	}
+
+
 	void EfkPlay::StopEffect()
 	{
 		auto shptr = m_EfkInterface.lock();
