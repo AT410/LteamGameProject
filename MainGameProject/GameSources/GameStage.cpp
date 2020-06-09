@@ -202,6 +202,15 @@ namespace basecross {
 		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
 	}
 
+	void GameStage::ToEventCamera()
+	{
+		auto MainEye = m_MainView->GetCamera()->GetEye();
+		auto MainAt = m_MainView->GetCamera()->GetAt();
+		m_OpeningView->GetCamera()->SetEye(MainEye);
+		m_OpeningView->GetCamera()->SetAt(MainAt);
+		this->SetView(m_OpeningView);
+	}
+
 	void GameStage::OnCreate()
 	{
 		try

@@ -114,6 +114,7 @@ namespace basecross
 		virtual void OnCreate()override;
 		//操作
 		virtual void OnUpdate()override;
+		void OnEvent(const shared_ptr<Event>&event)override;
 		//アクセサ
 		const unique_ptr<StateMachine<OpeningCameraman>>& GetStateMachine()
 		{
@@ -129,7 +130,11 @@ namespace basecross
 		void ToStartEnterBehavior();
 		bool ExcuteBehavior(float TotalTime);
 		void EndStateEnterBehavior();
+		// -- ここからクリア処理 --
+		void ClearStateEnterBehavior();
+		void ToClearMoveEnterBehavior();
 
+		void EventStart();
 	private:
 		// -- 移動変数 --
 		Vec3 m_StartEye;
@@ -144,6 +149,8 @@ namespace basecross
 		float m_TotalTime;
 		//ステートマシーン
 		unique_ptr< StateMachine<OpeningCameraman> >  m_StateMachine;
+
+		wstring m_MsgEvent;
 
 	};
 
@@ -185,6 +192,34 @@ namespace basecross
 		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
 		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
 		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	class CameramanClearState : public ObjState<OpeningCameraman>
+	{
+		CameramanClearState() {}
+	public:
+		DECLARE_SINGLETON_INSTANCE(CameramanClearState)
+		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
+		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
+		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	カメラ待機ステート：基本的に何もしない
+	//--------------------------------------------------------------------------------------
+	class CameraNoneState : public ObjState<OpeningCameraman>
+	{
+		CameraNoneState() {}
+	public:
+		DECLARE_SINGLETON_INSTANCE(CameraNoneState)
+		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override {}
+		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override {}
+		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override {}
 
 	};
 
