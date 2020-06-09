@@ -9,8 +9,8 @@ using namespace basecross;
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //定数
-const wchar_t* pClassName = L"BaseCrossFullClass";
-const wchar_t* pWndTitle = L"BaseCrossFullSample";
+const wchar_t* pClassName = L"UnderRuinsGames";
+const wchar_t* pWndTitle = L"Under Ruins";
 
 
 //--------------------------------------------------------------------------------------
@@ -135,6 +135,7 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 			throw exception("Com初期化に失敗しました。");
 		}
 		////アプリケーションクラスの構築
+		ShowCursor(0);
 		App::CreateApp(hInstance, hWnd, isFullScreen, iClientWidth, iClientHeight);
 		//シーンの作成
 		//戻り値のScenePtrは汎用的に使える

@@ -34,10 +34,18 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void StageBase::SetBGM(const wstring& BGMKey)
+	void StageBase::SetBGM(const wstring& BGMKey, const bool LoopActive)
 	{
 		auto XAudioPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGMPtr = XAudioPtr->Start(BGMKey,XAUDIO2_LOOP_INFINITE,0.25f);
+
+		if (LoopActive) 
+		{
+			m_BGMPtr = XAudioPtr->Start(BGMKey, XAUDIO2_LOOP_INFINITE, 0.25f);
+		}
+		else
+		{
+			m_BGMPtr = XAudioPtr->Start(BGMKey, 0, 0.25f);
+		}
 	}
 
 	void StageBase::OnDestroy()
@@ -170,7 +178,7 @@ namespace basecross {
 		//リソースのロードを行う
 		GameManager::GetManager()->LoadResources();
 
-		AddGameObject<AnimSpriteTest>(5, true);
+		AddGameObject<AnimSpriteTest>(L"WAIT_TX", true);
 	}
 
 	void LoadStage::OnUpdate()
@@ -190,8 +198,22 @@ namespace basecross {
 	{
 		this->SetView(m_MainView);
 		auto Pair = GameManager::GetManager()->GetStagePair();
-		AddGameObject<AnimSpriteTest>(Pair.second);
+		// -- テクスチャ設定 --
+		wstring AreaStr = Util::IntToWStr(Pair.first + 1);
+		wstring StageStr = Util::IntToWStr(Pair.second + 1);
+		wstring TexKey = L"Stage" + AreaStr + L"-" + StageStr + L"_TX";
+
+		AddGameObject<AnimSpriteTest>(TexKey);
 		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
+	}
+
+	void GameStage::ToEventCamera()
+	{
+		auto MainEye = m_MainView->GetCamera()->GetEye();
+		auto MainAt = m_MainView->GetCamera()->GetAt();
+		m_OpeningView->GetCamera()->SetEye(MainEye);
+		m_OpeningView->GetCamera()->SetAt(MainAt);
+		this->SetView(m_OpeningView);
 	}
 
 	void GameStage::OnCreate()
@@ -244,7 +266,7 @@ namespace basecross {
 			CreateViewLight();
 			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
 			AddGameObject<ContTest>(L"ToTitleStage");
-			SetBGM(L"Ending_SD");
+			SetBGM(L"Ending_SD",false);
 		}
 		catch (...)
 		{

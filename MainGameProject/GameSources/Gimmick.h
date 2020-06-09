@@ -165,6 +165,7 @@ namespace basecross
 
 		void OnCreate() override;
 		void OnUpdate() override;
+		void OnEvent(const shared_ptr<Event>& event);
 
 		void SetActive(bool active)
 		{

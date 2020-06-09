@@ -876,8 +876,8 @@ namespace basecross {
 
 	}
 
-	void SpriteBaseDraw::SetTextureResource(const wstring& TextureKey) {
-		this->SetTextureResource(App::GetApp()->GetResource<TextureResource>(TextureKey));
+	void SpriteBaseDraw::SetTextureResource(const wstring& TextureKey,const bool ExceptionActive) {
+		this->SetTextureResource(App::GetApp()->GetResource<TextureResource>(TextureKey, ExceptionActive));
 	}
 
 	shared_ptr<TextureResource> SpriteBaseDraw::GetTextureResource() const {

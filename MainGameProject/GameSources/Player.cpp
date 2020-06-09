@@ -39,11 +39,11 @@ namespace basecross{
 		ptrMyCamera->SetTargetObject(GetThis<Player>());
 
 
+		AddTag(L"Player");
 		//火を再生
 		auto EfkPoint = m_pos;
 		EfkPoint.y += 0.5f;
 		m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
-
 		m_ClearSound = nullptr;
 	}
 
@@ -186,14 +186,23 @@ namespace basecross{
 				}
 			}
 		}
+		if (Obj->FindTag(L"MoveFloor"))
+		{
+			ptrTransform->SetParent(Obj);
+		}
+
 		if (Obj->FindTag(L"PushPullObj")) {
 			auto ptrPullBox = dynamic_pointer_cast<PushObj>(Obj);
-			auto ptrBoxPos = ptrPullBox->GetCurrentPos();
-			auto ptrBoxScal = ptrPullBox->GetComponent<Transform>()->GetScale();
-			Vec3 BoxScale = ptrBoxScal / 2;
-			if (ptrBoxPos.y + BoxScale.y > ptrGetPos.y) {
-				m_PushPull = true;
-				m_PushObj = Obj;
+			if (ptrPullBox) 
+			{
+				auto ptrBoxPos = ptrPullBox->GetCurrentPos();
+				auto ptrBoxScal = ptrPullBox->GetComponent<Transform>()->GetScale();
+				Vec3 BoxScale = ptrBoxScal / 2;
+				if (ptrBoxPos.y + BoxScale.y > ptrGetPos.y) {
+					m_PushPull = true;
+					m_PushObj = Obj;
+
+				}
 			}
 		}
 	}
@@ -202,8 +211,8 @@ namespace basecross{
 	//衝突している間に各処理を行う関数（ジャンプできるかの処理、梯子に上る処理）
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
-			auto ptrPos = GetComponent<Transform>()->GetPosition();
-			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetPosition();
+			auto ptrPos = GetComponent<Transform>()->GetWorldPosition();
+			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetWorldPosition();
 			auto ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
 			m_JumpPos = ptrJFloorPos.y + (ptrJFloorScale.y / 2);
 			if (ptrPos.y > m_JumpPos) {
@@ -222,14 +231,7 @@ namespace basecross{
 			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
 		}
 
-	}
-	void Player::StopPhysics() {
-		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetUpdateActive(false);
-		auto ptrGrav = GetComponent<Gravity>();
-		ptrGrav->SetGravityZero();
-		
-	}
+	}	
 	//接触解除関数
 	//松崎　洸樹
 	//接触しているオブジェクトから離れる関数（梯子から離れる時）
@@ -237,11 +239,73 @@ namespace basecross{
 		auto ptrTransform = GetComponent<Transform>();
 		auto ptrPos = ptrTransform->GetPosition();
 		m_RisePos = 0.0f;
+
+		if (Obj->FindTag(L"MoveFloor"))
+		{
+			ptrTransform->ClearParent();
+		}
+	}
+
+
+	void Player::StopPhysics() {
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetUpdateActive(false);
+		auto ptrGrav = GetComponent<Gravity>();
+		ptrGrav->SetGravityZero();
+		
+	}
+
+	void Player::FireHitTest()
+	{
+		bool Dirty = false;
+		auto TransComp = GetComponent<Transform>();
+		Vec3 EfkPoint = TransComp->GetWorldPosition();
+		EfkPoint.y += 1.0f;
+		m_FireEfk->SetLocation(EfkPoint);
+
+		//Vec3 PlayerPos = TransComp->GetWorldPosition();
+		//Vec3 Botton = EfkPoint;
+		//Botton.y += 0.5f;
+		//Vec3 Top = EfkPoint;
+		//Top.y += 5.0f;
+		//m_FireCapsule = CAPSULE(0.5f, Botton,Top);
+		
+		// -- マップファイルが更新されるまでコメント化 --
+		//for (auto& v : GetStage()->GetGameObjectVec())
+		//{
+		//	if (v->FindTag(L"FireIgnore"))
+		//		continue;
+
+		//	auto CollObb = v->GetComponent<CollisionObb>(false);
+		//	if (CollObb)
+		//	{
+		//		auto Obb = CollObb->GetObb();
+		//		Vec3 recvec;
+		//		if (HitTest::CAPSULE_OBB(m_FireCapsule, Obb, recvec))
+		//		{
+		//			Vec3 length =recvec-m_FireCapsule.GetCenter();
+
+		//			float s = length.y / 2.0f > 0.0f ? length.y / 2.0f : 0.1f;
+
+		//			m_FireEfk->SetLocation(recvec);
+		//			Dirty = true;
+		//			return;
+		//		}
+		//	}
+		//}
+
+		//if (!Dirty)
+		//{
+		//	m_FireEfk->SetLocation(EfkPoint);
+		//}
 	}
 
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
+		{
+			//m_FireEfk->SetPaused(true);
 			return;
+		}
 		if (!m_ResetActive) {
 			StateUpdate();
 		}
@@ -291,10 +355,8 @@ namespace basecross{
 		Move();
 
 		//エフェクトの移動
-		auto TransComp = GetComponent<Transform>();
-		Vec3 EfkPoint = TransComp->GetPosition();
-		EfkPoint.y += 1.0f;
-		m_FireEfk->SetLocation(EfkPoint);
+		//m_FireEfk->SetPaused(false);
+		FireHitTest();
 	}
 	void Player::ClearBehavior()
 	{

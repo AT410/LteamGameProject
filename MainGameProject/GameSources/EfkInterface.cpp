@@ -8,6 +8,7 @@
 
 namespace basecross
 {
+	void Mat4x4ToMatrix43(const bsm::Mat4x4& src, Effekseer::Matrix43& dest);
 	//--------------------------------------------------------------------------------------
 	///	Effekseerエフェクトのエフェクト
 	//--------------------------------------------------------------------------------------
@@ -108,6 +109,16 @@ namespace basecross
 		}
 	}
 
+	void EfkPlay::SetScale(const bsm::Vec3 &Scale)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr && m_Handle != -1)
+		{
+			shptr->m_Manager->SetScale(m_Handle, Scale.x, Scale.y, Scale.z);
+		}
+	}
+
+
 	void EfkPlay::StopEffect()
 	{
 		auto shptr = m_EfkInterface.lock();
@@ -117,7 +128,39 @@ namespace basecross
 		}
 	}
 
+	void EfkPlay::SetTransMat4x4(const bsm::Mat4x4& TransMat)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			Effekseer::Matrix43 mat;
+			Mat4x4ToMatrix43(TransMat, mat);
+			shptr->m_Manager->SetMatrix(m_Handle, mat);
+		}
+	}
 
+	void EfkPlay::SetPaused(const bool PauseActive)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			shptr->m_Manager->SetPaused(m_Handle, PauseActive);
+		}
+	}
+
+	void EfkPlay::SetColor(const uint8_t R, const uint8_t G, const uint8_t B, const uint8_t A)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			Effekseer::Color col;
+			col.R = R;
+			col.G = G;
+			col.B = B;
+			col.A = A;
+			shptr->m_Manager->SetAllColor(m_Handle,col);
+		}
+	}
 
 	//--------------------------------------------------------------------------------------
 	///	Effekseerエフェクトのインターフェイス
@@ -188,6 +231,17 @@ namespace basecross
 			for (int j = 0; j < 4; j++)
 			{
 				dest.Values[i][j] = src(i, j);
+			}
+		}
+	}
+
+	void Mat4x4ToMatrix43(const bsm::Mat4x4& src, Effekseer::Matrix43& dest)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				dest.Value[i][j] = src(i, j);
 			}
 		}
 	}

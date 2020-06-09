@@ -45,7 +45,7 @@ namespace basecross {
 		//ビューの作成
 		virtual void CreateViewLight();
 
-		void SetBGM(const wstring& BGMKey);
+		void SetBGM(const wstring& BGMKey,const bool LoopActive = true);
 
 		shared_ptr<SoundItem> m_BGMPtr = nullptr;
 
@@ -161,6 +161,8 @@ namespace basecross {
 
 
 		void ToMyCamera();
+
+		void ToEventCamera();
 		//再生エフェクトを追加する
 		//void AddEffect();
 

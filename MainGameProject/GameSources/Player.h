@@ -56,9 +56,12 @@ namespace basecross{
 		InputHandler<Player> m_Handler;
 		Vec3 GetMoveVector() const;
 
+		CAPSULE m_FireCapsule;
 		shared_ptr<EfkPlay> m_FireEfk;
 
 		shared_ptr<SoundItem> m_ClearSound;
+
+		void FireHitTest();
 
 	public:
 		Player(const shared_ptr<Stage>& Stageptr);

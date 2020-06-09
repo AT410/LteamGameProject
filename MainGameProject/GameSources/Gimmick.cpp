@@ -276,6 +276,30 @@ namespace basecross
 	{
 
 	}
+
+	void MoveFloor::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"StartAction")
+		{
+			if (!m_StartActionActive)
+				return;
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"Start", m_IsStartActionLoop);
+		}
+		else if (event->m_MsgStr == L"EndAction")
+		{
+			if (!m_EndActionActive)
+				return;
+			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"End",m_IsEndActionLoop);
+		}
+		else if (event->m_MsgStr == L"MoveFloor")
+		{
+			//GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Actions>()->Run(L"OnEvent",m_IsEventActionLoop);
+		}
+
+	}
 	//----------------------------------------------------------------------------
 	//ÉXÉçÅ[ÉvÇÃé¿ë‘
 	//----------------------------------------------------------------------------

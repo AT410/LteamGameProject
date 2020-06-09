@@ -778,7 +778,7 @@ namespace basecross {
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
-		void SetTextureResource(const wstring& TextureKey);
+		void SetTextureResource(const wstring& TextureKey, const bool ExceptionActive = true);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	テクスチャリソースの取得

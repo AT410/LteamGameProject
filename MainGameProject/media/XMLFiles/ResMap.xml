@@ -7,11 +7,6 @@
     <ResourceData ResourceKey="AreaSelect_TX" ResourceFile="AreaSelect.png" ResourceType="Texture" />
     <ResourceData ResourceKey="GameStage_TX" ResourceFile="GameStage.png" ResourceType="Texture" />
     <ResourceData ResourceKey="EndingStage_TX" ResourceFile="EndingStage.png" ResourceType="Texture" />
-    <ResourceData ResourceKey="Stage1_TX" ResourceFile="Stage1.png" ResourceType="Texture" />
-    <ResourceData ResourceKey="Stage2_TX" ResourceFile="Stage2.png" ResourceType="Texture" />
-    <ResourceData ResourceKey="Stage3_TX" ResourceFile="Stage3.png" ResourceType="Texture" />
-    <ResourceData ResourceKey="Stage4_TX" ResourceFile="Stage4.png" ResourceType="Texture" />
-    <ResourceData ResourceKey="Stage5_TX" ResourceFile="Stage5.png" ResourceType="Texture" />
     <ResourceData ResourceKey="TEST_TX" ResourceFile="kabe.jpg" ResourceType="Texture" />
     <ResourceData ResourceKey="FLOOR_TX" ResourceFile="Tx_StoneFloor_1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Switch_TX" ResourceFile="Tx_Switch_1.png" ResourceType="Texture" />
@@ -32,7 +27,7 @@
     <ResourceData ResourceKey="WaterFall_SD" ResourceFile="WaterFall.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="FireStart_SD" ResourceFile="FireStart.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="WaterDrop_SD" ResourceFile="Waterdrop.wav" ResourceType="Sound" />
-    <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" /> 
+    <ResourceData ResourceKey="AGree_SD" ResourceFile="decision1.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="Ending_SD" ResourceFile="Refreshing_Morning.wav" ResourceType="Sound" />
     <ResourceData ResourceKey="UITitle_TX" ResourceFile="UITitle.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Menu_TX" ResourceFile="menu.png" ResourceType="Texture" />
@@ -43,5 +38,17 @@
     <ResourceData ResourceKey="Match_TX" ResourceFile="Tx_Match.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Slope_TX" ResourceFile="Tx_Slope.png" ResourceType="Texture" />
     <ResourceData ResourceKey="FireLine_TX" ResourceFile="Tx_FireLine.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage1-1_TX" ResourceFile="Tx_Stage1-1.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage1-2_TX" ResourceFile="Tx_Stage1-2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage1-3_TX" ResourceFile="Tx_Stage1-3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage2-1_TX" ResourceFile="Tx_Stage2-1.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage2-2_TX" ResourceFile="Tx_Stage2-2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage2-3_TX" ResourceFile="Tx_Stage2-3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage3-1_TX" ResourceFile="Tx_Stage3-1.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage3-2_TX" ResourceFile="Tx_Stage3-2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Stage3-3_TX" ResourceFile="Tx_Stage3-3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="One2_TX" ResourceFile="StageSelect_1.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Two2_TX" ResourceFile="StageSelect_2.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Three2_TX" ResourceFile="StageSelect_3.png" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>

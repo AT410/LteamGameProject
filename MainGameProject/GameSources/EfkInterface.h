@@ -94,13 +94,25 @@ namespace basecross
 		*/
 		//--------------------------------------------------------------------------------------
 		void SetLocation(const bsm::Vec3& Location);
+		void SetScale(const bsm::Vec3& Sclae);
 		//--------------------------------------------------------------------------------------
 		/*!
-		@brief	エフェクトを移動する
-		@param[in]	Location	移動ベクトル（絶対方向）
+		@brief	変換行列を設定する
+		@param[in]	Mat4x4	親要素の行列
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
+		void SetTransMat4x4(const bsm::Mat4x4& TransMat);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brie	一時停止する
+		@param[in]	bool 停止するかどうか
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		void SetPaused(const bool PauseActive);
+
+		void SetColor(const uint8_t R, const uint8_t G, const uint8_t B, const uint8_t A);
 	private:
 		::Effekseer::Handle m_Handle;
 		weak_ptr<EfkInterface> m_EfkInterface;

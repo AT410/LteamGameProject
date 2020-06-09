@@ -59,7 +59,7 @@ namespace basecross
 	{
 		auto DrawComp = AddComponent<PCTSpriteDraw>();
 		DrawComp->CreateMesh<VertexPositionColorTexture>(m_vertices, m_indices);
-		DrawComp->SetTextureResource(m_TexKey);
+		DrawComp->SetTextureResource(m_TexKey,false);
 		DrawComp->SetDiffuse(Col4(1, 1, 1, 0));
 		DrawComp->SetEmissive(Col4(1, 0, 0, 0));
 		SetAlphaActive(true);
@@ -128,18 +128,7 @@ namespace basecross
 	void StageTest::OnCreate()
 	{
 		DefaultSettings();
-		//描画設定　メッシュ・テクスチャ消すとエラー起こす
-		auto DrawComp = AddComponent<PNTPointDraw>();
-		DrawComp->SetMeshResource(m_meshKey);
-		DrawComp->SetTextureResource(m_texKey);
-
-		//配置設定
-		auto TransComp = GetComponent<Transform>();
-
-		//物理判定
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetFixed(true);
-
+		SetActions();
 	}
 
 	ActionTest::ActionTest(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
@@ -213,7 +202,7 @@ namespace basecross
 				{
 					StageSelect.second += 1;
 					GameManager::GetManager()->SetStagePair(StageSelect);
-					PostEvent(0.0, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+					PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear",L"ToGameStage");
 				}
 				else
 				{
@@ -222,13 +211,14 @@ namespace basecross
 						StageSelect.first += 1;
 						StageSelect.second = 0;
 						GameManager::GetManager()->SetStagePair(StageSelect);
-						PostEvent(0.0, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToGameStage");
 					}
 					else 
 					{
-						PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEndingStage");
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToEndingStage");
 					}
 				}
+				m_IsGoal = false;
 			}
 		}
 	}
