@@ -8,6 +8,7 @@
 
 namespace basecross
 {
+	void Mat4x4ToMatrix43(const bsm::Mat4x4& src, Effekseer::Matrix43& dest);
 	//--------------------------------------------------------------------------------------
 	///	Effekseerエフェクトのエフェクト
 	//--------------------------------------------------------------------------------------
@@ -117,7 +118,16 @@ namespace basecross
 		}
 	}
 
-
+	void EfkPlay::SetTransMat4x4(const bsm::Mat4x4& TransMat)
+	{
+		auto shptr = m_EfkInterface.lock();
+		if (shptr&&m_Handle != -1)
+		{
+			Effekseer::Matrix43 mat;
+			Mat4x4ToMatrix43(TransMat, mat);
+			shptr->m_Manager->SetMatrix(m_Handle, mat);
+		}
+	}
 
 	//--------------------------------------------------------------------------------------
 	///	Effekseerエフェクトのインターフェイス
@@ -188,6 +198,17 @@ namespace basecross
 			for (int j = 0; j < 4; j++)
 			{
 				dest.Values[i][j] = src(i, j);
+			}
+		}
+	}
+
+	void Mat4x4ToMatrix43(const bsm::Mat4x4& src, Effekseer::Matrix43& dest)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				dest.Value[i][j] = src(i, j);
 			}
 		}
 	}
