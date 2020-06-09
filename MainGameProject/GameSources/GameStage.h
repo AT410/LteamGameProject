@@ -161,6 +161,8 @@ namespace basecross {
 
 
 		void ToMyCamera();
+
+		void ToEventCamera();
 		//再生エフェクトを追加する
 		//void AddEffect();
 

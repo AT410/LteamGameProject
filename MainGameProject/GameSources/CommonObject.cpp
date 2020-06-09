@@ -218,12 +218,23 @@ namespace basecross
 		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
 		//最初のステートをOpeningCameramanToGoalStateに設定
 		m_StateMachine->ChangeState(OpeningCameramanToGoalState::Instance());
+
+		App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Camera", GetThis<ObjectInterface>());
 	}
 	//操作
 	void OpeningCameraman::OnUpdate() {
 		//ステートマシンのUpdateを行う
 		//この中でステートの切り替えが行われる
 		m_StateMachine->Update();
+	}
+
+	void OpeningCameraman::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"Clear")
+		{
+			m_StateMachine->ChangeState(CameramanClearState::Instance());
+			m_MsgEvent = event->m_MsgStr2;
+		}
 	}
 
 	void OpeningCameraman::ToGoalEnterBehavior() {
@@ -265,8 +276,8 @@ namespace basecross
 			return true;
 		}
 		Easing<Vec3> easing;
-		auto TgtPos = easing.EaseInOut(EasingType::Quintic, m_StartEye, m_EndEye, m_TotalTime, totaltime);
-		m_AtPos = easing.EaseInOut(EasingType::Quintic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
+		auto TgtPos = easing.EaseInOut(EasingType::Quartic, m_StartEye, m_EndEye, m_TotalTime, totaltime);
+		m_AtPos = easing.EaseInOut(EasingType::Quartic, m_AtStartPos, m_AtEndPos, m_TotalTime, totaltime);
 		auto ptrTrans = GetComponent<Transform>();
 		ptrTrans->SetPosition(TgtPos);
 		return false;
@@ -277,6 +288,41 @@ namespace basecross
 		ptrGameGtage->ToMyCamera();
 	}
 
+	void OpeningCameraman::ClearStateEnterBehavior()
+	{
+		auto ptrGameGtage = GetTypeStage<GameStage>();
+		ptrGameGtage->ToEventCamera();
+	}
+
+	void OpeningCameraman::ToClearMoveEnterBehavior()
+	{
+		// -- 現在のカメラ情報取得 --
+		auto Camera = GetStage()->GetView()->GetTargetCamera();
+		m_StartEye = Camera->GetEye();
+		m_AtStartPos = Camera->GetAt();
+
+		m_AtEndPos = Vec3(0.0f, 0.0f, 0.0f);
+		m_AtPos = m_AtStartPos;
+		m_TotalTime = 0.0f;
+
+		auto PlayerPtr = GetStage()->GetSharedGameObject<GoalTest>(L"Goal");
+		m_AtEndPos = PlayerPtr->GetComponent<Transform>()->GetWorldPosition();
+
+
+		// -- Eyeを求める --
+		Vec3 Eye = Vec3(m_AtEndPos.x, m_AtEndPos.y + 2.0f, m_AtEndPos.z - 6.0f);
+		Vec3 SightVec = Eye - m_AtEndPos;
+		SightVec.normalize();
+		SightVec *= 5.0f;
+		m_EndEye = Vec3(m_AtEndPos.x, Eye.y + SightVec.y, Eye.z + SightVec.z);
+
+		GetComponent<Transform>()->SetPosition(m_StartEye);
+	}
+
+	void OpeningCameraman::EventStart()
+	{
+		PostEvent(0.0f, GetThis<ObjectInterface>(), L"Fade", m_MsgEvent, L"FadeOutGoal");
+	}
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
@@ -334,5 +380,31 @@ namespace basecross
 	void OpeningCameramanEndState::Execute(const shared_ptr<OpeningCameraman>&Obj) {}
 
 	void OpeningCameramanEndState::Exit(const shared_ptr<OpeningCameraman>&Obj) {}
+
+	//--------------------------------------------------------------------------------------
+	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
+	//--------------------------------------------------------------------------------------
+	IMPLEMENT_SINGLETON_INSTANCE(CameramanClearState)
+
+	void CameramanClearState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	{
+		Obj->ToClearMoveEnterBehavior();
+		Obj->ClearStateEnterBehavior();
+	}
+
+	void CameramanClearState::Execute(const shared_ptr<OpeningCameraman>&Obj) 
+	{
+		if (Obj->ExcuteBehavior(2.0f))
+		{
+			Obj->GetStateMachine()->ChangeState(CameraNoneState::Instance());
+		}
+	}
+
+	void CameramanClearState::Exit(const shared_ptr<OpeningCameraman>&Obj) 
+	{
+		Obj->EventStart();
+	}
+
+	IMPLEMENT_SINGLETON_INSTANCE(CameraNoneState)
 
 }
