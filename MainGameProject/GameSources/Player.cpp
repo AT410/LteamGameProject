@@ -320,7 +320,7 @@ namespace basecross{
 		}
 		if (!m_ResetActive) {
 			StateUpdate();
-			m_FireEfk->SetPaused(true);
+			m_FireEfk->SetPaused(false);
 			GetComponent<Gravity>()->SetUpdateActive(true);
 		}
 	}
