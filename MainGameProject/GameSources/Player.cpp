@@ -269,8 +269,8 @@ namespace basecross{
 		//Vec3 Top = EfkPoint;
 		//Top.y += 5.0f;
 		//m_FireCapsule = CAPSULE(0.5f, Botton,Top);
-		
-		// -- マップファイルが更新されるまでコメント化 --
+		//
+		// //-- マップファイルが更新されるまでコメント化 --
 		//for (auto& v : GetStage()->GetGameObjectVec())
 		//{
 		//	if (v->FindTag(L"FireIgnore"))
@@ -287,7 +287,7 @@ namespace basecross{
 
 		//			float s = length.y / 2.0f > 0.0f ? length.y / 2.0f : 0.1f;
 
-		//			m_FireEfk->SetLocation(recvec);
+		//			m_FireEfk->SetScale(Vec3(1.0f,s,1.0f));
 		//			Dirty = true;
 		//			return;
 		//		}
@@ -296,7 +296,7 @@ namespace basecross{
 
 		//if (!Dirty)
 		//{
-		//	m_FireEfk->SetLocation(EfkPoint);
+		//	m_FireEfk->SetScale(Vec3(1.0f));
 		//}
 	}
 
