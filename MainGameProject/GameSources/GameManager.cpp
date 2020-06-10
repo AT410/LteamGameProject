@@ -175,26 +175,24 @@ namespace basecross
 		PathStr += L"XMLFiles/";
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
-		if (!m_StageReloadActive||!m_StartCametaEnd) 
+		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+		if (OPCam)
 		{
-			auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
-			if (OPCam)
+			auto MainCamera = StagePtr->GetMainView()->GetCamera();
+			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(), MainCamera->GetAt());
+
+			OPCam->SetCameraObject(Ptr);
+			OPCam->SetEye(MainCamera->GetEye());
+			OPCam->SetAt(MainCamera->GetAt());
+			OPCam->SetFar(MainCamera->GetFar());
+			OPCam->SetNear(MainCamera->GetNear());
+			if (m_StageReloadActive && m_StartCametaEnd)
 			{
-				auto MainCamera = StagePtr->GetMainView()->GetCamera();
-				auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(), MainCamera->GetAt());
-				OPCam->SetCameraObject(Ptr);
-				OPCam->SetEye(MainCamera->GetEye());
-				OPCam->SetAt(MainCamera->GetAt());
-				OPCam->SetFar(MainCamera->GetFar());
-				OPCam->SetNear(MainCamera->GetNear());
-			}
-		}
-		else
-		{
-			auto GameStagePtr = dynamic_pointer_cast<GameStage>(StagePtr);
-			if (GameStagePtr)
-			{
-				GameStagePtr->ToReStart();
+				auto GameStagePtr = dynamic_pointer_cast<GameStage>(StagePtr);
+				if (GameStagePtr)
+				{
+					GameStagePtr->ToReStart();
+				}
 			}
 		}
 	}

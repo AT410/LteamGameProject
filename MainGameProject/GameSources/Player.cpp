@@ -314,11 +314,14 @@ namespace basecross{
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
 		{
-			//m_FireEfk->SetPaused(true);
+			GetComponent<Gravity>()->SetUpdateActive(false);
+			m_FireEfk->SetPaused(true);
 			return;
 		}
 		if (!m_ResetActive) {
 			StateUpdate();
+			m_FireEfk->SetPaused(true);
+			GetComponent<Gravity>()->SetUpdateActive(true);
 		}
 	}
 
