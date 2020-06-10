@@ -37,6 +37,8 @@ namespace basecross
 
 		bool m_UpdateActive;								///<-更新可能かどうか
 
+		bool m_StageReloadActive;							///<-ステージを再読み込みするかどうか
+
 		void ResorceLoadFunc();								///<-リソースの読込を行う
 
 		GameManager();
@@ -63,6 +65,7 @@ namespace basecross
 		pair<int, int> GetMaxStagePair()const { return m_MaxStageCount; }
 		bool GetLoadFlag()const { return m_Loaded; }
 		bool GetUpdateActive()const { return m_UpdateActive; }
+		bool GetStageReloadActive()const { return m_StageReloadActive; }
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }
@@ -72,6 +75,7 @@ namespace basecross
 		void SetMaxAreaCount(int AreaCount) { m_MaxStageCount.first = AreaCount; }
 		void SetMaxStageCount(int StageCount) { m_MaxStageCount.second = StageCount; }
 		void SetUpdateActive(const bool Active) { m_UpdateActive = Active; }
+		void SetStageReloadActive(const bool Active) { m_StageReloadActive = Active; }
 	private:
 		//コピー禁止
 		GameManager(const GameManager&) = delete;
