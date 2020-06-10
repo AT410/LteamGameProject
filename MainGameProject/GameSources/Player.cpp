@@ -378,7 +378,14 @@ namespace basecross{
 		m_FireEfk->StopEffect();
 		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
 		//ゲームステージのマネージャーでフェードを初めて
-		PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ReStart", L"FadeOut");
+		if (GameManager::GetManager()->GetStageReloadActive()) 
+		{
+			PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ToGameStage", L"FadeOut");
+		}
+		else
+		{
+			PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ReStart", L"FadeOut");
+		}
 		m_ResetActive = true;
 	}
 

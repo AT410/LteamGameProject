@@ -286,6 +286,7 @@ namespace basecross
 	void OpeningCameraman::EndStateEnterBehavior() {
 		auto ptrGameGtage = GetTypeStage<GameStage>();
 		ptrGameGtage->ToMyCamera();
+		GameManager::GetManager()->SetStartCameraActive(true);
 	}
 
 	void OpeningCameraman::ClearStateEnterBehavior()

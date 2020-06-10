@@ -210,7 +210,7 @@ namespace basecross
 		{
 			GameManager::GetManager()->SetStageNumber(m_StageNum);
 		}
-
+		GameManager::GetManager()->SetStartCameraActive(false);
 		PostEvent(1.0f, GetThis<ObjectInterface>(),L"Fade", m_EventStr,L"FadeOut");
 	}
 

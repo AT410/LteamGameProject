@@ -159,6 +159,7 @@ namespace basecross {
 			}
 		}
 
+		void ToReStart();
 
 		void ToMyCamera();
 

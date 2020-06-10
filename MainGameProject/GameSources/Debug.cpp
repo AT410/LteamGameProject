@@ -203,6 +203,7 @@ namespace basecross
 					StageSelect.second += 1;
 					GameManager::GetManager()->SetStagePair(StageSelect);
 					PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear",L"ToGameStage");
+					GameManager::GetManager()->SetStartCameraActive(false);
 				}
 				else
 				{
@@ -212,6 +213,7 @@ namespace basecross
 						StageSelect.second = 0;
 						GameManager::GetManager()->SetStagePair(StageSelect);
 						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToGameStage");
+						GameManager::GetManager()->SetStartCameraActive(false);
 					}
 					else 
 					{
