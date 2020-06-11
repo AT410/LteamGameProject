@@ -22,7 +22,7 @@
     <UIData Type="Normal" Pos="0,0" Width="1280" Height="800" TexKey="BackGround_TX" Layer="0" />
   </UISet>
   <UISet UIType="Title">
-    <UIData Type="Flashing" Pos="-35,-246" Width="800" Height="100" TexKey="TEXTTEST_TX" Layer="1" MyIndexKey="1" EventKey="ToAreaSelectStage" UpKey="" DownKey="" LeftKey="" RightKey="" />
+    <UIData Type="Flashing" Pos="-35,-246" Width="800" Height="100" TexKey="PressA_TX" Layer="1" MyIndexKey="1" EventKey="ToAreaSelectStage" UpKey="" DownKey="" LeftKey="" RightKey="" />
     <UIData Type="Normal" Pos="0,0" Width="1280" Height="800" TexKey="TITLE_TX" Layer="0" />
   </UISet>
 </UIRoot>

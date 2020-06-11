@@ -98,7 +98,9 @@ namespace basecross
 					auto CameraAtStr = XmlDocReader::GetAttribute(StageNode, L"CameraAt");
 					auto CameraNearStr = XmlDocReader::GetAttribute(StageNode, L"CameraNear");
 					auto CameraFarStr = XmlDocReader::GetAttribute(StageNode, L"CameraFar");
-
+					auto ReloadStr = XmlDocReader::GetAttribute(StageNode, L"StageReloadActive");
+					bool ReloadActive = (bool)_wtoi(ReloadStr.c_str());
+					GameManager::GetManager()->SetStageReloadActive(ReloadActive);
 					//ƒg[ƒNƒ“
 					if (CameraEyeStr != L"") 
 					{

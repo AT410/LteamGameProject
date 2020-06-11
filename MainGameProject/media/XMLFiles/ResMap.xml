@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <ResourceDataMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Resource>
-    <ResourceData ResourceKey="WAIT_TX" ResourceFile="wait.png" ResourceType="Texture" />
     <ResourceData ResourceKey="TitleStage_TX" ResourceFile="TitleStage.png" ResourceType="Texture" />
     <ResourceData ResourceKey="DateSelect_TX" ResourceFile="DataSelect.png" ResourceType="Texture" />
     <ResourceData ResourceKey="AreaSelect_TX" ResourceFile="AreaSelect.png" ResourceType="Texture" />
@@ -47,8 +46,13 @@
     <ResourceData ResourceKey="Stage3-1_TX" ResourceFile="Tx_Stage3-1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Stage3-2_TX" ResourceFile="Tx_Stage3-2.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Stage3-3_TX" ResourceFile="Tx_Stage3-3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="One_TX" ResourceFile="1_Brown.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Two_TX" ResourceFile="2_Brown.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="Three_TX" ResourceFile="3_Brown.png" ResourceType="Texture" />
     <ResourceData ResourceKey="One2_TX" ResourceFile="StageSelect_1.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Two2_TX" ResourceFile="StageSelect_2.png" ResourceType="Texture" />
     <ResourceData ResourceKey="Three2_TX" ResourceFile="StageSelect_3.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="PressA_TX" ResourceFile="PressA.png" ResourceType="Texture" />
+    <ResourceData ResourceKey="TITLE_TX" ResourceFile="title.jpg" ResourceType="Texture" />
   </Resource>
 </ResourceDataMap>

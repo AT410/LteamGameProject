@@ -194,6 +194,13 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 
+	void GameStage::ToReStart()
+	{
+		this->SetView(m_MainView);
+		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
+		GetSharedGameObject<Player>(L"Player")->SetState(PlayerState::Excute);
+	}
+
 	void GameStage::ToMyCamera()
 	{
 		this->SetView(m_MainView);

@@ -6,7 +6,7 @@ namespace basecross
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0,0),m_MapFile(L"TestStage3.xml"),m_ResFile(L"ResMap.xml"),m_UISetFile(L"TestUI.xml"),m_Loaded(false)
+		:m_SelectStage(0, 0), m_MapFile(L"StageMap.xml"), m_ResFile(L"ResMap.xml"), m_UISetFile(L"TestUI.xml"), m_Loaded(false), m_StageReloadActive(false)
 	{
 
 	}
@@ -179,12 +179,21 @@ namespace basecross
 		if (OPCam)
 		{
 			auto MainCamera = StagePtr->GetMainView()->GetCamera();
-			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(),MainCamera->GetAt());
+			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(), MainCamera->GetAt());
+
 			OPCam->SetCameraObject(Ptr);
 			OPCam->SetEye(MainCamera->GetEye());
 			OPCam->SetAt(MainCamera->GetAt());
 			OPCam->SetFar(MainCamera->GetFar());
 			OPCam->SetNear(MainCamera->GetNear());
+			if (m_StageReloadActive && m_StartCametaEnd)
+			{
+				auto GameStagePtr = dynamic_pointer_cast<GameStage>(StagePtr);
+				if (GameStagePtr)
+				{
+					GameStagePtr->ToReStart();
+				}
+			}
 		}
 	}
 

@@ -263,51 +263,65 @@ namespace basecross{
 		EfkPoint.y += 1.0f;
 		m_FireEfk->SetLocation(EfkPoint);
 
-		//Vec3 PlayerPos = TransComp->GetWorldPosition();
-		//Vec3 Botton = EfkPoint;
-		//Botton.y += 0.5f;
-		//Vec3 Top = EfkPoint;
-		//Top.y += 5.0f;
-		//m_FireCapsule = CAPSULE(0.5f, Botton,Top);
-		//
-		// //-- マップファイルが更新されるまでコメント化 --
-		//for (auto& v : GetStage()->GetGameObjectVec())
-		//{
-		//	if (v->FindTag(L"FireIgnore"))
-		//		continue;
+		Vec3 PlayerPos = TransComp->GetWorldPosition();
+		Vec3 Botton = EfkPoint;
+		Botton.y += 0.5f;
+		Vec3 Top = EfkPoint;
+		Top.y += 5.0f;
+		m_FireCapsule = CAPSULE(0.5f, Botton,Top);
+		
+		 //-- マップファイルが更新されるまでコメント化 --
+		for (auto& v : GetStage()->GetGameObjectVec())
+		{
+			if (v->FindTag(L"FireIgnore"))
+				continue;
 
-		//	auto CollObb = v->GetComponent<CollisionObb>(false);
-		//	if (CollObb)
-		//	{
-		//		auto Obb = CollObb->GetObb();
-		//		Vec3 recvec;
-		//		if (HitTest::CAPSULE_OBB(m_FireCapsule, Obb, recvec))
-		//		{
-		//			Vec3 length =recvec-m_FireCapsule.GetCenter();
+			auto CollObb = v->GetComponent<CollisionObb>(false);
+			if (CollObb)
+			{
+				auto Obb = CollObb->GetObb();
+				Vec3 recvec;
+				if (HitTest::CAPSULE_OBB(m_FireCapsule, Obb, recvec))
+				{
+					float VecVal = abs(recvec.y - m_FireCapsule.m_PointBottom.y);
+					float Val = abs(m_FireCapsule.m_PointTop.y - m_FireCapsule.m_PointBottom.y);
+					float Length = VecVal / Val;
 
-		//			float s = length.y / 2.0f > 0.0f ? length.y / 2.0f : 0.1f;
+					float s = Length;
+					if (Length > 1.0f)
+					{
+						s = 1.0f;
+					}
+					else if (Length <= 0.0f)
+					{
+						s = 0.1f;
+					}
 
-		//			m_FireEfk->SetScale(Vec3(1.0f,s,1.0f));
-		//			Dirty = true;
-		//			return;
-		//		}
-		//	}
-		//}
+					m_FireEfk->SetScale(Vec3(1.0f,s,1.0f));
+					m_FireEfk->SetLocation(Vec3(EfkPoint.x, EfkPoint.y + s / 2.0f, EfkPoint.z));
+					Dirty = true;
+					return;
+				}
+			}
+		}
 
-		//if (!Dirty)
-		//{
-		//	m_FireEfk->SetScale(Vec3(1.0f));
-		//}
+		if (!Dirty)
+		{
+			m_FireEfk->SetScale(Vec3(1.0f));
+		}
 	}
 
 	void Player::OnUpdate() {
 		if (!GameManager::GetManager()->GetUpdateActive())
 		{
-			//m_FireEfk->SetPaused(true);
+			GetComponent<Gravity>()->SetUpdateActive(false);
+			m_FireEfk->SetPaused(true);
 			return;
 		}
 		if (!m_ResetActive) {
 			StateUpdate();
+			m_FireEfk->SetPaused(false);
+			GetComponent<Gravity>()->SetUpdateActive(true);
 		}
 	}
 
@@ -367,7 +381,14 @@ namespace basecross{
 		m_FireEfk->StopEffect();
 		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
 		//ゲームステージのマネージャーでフェードを初めて
-		PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ReStart", L"FadeOut");
+		if (GameManager::GetManager()->GetStageReloadActive()) 
+		{
+			PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ToGameStage", L"FadeOut");
+		}
+		else
+		{
+			PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ReStart", L"FadeOut");
+		}
 		m_ResetActive = true;
 	}
 

@@ -62,14 +62,9 @@ namespace basecross{
 		BGMPath = MediaPath + L"Sound/";
 		MediaPath += L"Texture/";
 		App::GetApp()->RegisterTexture(L"WAIT_TX", MediaPath + L"wait.png");
-		App::GetApp()->RegisterTexture(L"TEXTTEST_TX", MediaPath + L"PressA.png");
-		App::GetApp()->RegisterTexture(L"TITLE_TX", MediaPath + L"title.jpg");
 		App::GetApp()->RegisterTexture(L"BackGround_TX", MediaPath + L"BackGround.png");
 		App::GetApp()->RegisterTexture(L"StageSelect_TX", MediaPath + L"StageSelect.png");
 		App::GetApp()->RegisterTexture(L"AreaSelectStr_TX", MediaPath + L"AreaSelectStr.png");
-		App::GetApp()->RegisterTexture(L"One_TX", MediaPath + L"One.png");
-		App::GetApp()->RegisterTexture(L"Two_TX", MediaPath + L"Two.png");
-		App::GetApp()->RegisterTexture(L"Three_TX", MediaPath + L"Three.png");
 		App::GetApp()->RegisterTexture(L"GAMECLEAR_TX", MediaPath + L"GameClear.png");
 	}
 
