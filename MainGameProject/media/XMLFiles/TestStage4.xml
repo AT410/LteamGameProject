@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" AreaCount="1">
   <Area AreaNumber="0" StageCount="1">
-    <StageData StageNumber="0" CameraEye="-0.16,11.6,-20.65" CameraAt="0,8.43,6.98" CameraNear="0.5" CameraFar="1000">
+    <StageData StageNumber="0" CameraEye="-0.16,11.6,-20.65" CameraAt="0,8.43,6.98" CameraNear="0.5" CameraFar="1000" StageReloadActive="0">
       <Objects Order="0" Type="Player" Pos="-12.28,1.5,2.306564" Scale="1,1,1" Rot="0,0,0,1" MeshKey="Player_MD" TexKey="PLAYER_TX" Tags="EnabledSwitch" CollisionActive="1" CollisionFixedActive="0" SharedActive="1" SharedKey="Player" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Order="1" Type="Wall" Pos="14.8,9.98,0" Scale="10,20,0.5000003" Rot="0,0.7071068,0,0.7071068" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Order="1" Type="Floor" Pos="-8.83,4.65,2.636" Scale="3.985067,0.9720001,4.237422" Rot="0,0,0,1" MeshKey="DEFAULTLOOP_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump,Firelgnore" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
@@ -18,6 +18,7 @@
       <Objects Order="1" Type="WaterJet" Pos="7.22,17.87,1.25" Scale="1,0.5,1" Rot="0.7071068,0,0,0.7071068" MeshKey="DEFAULT_CYLINDER" TexKey="WATER_TX" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Order="1" Type="Floor" Pos="-11.489,5.38,2.636" Scale="3.985067,2.43,4.237422" Rot="0,0,0,1" MeshKey="DEFAULTLOOP_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump,Firelgnore" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
       <Objects Order="1" Type="PullBox" Pos="-6.284,1.732,2.536" Scale="1.887328,2.24292,3.78825" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="FLOOR_TX" Tags="PossibleJump,PushPullObj" CollisionActive="1" CollisionFixedActive="0" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
+      <Objects Order="1" Type="FrontWall" Pos="0.4,10.2,0.43" Scale="28,20,0.5000003" Rot="0,0,0,1" MeshKey="DEFAULT_CUBE" TexKey="WALL_TX" CollisionActive="1" CollisionFixedActive="1" SharedActive="0" EventActive="0" StartAnimetionActive="0" EventAnimetionActive="0" EndAnimetionActive="0" />
     </StageData>
   </Area>
 </root>

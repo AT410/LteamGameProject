@@ -275,10 +275,7 @@ namespace basecross
 		DefaultSettings();
 		SetActions();
 
-		if (m_StartActionActive)
-		{
-			GetComponent<Actions>()->Run(L"Start",m_IsStartActionLoop);
-		}
+
 	}
 	void MoveFloor::OnUpdate()
 	{
@@ -291,7 +288,7 @@ namespace basecross
 		{
 			if (!m_StartActionActive)
 				return;
-			GetComponent<Collision>()->SetUpdateActive(false);
+			GetComponent<Collision>()->SetUpdateActive(true);
 			GetComponent<Actions>()->Run(L"Start", m_IsStartActionLoop);
 		}
 		else if (event->m_MsgStr == L"EndAction")
