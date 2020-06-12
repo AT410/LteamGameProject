@@ -116,6 +116,7 @@ namespace basecross
 			auto ptrTrans = GetComponent<Transform>();
 			Vec3 ChangeScale = ptrTrans->GetScale();
 			Vec3 MovePos = ptrTrans->GetPosition();
+			Vec3 EfkPoint = MovePos;
 
 			switch (m_Configu)
 			{
@@ -124,26 +125,32 @@ namespace basecross
 			case basecross::FireLine::LeftToRight:
 				MovePos.x = FireLineBehaviorPos(-1, MovePos.x);
 				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				EfkPoint.x = MovePos.x + ChangeScale.x/2.0f;
 				break;
 			case basecross::FireLine::RightToLeft:
 				MovePos.x = FireLineBehaviorPos(+1, MovePos.x);
 				ChangeScale.x = FireLineBehaviorScale(ChangeScale.x);
+				EfkPoint.x = MovePos.x - ChangeScale.x/2.0f;
 				break;
 			case basecross::FireLine::UpToDown:
 				MovePos.y = FireLineBehaviorPos(-1, MovePos.y);
 				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				EfkPoint.y = MovePos.y + ChangeScale.y / 2.0f;
 				break;
 			case basecross::FireLine::DownToUp:
 				MovePos.y = FireLineBehaviorPos(+1, MovePos.y);
 				ChangeScale.y = FireLineBehaviorScale(ChangeScale.y);
+				EfkPoint.y = MovePos.y - ChangeScale.y / 2.0f;
 				break;
 			case basecross::FireLine::FrontToBack:
 				MovePos.z = FireLineBehaviorPos(+1, MovePos.z);
 				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				EfkPoint.z = MovePos.z - ChangeScale.z / 2.0f;
 				break;
 			case basecross::FireLine::BackToFront:
 				MovePos.z = FireLineBehaviorPos(-1, MovePos.z);
 				ChangeScale.z = FireLineBehaviorScale(ChangeScale.z);
+				EfkPoint.z = MovePos.z + ChangeScale.z / 2.0f;
 				break;
 			default:
 				break;
@@ -157,7 +164,7 @@ namespace basecross
 			}
 			ptrTrans->SetScale(ChangeScale);
 			ptrTrans->SetPosition(MovePos);
-
+			m_Fire->SetLocation(EfkPoint);
 		}
 
 	}
@@ -167,6 +174,7 @@ namespace basecross
 		if (event->m_MsgStr == L"FireSwitch")
 		{
 			m_Active = true;
+			m_Fire = ObjectFactory::Create<EfkPlay>(L"GOAL_EFK", Vec3(0));
 		}
 	}
 

@@ -95,6 +95,7 @@ namespace basecross
 		//--------------------------------------------------------------------------------------
 		void SetLocation(const bsm::Vec3& Location);
 		void SetScale(const bsm::Vec3& Sclae);
+		void SetRotate(const bsm::Vec3& rotate);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	ïœä∑çsóÒÇê›íËÇ∑ÇÈ
