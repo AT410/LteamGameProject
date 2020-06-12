@@ -379,6 +379,8 @@ namespace basecross{
 
 	void Player::RestartBehabior() {
 		m_FireEfk->StopEffect();
+		GetComponent<Gravity>()->SetGravityZero();
+		GetComponent<Gravity>()->SetGravityVerocityZero();
 		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
 		//ゲームステージのマネージャーでフェードを初めて
 		if (GameManager::GetManager()->GetStageReloadActive()) 

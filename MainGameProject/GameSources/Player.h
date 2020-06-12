@@ -126,6 +126,9 @@ namespace basecross{
 			EfkPoint.y += 0.5f;
 			m_FireEfk = ObjectFactory::Create<EfkPlay>(L"FIRE_EFK", EfkPoint);
 			m_ResetActive = false;
+			//GetComponent<Gravity>()->SetGravityVerocity(bsm::Vec3(0, -9.8f, 0));
+			GetComponent<Gravity>()->SetGravity(bsm::Vec3(0, -9.8f, 0));
+
 		}
 
 		void UpdateResetPositon()
