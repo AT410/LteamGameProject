@@ -230,6 +230,9 @@ namespace basecross{
 			}
 			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
 		}
+		else{
+			m_Jumpjudge = false;
+		}
 
 	}	
 	//ÚG‰ğœŠÖ”
