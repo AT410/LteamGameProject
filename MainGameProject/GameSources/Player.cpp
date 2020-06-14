@@ -230,7 +230,11 @@ namespace basecross{
 			}
 			ptrTransform->SetPosition(ptrPos.x, ptrPos.y + m_RisePos, ptrPos.z);
 		}
-
+		else if (Obj->FindTag(L"Water"))
+		{
+			GetComponent<Collision>()->SetSleepActive(true);
+		}
+		
 	}	
 	//ÚG‰ðœŠÖ”
 	//¼è@Ÿ©Ž÷
@@ -243,6 +247,10 @@ namespace basecross{
 		if (Obj->FindTag(L"MoveFloor"))
 		{
 			ptrTransform->ClearParent();
+		}
+		else if (Obj->FindTag(L"Water"))
+		{
+			GetComponent<Collision>()->SetSleepActive(false);
 		}
 	}
 
