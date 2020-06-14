@@ -420,6 +420,55 @@ namespace basecross
 
 	};
 
+	//----------------------------------------------------------------------------
+	//水位オブジェクト：変更
+	//----------------------------------------------------------------------------
+	class WaterLV2 : public ObjectBase
+	{
+	public:
+		//-- 構築 --
+		WaterLV2(const shared_ptr<Stage>& StagePtr) 
+			:ObjectBase(StagePtr)
+		{
+		}
+
+		// -- Xml構築 --
+		WaterLV2(const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode);
+
+		//-- 破棄 --
+		virtual ~WaterLV2() {}
+
+		//-- 初期化 --
+		void OnCreate()override;
+
+		//-- 更新処理 --
+		void OnUpdate()override;
+
+		// -- イベント処理 --
+		void OnEvent(const shared_ptr<Event>&event);
+
+		// -- 衝突応答 --
+		void OnCollisionEnter(shared_ptr<GameObject>&Obj)override;
+		void OnCollisionExcute(shared_ptr<GameObject>&Obj)override;
+		void OnCollisionExit(shared_ptr<GameObject>&Obj)override;
+	private:
+		// -- 水位変更 --
+		void ChangeLevel();
+
+		void HitResponseAABB();
+
+		bool LVBhavior(const float ScaleVal);
+
+		float m_IntervalTime;
+
+		bool m_MainActive;
+
+		bool m_IntervalActive;
+
+		bool m_End;
+		bool m_ContFlag;//true =上昇 false = 下降
+	};
+
 	//ウォーターレベルクラス
 //＠制作者　松崎洸樹
 	class WaterLV : public ObjectBase {
@@ -490,6 +539,7 @@ namespace basecross
 		Vec3 GetCurrentPos() { return m_CurrentPos; }
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj)override;
 		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
+		virtual void OnCollisionExit(shared_ptr<GameObject>& Obj) override;
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 	};

@@ -866,6 +866,232 @@ namespace basecross
 		App::GetApp()->GetXAudio2Manager()->Start(L"WaterDrop_SD", 0, 0.1f);
 	}
 
+	//----------------------------------------------------------------------------
+	//水位変更
+	//----------------------------------------------------------------------------
+	WaterLV2::WaterLV2(const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode),m_IntervalActive(false)
+	{}
+
+	void WaterLV2::OnCreate()
+	{
+		DefaultSettings();
+
+		// -- 衝突判定(無効化) --
+		auto CollComp = GetComponent<Collision>();
+		CollComp->SetAfterCollision(AfterCollision::None);
+		CollComp->AddExcludeCollisionTag(L"PushPullObj");
+		CollComp->SetUpdateActive(false);
+
+		AddTag(L"Water");
+	}
+
+	void WaterLV2::OnUpdate()
+	{
+		if (m_MainActive)
+		{
+			ChangeLevel();
+		}
+		else
+		{
+			HitResponseAABB();
+		}
+	}
+
+	void WaterLV2::ChangeLevel()
+	{
+		if (m_IntervalActive)
+		{
+			m_IntervalTime += App::GetApp()->GetElapsedTime();
+			if (m_IntervalTime >= 10.0f)
+			{
+				m_IntervalActive = false;
+				m_IntervalTime = 0.0f;
+			}
+			return;
+		}
+		else
+		{
+			HitResponseAABB();
+		}
+
+		if (LVBhavior(0.5f))
+		{
+			if (!m_ContFlag)
+			{
+				m_ContFlag = true;
+			}
+		}
+	}
+
+	void WaterLV2::HitResponseAABB()
+	{
+		// -- プレイヤー --
+		auto PlayerPtr = GetStage()->GetSharedGameObject<Player>(L"Player", false);
+		if (PlayerPtr)
+		{
+			// -- 自らのAABB --
+			auto TransComp = GetComponent<Transform>();
+			Vec3 MyPos = TransComp->GetPosition();
+			Vec3 MyScalehalf = TransComp->GetScale() / 2.0f;
+			AABB MyAABB = AABB(MyPos - MyScalehalf, MyPos + MyScalehalf);
+
+			// -- プレイヤー位置 --
+			Vec3 PlayerPos = PlayerPtr->GetComponent<Transform>()->GetPosition();
+			PlayerPos.y += 1.0f;
+
+			// -- プレイヤーの中心点が、含まれているか --
+			if (MyAABB.PtInAABB(PlayerPos))
+			{
+				PlayerPtr->SetState(PlayerState::Restart);
+			}
+		}
+	}
+
+	bool WaterLV2::LVBhavior(const float ScaleVal)
+	{
+		bool recflag = false;
+		auto TransComp = GetComponent<Transform>();
+		Vec3 CurrntPos = TransComp->GetPosition();
+		Vec3 CurrntScale = TransComp->GetScale();
+
+		float key = m_ContFlag ? +1.0f : -1.0f;
+
+		float deltatime = App::GetApp()->GetElapsedTime();
+
+		CurrntScale.y += key * ScaleVal*deltatime;
+		CurrntPos.y += key * ScaleVal / 2.0f*deltatime;
+
+
+		if (m_ContFlag)
+		{
+			if (CurrntScale.y >= m_scal.y)
+			{
+				CurrntScale.y = m_scal.y;
+				CurrntPos.y = m_pos.y;
+				recflag = true;
+				m_End = true;
+			}
+			this->SetDrawActive(true);
+		}
+		else
+		{
+			if (CurrntScale.y <= 0.0f) 
+			{
+				CurrntScale.y = 0.0f;
+				m_IntervalActive = true;
+				recflag = true;
+				this->SetDrawActive(false);
+			}
+		}
+
+		if (!recflag)
+		{
+			TransComp->SetPosition(CurrntPos);
+			TransComp->SetScale(CurrntScale);
+		}
+		return recflag;
+	}
+
+	void WaterLV2::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (event->m_MsgStr == L"WaterDown")
+		{
+			m_MainActive = true;
+			if (m_IntervalActive||m_ContFlag)
+			{
+				m_ContFlag = false;
+				m_IntervalActive = false;
+				m_IntervalTime = 0.0f;
+				m_End = false;
+			}
+		}
+	}
+
+	void WaterLV2::OnCollisionEnter(shared_ptr<GameObject>&Obj)
+	{
+		// -- 対PullBox --
+		if (Obj->FindTag(L"PushPullObj"))
+		{
+			Vec3 BoxPos = Obj->GetComponent<Transform>()->GetWorldPosition();
+			auto TransComp = GetComponent<Transform>();
+			Vec3 MyPos = TransComp->GetPosition();
+			Vec3 MyScale = TransComp->GetScale();
+			auto WaterAABB = GetComponent<CollisionObb>()->GetWrappedAABB();
+
+			if (WaterAABB.PtInAABB(BoxPos))
+			{
+				float UpHeigth = MyPos.y + MyScale.y / 2.0f;
+				Obj->GetComponent<Transform>()->SetPosition(BoxPos.x, UpHeigth, BoxPos.z);
+			}
+		}
+		else if (Obj->FindTag(L"Player"))// -- 対プレイヤ --
+		{
+			Vec3 Pos = Obj->GetComponent<Transform>()->GetWorldPosition();
+			auto WaterAABB = GetComponent<CollisionObb>()->GetWrappedAABB();
+			if (WaterAABB.PtInAABB(Pos))
+			{
+				auto PlayePtr = dynamic_pointer_cast<Player>(Obj);
+				if (PlayePtr)
+				{
+					PlayePtr->SetState(PlayerState::Restart);
+				}
+			}
+		}
+	}
+
+	void WaterLV2::OnCollisionExcute(shared_ptr<GameObject>&Obj)
+	{
+		// -- 対PullBox --
+		if (Obj->FindTag(L"PushPullObj"))
+		{
+			Vec3 BoxPos = Obj->GetComponent<Transform>()->GetWorldPosition();
+			auto TransComp = GetComponent<Transform>();
+			Vec3 MyPos = TransComp->GetPosition();
+			Vec3 MyScale = TransComp->GetScale();
+
+			auto WaterAABB = GetComponent<CollisionObb>()->GetWrappedAABB();
+
+			if (WaterAABB.PtInAABB(BoxPos))
+			{
+				float UpHeigth = MyPos.y + MyScale.y / 2.0f;
+				Obj->GetComponent<Transform>()->SetPosition(BoxPos.x, UpHeigth, BoxPos.z);
+				Obj->GetComponent<Gravity>()->SetUpdateActive(false);
+			}
+			else
+			{
+				//Obj->GetComponent<Gravity>()->SetUpdateActive(true);
+			}
+		}
+		else if (Obj->FindTag(L"Player"))// -- 対プレイヤ --
+		{
+			Vec3 Pos = Obj->GetComponent<Transform>()->GetWorldPosition();
+			auto WaterAABB = GetComponent<CollisionObb>()->GetWrappedAABB();
+			if (WaterAABB.PtInAABB(Pos))
+			{
+				auto PlayePtr = dynamic_pointer_cast<Player>(Obj);
+				if (PlayePtr)
+				{
+					PlayePtr->SetState(PlayerState::Restart);
+				}
+			}
+		}
+	}
+
+	void WaterLV2::OnCollisionExit(shared_ptr<GameObject>&Obj)
+	{
+		// -- 対PullBox --
+		if (Obj->FindTag(L"PushPullObj"))
+		{
+			Obj->GetComponent<Gravity>()->SetUpdateActive(true);
+		}
+		else if (Obj->FindTag(L"Player"))// -- 対プレイヤ --
+		{
+
+		}
+	}
+
+	//!End　WaterLV2
 
 	WaterLV::WaterLV(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
 		ObjectBase(Stageptr, pNode)
@@ -1078,33 +1304,26 @@ namespace basecross
 	}
 
 	void PushObj::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
-		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
-		auto ptrTransform = GetComponent<Transform>();
-		auto ptrFloor = dynamic_pointer_cast<StageTest>(Obj);
-		auto ptrPos = ptrTransform->GetPosition();
-		if (!ptrPlayer) {
 			m_StopPos = m_PastPos;
 			m_CurrentPos = m_PastPos;
-		}
-		else {
-			m_StopPos = m_PastPos;
-			m_CurrentPos = m_PastPos;
-		}
-
 	}
 
 	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
 		auto ptrTransform = GetComponent<Transform>();
-			if (ptrPlayer) {
-				m_Boxmode = false;
-				if (ptrPlayer->GetPushBoxActiv()) {
-					m_Boxmode = true;
-				}
-				else if(!ptrPlayer->GetPushBoxActiv()){
-					m_Boxmode = false;
-				}
+		if (ptrPlayer) {
+			m_Boxmode = false;
+			if (ptrPlayer->GetPushBoxActiv()) {
+				m_Boxmode = true;
 			}
+			else if (!ptrPlayer->GetPushBoxActiv()) {
+				m_Boxmode = false;
+			}
+		}
+	}
+
+	void PushObj::OnCollisionExit(shared_ptr<GameObject>& Obj) {
+		//GetComponent<Gravity>()->SetUpdateActive(true);
 	}
 
 }
