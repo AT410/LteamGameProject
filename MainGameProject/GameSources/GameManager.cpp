@@ -3,6 +3,43 @@
 
 namespace basecross
 {
+	//----------------------------------------------------------------------------
+	//セーブデータ
+	//----------------------------------------------------------------------------
+	// -- Impl --
+	struct SaveData::Impl
+	{
+		bool m_clear[3][3];
+
+		wstring m_FileName;
+
+		Impl(const wstring& FilePath)
+		{
+
+		}
+
+		void Load(const wstring& FileName)
+		{
+			//セーブデータの読み込み
+		}
+
+		void Save()
+		{
+
+		}
+	};
+
+	SaveData::SaveData(const wstring& FilePath)
+		:m_pImpl(make_unique<SaveData::Impl>(FilePath))
+	{
+
+	}
+
+	SaveData::~SaveData()
+	{
+		m_pImpl.reset();
+	}
+
 	// -- static変数実体 --
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
