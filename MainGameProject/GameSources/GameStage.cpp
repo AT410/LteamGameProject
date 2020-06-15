@@ -14,6 +14,7 @@ namespace basecross {
 	void StageBase::CreateViewLight() {
 		const Vec3 eye(7.0f, 10.0f, -20.0f);
 		const Vec3 at(7.0f,2.0f,0.0f);
+
 		m_MainView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<MyCamera>();
@@ -22,6 +23,7 @@ namespace basecross {
 		PtrCamera->SetAt(at);
 		PtrCamera->SetExpansionEye(eye);
 		PtrCamera->SetExpansionAt(at);
+
 		m_OpeningView = CreateView<SingleView>();
 		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
 		m_OpeningView->SetCamera(PtrOPCamera);
@@ -96,12 +98,9 @@ namespace basecross {
 		{
 			CreateViewLight();
 			AddGameObject<UIController>(GetStageType());
-			//AddGameObject<ContTest>(L"ToAreaSelectStage");
-			//AddGameObject<NormalUI>();
-			//AddGameObject<DebugSprite>(L"TitleStage_TX");
-			//AddGameObject<ActionTest>();
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 			AddGameObject<FadeObj>(FadeType::FadeIn);
+			GameManager::GetManager()->GetSaveData()->Load(L"TEST.GD");
 		}
 		catch (...)
 		{
@@ -122,8 +121,8 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"DateSelect_TX");
-			AddGameObject<ContTest>(L"ToAreaSelectStage");
+			AddGameObject<AnimSprite>(L"DateSelect_TX");
+			AddGameObject<DefaultInput>(L"ToAreaSelectStage");
 
 		}
 		catch (...)
@@ -139,8 +138,6 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			//AddGameObject<DebugSprite>(L"AreaSelect_TX");
-			//AddGameObject<ContTest>(L"ToGameStage");
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<AreaSelectStage>());
 			AddGameObject<FadeObj>(FadeType::FadeIn);
@@ -178,7 +175,7 @@ namespace basecross {
 		//リソースのロードを行う
 		GameManager::GetManager()->LoadResources();
 
-		AddGameObject<AnimSpriteTest>(L"WAIT_TX", true);
+		AddGameObject<AnimSprite>(L"WAIT_TX", true,true);
 	}
 
 	void LoadStage::OnUpdate()
@@ -210,7 +207,7 @@ namespace basecross {
 		wstring StageStr = Util::IntToWStr(Pair.second + 1);
 		wstring TexKey = L"Stage" + AreaStr + L"-" + StageStr + L"_TX";
 
-		AddGameObject<AnimSpriteTest>(TexKey);
+		AddGameObject<AnimSprite>(TexKey,true);
 		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
 	}
 
@@ -237,7 +234,6 @@ namespace basecross {
 			GameManager::GetManager()->CreateUISet(GetThis<StageBase>(), false);
 			SetBGM(L"MAIN_SD");
 			AddGameObject<FadeObj>(FadeType::FadeIn);
-			//AddGameObject<Waterfall>(Vec3(0, 5, 0), Vec3(0, 0, 0), 2.0f, 1.0f);
 
 		}
 		catch (...)
@@ -263,6 +259,18 @@ namespace basecross {
 		App::GetApp()->GetScene<Scene>()->GetEfkInterface()->SetViewProj(camera->GetViewMatrix(), camera->GetProjMatrix());
 		App::GetApp()->GetScene<Scene>()->GetEfkInterface()->OnDraw();
 	}
+
+	// -- エフェクト再生 --
+	void GameStage::Effectplay(wstring Key, Vec3 hitpoint) {
+		m_EfkPlay[m_EfkCount] = ObjectFactory::Create<EfkPlay>(Key, hitpoint);
+		if (m_EfkCount == 19) {
+			m_EfkCount = 0;
+		}
+		else {
+			m_EfkCount++;
+		}
+	}
+
 	//--------------------------------------------------------------------------------------
 	//	タイトルステージクラス実体
 	//--------------------------------------------------------------------------------------
@@ -271,8 +279,8 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
-			AddGameObject<ContTest>(L"ToTitleStage");
+			AddGameObject<AnimSprite>(L"GAMECLEAR_TX");
+			AddGameObject<DefaultInput>(L"ToTitleStage");
 			SetBGM(L"Ending_SD",false);
 		}
 		catch (...)

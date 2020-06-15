@@ -8,6 +8,9 @@
 
 namespace basecross
 {
+	//----------------------------------------------------------------------------
+	//水描画クラス
+	//----------------------------------------------------------------------------
 	void PNTWaterDraw::OnDraw()
 	{
 		auto MeshRes = GetMeshResource();
@@ -36,7 +39,7 @@ namespace basecross
 		Proj = PtrCamera->GetProjMatrix();
 
 		//コンスタントバッファの設定
-		BufferTest cb1;
+		WaterBuffer cb1;
 		//行列の設定(転置する)
 		cb1.World = transpose(PtrT->GetWorldMatrix());
 		cb1.View = transpose(View);
@@ -51,7 +54,7 @@ namespace basecross
 		cb1.Emissive = GetEmissive();
 
 		//コンスタントバッファの更新
-		pID3D11DeviceContext->UpdateSubresource(TestBuffer::GetPtr()->GetBuffer(), 0, nullptr, &cb1, 0, 0);
+		pID3D11DeviceContext->UpdateSubresource(WBuffer::GetPtr()->GetBuffer(), 0, nullptr, &cb1, 0, 0);
 		//
 		//ストライドとオフセット
 		UINT stride = MeshRes->GetNumStride();
@@ -118,7 +121,7 @@ namespace basecross
 		pID3D11DeviceContext->UpdateSubresource(ControlBuffer::GetPtr()->GetBuffer(), 0, nullptr, &m_Cont, 0, 0);
 
 		//コンスタントバッファの設定
-		ID3D11Buffer* pConstantBuffer = TestBuffer::GetPtr()->GetBuffer();
+		ID3D11Buffer* pConstantBuffer = WBuffer::GetPtr()->GetBuffer();
 		pID3D11DeviceContext->VSSetConstantBuffers(0, 1, &pConstantBuffer);
 		pID3D11DeviceContext->PSSetConstantBuffers(0, 1, &pConstantBuffer);
 
@@ -141,6 +144,9 @@ namespace basecross
 	}
 
 
+	//-----------------------------------------------------------------------------
+	//点光源ライティング
+	//-----------------------------------------------------------------------------
 	void PNTPointDraw::OnDraw()
 	{
 		auto MeshRes = GetMeshResource();

@@ -41,13 +41,11 @@ namespace basecross{
 		virtual void OnEvent(const shared_ptr<Event>& event) override;
 		//--------------------------------------------------------------------------------------
 		/*!
-		@brief イベント取得
+		@brief 初期リソース読込
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
 		void LoadUnionResource();
-		//Debug
-		void SetDebugResoruce();
 
 		shared_ptr<EfkInterface> GetEfkInterface()const
 		{

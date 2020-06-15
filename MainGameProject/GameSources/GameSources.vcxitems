@@ -52,7 +52,6 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Header.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)PointHeader.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)SpriteHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)PointPS.hlsl">

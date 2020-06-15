@@ -3,12 +3,141 @@
 
 namespace basecross
 {
+	//----------------------------------------------------------------------------
+	//セーブデータ
+	//----------------------------------------------------------------------------
+	// -- Impl --
+	struct SaveData::Impl
+	{
+		bool m_clear[3][3];
+
+		wstring m_FileName = L"TEST.GD";
+		wstring m_DataDir;
+
+		Impl(const wstring& FilePath)
+			:m_DataDir(FilePath)
+		{
+			m_clear[0][0] = true;
+		}
+
+		void Load(const wstring& FileName)
+		{
+			//セーブデータの読み込み
+			//指定されたファイル名がなければ新規作成
+			m_FileName = FileName;
+			wstring FullPath = m_DataDir + m_FileName;
+			if (PathFileExists(FullPath.c_str()))
+			{
+				//バイナリ読込
+				ifstream ios(FullPath.c_str(), ios::in | ios::binary);
+				
+				for (int i = 0; i < 3; i++)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						ios.read((char*)&m_clear[i][j], sizeof(bool));
+					}
+				}
+
+				ios.close();
+			}
+			else
+			{
+				//バイナリ新規
+				ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+				if (!ofs)
+				{
+					throw(BaseException(L"", L"", L""));
+				}
+				ofs.close();
+			}
+		}
+
+		void Save()
+		{
+			wstring FullPath = m_DataDir + m_FileName;
+
+			ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					ofs.write((const char*)&m_clear[i][j], sizeof(bool));
+				}
+			}
+			ofs.close();
+		}
+
+		void Clear(int Area, int Stage)
+		{
+			m_clear[Area][Stage] = true;
+		}
+
+		bool AreaClear(int Area)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (m_clear[Area][i])
+					return true;
+			}
+			return false;
+		}
+
+		bool StageClear(int Area,int Stage)
+		{
+			return m_clear[Area][Stage];
+		}
+	};
+
+	SaveData::SaveData(const wstring& FilePath)
+		:m_pImpl(make_unique<SaveData::Impl>(FilePath))
+	{
+
+	}
+
+	SaveData::~SaveData()
+	{
+		m_pImpl.reset();
+	}
+
+	void SaveData::Save()
+	{
+		m_pImpl->Save();
+	}
+
+	void SaveData::Load(const wstring& FileName)
+	{
+		m_pImpl->Load(FileName);
+	}
+
+	void SaveData::Clear()
+	{
+		auto pair = GameManager::GetManager()->GetStagePair();
+		m_pImpl->Clear(pair.first, pair.second);
+	}
+
+	bool SaveData::IsAreaClear(int Area)
+	{
+		return m_pImpl->AreaClear(Area);
+	}
+
+	bool SaveData::IsStageClear(int Stage)
+	{
+		int Area = GameManager::GetManager()->GetStagePair().first;
+		return m_pImpl->StageClear(Area, Stage);
+	}
+
+	// -- static変数実体 --
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
 		:m_SelectStage(0, 0), m_MapFile(L"StageMap.xml"), m_ResFile(L"ResMap.xml"), m_UISetFile(L"UIMap.xml"), m_Loaded(false), m_StageReloadActive(false)
 	{
-
+		wstring DataPath;
+		App::GetApp()->GetDataDirectory(DataPath);
+		DataPath += L"SaveData/";
+		m_Data.reset(new SaveData(DataPath));
 	}
 
 	GameManager::~GameManager()
@@ -16,6 +145,7 @@ namespace basecross
 
 	}
 
+	// -- インスタンスの作成 --
 	void GameManager::CreateManager()
 	{
 		try
@@ -31,6 +161,7 @@ namespace basecross
 		}
 	}
 
+	// -- シングルトンアクセサ --
 	unique_ptr<GameManager, GameManager::GMDeleter>& GameManager::GetManager()
 	{
 		try
@@ -61,6 +192,7 @@ namespace basecross
 			return true;
 	}
 
+	// -- 強制破棄 --
 	void GameManager::DeleteManager()
 	{
 		if (m_ins.get() == 0)
@@ -69,6 +201,7 @@ namespace basecross
 		}
 	}
 
+	// -- リソースの読み込み --
 	void GameManager::ResorceLoadFunc()
 	{
 		mutex.lock();
@@ -128,7 +261,7 @@ namespace basecross
 		mutex.unlock();
 	}
 
-
+	// -- リソース読込開始(並列実行) --
 	void GameManager::LoadResources()
 	{
 		if (!m_Loaded)
@@ -138,37 +271,37 @@ namespace basecross
 		}
 	}
 
+	// -- ゲームステージの生成 --
 	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
-		StageBulider Builder;
+		StageBuilder Builder;
 
-		StagePtr->CreateSharedObjectGroup(L"Rock");
-		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<FrontWallObj>(L"FrontWall"); 
 		Builder.Register<LoopTexObj>(L"Floor");
-		Builder.Register<Player>(L"Player");
-		Builder.Register<Omori>(L"Omori");
 		Builder.Register<HeatStick>(L"HeatStick");
 		Builder.Register<MoveFloor>(L"MoveFloor");
-		Builder.Register<FixedObj>(L"Himo");
-		Builder.Register<Fountain>(L"Fountain");
-		Builder.Register<GoalTest>(L"Goal");
 		Builder.Register<SwitchObj>(L"Switch");
-		Builder.Register<Door>(L"Door");
+		Builder.Register<UpDownBox>(L"FloatBox"); 
+		Builder.Register<Fountain>(L"Fountain");
 		Builder.Register<FireLine>(L"FireLine");
 
-		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); 
-		Builder.Register<PushObj>(L"PullBox");
-
-		Builder.Register<Slope>(L"Slope");
-		Builder.Register<WaterLV2>(L"Water");
-		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); 
-		Builder.Register<WaterLV2>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Ladder");
-		Builder.Register<StageTest>(L"Match");
-		Builder.Register<StageTest>(L"FireOn");
+		Builder.Register<WaterLV2>(L"Water");
+		Builder.Register<WaterLV2>(L"WaterLV");
+		Builder.Register<WaterJet>(L"WaterJet");
+
+		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<FixedObj>(L"Himo");
+		Builder.Register<FixedObj>(L"Wall");
+		Builder.Register<FixedObj>(L"Ladder");
+		Builder.Register<FixedObj>(L"Match");
+		Builder.Register<PushObj>(L"PullBox");
+		Builder.Register<Player>(L"Player");
+		Builder.Register<Slope>(L"Slope");
+		Builder.Register<Omori>(L"Omori");
+		Builder.Register<Door>(L"Door");
+		Builder.Register<Goal>(L"Goal");
+
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
@@ -197,13 +330,14 @@ namespace basecross
 		}
 	}
 
+	// -- UIセットの生成--
 	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)
 	{
-		StageBulider Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
 		PathStr += L"XMLFiles/";
 
+		StageBuilder Builder;
 		Builder.Register<NormalUI>(L"Normal");
 		Builder.Register<FlashingUI>(L"Flashing");
 

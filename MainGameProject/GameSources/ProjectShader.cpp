@@ -8,13 +8,13 @@
 
 namespace basecross{
 
-	IMPLEMENT_DX11_CONSTANT_BUFFER(TestBuffer)
+	IMPLEMENT_DX11_CONSTANT_BUFFER(WBuffer)
 
-		IMPLEMENT_DX11_CONSTANT_BUFFER(ControlBuffer)
+	IMPLEMENT_DX11_CONSTANT_BUFFER(ControlBuffer)
 
-		IMPLEMENT_DX11_VERTEX_SHADER(VSWater, App::GetApp()->GetShadersPath() + L"WaterVS.cso")
+	IMPLEMENT_DX11_VERTEX_SHADER(VSWater, App::GetApp()->GetShadersPath() + L"WaterVS.cso")
 
-		IMPLEMENT_DX11_PIXEL_SHADER(PSWater, App::GetApp()->GetShadersPath() + L"WaterPS.cso")
+	IMPLEMENT_DX11_PIXEL_SHADER(PSWater, App::GetApp()->GetShadersPath() + L"WaterPS.cso")
 
 
 	IMPLEMENT_DX11_CONSTANT_BUFFER(PBuffer)

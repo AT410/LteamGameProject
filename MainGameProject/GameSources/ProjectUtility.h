@@ -165,7 +165,7 @@ namespace basecross
 	//---------------------------------
 	//ステージビルダーの作成
 	//---------------------------------
-	class StageBulider
+	class StageBuilder
 	{
 	public:
 		//--------------------------------------------------------------------------------------
@@ -173,13 +173,13 @@ namespace basecross
 		@brief	コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		StageBulider();
+		StageBuilder();
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	デストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		virtual ~StageBulider();
+		virtual ~StageBuilder();
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	クリエーターを登録する
@@ -222,6 +222,10 @@ namespace basecross
 		//--------------------------------------------------------------------------------------
 		void UISetBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName, const bool DefaultDrawActive);
 	private:
+		void UIGenerationFromNodeList(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodeListPtr& pNodeList, const long NodeListCount, const bool DefaultDrawActive);
+
+		void StageSetting(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodePtr& pStageNode);
+
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& GetCreatorMap() const;
 
 		// pImplイディオム
