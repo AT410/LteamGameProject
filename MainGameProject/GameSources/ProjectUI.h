@@ -75,7 +75,8 @@ namespace basecross
 		void SetFlashingSpeed(const float Spped) { m_FlashingSpeed = Spped > 0 ? Spped : 0.5f; }
 		void ChangeActive(const bool bActive) { m_ActiveFlashing = bActive; }
 
-		void StartEvent();
+		bool GetClearFlag()const { return m_IsClear; }
+		bool StartEvent(const StageType Type);
 
 		wstring GetUpStr() { return m_Up; }
 		wstring GetDownStr() { return m_Down; }
@@ -87,6 +88,7 @@ namespace basecross
 
 		int m_StageNum,m_AreaNum;
 
+		bool m_IsClear;
 		bool m_ActiveFlashing;
 		float m_FlashingSpeed;
 		float m_TotalTime;

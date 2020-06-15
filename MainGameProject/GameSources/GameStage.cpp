@@ -100,6 +100,7 @@ namespace basecross {
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 			AddGameObject<FadeObj>(FadeType::FadeIn);
+			GameManager::GetManager()->GetSaveData()->Load(L"TEST.GD");
 		}
 		catch (...)
 		{

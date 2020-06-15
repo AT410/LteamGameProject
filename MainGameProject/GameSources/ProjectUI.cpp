@@ -174,6 +174,19 @@ namespace basecross
 
 		//コントロールに追加
 		GetStage()->GetSharedGameObject<UIController>(L"UIController")->AddPawnUI(m_MyKey, GetThis<FlashingUI>());
+
+		if (m_AreaNum >= 0)
+		{
+			m_IsClear = GameManager::GetManager()->GetSaveData()->IsAreaClear(m_AreaNum);
+		}
+		else if (m_StageNum >= 0)
+		{
+			m_IsClear = GameManager::GetManager()->GetSaveData()->IsStageClear(m_StageNum);
+		}
+		else
+		{
+			m_IsClear = true;
+		}
 	}
 
 	void FlashingUI::OnUpdate()
@@ -193,25 +206,34 @@ namespace basecross
 		}
 		else
 		{
-			DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
+			Col4 Diffuse = m_IsClear ? Col4(1, 1, 1, 1) : Col4(0.3f, 0.3f, 0.3f,0.8f);
+			DrawComp->SetDiffuse(Diffuse);
 			m_TotalTime = 0;
 		}
 
 	}
 
-	void FlashingUI::StartEvent()
+	bool FlashingUI::StartEvent(const StageType Type)
 	{
-		if (m_EventStr == L"ToStageSelectStage"&& m_AreaNum >= 0)
+		if (Type != StageType::GameStage) 
 		{
-			GameManager::GetManager()->SetAreaNumber(m_AreaNum);
-		}
+			if (m_EventStr == L"ToStageSelectStage"&& m_AreaNum >= 0)
+			{
+				if (!GameManager::GetManager()->GetSaveData()->IsAreaClear(m_AreaNum))
+					return false;
+				GameManager::GetManager()->SetAreaNumber(m_AreaNum);
+			}
 
-		if (m_EventStr == L"ToGameStage"&&m_StageNum>=0)
-		{
-			GameManager::GetManager()->SetStageNumber(m_StageNum);
+			if (m_EventStr == L"ToGameStage"&&m_StageNum >= 0)
+			{
+				if (!GameManager::GetManager()->GetSaveData()->IsStageClear(m_StageNum))
+					return false;
+				GameManager::GetManager()->SetStageNumber(m_StageNum);
+			}
 		}
 		GameManager::GetManager()->SetStartCameraActive(false);
 		PostEvent(1.0f, GetThis<ObjectInterface>(),L"Fade", m_EventStr,L"FadeOut");
+		return true;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -306,11 +328,12 @@ namespace basecross
 	{
 		if (m_IsSent)
 			return;
-		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
 		//対応するイベントを発生させる
+		m_IsSent = m_CurrntUI->StartEvent(m_Type);
+		if (!m_IsSent)
+			return;
+		App::GetApp()->GetXAudio2Manager()->Start(L"AGree_SD", 0, 0.5f);
 		m_CurrntUI->SetFlashingSpeed(2.5f);
-		m_CurrntUI->StartEvent();
-		m_IsSent = true;
 	}
 
 	void UIController::OnPushB()
@@ -357,6 +380,9 @@ namespace basecross
 		auto it = m_UIMap.find(Key);
 		if (it != m_UIMap.end())
 		{
+			if (!m_UIMap[Key]->GetClearFlag())
+				return;
+
 			m_CurrntUI->ChangeActive(false);
 
 			m_CurrntUI = m_UIMap[Key];

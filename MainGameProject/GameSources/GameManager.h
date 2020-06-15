@@ -16,6 +16,14 @@ namespace basecross
 		SaveData(const wstring& FilePath);
 		~SaveData();
 
+		void Save();
+		void Load(const wstring& FileName);
+
+		void Clear();
+
+		bool IsAreaClear(int AreaNumber);
+
+		bool IsStageClear(int StageNumber);
 	private:
 		struct Impl;
 		unique_ptr<Impl> m_pImpl;
@@ -43,6 +51,8 @@ namespace basecross
 		wstring m_ResFile;									///<-リソースリストファイル
 
 		wstring m_UISetFile;								///<-UIマップデータファイル
+
+		shared_ptr<SaveData> m_Data;						///<-セーブデータクラス
 
 		std::mutex mutex;
 
@@ -82,6 +92,7 @@ namespace basecross
 		bool GetUpdateActive()const { return m_UpdateActive; }
 		bool GetStageReloadActive()const { return m_StageReloadActive; }
 		bool GetStartCameraActive()const { return m_StartCametaEnd; }
+		shared_ptr<SaveData> GetSaveData()const { return m_Data; }
 
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }

@@ -284,6 +284,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:                // キーが押された
 		if (wParam == VK_ESCAPE) {  // 押されたのはESCキーだ
 			DestroyWindow(hWnd);	//ウインドウを破棄する
+			GameManager::GetManager()->GetSaveData()->Save();
 		}
 		break;
 	default:

@@ -11,21 +11,82 @@ namespace basecross
 	{
 		bool m_clear[3][3];
 
-		wstring m_FileName;
+		wstring m_FileName = L"TEST.GD";
+		wstring m_DataDir;
 
 		Impl(const wstring& FilePath)
+			:m_DataDir(FilePath)
 		{
-
+			m_clear[0][0] = true;
 		}
 
 		void Load(const wstring& FileName)
 		{
 			//セーブデータの読み込み
+			//指定されたファイル名がなければ新規作成
+			m_FileName = FileName;
+			wstring FullPath = m_DataDir + m_FileName;
+			if (PathFileExists(FullPath.c_str()))
+			{
+				//バイナリ読込
+				ifstream ios(FullPath.c_str(), ios::in | ios::binary);
+				
+				for (int i = 0; i < 3; i++)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						ios.read((char*)&m_clear[i][j], sizeof(bool));
+					}
+				}
+
+				ios.close();
+			}
+			else
+			{
+				//バイナリ新規
+				ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+				if (!ofs)
+				{
+					throw(BaseException(L"", L"", L""));
+				}
+				ofs.close();
+			}
 		}
 
 		void Save()
 		{
+			wstring FullPath = m_DataDir + m_FileName;
 
+			ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					ofs.write((const char*)&m_clear[i][j], sizeof(bool));
+				}
+			}
+			ofs.close();
+		}
+
+		void Clear(int Area, int Stage)
+		{
+			m_clear[Area][Stage] = true;
+		}
+
+		bool AreaClear(int Area)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (m_clear[Area][i])
+					return true;
+			}
+			return false;
+		}
+
+		bool StageClear(int Area,int Stage)
+		{
+			return m_clear[Area][Stage];
 		}
 	};
 
@@ -40,13 +101,43 @@ namespace basecross
 		m_pImpl.reset();
 	}
 
+	void SaveData::Save()
+	{
+		m_pImpl->Save();
+	}
+
+	void SaveData::Load(const wstring& FileName)
+	{
+		m_pImpl->Load(FileName);
+	}
+
+	void SaveData::Clear()
+	{
+		auto pair = GameManager::GetManager()->GetStagePair();
+		m_pImpl->Clear(pair.first, pair.second);
+	}
+
+	bool SaveData::IsAreaClear(int Area)
+	{
+		return m_pImpl->AreaClear(Area);
+	}
+
+	bool SaveData::IsStageClear(int Stage)
+	{
+		int Area = GameManager::GetManager()->GetStagePair().first;
+		return m_pImpl->StageClear(Area, Stage);
+	}
+
 	// -- static変数実体 --
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
 		:m_SelectStage(0, 0), m_MapFile(L"StageMap.xml"), m_ResFile(L"ResMap.xml"), m_UISetFile(L"UIMap.xml"), m_Loaded(false), m_StageReloadActive(false)
 	{
-
+		wstring DataPath;
+		App::GetApp()->GetDataDirectory(DataPath);
+		DataPath += L"SaveData/";
+		m_Data.reset(new SaveData(DataPath));
 	}
 
 	GameManager::~GameManager()
