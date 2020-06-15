@@ -3,6 +3,7 @@
 
 namespace basecross
 {
+	// -- static変数実体 --
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
@@ -16,6 +17,7 @@ namespace basecross
 
 	}
 
+	// -- インスタンスの作成 --
 	void GameManager::CreateManager()
 	{
 		try
@@ -31,6 +33,7 @@ namespace basecross
 		}
 	}
 
+	// -- シングルトンアクセサ --
 	unique_ptr<GameManager, GameManager::GMDeleter>& GameManager::GetManager()
 	{
 		try
@@ -61,6 +64,7 @@ namespace basecross
 			return true;
 	}
 
+	// -- 強制破棄 --
 	void GameManager::DeleteManager()
 	{
 		if (m_ins.get() == 0)
@@ -69,6 +73,7 @@ namespace basecross
 		}
 	}
 
+	// -- リソースの読み込み --
 	void GameManager::ResorceLoadFunc()
 	{
 		mutex.lock();
@@ -128,7 +133,7 @@ namespace basecross
 		mutex.unlock();
 	}
 
-
+	// -- リソース読込開始(並列実行) --
 	void GameManager::LoadResources()
 	{
 		if (!m_Loaded)
@@ -138,11 +143,11 @@ namespace basecross
 		}
 	}
 
+	// -- ゲームステージの生成 --
 	void GameManager::CreateGameStage(const shared_ptr<StageBase>&StagePtr)
 	{
-		StageBulider Builder;
+		StageBuilder Builder;
 
-		StagePtr->CreateSharedObjectGroup(L"Rock");
 		Builder.Register<FixedObj>(L"Test");
 		Builder.Register<LoopTexObj>(L"Floor");
 		Builder.Register<Player>(L"Player");
@@ -197,9 +202,10 @@ namespace basecross
 		}
 	}
 
+	// -- UIセットの生成--
 	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)
 	{
-		StageBulider Builder;
+		StageBuilder Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
 		PathStr += L"XMLFiles/";

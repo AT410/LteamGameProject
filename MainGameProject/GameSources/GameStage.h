@@ -130,43 +130,25 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class GameStage :public StageBase
 	{
-		shared_ptr<EfkPlay> m_EfkPlay[50];
+		shared_ptr<EfkPlay> m_EfkPlay[10];
 		int m_EfkCount = 0;
 
 	public:
 		GameStage() :StageBase(StageType::GameStage) {}
 		virtual ~GameStage() {}
-
-		//ステージの配置
-		void GenerateStage();
 		//初期化
 		void OnCreate()override;
 		void OnUpdate()override;
 
 		void OnDraw()override;
 
-		void Effectplay(wstring Key, Vec3 hitpoint) {
-			//エフェクトのプレイ********************************
-			//auto TransformPtr = &tr;
-			//auto ShEfkInterface = GetTypeStage<GameStage>()->GetEfkInterface();
-
-			m_EfkPlay[m_EfkCount] = ObjectFactory::Create<EfkPlay>(Key, hitpoint);
-			if (m_EfkCount == 19) {
-				m_EfkCount = 0;
-			}
-			else {
-				m_EfkCount++;
-			}
-		}
+		void Effectplay(wstring Key, Vec3 hitpoint);
 
 		void ToReStart();
 
 		void ToMyCamera();
 
 		void ToEventCamera();
-		//再生エフェクトを追加する
-		//void AddEffect();
-
 	private:
 	};
 

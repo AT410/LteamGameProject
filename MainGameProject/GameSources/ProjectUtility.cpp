@@ -14,7 +14,7 @@ namespace basecross
 //	struct StageBulider::Impl;
 //	用途: Implイディオム
 //--------------------------------------------------------------------------------------
-	struct StageBulider::Impl {
+	struct StageBuilder::Impl {
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML> > m_CreatorMap;
 
 		Impl()
@@ -28,18 +28,18 @@ namespace basecross
 	//	ステージビルダーToXML
 	//--------------------------------------------------------------------------------------
 
-	StageBulider::StageBulider() :
+	StageBuilder::StageBuilder() :
 		pImpl(new Impl())
 	{
 
 	}
-	StageBulider::~StageBulider() {}
+	StageBuilder::~StageBuilder() {}
 
-	map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& StageBulider::GetCreatorMap() const {
+	map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& StageBuilder::GetCreatorMap() const {
 		return pImpl->m_CreatorMap;
 	}
 
-	shared_ptr<GameObject>  StageBulider::CreateFromXML(const wstring& ClsName, const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode) {
+	shared_ptr<GameObject>  StageBuilder::CreateFromXML(const wstring& ClsName, const shared_ptr<Stage>& StagePtr, IXMLDOMNodePtr pNode) {
 		auto it = pImpl->m_CreatorMap.find(ClsName);
 		if (it == pImpl->m_CreatorMap.end()) {
 			return nullptr;
@@ -50,17 +50,8 @@ namespace basecross
 		}
 	}
 
-	void StageBulider::StageBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName) {
+	void StageBuilder::StageBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName) {
 		try {
-			//カメラ設定値
-			Vec3 Eye, At;
-			float Near, Far;
-
-			Eye = Vec3(7.0f, 10.0f, -20.0f);
-			At = Vec3(7.0f, 2.0f, 0.0f);
-			Near = 0.5f;
-			Far = 1000.0f;
-
 			//ステージ選択値を取得
 			auto Select = GameManager::GetManager()->GetStagePair();
 			int SelectArea = Select.first;
@@ -93,33 +84,10 @@ namespace basecross
 					int StageNum = (int)_wtoi(StageNumStr.c_str());
 					if (StageNum != SelectStage)
 						continue;
-					//カメラ情報取得
-					auto CameraEyeStr = XmlDocReader::GetAttribute(StageNode, L"CameraEye");
-					auto CameraAtStr = XmlDocReader::GetAttribute(StageNode, L"CameraAt");
-					auto CameraNearStr = XmlDocReader::GetAttribute(StageNode, L"CameraNear");
-					auto CameraFarStr = XmlDocReader::GetAttribute(StageNode, L"CameraFar");
-					auto ReloadStr = XmlDocReader::GetAttribute(StageNode, L"StageReloadActive");
-					bool ReloadActive = (bool)_wtoi(ReloadStr.c_str());
-					GameManager::GetManager()->SetStageReloadActive(ReloadActive);
-					//トークン
-					if (CameraEyeStr != L"") 
-					{
-						vector<wstring> Token;
-						Token.clear();
-						Util::WStrToTokenVector(Token, CameraEyeStr, L',');
-						Eye.x = (float)_wtof(Token[0].c_str());
-						Eye.y = (float)_wtof(Token[1].c_str());
-						Eye.z = (float)_wtof(Token[2].c_str());
 
-						Token.clear();
-						Util::WStrToTokenVector(Token, CameraAtStr, L',');
-						At.x = (float)_wtof(Token[0].c_str());
-						At.y = (float)_wtof(Token[1].c_str());
-						At.z = (float)_wtof(Token[2].c_str());
+					// -- ステージ情報の設定 --
+					StageSetting(StagePtr, StageNode);
 
-						Near = (float)_wtof(CameraNearStr.c_str());
-						Far = (float)_wtof(CameraFarStr.c_str());
-					}
 					//子要素を取得
 					auto ObjNodes = XmlDocReader::GetChildNodes(StageNode);
 					long ObjCount = XmlDocReader::GetLength(ObjNodes);
@@ -137,24 +105,8 @@ namespace basecross
 							CreateFromXML(TypeStr, StagePtr, ObjNode);
 						}
 					}
+					return;
 				}
-			}
-
-			//Area
-			//カメラ情報を更新する
-			auto MainView = StagePtr->GetMainView();
-
-			auto Camera = dynamic_pointer_cast<MyCamera>(MainView->GetCamera());
-
-			if (Camera) 
-			{
-				Camera->SetEye(Eye);
-				Camera->SetAt(At);
-				Camera->SetNear(Near);
-				Camera->SetFar(Far);
-
-				Camera->SetExpansionEye(Eye);
-				Camera->SetExpansionAt(At);
 			}
 		}
 		catch (...) {
@@ -162,7 +114,64 @@ namespace basecross
 		}
 	}
 
-	void StageBulider::UISetBuild(const shared_ptr<StageBase>&StagePtr, const wstring& XMLFile, const bool DefaultDrawActive)
+	void StageBuilder::StageSetting(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodePtr& pStageNode)
+	{
+		//カメラ設定値
+		Vec3 Eye, At;
+		float Near, Far;
+
+		Eye = Vec3(7.0f, 10.0f, -20.0f);
+		At = Vec3(7.0f, 2.0f, 0.0f);
+		Near = 0.5f;
+		Far = 1000.0f;
+
+		//カメラ情報取得
+		auto CameraEyeStr = XmlDocReader::GetAttribute(pStageNode, L"CameraEye");
+		auto CameraAtStr = XmlDocReader::GetAttribute(pStageNode, L"CameraAt");
+		auto CameraNearStr = XmlDocReader::GetAttribute(pStageNode, L"CameraNear");
+		auto CameraFarStr = XmlDocReader::GetAttribute(pStageNode, L"CameraFar");
+		auto ReloadStr = XmlDocReader::GetAttribute(pStageNode, L"StageReloadActive");
+		bool ReloadActive = (bool)_wtoi(ReloadStr.c_str());
+		GameManager::GetManager()->SetStageReloadActive(ReloadActive);
+		//トークン
+		if (CameraEyeStr != L"")
+		{
+			vector<wstring> Token;
+			Token.clear();
+			Util::WStrToTokenVector(Token, CameraEyeStr, L',');
+			Eye.x = (float)_wtof(Token[0].c_str());
+			Eye.y = (float)_wtof(Token[1].c_str());
+			Eye.z = (float)_wtof(Token[2].c_str());
+
+			Token.clear();
+			Util::WStrToTokenVector(Token, CameraAtStr, L',');
+			At.x = (float)_wtof(Token[0].c_str());
+			At.y = (float)_wtof(Token[1].c_str());
+			At.z = (float)_wtof(Token[2].c_str());
+
+			Near = (float)_wtof(CameraNearStr.c_str());
+			Far = (float)_wtof(CameraFarStr.c_str());
+		}
+
+		//カメラ情報を更新する
+		auto MainView = StagePtr->GetMainView();
+
+		auto Camera = dynamic_pointer_cast<MyCamera>(MainView->GetCamera());
+
+		if (Camera)
+		{
+			Camera->SetEye(Eye);
+			Camera->SetAt(At);
+			Camera->SetNear(Near);
+			Camera->SetFar(Far);
+
+			Camera->SetExpansionEye(Eye);
+			Camera->SetExpansionAt(At);
+		}
+
+	}
+
+	void StageBuilder::UISetBuild(const shared_ptr<StageBase>&StagePtr, const wstring& XMLFile, const bool DefaultDrawActive)
 	{
 		//XMLリーダー
 		XmlDocReader Reader(XMLFile);
@@ -174,37 +183,42 @@ namespace basecross
 			auto SType = StagePtr->GetStageTypeStr();
 			if (UITypeStr != SType)
 				continue;
+
 			//子要素を取得
 			auto UIDataNodes = XmlDocReader::GetChildNodes(UITypeNode);
 			long UIDataCount = XmlDocReader::GetLength(UIDataNodes);
 
-			long CountData = 0;
+			UIGenerationFromNodeList(StagePtr,UIDataNodes, UIDataCount,DefaultDrawActive);
+			return;
+		}
+	}
 
-			for (long Layer =0;Layer < 10;Layer++)
+	void StageBuilder::UIGenerationFromNodeList(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodeListPtr& pNodeList, const long NodeListCount, const bool DefaultDrawActive)
+	{
+		for (long Layer = 0; Layer < 10; Layer++)
+		{
+			for (long j = 0; j < NodeListCount; j++)
 			{
-				for (long j = 0; j < UIDataCount; j++)
-				{
-					auto UIDataNode = XmlDocReader::GetItem(UIDataNodes, j);
-					auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
+				auto UIDataNode = XmlDocReader::GetItem(pNodeList, j);
+				auto TypeStr = XmlDocReader::GetAttribute(UIDataNode, L"Type");
 
-					auto LayerStr = XmlDocReader::GetAttribute(UIDataNode, L"Layer");
+				auto LayerStr = XmlDocReader::GetAttribute(UIDataNode, L"Layer");
 
-					long UILayer = (long)_wtol(LayerStr.c_str());
-					if (Layer == UILayer) 
+				long UILayer = (long)_wtol(LayerStr.c_str());
+				if (Layer != UILayer)
+					continue;
+
+				// -- オーダーレイヤーの順に生成する --
+				auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
+				if (Ptr) {
+					Ptr->SetDrawActive(DefaultDrawActive);
+					if (StagePtr->GetStageType() == StageType::GameStage)
 					{
-						// -- オーダーレイヤーの順に生成する --
-						auto Ptr = CreateFromXML(TypeStr, StagePtr, UIDataNode);
-						if (Ptr) {
-							Ptr->SetDrawActive(DefaultDrawActive);
-							if (StagePtr->GetStageType() == StageType::GameStage)
-							{
-								StagePtr->GetSharedObjectGroup(L"GameStageUI")->IntoGroup(Ptr);
-							}
-						}
+						StagePtr->GetSharedObjectGroup(L"GameStageUI")->IntoGroup(Ptr);
 					}
 				}
-
 			}
+
 		}
 	}
 

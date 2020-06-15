@@ -7,10 +7,9 @@
 
 namespace basecross
 {
-	/*!
-	@berif ゲームマネージャークラス
-	@info ゲーム全体の管理・ステージオブジェクトの生成
-	*/
+	//----------------------------------------------------------------------------
+	//ゲームマネージャー
+	//----------------------------------------------------------------------------
 	class GameManager
 	{
 	private:
@@ -69,6 +68,7 @@ namespace basecross
 		bool GetUpdateActive()const { return m_UpdateActive; }
 		bool GetStageReloadActive()const { return m_StageReloadActive; }
 		bool GetStartCameraActive()const { return m_StartCametaEnd; }
+
 		//セッター
 		void SetStagePair(int AreaNum, int StageNum) { m_SelectStage = make_pair(AreaNum, StageNum); }
 		void SetStagePair(const pair<int, int> StagePair) { m_SelectStage = StagePair; }

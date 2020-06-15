@@ -35,13 +35,13 @@ namespace basecross
 		//ゲッター
 		bool GetSwitchActiveI()const { return m_Active; }
 	private:
-		bool m_Active;//ON・OFF判定
-		//押し続ける必要があるか。
-		bool m_IsKeep;
+		bool m_Active;				//<-ON・OFF判定
+
+		bool m_IsKeep;				//<-押し続ける必要があるか。
 
 		//イベント設定
-		wstring m_RecipientKey;//<-受信先設定キー
-		wstring m_EventMsg; //<-イベントメッセージ
+		wstring m_RecipientKey;		//<-受信先設定キー
+		wstring m_EventMsg;			//<-イベントメッセージ
 
 		//エフェクト
 		shared_ptr<EfkPlay> m_ActiveEfk;
@@ -101,8 +101,8 @@ namespace basecross
 		shared_ptr<EfkPlay> m_Fire;
 
 		//イベント設定
-		wstring m_RecipientKey;//<-受信先設定キー
-		wstring m_EventMsg; //<-イベントメッセージ
+		wstring m_RecipientKey;	//<-受信先設定キー
+		wstring m_EventMsg;		//<-イベントメッセージ
 	};
 
 	///<breif>熱を伝える棒<breif/>
@@ -205,6 +205,7 @@ namespace basecross
 	private:
 
 	};
+
 	//-----------------------------------------------------------------------------
 	//扉のオブジェクト
 	//-----------------------------------------------------------------------------

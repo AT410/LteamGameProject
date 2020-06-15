@@ -8,8 +8,8 @@
 
 namespace basecross
 {
-	///<breif>汎用固定オブジェクト<breif/>
-	///<name>作成者：阿部達哉<name/>
+	///<breif>汎用固定オブジェクト</breif>
+	///<name>作成者：阿部達哉</name>
 	class FixedObj :public ObjectBase
 	{
 	public:
