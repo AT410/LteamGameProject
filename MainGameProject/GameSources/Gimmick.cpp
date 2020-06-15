@@ -748,7 +748,7 @@ namespace basecross
 	//＠作動している水噴射とプレイヤーに接触した際にプレイヤーで起こることを記述した関数
 	void WaterJet::WaterJetJudgment() {
 		auto ptrTransform = GetComponent<Transform>();
-		m_Pos = ptrTransform->GetPosition();
+		m_FirePos = ptrTransform->GetPosition();
 		auto GetPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 		auto PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
 		AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);

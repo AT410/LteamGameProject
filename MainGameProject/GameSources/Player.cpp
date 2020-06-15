@@ -116,33 +116,33 @@ namespace basecross{
 		if (m_PushPull) {
 			auto elapsedtime = App::GetApp()->GetElapsedTime();
 			auto ptrTransform = GetComponent<Transform>();
-			auto pos = ptrTransform->GetPosition();
+			auto ptrpos = ptrTransform->GetPosition();
 			auto obj = m_PushObj->GetComponent<Transform>();
 			auto objpos = obj->GetPosition();
 			auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 			m_PushBoxActiv = true;
 			if (Cont.fThumbLX > 0.8f) {
-				pos.x += elapsedtime;
+				ptrpos.x += elapsedtime;
 				objpos.x += elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
+				GetComponent<Transform>()->SetPosition(ptrpos);
 				obj->SetPosition(objpos);
 			}
 			else if (Cont.fThumbLX < -0.8f) {
-				pos.x -= elapsedtime;
+				ptrpos.x -= elapsedtime;
 				objpos.x -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
+				GetComponent<Transform>()->SetPosition(ptrpos);
 				obj->SetPosition(objpos);
 			}
 			if (Cont.fThumbLY > 0.8f) {
-				pos.z += elapsedtime;
+				ptrpos.z += elapsedtime;
 				objpos.z += elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
+				GetComponent<Transform>()->SetPosition(ptrpos);
 				obj->SetPosition(objpos);
 			}
 			else if (Cont.fThumbLY < -0.8f) {
-				pos.z -= elapsedtime;
+				ptrpos.z -= elapsedtime;
 				objpos.z -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(pos);
+				GetComponent<Transform>()->SetPosition(ptrpos);
 				obj->SetPosition(objpos);
 			}
 		}
@@ -245,7 +245,6 @@ namespace basecross{
 	//接触しているオブジェクトから離れる関数（梯子から離れる時）
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 		auto ptrTransform = GetComponent<Transform>();
-		auto ptrPos = ptrTransform->GetPosition();
 		m_RisePos = 0.0f;
 
 		if (Obj->FindTag(L"MoveFloor"))
@@ -336,7 +335,9 @@ namespace basecross{
 			GetComponent<Gravity>()->SetUpdateActive(true);
 		}
 	}
-
+	//プレイヤー状態アップデート関数
+	//松崎　洸樹
+	//プレイヤーのステートが別のに更新されるとステートの内容の関数が起動する
 	void Player::StateUpdate() {
 		switch (m_PlayerState) 
 		{
@@ -373,7 +374,9 @@ namespace basecross{
 	{
 
 	}
-
+	//Excute中関数
+	//松崎　洸樹
+	//ステートがExcute時に作動する関数
 	void Player::ExcuteBehavior()
 	{
 		m_Handler.PushHandler(GetThis<Player>());
@@ -388,13 +391,13 @@ namespace basecross{
 	{
 
 	}
-
+	//Restart中関数
+	//松崎　洸樹
+	//ステートがRestart時に作動する関数
 	void Player::RestartBehabior() {
 		m_FireEfk->StopEffect();
 		GetComponent<Gravity>()->SetGravityZero();
 		GetComponent<Gravity>()->SetGravityVerocityZero();
-		//フェードの開始　フェードが再開　フェード終了後　黒くなりリセットが呼ばれて　フェードアウト呼ばれて　明るくなってフェードが入って動けるようになる
-		//ゲームステージのマネージャーでフェードを初めて
 		if (GameManager::GetManager()->GetStageReloadActive()) 
 		{
 			PostEvent(0.0f, GetThis<Player>(), L"Fade", L"ToGameStage", L"FadeOut");
@@ -405,7 +408,9 @@ namespace basecross{
 		}
 		m_ResetActive = true;
 	}
-
+	//イベント時関数
+	//松崎　洸樹
+	//イベント開始時の関数
 	void Player::OnEvent(const shared_ptr<Event>& Eve) {
 		if (Eve->m_MsgStr == L"ExcuteActive") {
 		}

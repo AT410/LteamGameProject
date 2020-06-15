@@ -353,7 +353,7 @@ namespace basecross
 	//ウォータージェットクラス
 	//＠製作者　松崎洸樹
 	class WaterJet : public ObjectBase {
-		Vec3 m_Pos;
+		Vec3 m_FirePos;
 		Vec3 m_StartPos;
 		bool m_WaterJetmode; //水噴射のON/OFFスイッチ
 		bool m_WaterJetDirToUp; //水噴射の向き　trueが上向き falseが下向き
@@ -369,9 +369,6 @@ namespace basecross
 		float m_SizeAABBZ;
 
 		shared_ptr<EfkPlay> m_efk;
-		//イベント設定
-		wstring m_RecipientKey;//<-受信先設定キー
-		wstring m_EventMsg; //<-イベントメッセージ
 
 		shared_ptr<Waterfall> m_WaterFall;
 
