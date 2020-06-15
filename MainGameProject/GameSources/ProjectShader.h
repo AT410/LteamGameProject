@@ -8,7 +8,10 @@
 
 namespace basecross{
 
-	struct BufferTest
+	//----------------------------------------------------------------------------
+	//水用コンスタントバッファ構造体
+	//----------------------------------------------------------------------------
+	struct WaterBuffer
 	{
 		Mat4x4 World;
 		Mat4x4 View;
@@ -21,13 +24,16 @@ namespace basecross{
 
 		XMUINT4 ActiveFlag;
 
-		BufferTest()
+		WaterBuffer()
 		{
-			memset(this, 0, sizeof(BufferTest));
+			memset(this, 0, sizeof(WaterBuffer));
 			ActiveFlag = XMUINT4(0, 0, 0, 0);
 		}
 	};
 
+	//----------------------------------------------------------------------------
+	//シェーダコントロール用バッファ構造体
+	//----------------------------------------------------------------------------
 	struct ShaderControl
 	{
 		XMUINT4 TexFlag;
@@ -41,7 +47,7 @@ namespace basecross{
 		}
 	};
 
-	DECLARE_DX11_CONSTANT_BUFFER(TestBuffer, BufferTest)
+	DECLARE_DX11_CONSTANT_BUFFER(WBuffer, WaterBuffer)
 	DECLARE_DX11_CONSTANT_BUFFER(ControlBuffer, ShaderControl);
 
 	DECLARE_DX11_VERTEX_SHADER(VSWater, VertexPositionNormalTexture)

@@ -95,6 +95,25 @@ namespace basecross
 		}
 	}
 
+	void ObjectBase::OnEvent(const shared_ptr<Event>&event)
+	{
+		if (m_AnimationActive) 
+		{
+			if (event->m_MsgStr == L"StartAction")
+			{
+				if (!m_StartActionActive)
+					return;
+				GetComponent<Actions>()->Run(L"Start");
+			}
+			else if (event->m_MsgStr == L"EndAction")
+			{
+				if (!m_EndActionActive)
+					return;
+				GetComponent<Actions>()->Run(L"End");
+			}
+		}
+	}
+
 	void ObjectBase::DefaultSettings()
 	{
 		// -- ï`âÊê›íË --

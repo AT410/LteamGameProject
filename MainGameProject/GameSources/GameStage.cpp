@@ -120,8 +120,8 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"DateSelect_TX");
-			AddGameObject<ContTest>(L"ToAreaSelectStage");
+			AddGameObject<AnimSprite>(L"DateSelect_TX");
+			AddGameObject<DefaultInput>(L"ToAreaSelectStage");
 
 		}
 		catch (...)
@@ -174,7 +174,7 @@ namespace basecross {
 		//リソースのロードを行う
 		GameManager::GetManager()->LoadResources();
 
-		AddGameObject<AnimSpriteTest>(L"WAIT_TX", true);
+		AddGameObject<AnimSprite>(L"WAIT_TX", true,true);
 	}
 
 	void LoadStage::OnUpdate()
@@ -206,7 +206,7 @@ namespace basecross {
 		wstring StageStr = Util::IntToWStr(Pair.second + 1);
 		wstring TexKey = L"Stage" + AreaStr + L"-" + StageStr + L"_TX";
 
-		AddGameObject<AnimSpriteTest>(TexKey);
+		AddGameObject<AnimSprite>(TexKey,true);
 		PostEvent(0.0f, GetThis<GameStage>(), L"Start", L"StartAction");
 	}
 
@@ -278,8 +278,8 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<DebugSprite>(L"GAMECLEAR_TX");
-			AddGameObject<ContTest>(L"ToTitleStage");
+			AddGameObject<AnimSprite>(L"GAMECLEAR_TX");
+			AddGameObject<DefaultInput>(L"ToTitleStage");
 			SetBGM(L"Ending_SD",false);
 		}
 		catch (...)

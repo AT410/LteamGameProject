@@ -544,4 +544,28 @@ namespace basecross
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 	};
+
+
+	//----------------------------------------------------------------------------
+	//ÉSÅ[ÉãÉNÉâÉX
+	//----------------------------------------------------------------------------
+	class Goal :public ObjectBase
+	{
+	public:
+		Goal(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+
+		virtual ~Goal() {}
+
+		void OnCreate()	override;
+
+		void OnUpdate()override;
+
+		void SetGoal(bool IsGoal) { m_IsGoal = IsGoal; }
+
+	private:
+		bool m_IsGoal;
+		float m_count;
+
+		shared_ptr<SoundItem> m_sound;
+	};
 }

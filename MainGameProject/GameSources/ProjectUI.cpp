@@ -214,79 +214,6 @@ namespace basecross
 		PostEvent(1.0f, GetThis<ObjectInterface>(),L"Fade", m_EventStr,L"FadeOut");
 	}
 
-	//----------------------------------------------------------------------------
-	//スイッチングUIの実体
-	//----------------------------------------------------------------------------
-	void SwitchingUI::OnCreate()
-	{
-		// -- メッシュの作成 --
-		Vec2 tipSize = Vec2(1.0f, 1.0f);
-
-		Vec3 StartPos = GetStartPos();
-		float halfWidth = GetUIWidth() / 2.0f;
-		float halfHeight = GetUIHeight() / 2.0f;
-
-		vector<VertexPositionTexture>vertices =
-		{
-			{Vec3(-halfWidth,+halfHeight,0.0f),Vec2(0		,0)},
-			{Vec3(+halfWidth,+halfHeight,0.0f),Vec2(tipSize.x,0)},
-			{Vec3(-halfWidth,-halfHeight,0.0f),Vec2(0		,tipSize.y)},
-			{Vec3(+halfWidth,-halfHeight,0.0f),Vec2(tipSize.x,tipSize.y)}
-		};
-
-		vector<uint16_t> indices =
-		{
-			0,1,2,
-			2,1,3,
-		};
-
-		// -- 描画設定 --
-		auto DrawComp = AddComponent<PTSpriteDraw>();
-		DrawComp->CreateMesh<VertexPositionTexture>(vertices, indices);
-		DrawComp->SetTextureResource(GetTexKey());
-
-		// -- 配置設定 --
-		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(GetStartPos());
-
-	}
-
-	void TestUI::OnCreate()
-	{
-		auto DrawComp = AddComponent<PTStaticDraw>();
-		DrawComp->CreateOriginalMesh<VertexPositionTexture>(m_vertices, m_indices);
-		DrawComp->SetOriginalMeshUse(true);
-		DrawComp->SetTextureResource(m_texkey);
-		auto TransComp = GetComponent<Transform>();
-		TransComp->SetPosition(m_Pos);
-
-		SetAlphaActive(true);
-	}
-
-	void TestUI::OnUpdate()
-	{
-		
-		auto DrawComp = GetComponent<PTStaticDraw>();
-		if (m_ActiveFlag)
-		{
-			float ElapsedTime = App::GetApp()->GetElapsedTime();
-
-			m_TotalTime += ElapsedTime * 5.0f;
-			if (m_TotalTime >= XM_2PI) {
-				m_TotalTime = 0;
-			}
-			Col4 col(1.0, 0.0f, 1.0, 1.0);
-			col.w = sin(m_TotalTime) * 0.5f + 0.5f;
-			DrawComp->SetDiffuse(col);
-		}
-		else
-		{
-			DrawComp->SetDiffuse(Col4(1, 1, 1, 1));
-			m_TotalTime = 0;
-		}
-
-	}
-
 	//-----------------------------------------------------------------------------
 	//UIコントローラー
 	//-----------------------------------------------------------------------------
@@ -449,6 +376,57 @@ namespace basecross
 			{
 				ptr.lock()->SetDrawActive(ShowActive);
 			}
+		}
+	}
+
+	//----------------------------------------------------------------------------
+	//スプライトクラス
+	//----------------------------------------------------------------------------
+	void AnimSprite::OnCreate()
+	{
+		auto DrawComp = AddComponent<PCTSpriteDraw>();
+		DrawComp->CreateMesh<VertexPositionColorTexture>(m_vertices, m_indices);
+		DrawComp->SetTextureResource(m_TexKey, false);
+
+		float Alpha = m_IsActive ? 0.0f : 1.0f;
+
+		DrawComp->SetDiffuse(Col4(1, 1, 1, Alpha));
+		SetAlphaActive(true);
+	}
+
+	void AnimSprite::OnUpdate()
+	{
+		if (!m_IsLoop)
+		{
+			if (m_IsActive)
+			{
+				auto DrawComp = GetComponent<PCTSpriteDraw>();
+				auto Diffuse = DrawComp->GetDiffuse();
+				if (Diffuse.w >= 1.0f)
+				{
+					m_vol = -1.0f;
+				}
+				if (Diffuse.w < 0.0f)
+				{
+					m_IsActive = false;
+					GetStage()->GetSharedGameObject<Player>(L"Player")->SetState(PlayerState::Excute);
+				}
+				Diffuse.w += m_vol * App::GetApp()->GetElapsedTime();
+				DrawComp->SetDiffuse(Diffuse);
+			}
+		}
+		else
+		{
+			float ElapsedTime = App::GetApp()->GetElapsedTime();
+			m_TotalTime += ElapsedTime * 5.0f;
+			if (m_TotalTime >= XM_2PI) {
+				m_TotalTime = 0;
+			}
+			auto PtrDraw = GetComponent<PCTSpriteDraw>();
+			Col4 col(1.0, 1.0, 1.0, 1.0);
+			col.w = sin(m_TotalTime) * 0.5f + 0.5f;
+			PtrDraw->SetDiffuse(col);
+
 		}
 	}
 

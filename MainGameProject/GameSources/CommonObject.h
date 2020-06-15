@@ -64,43 +64,27 @@ namespace basecross
 		void OnCreate()override;
 	};
 
-	///<breif>汎用移動オブジェクト<breif/>
-	///<name>作成者：阿部達哉<name/>
-	enum class MovingType
-	{
-		Position,
-		Rotation,
-		Scaling
-	};
-
-	class MoveObj :public ObjectBase
+	//----------------------------------------------------------------------------
+	//基本入力クラス
+	//----------------------------------------------------------------------------
+	class DefaultInput :public ObjectBase, public PawnBase<DefaultInput>
 	{
 	public:
-		MoveObj(const shared_ptr<Stage>&StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
-			const wstring TexKey, const wstring MeshKey,const Vec3 Start,const Vec3 End,const float Speed,const float TotalTime);
+		DefaultInput(const shared_ptr<Stage>&StagePtr, const wstring& StageStr)
+			:ObjectBase(StagePtr), PawnBase(), m_StageStr(StageStr), m_IsSend(false)
+		{}
+		virtual ~DefaultInput() {}
 
-		MoveObj(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode);
+		void OnCreate()override {}
 
-		virtual ~MoveObj();
-
-		//初期設定
-		void OnCreate()override;
-
-		//更新
 		void OnUpdate()override;
 
+		void OnPushA()override;
+
 	private:
-		void PosMove();
-		bool LerpMove(Vec3 Start,Vec3 end);
+		wstring m_StageStr;
 
-		void RotMove();
-
-		MovingType m_Type;
-		float m_speed;
-		float m_Movetime;
-		float m_CurrntTime;
-		Vec3 m_Start;
-		Vec3 m_End;
+		bool m_IsSend;
 	};
 
 	//OpeningCameraman

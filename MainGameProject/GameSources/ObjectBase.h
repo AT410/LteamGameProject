@@ -30,6 +30,9 @@ namespace basecross
 		//更新処理
 		virtual void OnUpdate()override {};
 
+		// -- イベント処理 --
+		virtual void OnEvent(const shared_ptr<Event>& event)override;
+
 	protected:
 		// -- 基本設定関数 --
 		void DefaultSettings();

@@ -148,32 +148,32 @@ namespace basecross
 	{
 		StageBuilder Builder;
 
-		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<FrontWallObj>(L"FrontWall"); 
 		Builder.Register<LoopTexObj>(L"Floor");
-		Builder.Register<Player>(L"Player");
-		Builder.Register<Omori>(L"Omori");
 		Builder.Register<HeatStick>(L"HeatStick");
 		Builder.Register<MoveFloor>(L"MoveFloor");
-		Builder.Register<FixedObj>(L"Himo");
-		Builder.Register<Fountain>(L"Fountain");
-		Builder.Register<GoalTest>(L"Goal");
 		Builder.Register<SwitchObj>(L"Switch");
-		Builder.Register<Door>(L"Door");
+		Builder.Register<UpDownBox>(L"FloatBox"); 
+		Builder.Register<Fountain>(L"Fountain");
 		Builder.Register<FireLine>(L"FireLine");
 
-		Builder.Register<FixedObj>(L"Wall");
-		Builder.Register<FrontWallObj>(L"FrontWall"); 
-		Builder.Register<PushObj>(L"PullBox");
-
-		Builder.Register<Slope>(L"Slope");
-		Builder.Register<WaterLV2>(L"Water");
-		Builder.Register<WaterJet>(L"WaterJet");
-		Builder.Register<UpDownBox>(L"FloatBox"); 
-		Builder.Register<WaterLV2>(L"WaterLV");
 		Builder.Register<WaterDrop>(L"WaterDrop");
-		Builder.Register<StageTest>(L"Ladder");
-		Builder.Register<StageTest>(L"Match");
-		Builder.Register<StageTest>(L"FireOn");
+		Builder.Register<WaterLV2>(L"Water");
+		Builder.Register<WaterLV2>(L"WaterLV");
+		Builder.Register<WaterJet>(L"WaterJet");
+
+		Builder.Register<FixedObj>(L"Test");
+		Builder.Register<FixedObj>(L"Himo");
+		Builder.Register<FixedObj>(L"Wall");
+		Builder.Register<FixedObj>(L"Ladder");
+		Builder.Register<FixedObj>(L"Match");
+		Builder.Register<PushObj>(L"PullBox");
+		Builder.Register<Player>(L"Player");
+		Builder.Register<Slope>(L"Slope");
+		Builder.Register<Omori>(L"Omori");
+		Builder.Register<Door>(L"Door");
+		Builder.Register<Goal>(L"Goal");
+
 
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
@@ -205,11 +205,11 @@ namespace basecross
 	// -- UIƒZƒbƒg‚Ì¶¬--
 	void GameManager::CreateUISet(const shared_ptr<StageBase>& StagePtr,const bool DefaultDrawActive)
 	{
-		StageBuilder Builder;
 		wstring PathStr;
 		App::GetApp()->GetDataDirectory(PathStr);
 		PathStr += L"XMLFiles/";
 
+		StageBuilder Builder;
 		Builder.Register<NormalUI>(L"Normal");
 		Builder.Register<FlashingUI>(L"Flashing");
 

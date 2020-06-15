@@ -275,6 +275,7 @@ namespace basecross
 		DefaultSettings();
 		SetActions();
 
+		GetComponent<Collision>()->AddExcludeCollisionTag(L"Fixed");
 
 	}
 	void MoveFloor::OnUpdate()
@@ -284,23 +285,10 @@ namespace basecross
 
 	void MoveFloor::OnEvent(const shared_ptr<Event>&event)
 	{
-		if (event->m_MsgStr == L"StartAction")
+		ObjectBase::OnEvent(event);
+		
+		if (event->m_MsgStr == L"MoveFloor")
 		{
-			if (!m_StartActionActive)
-				return;
-			GetComponent<Collision>()->SetUpdateActive(true);
-			GetComponent<Actions>()->Run(L"Start", m_IsStartActionLoop);
-		}
-		else if (event->m_MsgStr == L"EndAction")
-		{
-			if (!m_EndActionActive)
-				return;
-			GetComponent<Collision>()->SetUpdateActive(false);
-			GetComponent<Actions>()->Run(L"End",m_IsEndActionLoop);
-		}
-		else if (event->m_MsgStr == L"MoveFloor")
-		{
-			//GetComponent<Collision>()->SetUpdateActive(false);
 			GetComponent<Actions>()->Run(L"OnEvent",m_IsEventActionLoop);
 		}
 
@@ -335,33 +323,26 @@ namespace basecross
 		//_cnt++;
 		DrawComp->UpdateVertices(Vertex);
 
-
+		AddTag(L"Fixed");
+		GetComponent<Collision>()->AddExcludeCollisionTag(L"Fixed");
 	}
 
 	void Slope::OnUpdate()
 	{
-		if (GetComponent<Actions>()->GetArrived())
-		{
-			GetComponent<Collision>()->SetUpdateActive(true);
-		}
+		//if (GetComponent<Actions>()->GetArrived())
+		//{
+		//	GetComponent<Collision>()->SetUpdateActive(true);
+		//}
 	}
 
 	void Slope::OnEvent(const shared_ptr<Event>& event)
 	{
-		if (event->m_MsgStr == L"StartAction")
+		ObjectBase::OnEvent(event);
+
+		if (event->m_MsgStr == L"TestEvent")
 		{
-			GetComponent<Collision>()->SetUpdateActive(false);
-			GetComponent<Actions>()->Run(L"Start",m_IsStartActionLoop);
-		}
-		else if (event->m_MsgStr == L"EndAction")
-		{
-			GetComponent<Collision>()->SetUpdateActive(false);
-			GetComponent<Actions>()->Run(L"End");
-		}
-		else if (event->m_MsgStr == L"TestEvent")
-		{
-			GetComponent<Collision>()->SetUpdateActive(false);
-			GetComponent<Actions>()->Run(L"OnEvent");
+			if(m_EventActionActive)
+				GetComponent<Actions>()->Run(L"OnEvent",m_IsEventActionLoop);
 		}
 	}
 
@@ -1324,6 +1305,72 @@ namespace basecross
 
 	void PushObj::OnCollisionExit(shared_ptr<GameObject>& Obj) {
 		//GetComponent<Gravity>()->SetUpdateActive(true);
+	}
+
+	Goal::Goal(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
+		:ObjectBase(StagePtr, pNode), m_IsGoal(false), m_count(0.0f)
+	{
+
+	}
+
+	void Goal::OnCreate()
+	{
+		DefaultSettings();
+		//描画設定
+		//auto DrawComp = AddComponent<PNTStaticDraw>();
+		//マップに登録されてない（DEFAULT_CUBE, TEST_TXになってる）↓
+		//DrawComp->SetMeshResource(L"GOAL_MD");
+		//DrawComp->SetTextureResource(L"GOAL_TX");
+
+		//配置設定
+		auto TransComp = GetComponent<Transform>();
+		m_pos.y += -0.5f;
+
+		auto CollComp = AddComponent<CollisionObb>();
+		CollComp->SetAfterCollision(AfterCollision::None);
+		//マップにアクティブ化してない↓
+		GetStage()->SetSharedGameObject(L"Goal", GetThis<Goal>());
+
+
+	}
+
+	void Goal::OnUpdate()
+	{
+		if (m_IsGoal)
+		{
+			m_count += App::GetApp()->GetElapsedTime();
+			if (m_count > 2.0f)
+			{
+				auto  StageSelect = GameManager::GetManager()->GetStagePair();
+				auto MaxStageCount = GameManager::GetManager()->GetMaxStagePair();
+				if (StageSelect.second != MaxStageCount.second - 1)
+				{
+					StageSelect.second += 1;
+					GameManager::GetManager()->SetStagePair(StageSelect);
+					PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToGameStage");
+					GameManager::GetManager()->SetStartCameraActive(false);
+					GameManager::GetManager()->SetUpdateActive(false);
+				}
+				else
+				{
+					if (StageSelect.first != MaxStageCount.first - 1)
+					{
+						StageSelect.first += 1;
+						StageSelect.second = 0;
+						GameManager::GetManager()->SetStagePair(StageSelect);
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToGameStage");
+						GameManager::GetManager()->SetStartCameraActive(false);
+						GameManager::GetManager()->SetUpdateActive(false);
+					}
+					else
+					{
+						GameManager::GetManager()->SetUpdateActive(false);
+						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToEndingStage");
+					}
+				}
+				m_IsGoal = false;
+			}
+		}
 	}
 
 }

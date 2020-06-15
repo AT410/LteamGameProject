@@ -170,7 +170,7 @@ namespace basecross{
 		auto ptrGetPos = ptrTransform->GetPosition();
 		if (Obj->FindTag(L"Goal")) {
 			m_PlayerState = PlayerState::Clear;
-			auto Ptr = dynamic_pointer_cast<GoalTest>(Obj);
+			auto Ptr = dynamic_pointer_cast<Goal>(Obj);
 			if (Ptr)
 			{
 				Ptr->SetGoal(true);

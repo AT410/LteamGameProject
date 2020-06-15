@@ -59,9 +59,9 @@ namespace basecross
 			//XMLƒŠ[ƒ_[
 			XmlDocReader Reader(XMLFileName);
 			auto rootNode = Reader.GetSelectSingleNode(L"root");
-			auto AreaCountStr = XmlDocReader::GetAttribute(rootNode, L"AreaCount");
-			int AreaCount = (int)_wtoi(AreaCountStr.c_str());
-			GameManager::GetManager()->SetMaxAreaCount(AreaCount);
+			auto MaxAreaCountStr = XmlDocReader::GetAttribute(rootNode, L"AreaCount");
+			int MaxAreaCount = (int)_wtoi(MaxAreaCountStr.c_str());
+			GameManager::GetManager()->SetMaxAreaCount(MaxAreaCount);
 
 			auto AreaNodes = XmlDocReader::GetChildNodes(rootNode);
 			long AreaCountNode = XmlDocReader::GetLength(AreaNodes);
