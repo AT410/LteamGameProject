@@ -100,7 +100,6 @@ namespace basecross {
 			AddGameObject<UIController>(GetStageType());
 			GameManager::GetManager()->CreateUISet(GetThis<TitleStage>());
 			AddGameObject<FadeObj>(FadeType::FadeIn);
-			GameManager::GetManager()->GetSaveData()->Load(L"TEST.GD");
 		}
 		catch (...)
 		{
@@ -121,8 +120,9 @@ namespace basecross {
 		try
 		{
 			CreateViewLight();
-			AddGameObject<AnimSprite>(L"DateSelect_TX");
-			AddGameObject<DefaultInput>(L"ToAreaSelectStage");
+			AddGameObject<UIController>(GetStageType());
+			GameManager::GetManager()->CreateUISet(GetThis<DataSelectStage>());
+			AddGameObject<FadeObj>(FadeType::FadeIn);
 
 		}
 		catch (...)

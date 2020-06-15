@@ -139,6 +139,18 @@ namespace basecross
 			m_AreaNum = (int)_wtoi(AreaNumStr.c_str());
 			m_StageNum = (int)_wtoi(StageNumStr.c_str());
 		}
+
+		if (m_EventStr == L"ToAreaSelectStage")
+		{
+			wstring FromData = XmlDocReader::GetAttribute(pNode, L"ToAreaFromData");
+			m_FileActive = (bool)_wtoi(FromData.c_str());
+
+			if (m_FileActive)
+			{
+				wstring FileName = XmlDocReader::GetAttribute(pNode, L"SaveFile");
+				m_FileName = FileName;
+			}
+		}
 	}
 
 	void FlashingUI::OnCreate()
@@ -229,6 +241,11 @@ namespace basecross
 				if (!GameManager::GetManager()->GetSaveData()->IsStageClear(m_StageNum))
 					return false;
 				GameManager::GetManager()->SetStageNumber(m_StageNum);
+			}
+
+			if (m_EventStr == L"ToAreaSelectStage"&&m_FileActive)
+			{
+				GameManager::GetManager()->GetSaveData()->Load(m_FileName);
 			}
 		}
 		GameManager::GetManager()->SetStartCameraActive(false);

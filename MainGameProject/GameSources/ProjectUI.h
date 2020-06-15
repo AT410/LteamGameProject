@@ -88,6 +88,10 @@ namespace basecross
 
 		int m_StageNum,m_AreaNum;
 
+		// -- Data --
+		bool m_FileActive;
+		wstring m_FileName;
+
 		bool m_IsClear;
 		bool m_ActiveFlashing;
 		float m_FlashingSpeed;
