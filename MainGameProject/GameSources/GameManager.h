@@ -24,6 +24,10 @@ namespace basecross
 		bool IsAreaClear(int AreaNumber);
 
 		bool IsStageClear(int StageNumber);
+
+		void Update();
+
+		bool DataToStr(const wstring& FileName, wstring& result);
 	private:
 		struct Impl;
 		unique_ptr<Impl> m_pImpl;
@@ -84,6 +88,8 @@ namespace basecross
 		void CreateGameStage(const shared_ptr<StageBase>&StagePtr);
 
 		void CreateUISet(const shared_ptr<StageBase>&StagePtr,const bool DefaultDrawActive =true);
+
+		void UpdateManager();
 
 		//ÉQÉbÉ^Å[
 		pair<int, int> GetStagePair()const {return m_SelectStage; }

@@ -246,6 +246,8 @@ namespace basecross {
 	{
 		App::GetApp()->GetScene<Scene>()->GetEfkInterface()->OnUpdate();
 
+		GameManager::GetManager()->UpdateManager();
+
 		auto InputKey = App::GetApp()->GetInputDevice().GetKeyState();
 		if (InputKey.m_bPressedKeyTbl['H'])
 		{
