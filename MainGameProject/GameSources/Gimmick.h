@@ -500,12 +500,14 @@ namespace basecross
 
 
 	class UpDownBox : public ObjectBase {
-		float m_Speed;
-		float m_totaltime;
-		float m_parenttime;
-		AABB m_BoxAABB;
+		//トータルタイムのための時間
+		float m_Totaltime;
+		//プレイヤーとの疑似的親子化の時間
+		float m_Parenttime;
+		
 		Vec3 m_OldPos;
 		Vec3 m_CurrentPos;
+		//疑似的親子化の判定
 		bool m_ParentJudge;
 		bool FloatMove();
 	public:
@@ -522,11 +524,14 @@ namespace basecross
 	};
 
 	class PushObj : public ObjectBase {
+		//オブジェクトが動けるか動けないか
 		bool m_Boxmode;
+		//オブジェクトの現在の位置
 		Vec3 m_CurrentPos;
+		//オブジェクトの停止位置
 		Vec3 m_StopPos;
+		//オブジェクトの以前の位置
 		Vec3 m_PastPos;
-		Vec3 m_FixedBox;
 	public:
 		PushObj(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
@@ -537,7 +542,6 @@ namespace basecross
 		Vec3 GetCurrentPos() { return m_CurrentPos; }
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Obj)override;
 		virtual void OnCollisionExcute(shared_ptr<GameObject>& Obj) override;
-		virtual void OnCollisionExit(shared_ptr<GameObject>& Obj) override;
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 	};

@@ -835,7 +835,9 @@ namespace basecross
 		}
 
 	}
-
+	//接触時関数
+	//
+	//プレイヤーが水滴に接触した際の関数
 	void WaterDrop::OnCollisionEnter(shared_ptr<GameObject>&Obj)
 	{
 		auto PPtr = dynamic_pointer_cast<Player>(Obj);
@@ -878,7 +880,6 @@ namespace basecross
 			HitResponseAABB();
 		}
 	}
-
 	void WaterLV2::ChangeLevel()
 	{
 		if (m_IntervalActive)
@@ -1166,20 +1167,13 @@ namespace basecross
 	}
 
 	UpDownBox::UpDownBox(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode), m_Speed(2.0f), m_OldPos(0.0f), m_parenttime(0.0f)
+		ObjectBase(Stageptr, pNode), m_OldPos(0.0f), m_Parenttime(0.0f)
 	{}
 
 	void UpDownBox::OnCreate() {
 
 		DefaultSettings();
 		auto ptrTransform = GetComponent<Transform>();
-
-		//auto ptrPos = ptrTransform->GetPosition();
-		//auto ptrColl = AddComponent<CollisionObb>();
-		////↓メッシュ・テクスチャ消すとエラー起こしてゲームできない
-		//auto ptrDraw = AddComponent<PNTPointDraw>();
-		//ptrDraw->SetMeshResource(m_meshKey);
-		//ptrDraw->SetTextureResource(m_texKey);
 
 		m_OldPos = ptrTransform->GetPosition();
 		m_CurrentPos = ptrTransform->GetPosition();
@@ -1197,18 +1191,17 @@ namespace basecross
 	//プレイヤーが離れた時にプレイヤーとボックスの親子化解除をするための関数
 	void UpDownBox::BoxJudgment() {
 		auto Elapsedtime = App::GetApp()->GetElapsedTime();
-		auto ptrPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 		auto ptrTransform = GetComponent<Transform>();
 		if (m_ParentJudge) {
 			m_CurrentPos.y += -Elapsedtime;
 			ptrTransform->SetPosition(m_CurrentPos);
 		}
 		else {
-			m_parenttime += -Elapsedtime;
-			if (m_parenttime <= 0.0f) {
+			m_Parenttime += -Elapsedtime;
+			if (m_Parenttime <= 0.0f) {
 				FloatMove();
 			}
-			else if (m_parenttime > 0.0f) {
+			else if (m_Parenttime > 0.0f) {
 				m_CurrentPos.y += -Elapsedtime;
 				ptrTransform->SetPosition(m_CurrentPos);
 
@@ -1220,7 +1213,7 @@ namespace basecross
 	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"EnabledSwitch")) {
-			m_parenttime = 2.0f;
+			m_Parenttime = 2.0f;
 			m_ParentJudge = true;
 		}
 	}
@@ -1237,16 +1230,16 @@ namespace basecross
 	bool UpDownBox::FloatMove() {
 		//BoxJudgment();
 		//浮く処理
-		m_totaltime += App::GetApp()->GetElapsedTime();
-		if (m_totaltime > 5.0f)
+		m_Totaltime += App::GetApp()->GetElapsedTime();
+		if (m_Totaltime > 5.0f)
 		{
-			m_totaltime = 0;
+			m_Totaltime = 0;
 			return true;
 		}
 
 		Easing<Vec3> easing;
 
-		auto ep = easing.Linear(m_OldPos, m_CurrentPos, m_totaltime, 5.0);
+		auto ep = easing.Linear(m_OldPos, m_CurrentPos, m_Totaltime, 5.0);
 
 		GetComponent<Transform>()->SetPosition(ep);
 		return false;
@@ -1283,15 +1276,18 @@ namespace basecross
 		}
 
 	}
-
+	//接触関数
+	//松崎　洸樹
+	//接触した際の位置情報更新関数
 	void PushObj::OnCollisionEnter(shared_ptr<GameObject>& Obj) {
 			m_StopPos = m_PastPos;
 			m_CurrentPos = m_PastPos;
 	}
-
+	//接触中関数
+	//松崎　洸樹
+	//オブジェクトの移動機能動作できるようにする関数
 	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
-		auto ptrTransform = GetComponent<Transform>();
 		if (ptrPlayer) {
 			m_Boxmode = false;
 			if (ptrPlayer->GetPushBoxActiv()) {
@@ -1301,10 +1297,6 @@ namespace basecross
 				m_Boxmode = false;
 			}
 		}
-	}
-
-	void PushObj::OnCollisionExit(shared_ptr<GameObject>& Obj) {
-		//GetComponent<Gravity>()->SetUpdateActive(true);
 	}
 
 	Goal::Goal(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
