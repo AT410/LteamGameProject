@@ -83,6 +83,7 @@ namespace basecross
 		wstring GetRightStr() { return m_Right; }
 		wstring GetLeftStr() { return m_Left; }
 
+		wstring GetFileName()const { return m_FileName; }
 	private:
 		wstring m_Up, m_Down, m_Right, m_Left,m_MyKey,m_EventStr;
 
@@ -130,6 +131,10 @@ namespace basecross
 
 		// -- ï\é¶ÅEîÒï\é¶ --
 		void ShowHideUI(const bool ShowActive);
+
+		void DataDisplay();
+		bool m_readActive;
+		wstring m_DataStr;
 
 		StageType m_Type;
 		bool m_Active;

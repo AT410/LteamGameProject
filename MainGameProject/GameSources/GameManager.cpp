@@ -9,6 +9,7 @@ namespace basecross
 	// -- Impl --
 	struct SaveData::Impl
 	{
+		float m_TotalTime;
 		bool m_clear[3][3];
 
 		wstring m_FileName = L"TEST.GD";
@@ -18,6 +19,12 @@ namespace basecross
 			:m_DataDir(FilePath)
 		{
 			m_clear[0][0] = true;
+			m_TotalTime = 0;
+		}
+		
+		void UpdateTime(const float delta)
+		{
+			m_TotalTime += delta;
 		}
 
 		void Load(const wstring& FileName)
@@ -31,6 +38,8 @@ namespace basecross
 				//バイナリ読込
 				ifstream ios(FullPath.c_str(), ios::in | ios::binary);
 				
+				ios.read((char*)&m_TotalTime, sizeof(float));
+
 				for (int i = 0; i < 3; i++)
 				{
 					for (int j = 0; j < 3; j++)
@@ -58,6 +67,8 @@ namespace basecross
 			wstring FullPath = m_DataDir + m_FileName;
 
 			ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+
+			ofs.write((const char*)&m_TotalTime, sizeof(float));
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -87,6 +98,46 @@ namespace basecross
 		bool StageClear(int Area,int Stage)
 		{
 			return m_clear[Area][Stage];
+		}
+
+		bool DataChack(const wstring&FileName, wstring& DataElem)
+		{
+			wstring FullPath = m_DataDir + FileName;
+			if (PathFileExists(FullPath.c_str()))
+			{
+				//バイナリ読込
+				float AllCount = 0.0f,ClearCount = 0.0f;
+
+				ifstream ios(FullPath.c_str(), ios::in | ios::binary);
+
+				ios.read((char*)&m_TotalTime, sizeof(float));
+
+				for (int i = 0; i < 3; i++)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						ios.read((char*)&m_clear[i][j], sizeof(bool));
+						AllCount++;
+						if (m_clear[i][j])
+							ClearCount++;
+					}
+				}
+
+				ios.close();
+
+				DataElem += L"累計プレイ時間:";
+				DataElem += Util::FloatToWStr(m_TotalTime)+L"秒\n";
+				
+				DataElem += L"クリア率:";
+				int Vel = (int)((ClearCount / AllCount) * 100);
+				DataElem += Util::IntToWStr(Vel) + L"%\n";
+				return true;
+			}
+			else
+			{
+				DataElem = L"Data Not Found!!";
+				return false;
+			}
 		}
 	};
 
@@ -126,6 +177,18 @@ namespace basecross
 	{
 		int Area = GameManager::GetManager()->GetStagePair().first;
 		return m_pImpl->StageClear(Area, Stage);
+	}
+
+	// -- 更新処理 --
+	void SaveData::Update()
+	{
+		float delta = App::GetApp()->GetElapsedTime();
+		m_pImpl->UpdateTime(delta);
+	}
+
+	bool SaveData::DataToStr(const wstring& FileName,wstring&result)
+	{
+		return m_pImpl->DataChack(FileName, result);
 	}
 
 	// -- static変数実体 --
@@ -268,6 +331,17 @@ namespace basecross
 		{
 			std::thread Loadthread(&GameManager::ResorceLoadFunc, this);
 			Loadthread.detach();
+		}
+	}
+
+	// -- マネージャーの更新 --
+	void GameManager::UpdateManager()
+	{
+
+		// -- ポーズ中はぬける --
+		if (m_UpdateActive)
+		{
+			m_Data->Update();
 		}
 	}
 

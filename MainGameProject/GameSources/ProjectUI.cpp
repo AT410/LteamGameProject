@@ -121,7 +121,7 @@ namespace basecross
 	//点滅UI:(選択可能UI)の実体
 	//----------------------------------------------------------------------------
 	FlashingUI::FlashingUI(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-		:UIBase(StagePtr, pNode),m_FlashingSpeed(0.5f),m_ActiveFlashing(false)
+		:UIBase(StagePtr, pNode),m_FlashingSpeed(0.5f),m_ActiveFlashing(false),m_AreaNum(-1),m_StageNum(-1)
 	{
 		//追加情報の取得
 		m_Up = XmlDocReader::GetAttribute(pNode, L"UpKey");
@@ -265,7 +265,20 @@ namespace basecross
 		{
 			GetStage()->CreateSharedObjectGroup(L"GameStageUI");
 		}
-
+		else if (m_Type == StageType::DataSelectStage)
+		{
+			auto StrComp = AddComponent<StringSprite>();
+			StrComp->SetText(L"");
+			StrComp->SetFont(L"メイリオ", 50);
+			StrComp->SetTextRect(Rect2D<float>(16.0f, 16.0f, 784.0f, 484.0f));
+			StrComp->SetStartPosition(Point2D<float>(400, 200));
+			StrComp->SetTextAlignment(StringSprite::TextAlignment::m_Center);
+			Col4 Col;
+			Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 127.5f / 255.0f);
+			StrComp->SetBackColor(Col);
+		}
+		
+		SetDrawLayer(1);
 	}
 
 	void UIController::OnUpdate()
@@ -286,6 +299,9 @@ namespace basecross
 
 			//入力Handler
 			m_handler.PushHandler(GetThis<UIController>());
+
+			if (m_Type == StageType::DataSelectStage)
+				DataDisplay();
 
 			// -- UIがアクティブの時は、更新を止める --
 			GameManager::GetManager()->SetUpdateActive(false);
@@ -405,6 +421,7 @@ namespace basecross
 			m_CurrntUI = m_UIMap[Key];
 
 			m_CurrntUI->ChangeActive(true);
+			m_readActive = false;
 		}
 	}
 
@@ -419,6 +436,29 @@ namespace basecross
 			{
 				ptr.lock()->SetDrawActive(ShowActive);
 			}
+		}
+	}
+
+	void UIController::DataDisplay()
+	{
+		if (!m_readActive) 
+		{
+			wstring filename = m_CurrntUI->GetFileName();
+			m_DataStr = L"";
+			bool Active = GameManager::GetManager()->GetSaveData()->DataToStr(filename, m_DataStr);
+			if (Active)
+			{
+				auto StrComp = GetComponent<StringSprite>();
+				StrComp->SetFont(L"メイリオ", 50);
+			}
+			else
+			{
+				auto StrComp = GetComponent<StringSprite>();
+				StrComp->SetFont(L"メイリオ", 80);
+				StrComp->SetTextAlignment(StringSprite::TextAlignment::m_Center);
+			}
+			m_readActive = true;
+			GetComponent<StringSprite>()->SetText(m_DataStr);
 		}
 	}
 
