@@ -97,15 +97,9 @@ namespace basecross
 		SetActions();
 		//描画 
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		//drawComp->SetMeshResource(m_meshKey);
-		//drawComp->SetTextureResource(m_texKey);
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
-
-		//コリジョンを付ける
-		//auto ptrColl = AddComponent<CollisionObb>();
-		//ptrColl->SetAfterCollision(AfterCollision::Auto);
 
 	}
 
@@ -185,7 +179,6 @@ namespace basecross
 		SetActions();
 		//描画
 		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-		//drawComp->SetMeshResource(L"DEFAULT_CUBE");
 
 		//ポジション、スケール、回転
 		auto transComp = GetComponent<Transform>();
@@ -194,9 +187,6 @@ namespace basecross
 		//可変可能に修正
 		m_HeatArea = AABB(Vec3(-3, -1, 0), m_pos);
 
-		//コリジョンを付ける
-		//auto ptrColl = AddComponent<CollisionObb>();
-		//ptrColl->SetFixed(true);
 	}
 
 
@@ -220,11 +210,11 @@ namespace basecross
 						//ひもを消す
 						GetStage()->RemoveGameObject<GameObject>(m_himo->GetThis<GameObject>());
 						//重りの重力をオンにする
-					//重りの重力
-					//おもりの登録
-					auto ObjectPtr_O = GetStage()->GetSharedGameObject<ObjectBase>(L"Omori");
+						//重りの重力
+						//おもりの登録
+						auto ObjectPtr_O = GetStage()->GetSharedGameObject<ObjectBase>(L"Omori");
 
-					auto OmoriGrav = ObjectPtr_O->GetComponent<Gravity>();
+						auto OmoriGrav = ObjectPtr_O->GetComponent<Gravity>();
 						OmoriGrav->SetUpdateActive(true);
 					}
 				}
@@ -258,10 +248,6 @@ namespace basecross
 		//無効にしておく
 		grav->SetUpdateActive(false);
 
-
-		//AddTag(L"EnabledSwitch");
-		//共有設定
-		//GetStage()->SetSharedGameObject(L"Omori", GetThis<Omori>());
 	}
 
 	void Omori::OnCollisionEnter(shared_ptr<GameObject>& Other) {
@@ -478,7 +464,6 @@ namespace basecross
 
 		//コリジョンを付ける
 		auto ptrColl = AddComponent<CollisionObb>();
-		//ptrColl->SetFixed(true);
 
 		//重力
 		auto grav = AddComponent<Gravity>();
@@ -506,9 +491,6 @@ namespace basecross
 			if (HitTest::AABB_AABB(m_FountainArea, PlayerAABB)) {
 				//プレイヤーのポジションをスタートに
 				ObjectPtr_P->ResetPositon();
-
-				//プレイヤーを消す
-				//ObjectPtr_P->SetDrawActive(false);
 			}
 			if (m_Active) {
 				m_Time += App::GetApp()->GetElapsedTime();
@@ -524,9 +506,6 @@ namespace basecross
 					if (HitTest::AABB_AABB(m_FountainArea2, PlayerAABB)) {
 						//プレイヤーのポジションをスタートに
 						ObjectPtr_P->ResetPositon();
-
-						//プレイヤーを消す
-						//ObjectPtr_P->SetDrawActive(false);
 					}
 				}
 			}
@@ -536,9 +515,6 @@ namespace basecross
 					if (HitTest::AABB_AABB(m_FountainArea2, PlayerAABB)) {
 						//プレイヤーのポジションをスタートに
 						ObjectPtr_P->ResetPositon();
-
-						//プレイヤーを消す
-						//ObjectPtr_P->SetDrawActive(false);
 					}
 				}
 			}
