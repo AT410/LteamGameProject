@@ -9,34 +9,45 @@
 namespace basecross
 {
 	MyCamera::MyCamera() :
-		m_TargetToAt(0.0f, 0.0f, 0.0f),
 		m_ArmLen(10.0f),
 		m_CameraJudge(false), Camera(), PawnBase()
 	{}
-
+	//カメラセット関数
+	//松崎　洸樹
+	//カメラの位置を代入する関数（Vec3用）
 	void MyCamera::SetEye(const bsm::Vec3& Eye) {
 		Camera::SetEye(Eye);
 	}
-
+	//カメラセット関数
+	//松崎　洸樹
+	//カメラの位置を代入する関数（X軸、Y軸、Z軸用）
 	void MyCamera::SetEye(float x, float y, float z) {
 		Camera::SetEye(x, y, z);
 	}
-
+	//カメラ目標位置セット関数
+	//松崎　洸樹
+	//カメラが向ける位置を代入する関数（Vec3用）
 	void MyCamera::SetAt(const bsm::Vec3& At) {
 		Camera::SetAt(At);
 	}
-
+	//カメラ目標位置セット関数
+	//松崎　洸樹
+	//カメラが向ける位置を代入する関数（X軸、Y軸、Z軸用）
 	void MyCamera::SetAt(float x, float y, float z) {
 		Camera::SetAt(x, y, z);
 	}
-
+	//ターゲット取得関数
+	//松崎　洸樹
+	//ターゲットとなるオブジェクトの情報を取得する関数
 	shared_ptr<GameObject> MyCamera::GetTargetObject() const {
 		if (!m_TargetObj.expired()) {
 			return m_TargetObj.lock();
 		}
 		return nullptr;
 	}
-
+	//ターゲット代入関数
+	//松崎　洸樹
+	//ターゲットとなるオブジェクトを決める関数
 	void MyCamera::SetTargetObject(const shared_ptr<GameObject>& Obj) {
 		m_TargetObj = Obj;
 	}
@@ -117,7 +128,7 @@ namespace basecross
 	}
 
 	//---------------------------------------------------
-	///通常用カメラステート
+	///全域用カメラステート
 	//---------------------------------------------------
 	shared_ptr<ExpansionState> ExpansionState::Instance() {
 		static shared_ptr<ExpansionState> instance(new ExpansionState);
@@ -138,7 +149,7 @@ namespace basecross
 
 
 	//---------------------------------------------------
-	///広域カメラステート
+	///対象集中カメラステート
 	//---------------------------------------------------
 	shared_ptr<FocusState> FocusState::Instance() {
 		static shared_ptr<FocusState> instance(new FocusState);

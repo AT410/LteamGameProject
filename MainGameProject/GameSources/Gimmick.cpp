@@ -705,7 +705,6 @@ namespace basecross
 	//＠作動している水噴射とプレイヤーに接触した際にプレイヤーで起こることを記述した関数
 	void WaterJet::WaterJetJudgment() {
 		auto ptrTransform = GetComponent<Transform>();
-		m_FirePos = ptrTransform->GetPosition();
 		auto GetPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
 		auto PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
 		AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);
@@ -766,7 +765,7 @@ namespace basecross
 	}
 
 	WaterDrop::WaterDrop(const shared_ptr<Stage>& Stageptr, IXMLDOMNodePtr pNode) :
-		ObjectBase(Stageptr, pNode), m_time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)
+		ObjectBase(Stageptr, pNode), m_Time(3.0f), m_Cooltime(0.0f), m_CooltimeMax(1.5f)
 	{}
 
 	void WaterDrop::OnCreate() {

@@ -354,25 +354,33 @@ namespace basecross
 	//ウォータージェットクラス
 	//＠製作者　松崎洸樹
 	class WaterJet : public ObjectBase {
-		Vec3 m_FirePos;
+		//初期位置
 		Vec3 m_StartPos;
-		bool m_WaterJetmode; //水噴射のON/OFFスイッチ
+		//水噴射の水スイッチ
+		bool m_WaterJetmode; //水噴射の水ON/OFFスイッチ
+		//水噴射の向き
 		bool m_WaterJetDirToUp; //水噴射の向き　trueが上向き falseが下向き
+		//水噴射の水部分のAABB用変数
 		AABB m_WaterJetAABB;
-
+		//噴射前段階での
 		float m_JudmentTime;
+		//水噴射時間間隔
 		float m_IntervalTime;
+		//水噴射作動間隔フラグ
 		bool m_IntervalFlag;
+		//
 		float m_FlashTime;
-
+		//AABB・X軸
 		float m_SizeAABBX;
+		//AABB・Y軸
 		float m_SizeAABBY;
+		//AABB・Z軸
 		float m_SizeAABBZ;
-
+		//エフェクト用
 		shared_ptr<EfkPlay> m_efk;
-
+		//水本体
 		shared_ptr<Waterfall> m_WaterFall;
-
+		//衝突する床
 		weak_ptr<GameObject> m_Floor;
 	public:
 		WaterJet(const shared_ptr<Stage>& Stageptr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
@@ -397,12 +405,16 @@ namespace basecross
 
 
 	class WaterDrop : public ObjectBase {
-		float m_time;
+
+		float m_Time;
+		//元の位置から水滴が出るまでの時間
 		float m_Cooltime;
+		//クールタイムの最大値
 		float m_CooltimeMax;
+		//初期位置
 		Vec3 m_OldPos;
+		//現在位置
 		Vec3 m_CurrentPos;
-		AABB m_WaterDropAABB;
 	public:
 		WaterDrop(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
 			const wstring TexKey, const wstring MeshKey)
@@ -504,11 +516,13 @@ namespace basecross
 		float m_Totaltime;
 		//プレイヤーとの疑似的親子化の時間
 		float m_Parenttime;
-		
+		//初期位置
 		Vec3 m_OldPos;
+		//現在位置
 		Vec3 m_CurrentPos;
 		//疑似的親子化の判定
 		bool m_ParentJudge;
+		//動く床の機能
 		bool FloatMove();
 	public:
 		UpDownBox(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,

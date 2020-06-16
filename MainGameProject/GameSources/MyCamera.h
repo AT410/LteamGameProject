@@ -10,15 +10,21 @@ namespace basecross
 {
 	class MyCamera :public Camera, public PawnBase<MyCamera>
 	{
+		//カメラ用ステートマシン
 		unique_ptr< StateMachine<MyCamera> > m_StateMachine;
+		//目標となるオブジェクト
 		weak_ptr<GameObject> m_TargetObj;
-		shared_ptr<GameObject> m_Obj;
-		bsm::Vec3 m_TargetToAt;
+		//対象との距離
 		float m_ArmLen;
+		//カメラ状態の切り替え
 		bool m_CameraJudge;
+		//全域用カメラ位置
 		Vec3 m_ExpansionEye;
+		//全域用カメラ目標位置
 		Vec3 m_ExpansionAt;
+		//対象集中カメラ位置
 		Vec3 m_FocusEye;
+		//対象集中カメラ目標位置
 		Vec3 m_FocusAt;
 	public:
 		MyCamera();
