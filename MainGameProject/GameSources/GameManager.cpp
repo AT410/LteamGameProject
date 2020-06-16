@@ -53,7 +53,7 @@ namespace basecross
 			else
 			{
 				//バイナリ新規
-				ofstream ofs(FullPath.c_str(), ios::out | ios::binary);
+				ofstream ofs(FullPath.c_str(), ios::out | ios::binary|ios::trunc);
 				if (!ofs)
 				{
 					throw(BaseException(L"", L"", L""));
