@@ -3,8 +3,75 @@
     <head>
         <meta charset="utf-8">
         <title>ドキュメント目次</title>
+        <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
-        <h1>テストです</h1>
+        <!-- ヘッダー要素 -->
+        <header>
+            <h1>UnderRuins</h1>
+            <p>編集：阿部　達哉</p>
+            <!-- 他リンク -->
+            <div class = "Nav">
+                <ul>
+                    <li>
+                        <a href="#Over">ゲーム概要</a>
+                    </li>
+                    <li>
+                        <a href="#Cont">操作説明</a>
+                    </li>
+                    <li>
+                        <a href="#PV">PV</a>
+                    </li>
+                    <li>
+                        <a href="Reference/index.html" target = "_blank" role="navigation">ゲームリファレンス</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- ゲーム概要・動画紹介 -->
+        <main>
+            <div class="OverView">
+                <h1>ゲーム概要・操作説明</h1>
+                <!-- ↓ゲーム説明 -->
+                <div class = "Over" id = "Over">
+                    <h1>概要</h1>
+                    <p>
+                        この作品はプレイヤーが明かりを灯す為に道中の謎を解く謎解きアクションゲームです。ゴールの灯
+                        火台に向かうにはいくつかの障害としてのギミックがあり、プレイヤーはその障害であるギミックを解い
+                        ていきます。プレイヤーは火を所持しており、その火を使ってギミックを作動させたり、水をよけながら自
+                        らが持つ火を消さないよう火を点ける為にゴールの灯火台に向かいます。エリア全てのステージの灯
+                        火台に火を灯すとゲームはクリアとなります。このゲームのおもしろさはギミックの謎を解く楽しさと水に
+                        当たらないようにするハラハラ感を感じさせます。<br>
+                        私たちはテーマの音が水の音と火が燃える音に聞こえると感じました。その為、この水の音をプレイ
+                        ヤーの持つ火を消してくる水として使いました。水が噴き出して消すものや水滴が落ちて消していこうと
+                        する水、深い水溜まりなど多種多様な妨害ギミックとして水があり、プレイヤーが火を使って謎解きギ
+                        ミックの解除やゴールのために火があります。このようにして水と火を作品に盛り込んでいます。
+                    </p> 
+                </div>
+                <!-- 操作説明 -->
+                <div class="Cont" id ="Cont">
+                    <h2>操作説明</h2>
+                    <img id = "Contimg" src="img/Controller.png" alt="操作説明画像">
+                </div>
+            </div>
+
+            <hr>
+            <div class = "MovieArea" id = "PV">
+                <h1>PV</h1>
+                <!-- 動画埋め込み -->
+                <div class="youtube">
+                    <iframe width="50%" height="100" src="https://www.youtube.com/embed/xdhXOWAwwPk" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>    
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター要素 -->
+        <footer>
+            <a href="#">トップへ戻る</a>
+        </footer>
     </body>
 </html>
