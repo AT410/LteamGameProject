@@ -659,7 +659,7 @@ namespace basecross
 	//＠水噴射の機能を作動させるかどうかの判断をさせる関数
 	void WaterJet::StartJudgment() {
 		auto ptrDraw = GetComponent<PNTStaticDraw>();
-		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		float Elapsedtime = App::GetApp()->GetElapsedTime();
 		if (m_IntervalFlag)
 		{
 			m_IntervalTime += Elapsedtime;
@@ -706,7 +706,7 @@ namespace basecross
 	void WaterJet::WaterJetJudgment() {
 		auto ptrTransform = GetComponent<Transform>();
 		auto GetPlayer = GetStage()->GetSharedGameObject<Player>(L"Player");
-		auto PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
+		Vec3 PlayerPos = GetPlayer->GetComponent<Transform>()->GetPosition();
 		AABB PlayerAABB = AABB(PlayerPos, 1, 1, 1);
 		if (m_WaterJetmode&& !m_IntervalFlag) {
 			if (HitTest::AABB_AABB(m_WaterJetAABB, PlayerAABB)) {
@@ -719,8 +719,8 @@ namespace basecross
 			{
 				auto TransComp = GetComponent<Transform>();
 
-				auto FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
-				auto Pos = TransComp->GetPosition();
+				AABB FloorAABB = Floor->GetComponent<CollisionObb>()->GetWrappedAABB();
+				Vec3 Pos = TransComp->GetPosition();
 
 				Vec3 recVec;
 				HitTest::ClosestPtPointAABB(Pos, FloorAABB, recVec);
@@ -794,7 +794,7 @@ namespace basecross
 		auto ptrGrav = GetComponent<Gravity>();
 		auto ptrDraw = GetComponent<PNTPointDraw>();
 		auto ptrColl = GetComponent<CollisionObb>();
-		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		float Elapsedtime = App::GetApp()->GetElapsedTime();
 		if (m_Cooltime > 0.0f) {
 			GetComponent<Transform>()->SetPosition(m_pos);
 
@@ -1159,13 +1159,12 @@ namespace basecross
 		BoxJudgment();
 		//浮く処理
 		m_CurrentPos = GetComponent<Transform>()->GetPosition();
-		//FloatMove();
 	}
 	//ボックス判定関数
 	//松崎　洸樹
-	//プレイヤーが離れた時にプレイヤーとボックスの親子化解除をするための関数
+	//プレイヤーとボックスの親子関係の関数
 	void UpDownBox::BoxJudgment() {
-		auto Elapsedtime = App::GetApp()->GetElapsedTime();
+		float Elapsedtime = App::GetApp()->GetElapsedTime();
 		auto ptrTransform = GetComponent<Transform>();
 		if (m_ParentJudge) {
 			m_CurrentPos.y += -Elapsedtime;
@@ -1185,7 +1184,7 @@ namespace basecross
 	}
 	//衝突判定関数（衝突している間）
 	//松崎　洸樹
-	//プレイヤーと衝突したときボックスは沈みプレイヤーと親子になる
+	//オブジェクトが衝突している間の関数
 	void UpDownBox::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"EnabledSwitch")) {
 			m_Parenttime = 2.0f;
@@ -1263,6 +1262,7 @@ namespace basecross
 	//オブジェクトの移動機能動作できるようにする関数
 	void PushObj::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		auto ptrPlayer = dynamic_pointer_cast<Player>(Obj);
+		
 		if (ptrPlayer) {
 			m_Boxmode = false;
 			if (ptrPlayer->GetPushBoxActiv()) {

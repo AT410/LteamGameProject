@@ -51,23 +51,33 @@ namespace basecross
 	void MyCamera::SetTargetObject(const shared_ptr<GameObject>& Obj) {
 		m_TargetObj = Obj;
 	}
-
+	//全域カメラ位置取得関数
+	//松崎　洸樹
+	//全域カメラの位置を取得する関数
 	Vec3 MyCamera::GetExpansionEye() const {
 		return m_ExpansionEye;
 	}
-
+	//全域カメラ位置代入関数
+	//松崎　洸樹
+	//全域カメラの位置を代入する関数
 	void MyCamera::SetExpansionEye(const bsm::Vec3& ExpansionEye) {
 		m_ExpansionEye = ExpansionEye;
 	}
-
+	//全域カメラ目標位置取得関数
+	//松崎　洸樹
+	//全域カメラの見つめる位置を取得する関数
 	Vec3 MyCamera::GetExpansionAt() const {
 		return m_ExpansionAt;
 	}
-
+	//全域カメラ目標位置代入関数
+	//松崎　洸樹
+	//全域カメラの見つめる位置を代入する関数
 	void MyCamera::SetExpansionAt(const bsm::Vec3& ExpansionAt) {
 		m_ExpansionAt = ExpansionAt;
 	}
-
+	//カメラステート変更関数
+	//松崎　洸樹
+	//RBボタンを押すことでカメラのステートを変更する関数
 	void MyCamera::OnPushRB() {
 		if (m_CameraJudge) {
 			m_StateMachine->ChangeState(ExpansionState::Instance());
@@ -78,17 +88,23 @@ namespace basecross
 			m_CameraJudge = true;
 		}
 	}
-
+	//全域カメラ代入関数
+	//松崎　洸樹
+	//全域カメラの位置と目標位置を代入する
 	void MyCamera::SetExpansion(const Vec3& Eye, const Vec3& At) {
 		SetEye(Eye);
 		SetAt(At);
 	}
-
+	//対象集中カメラ代入関数
+	//松崎　洸樹
+	//対象集中カメラの位置と目標位置を代入する
 	void MyCamera::SetFocus(const Vec3& Eye, const Vec3& At) {
 		SetEye(Eye);
 		SetAt(At);
 	}
-
+	//対象集中カメラコントロール関数
+	//
+	//対象集中カメラと目標の距離を操作する関数
 	void MyCamera::ControlForcus()
 	{
 		auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];

@@ -33,7 +33,6 @@ namespace basecross{
 		m_PlayerState = PlayerState::Start;
 		
 		//共有登録
-		//GetStage()->SetSharedGameObject(L"Player", GetThis<Player>());
 		auto ptrGameStage = GetTypeStage<GameStage>();
 		auto ptrMyCamera = dynamic_pointer_cast<MyCamera>(ptrGameStage->GetMainView()->GetCamera());
 		ptrMyCamera->SetTargetObject(GetThis<Player>());
@@ -87,10 +86,10 @@ namespace basecross{
 	//松崎　洸樹
 	//プレイヤーが動くための関数
 	void Player::Move() {
-		auto elapsedtime = App::GetApp()->GetElapsedTime();
+		float elapsedtime = App::GetApp()->GetElapsedTime();
 		m_PlayerAngle = GetMoveVector();
 		if (m_PlayerAngle.length() > 0.0f && !m_PushPull) {
-			auto pos = GetComponent<Transform>()->GetPosition();
+			Vec3 pos = GetComponent<Transform>()->GetPosition();
 			pos += m_PlayerAngle * elapsedtime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
 
@@ -114,35 +113,35 @@ namespace basecross{
 	//条件を満たした状態でボタンを押すことで物を押したり引っ張ったりする関数
 	void Player::OnPushLB() {
 		if (m_PushPull) {
-			auto elapsedtime = App::GetApp()->GetElapsedTime();
+			float elapsedtime = App::GetApp()->GetElapsedTime();
 			auto ptrTransform = GetComponent<Transform>();
-			auto ptrpos = ptrTransform->GetPosition();
+			Vec3 ptrPos = ptrTransform->GetPosition();
 			auto obj = m_PushObj->GetComponent<Transform>();
-			auto objpos = obj->GetPosition();
+			Vec3 objpos = obj->GetPosition();
 			auto Cont = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 			m_PushBoxActiv = true;
 			if (Cont.fThumbLX > 0.8f) {
-				ptrpos.x += elapsedtime;
+				ptrPos.x += elapsedtime;
 				objpos.x += elapsedtime;
-				GetComponent<Transform>()->SetPosition(ptrpos);
+				GetComponent<Transform>()->SetPosition(ptrPos);
 				obj->SetPosition(objpos);
 			}
 			else if (Cont.fThumbLX < -0.8f) {
-				ptrpos.x -= elapsedtime;
+				ptrPos.x -= elapsedtime;
 				objpos.x -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(ptrpos);
+				GetComponent<Transform>()->SetPosition(ptrPos);
 				obj->SetPosition(objpos);
 			}
 			if (Cont.fThumbLY > 0.8f) {
-				ptrpos.z += elapsedtime;
+				ptrPos.z += elapsedtime;
 				objpos.z += elapsedtime;
-				GetComponent<Transform>()->SetPosition(ptrpos);
+				GetComponent<Transform>()->SetPosition(ptrPos);
 				obj->SetPosition(objpos);
 			}
 			else if (Cont.fThumbLY < -0.8f) {
-				ptrpos.z -= elapsedtime;
+				ptrPos.z -= elapsedtime;
 				objpos.z -= elapsedtime;
-				GetComponent<Transform>()->SetPosition(ptrpos);
+				GetComponent<Transform>()->SetPosition(ptrPos);
 				obj->SetPosition(objpos);
 			}
 		}
@@ -211,9 +210,9 @@ namespace basecross{
 	//衝突している間に各処理を行う関数（ジャンプできるかの処理、梯子に上る処理）
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Obj) {
 		if (Obj->FindTag(L"PossibleJump") && !Obj->FindTag(L"Ladder")) {
-			auto ptrPos = GetComponent<Transform>()->GetWorldPosition();
-			auto ptrJFloorPos = Obj->GetComponent<Transform>()->GetWorldPosition();
-			auto ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
+			Vec3 ptrPos = GetComponent<Transform>()->GetWorldPosition();
+			Vec3 ptrJFloorPos = Obj->GetComponent<Transform>()->GetWorldPosition();
+			Vec3 ptrJFloorScale = Obj->GetComponent<Transform>()->GetScale();
 			m_JumpPos = ptrJFloorPos.y + (ptrJFloorScale.y / 2);
 			if (ptrPos.y > m_JumpPos) {
 				m_Jumpjudge = true;
@@ -221,9 +220,9 @@ namespace basecross{
 			}
 		}
 		else if (Obj->FindTag(L"PossibleJump") && Obj->FindTag(L"Ladder")) {
-			auto Elapsedtime = App::GetApp()->GetElapsedTime();
+			float Elapsedtime = App::GetApp()->GetElapsedTime();
 			auto ptrTransform = GetComponent<Transform>();
-			auto ptrPos = ptrTransform->GetPosition();
+			Vec3 ptrPos = ptrTransform->GetPosition();
 			m_RisePos += 0.4f * Elapsedtime;
 			if (m_RisePos > 0.4f) {
 				m_RisePos = 0.4f;
