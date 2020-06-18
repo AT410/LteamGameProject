@@ -62,6 +62,12 @@ main
     text-align: center;
 }
 
+.OverView ::after
+{
+    opacity: 0.5;
+    content: attr(data-subtitle);
+}
+
 .Over
 {
     padding: 0.5em 1em;

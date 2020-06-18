@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+main
+{
+    text-align: center;
+}
+
+#IndexCpntents 
+{
+    text-align: left;
+}
+
+#IndexContents .IndexList
+{
+    margin: 0;
+    text-align:left;
+}
+
+#IndexContents .IndexList > li
+{
+    margin-left: 42.5%;
+    text-align: left;
+}
+
+#IndexContents a
+{
+    text-decoration: none;
+}
+
+footer
+{
+    text-align: center;
+}
+
+footer > p
+{
+    opacity: 0.5;
+}
+
+footer > a
+{
+    text-decoration: none;
+}
