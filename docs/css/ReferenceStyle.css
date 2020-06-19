@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+main
+{
+    border: 2px solid black;
+}
+
+.flex
+{
+    display: flex;
+}
