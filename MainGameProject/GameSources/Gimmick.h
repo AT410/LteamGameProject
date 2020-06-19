@@ -105,49 +105,6 @@ namespace basecross
 		wstring m_EventMsg;		//<-イベントメッセージ
 	};
 
-	///<breif>熱を伝える棒<breif/>
-	///<name> 作成者：伊藤祥吾<name/>
-	class HeatStick : public ObjectBase
-	{
-	private:
-		AABB m_HeatArea;
-
-		shared_ptr<Player> m_player;
-		shared_ptr<ObjectBase> m_himo;
-
-		//ディレイカウント
-		float m_count;
-	public:
-		HeatStick(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
-			const wstring TexKey, const wstring MeshKey)
-			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey), m_count(0)
-		{
-		}
-		HeatStick(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-			:ObjectBase(StagePtr, pNode) {}
-
-		void OnCreate() override;
-		void OnUpdate() override;
-	};
-
-	//おもり
-	class Omori : public ObjectBase
-	{
-	public:
-		Omori(const shared_ptr<Stage>& StagePtr, const Vec3 Position, const Vec3 Rotation, const Vec3 Scale,
-			const wstring TexKey, const wstring MeshKey)
-			:ObjectBase(StagePtr, Position, Rotation, Scale, TexKey, MeshKey)
-		{
-		}
-
-		Omori(const shared_ptr<Stage>&StagePtr, IXMLDOMNodePtr pNode)
-			:ObjectBase(StagePtr, pNode) {}
-
-		void OnCreate() override;
-
-		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
-	};
-
 	//動く床
 	class MoveFloor : public ObjectBase
 	{

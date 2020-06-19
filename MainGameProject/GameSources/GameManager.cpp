@@ -352,7 +352,6 @@ namespace basecross
 
 		Builder.Register<FrontWallObj>(L"FrontWall"); 
 		Builder.Register<LoopTexObj>(L"Floor");
-		Builder.Register<HeatStick>(L"HeatStick");
 		Builder.Register<MoveFloor>(L"MoveFloor");
 		Builder.Register<SwitchObj>(L"Switch");
 		Builder.Register<UpDownBox>(L"FloatBox"); 
@@ -372,7 +371,6 @@ namespace basecross
 		Builder.Register<PushObj>(L"PullBox");
 		Builder.Register<Player>(L"Player");
 		Builder.Register<Slope>(L"Slope");
-		Builder.Register<Omori>(L"Omori");
 		Builder.Register<Door>(L"Door");
 		Builder.Register<Goal>(L"Goal");
 
