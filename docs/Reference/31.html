@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <title>ステージエディター</title>
+        <title>ステージエディター|リファレンス</title>
         <link rel="stylesheet" href="../css/ReferenceStyle.css">
     </head>
     <body>
@@ -24,8 +24,52 @@
                     <h3>①パラメータ設定</h3>
                     <img src="../img/StageEditorParam.png" alt="パラメータ設定画像">
                     <p>
-                        
+                        ここでは、配置データの他に追加で読み込む必要があるデータをセットします。<br>
                     </p>
+                    <dl class = "ParamBox">
+                        <dt><strong>基本設定値</strong></dt>
+                        <dd>
+                            <dl>
+                                <dt>生成順序</dt>
+                                <dd>Early・Default・Lateの三つから生成順序を設定する。設定した順序に応じてGame側では、生成される。</dd>
+                                <dt>クラスタイプ</dt>
+                                <dd>Game側でのクラス識別に使用される。識別登録をGame側でもしなければいけない。</dd>
+                                <dt>メッシュキー</dt>
+                                <dd>Game側で登録されているメッシュキーを設定する。登録されてないキーを指定すると実行時エラーが発生する。</dd>
+                                <dt>テクスチャキー</dt>
+                                <dd>Game側で登録されているテクスチャキーを設定する。登録されていないキーを設定すると白い状態で描画される。</dd>
+                                <dt>タグ情報</dt>
+                                <dd>Game側での、オブジェクトの識別タグとして使用する。複数指定ができるので、オブジェクト同士の共通処理等に使用できる。</dd>
+                            </dl>
+                        </dd>
+                        <dt><strong>物理設定</strong></dt>
+                        <dd>
+                            <dl>
+                                <dt>物理設定を有効にする</dt>
+                                <dd>コリジョンを有効にする。無効化すると、当たり判定がなくなるため、オブジェクトがすり抜ける。</dd>
+                                <dt>固定オブジェクト化</dt>
+                                <dd>オブジェクトの当たり判定を固定化にする、固定化するとそのオブジェクトの衝突応答が呼ばれなくなる。</dd>
+                            </dl>
+                        </dd>
+                        <dt><strong>共有設定</strong></dt>
+                        <dd>
+                            <dl>
+                                <dt>書き出し有効</dt>
+                                <dd>常に追従する必要のあるプレイヤーやゴールなどをアクセスしやすいように、共有領域に保存を有効にする。</dd>
+                                <dt>共有キー</dt>
+                                <dd>共有設定が有効の時に、ここで指定した、共有キーでオブジェクトを共有領域に保存する。もしオブジェクトを共有領域から参照する場合は、ここで登録した共有キーを用いて共有領域から参照する。</dd>
+                            </dl>
+                        </dd>
+                        <dt><strong>イベント設定</strong></dt>
+                        <dd>
+                            <dl>
+                                <dt>イベント受信可能</dt>
+                                <dd>スイッチイベント等を受け取る場合、この設定を有効にする。</dd>
+                                <dt>イベント受信キー</dt>
+                                <dd>受信可能の場合、ここで指定した受信キーでイベントレシーバー登録される。スイッチ側では、ここで指定した受信キーをイベント送信先に設定された場合、イベントが発生した時にオブジェクトイベントが送信される。</dd>
+                            </dl>
+                        </dd>
+                    </dl>
                 </div>
                 <div class="Specification">
                     <h3>②書き出し設定</h3>
@@ -37,10 +81,12 @@
                 <div class="Specification">
                     <h3>③読込結果</h3>
                     <div class = "flex">
-                        <img src="../img/SaveDialog.png" alt="Unity配置ゲームステージ">
-                        <h4>→</h4>
-                        <img src="../img/UnityStage1.png" alt="ゲームデータ出力ステージ">
+                        <img id="UnityStageImg" src="../img/UnityStage1.png" alt="Unity配置ゲームステージ">
+                        <h4 id ="RightArrow">→</h4>
+                        <img id ="GameStageImg" src="../img/UnityStage1.png" alt="ゲームデータ出力ステージ">
                     </div>
+
+                    <!-- 説明 -->
                     <p>
                         
                     </p>
