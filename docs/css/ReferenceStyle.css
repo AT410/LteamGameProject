@@ -7,11 +7,23 @@ main
     margin-right: 40px;
 }
 
+img
+{
+    border: 2px solid black;
+}
+
+footer
+{
+    display: block;
+    text-align: center;
+}
 /* Class */
 .flex
 {
     display: flex;
     justify-content:space-around;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .Specification > p
@@ -39,6 +51,7 @@ main
     background-color: rgba(245, 222, 179, 0.3);
     margin-left: 20px;
     margin-right: 20px;
+    padding: 20px
 }
 
 /* IDCSS */
@@ -46,7 +59,6 @@ main
 {
     width: 45%;
     height: 50%;
-    padding-left: 20px;
 }
 
 #RightArrow
@@ -64,5 +76,4 @@ main
 {
     width: 45%;
     height: 50%;
-    padding-right: 20px;
 }
