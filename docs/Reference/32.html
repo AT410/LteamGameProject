@@ -1,14 +1,71 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet" href="../css/ResStyles.css">
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <title>UIセットエディタ｜リファレンス</title>
+    <link rel="stylesheet" href="../css/ReferenceStyle.css">
+</head>
+<body>
+    <header>
+        <h1>UIセットエディタ</h1>
+    </header>
+    <main>
+        <section>
+            <h1>1.UIセットエディタとは</h1>
 
-        <footer>
-            <a href="index.html">目次へ</a>
-        </footer>
-    </body>
+            <!-- 説明 -->
+            <p>
+                今回の制作では、前回の<a href="31.html">ステージエディタ</a>のようにUnityを使ってマップデータを作成しています。それは、UIの配置データも例外ではなく、Unityを使って作成しています。Unityを使って作成した理由としては、ステージエディタの中に統合してしまえば、別途UIエディタを共有する必要が無くなり、エディタの更新も一か所で済むため、効率的な開発ができると思ったからです。UIマップには、各シーンごとに呼ばれるUIセットが保存されていて、テクスチャを含めてUIの設定に必要なデータを持っています。Game側は、マップに基づいてUIセットを生成します。選択できるUIの場合は、決定イベントを設定でき、シーン遷移先を変更したりする事が出来ます。
+            </p>
+        </section>
+        <section>
+            <h1>2.主な使用</h1>
+            <article>
+                <h2>①UIパラメータ設定</h2>
+                <!-- ここで画像 -->
+                <div class ="flex">
+                    <img id ="UIParamImg" src="../img/UIparam.png" alt="UIParam設定画像">
+                    <dl class="ParamBox" id="UIParamBox">
+                        <dt>クラスタイプ</dt>
+                        <dd>UIを描画するクラスを設定します。設定できるクラスには、通常UIのほかに選択可能UIなどが指定できます。</dd>
+                        <dt>テクスチャキー</dt>
+                        <dd>UIスプライトに貼り付けるテクスチャの登録キーを設定します。ここで指定したキーがGame側で登録されていない場合、UIは真っ白状態で表示されます。</dd>
+                        <dt>描画レイヤー</dt>
+                        <dd>描画レイヤーを設定します。背景など一番背面に描画されるようものは、この値を小さくしていきます。背景など他のUIと重なる場合がある時は、描画レイヤーの指定は注意してしましょう。</dd>
+                    </dl>
+                </div>
+                <!-- 説明 -->
+                <p>まずは、Unityの画面サイズをGame側と同じように設定し（今回の場合1280px✖800px）UnityでUIを設定するように配置していきます。配置が終わったらUIparamを追加し設定を加えます。UIparamには、生成描画順・UIクラスタイプ・テクスチャキーの基本的名設定のほかに、呼ばれるシーンやUIクラスに付随する追加設定をすることができます。UIセットマップを書き出す際は、Unity標準のタグ設定でUIというタグに設定するとそのオブジェクトが書き出し対象になるので、書き出す際は忘れないようにしましょう。</p>
+            </article>
+
+            <article>
+                <h2>②書き出し設定</h2>
+                <div class = "flex">
+                <img src="../img/UISaveDialog.png" alt="UI書き出し設定画像です。">
+                <dl class ="ParamBox" id ="UISaveParam">
+                    <dt><strong>設定</strong></dt>
+                    <dd>
+                        <dl>
+                            <dt>UISet</dt>
+                            <dd>対応シーンの識別に使用されます。例えばUISetをTitleに指定すれば、TitleシーンでUISetが生成されるようになります。</dd>
+                            <dt>新規作成</dt>
+                            <dd>有効にしているとファイルを新規で作成します。同名ファイルがあった場合は、上書き処理が行われるようになります。</dd>
+                        </dl>
+                    </dd>
+                    <dt><strong>パス・ファイル設定</strong></dt>
+                    <dd>書き出し設定を指定します。「...」このボタンを押すとファイル指定のダイアログが出現するので対象となるファイルを指定して書き出しを行うと書き出すことができます。同名ファイルは、上書きされてしまうので注意しましょう。
+                    </dd>
+                </dl>
+                </div>  
+                <p>
+                    対象となるUIセットを書き出す際は、MakeEditor->UIEditorの項目を選択するとこのウィンドウが出てくるので書き出し設定をしてUIセットを書き出しましょう。ステージエディタと同じように書き出しますが、UIセットを設定して書き出しをします。ここで設定しているUIセットの項目は、Game側で対応するシーンを識別するために使用されます。
+                </p>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <a href="#">先頭へ</a>
+        <a href="index.html">目次へ</a>
+    </footer>
+</body>
 </html>

@@ -66,6 +66,8 @@ footer
 }
 
 /* IDCSS */
+
+/* 31.html */
 #UnityStageImg
 {
     width: 45%;
@@ -116,6 +118,27 @@ footer
     overflow: auto;
 }
 
+/* 32.html */
+#UISaveParam
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 243px;
+    overflow: auto;
+}
+
+#UIParamImg
+{
+    height: 200px;
+}
+#UIParamBox
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 156px;
+    overflow: auto;
+}
+
 /* クエリ */
 @media (min-width:0px) and (max-width:900px)
 {
@@ -133,7 +156,7 @@ footer
         width: 100%;
     }
 
-    #ComparisonImg, .flex
+    div[class ="flex"][id="ComparisonImg"]
     {
         display: flex;
         flex-direction: row;
