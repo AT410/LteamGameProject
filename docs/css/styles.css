@@ -127,6 +127,7 @@ main
     margin-left: auto;
     margin-right: auto;
     border: solid 1px #000000;
+    width: 100%;
 }
 
 .MovieArea > h1

@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+header
+{
+    text-align: center;
+}
 main
 {
     border: 2px solid black;
@@ -21,9 +25,14 @@ footer
 .flex
 {
     display: flex;
-    justify-content:space-around;
+    justify-content:safe;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.flex >img
+{
+    align-self: flex-start;
 }
 
 .Specification > p
@@ -35,7 +44,6 @@ footer
 
 .Specification > dl
 {
-    font-size: 20px;
     margin-left: 20px;
 }
 
@@ -51,7 +59,10 @@ footer
     background-color: rgba(245, 222, 179, 0.3);
     margin-left: 20px;
     margin-right: 20px;
-    padding: 20px
+    padding: 20px;
+    width: 60%;
+    height: 60%;
+    font-size: 20px;
 }
 
 /* IDCSS */
@@ -63,17 +74,95 @@ footer
 
 #RightArrow
 {
+    align-self: center;
     width: 10%;
     height: 50%;
-    font-size: 120px;
     margin: 0;
-    margin-top: 80px;
-    font-weight: bold;
-    text-align: center;
+    border: none;
 }
 
 #GameStageImg
 {
     width: 45%;
     height: 50%;
+}
+
+#DefaultSet
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 397px;
+    overflow:auto;
+}
+
+#DefaultSet dt, #DefaultSet dd
+{
+    min-width: 700px;
+}
+
+#ActionTab
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 308px;
+    overflow: auto;
+}
+
+#OutPutDialog
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 367px;
+    overflow: auto;
+}
+
+/* クエリ */
+@media (min-width:0px) and (max-width:900px)
+{
+    .flex
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex > img
+    {
+        align-self: center;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    #ComparisonImg, .flex
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 93%;
+    }
+
+    #UnityStageImg
+    {
+        flex-grow: 4;
+    }
+
+    #RightArrow
+    {
+        flex-grow: 2;
+    }
+
+    #GameStageImg
+    {
+        flex-grow: 4;
+    }
+}
+
+@media (min-width:900px)
+{
+    .flex
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
