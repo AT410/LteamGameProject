@@ -20,8 +20,3 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "Gimmick.h"
-//Debug
-#include "Debug.h"
-
-
-

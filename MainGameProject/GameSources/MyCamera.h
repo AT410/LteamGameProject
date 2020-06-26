@@ -74,14 +74,14 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------------------
-	//	オープニングカメラ
+	//	イベントカメラ
 	//--------------------------------------------------------------------------------------
-	class OpeningCamera :public Camera
+	class EventCamera :public Camera
 	{
 	public:
-		OpeningCamera();
+		EventCamera();
 
-		virtual~OpeningCamera();
+		virtual~EventCamera();
 
 		virtual void OnUpdate()override;
 	};

@@ -185,13 +185,13 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	オープニングカメラ
 	//--------------------------------------------------------------------------------------
-	OpeningCamera::OpeningCamera() :
+	EventCamera::EventCamera() :
 		Camera()
 	{}
-	OpeningCamera::~OpeningCamera() {}
+	EventCamera::~EventCamera() {}
 
-	void OpeningCamera::OnUpdate() {
-		auto ptrOpeningCameraman = dynamic_pointer_cast<OpeningCameraman>(GetCameraObject());
+	void EventCamera::OnUpdate() {
+		auto ptrOpeningCameraman = dynamic_pointer_cast<CameraMan>(GetCameraObject());
 		if (ptrOpeningCameraman) {
 			auto pos = ptrOpeningCameraman->GetAtPos();
 			SetAt(pos);

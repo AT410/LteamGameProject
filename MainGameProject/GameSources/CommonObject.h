@@ -87,20 +87,23 @@ namespace basecross
 		bool m_IsSend;
 	};
 
-	//OpeningCameraman
-	class OpeningCameraman :public GameObject
+
+	//----------------------------------------------------------------------------
+	//カメラマンクラス:カメラの実体は持たない
+	//----------------------------------------------------------------------------
+	class CameraMan :public GameObject
 	{
 	public:
 		//構築と破棄
-		OpeningCameraman(const shared_ptr<Stage>& StagePtr,const Vec3& StartPos,const Vec3& AtPos);
-		virtual ~OpeningCameraman();
+		CameraMan(const shared_ptr<Stage>& StagePtr,const Vec3& StartPos,const Vec3& AtPos);
+		virtual ~CameraMan();
 		//初期化
 		virtual void OnCreate()override;
 		//操作
 		virtual void OnUpdate()override;
 		void OnEvent(const shared_ptr<Event>&event)override;
 		//アクセサ
-		const unique_ptr<StateMachine<OpeningCameraman>>& GetStateMachine()
+		const unique_ptr<StateMachine<CameraMan>>& GetStateMachine()
 		{
 			return m_StateMachine;
 		}
@@ -132,7 +135,7 @@ namespace basecross
 		Vec3 m_AtPos;
 		float m_TotalTime;
 		//ステートマシーン
-		unique_ptr< StateMachine<OpeningCameraman> >  m_StateMachine;
+		unique_ptr< StateMachine<CameraMan> >  m_StateMachine;
 
 		wstring m_MsgEvent;
 
@@ -141,69 +144,69 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>
+	class CameramanToGoalState : public ObjState<CameraMan>
 	{
-		OpeningCameramanToGoalState() {}
+		CameramanToGoalState() {}
 	public:
-		DECLARE_SINGLETON_INSTANCE(OpeningCameramanToGoalState)
-		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
-		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
-		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+		DECLARE_SINGLETON_INSTANCE(CameramanToGoalState)
+		virtual void Enter(const shared_ptr<CameraMan>&Obj)override;
+		virtual void Execute(const shared_ptr<CameraMan>& Obj)override;
+		virtual void Exit(const shared_ptr<CameraMan>& Obj)override;
 
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>
+	class CameramanToStartState : public ObjState<CameraMan>
 	{
-		OpeningCameramanToStartState() {}
+		CameramanToStartState() {}
 	public:
-		DECLARE_SINGLETON_INSTANCE(OpeningCameramanToStartState)
-		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
-		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
-		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+		DECLARE_SINGLETON_INSTANCE(CameramanToStartState)
+		virtual void Enter(const shared_ptr<CameraMan>&Obj)override;
+		virtual void Execute(const shared_ptr<CameraMan>& Obj)override;
+		virtual void Exit(const shared_ptr<CameraMan>& Obj)override;
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	class OpeningCameramanEndState : public ObjState<OpeningCameraman>
+	class CameramanEndState : public ObjState<CameraMan>
 	{
-		OpeningCameramanEndState() {}
+		CameramanEndState() {}
 	public:
-		DECLARE_SINGLETON_INSTANCE(OpeningCameramanEndState)
-		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
-		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
-		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+		DECLARE_SINGLETON_INSTANCE(CameramanEndState)
+		virtual void Enter(const shared_ptr<CameraMan>&Obj)override;
+		virtual void Execute(const shared_ptr<CameraMan>& Obj)override;
+		virtual void Exit(const shared_ptr<CameraMan>& Obj)override;
 
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	class CameramanClearState : public ObjState<OpeningCameraman>
+	class CameramanClearState : public ObjState<CameraMan>
 	{
 		CameramanClearState() {}
 	public:
 		DECLARE_SINGLETON_INSTANCE(CameramanClearState)
-		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override;
-		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override;
-		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override;
+		virtual void Enter(const shared_ptr<CameraMan>&Obj)override;
+		virtual void Execute(const shared_ptr<CameraMan>& Obj)override;
+		virtual void Exit(const shared_ptr<CameraMan>& Obj)override;
 
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	カメラ待機ステート：基本的に何もしない
 	//--------------------------------------------------------------------------------------
-	class CameraNoneState : public ObjState<OpeningCameraman>
+	class CameraNoneState : public ObjState<CameraMan>
 	{
 		CameraNoneState() {}
 	public:
 		DECLARE_SINGLETON_INSTANCE(CameraNoneState)
-		virtual void Enter(const shared_ptr<OpeningCameraman>&Obj)override {}
-		virtual void Execute(const shared_ptr<OpeningCameraman>& Obj)override {}
-		virtual void Exit(const shared_ptr<OpeningCameraman>& Obj)override {}
+		virtual void Enter(const shared_ptr<CameraMan>&Obj)override {}
+		virtual void Execute(const shared_ptr<CameraMan>& Obj)override {}
+		virtual void Exit(const shared_ptr<CameraMan>& Obj)override {}
 
 	};
 

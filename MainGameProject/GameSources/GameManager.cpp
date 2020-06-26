@@ -15,13 +15,29 @@ namespace basecross
 		wstring m_FileName = L"TEST.GD";
 		wstring m_DataDir;
 
+		//制御フラグ
+		bool m_Dirty;
+
 		Impl(const wstring& FilePath)
 			:m_DataDir(FilePath)
 		{
-			m_clear[0][0] = true;
 			m_TotalTime = 0;
+			m_Dirty = false;
 		}
 		
+		void ClearParam()
+		{
+			m_TotalTime = 0;
+			
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					m_clear[i][j] = false;
+				}
+			}
+		}
+
 		void UpdateTime(const float delta)
 		{
 			m_TotalTime += delta;
@@ -83,6 +99,8 @@ namespace basecross
 		void Clear(int Area, int Stage)
 		{
 			m_clear[Area][Stage] = true;
+			m_Dirty = true;
+			Save();
 		}
 
 		bool AreaClear(int Area)
@@ -105,6 +123,7 @@ namespace basecross
 			wstring FullPath = m_DataDir + FileName;
 			if (PathFileExists(FullPath.c_str()))
 			{
+				ClearParam();
 				//バイナリ読込
 				float AllCount = 0.0f,ClearCount = 0.0f;
 
@@ -154,11 +173,17 @@ namespace basecross
 
 	void SaveData::Save()
 	{
+		if (!m_pImpl->m_Dirty)
+			return;
 		m_pImpl->Save();
+		m_pImpl->m_Dirty = false;
 	}
 
 	void SaveData::Load(const wstring& FileName)
 	{
+		if (m_pImpl->m_Dirty)
+			Save();
+
 		m_pImpl->Load(FileName);
 	}
 
@@ -170,12 +195,16 @@ namespace basecross
 
 	bool SaveData::IsAreaClear(int Area)
 	{
+		if (Area == 0)
+			return true;
 		return m_pImpl->AreaClear(Area);
 	}
 
 	bool SaveData::IsStageClear(int Stage)
 	{
 		int Area = GameManager::GetManager()->GetStagePair().first;
+		if (Area == 0 && Stage == 0)
+			return true;
 		return m_pImpl->StageClear(Area, Stage);
 	}
 
@@ -380,11 +409,11 @@ namespace basecross
 		PathStr += L"XMLFiles/";
 		Builder.StageBuild(StagePtr, PathStr+m_MapFile);
 
-		auto OPCam = dynamic_pointer_cast<OpeningCamera>(StagePtr->GetOpeningView()->GetCamera());
+		auto OPCam = dynamic_pointer_cast<EventCamera>(StagePtr->GetOpeningView()->GetCamera());
 		if (OPCam)
 		{
 			auto MainCamera = StagePtr->GetMainView()->GetCamera();
-			auto Ptr = StagePtr->AddGameObject<OpeningCameraman>(MainCamera->GetEye(), MainCamera->GetAt());
+			auto Ptr = StagePtr->AddGameObject<CameraMan>(MainCamera->GetEye(), MainCamera->GetAt());
 
 			OPCam->SetCameraObject(Ptr);
 			OPCam->SetEye(MainCamera->GetEye());

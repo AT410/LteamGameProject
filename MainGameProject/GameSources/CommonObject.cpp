@@ -108,7 +108,7 @@ namespace basecross
 	//　オープニングカメラマン
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	OpeningCameraman::OpeningCameraman(const shared_ptr<Stage>& StagePtr ,const Vec3& StartEye, const Vec3& StartAt) :
+	CameraMan::CameraMan(const shared_ptr<Stage>& StagePtr ,const Vec3& StartEye, const Vec3& StartAt) :
 		GameObject(StagePtr),
 		m_StartEye(StartEye),
 		m_EndEye(0.0f, 0.0f, -1.0f),
@@ -120,29 +120,29 @@ namespace basecross
 		m_TotalTime(0.0f)
 	{}
 
-	OpeningCameraman::~OpeningCameraman() {}
+	CameraMan::~CameraMan() {}
 	//初期化
-	void OpeningCameraman::OnCreate() {
+	void CameraMan::OnCreate() {
 		//初期位置などの設定
 		auto ptr = GetComponent<Transform>();
 		ptr->SetScale(0.25f, 0.25f, 0.25f);	//直径25センチの球体
 		ptr->SetRotation(0.0f, 0.0f, 0.0f);
 		ptr->SetPosition(m_CreatePosEye);
 		//ステートマシンの構築
-		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
-		//最初のステートをOpeningCameramanToGoalStateに設定
-		m_StateMachine->ChangeState(OpeningCameramanToGoalState::Instance());
+		m_StateMachine.reset(new StateMachine<CameraMan>(GetThis<CameraMan>()));
+		//最初のステートをCameramanToGoalStateに設定
+		m_StateMachine->ChangeState(CameramanToGoalState::Instance());
 
 		App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(L"Camera", GetThis<ObjectInterface>());
 	}
 	//操作
-	void OpeningCameraman::OnUpdate() {
+	void CameraMan::OnUpdate() {
 		//ステートマシンのUpdateを行う
 		//この中でステートの切り替えが行われる
 		m_StateMachine->Update();
 	}
 
-	void OpeningCameraman::OnEvent(const shared_ptr<Event>&event)
+	void CameraMan::OnEvent(const shared_ptr<Event>&event)
 	{
 		if (event->m_MsgStr == L"Clear")
 		{
@@ -151,7 +151,7 @@ namespace basecross
 		}
 	}
 
-	void OpeningCameraman::ToGoalEnterBehavior() {
+	void CameraMan::ToGoalEnterBehavior() {
 		m_AtStartPos = m_CreatePosAt;
 		m_AtEndPos = Vec3(0.0f, 0.0f, 0.0f);
 		m_AtPos = m_AtStartPos;
@@ -169,7 +169,7 @@ namespace basecross
 		m_EndEye = Vec3(m_AtEndPos.x, Eye.y + SightVec.y, Eye.z + SightVec.z);
 	}
 
-	void OpeningCameraman::ToStartEnterBehavior() {
+	void CameraMan::ToStartEnterBehavior() {
 		m_EndEye = m_CreatePosEye;
 		m_AtStartPos = Vec3(0.0f, 0.0f, 0.0f);
 		m_AtEndPos = m_CreatePosAt;
@@ -183,7 +183,7 @@ namespace basecross
 		m_StartEye = GetComponent<Transform>()->GetPosition();
 	}
 
-	bool OpeningCameraman::ExcuteBehavior(float totaltime) {
+	bool CameraMan::ExcuteBehavior(float totaltime) {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		m_TotalTime += ElapsedTime;
 		if (m_TotalTime > totaltime) {
@@ -197,19 +197,19 @@ namespace basecross
 		return false;
 	}
 
-	void OpeningCameraman::EndStateEnterBehavior() {
+	void CameraMan::EndStateEnterBehavior() {
 		auto ptrGameGtage = GetTypeStage<GameStage>();
 		ptrGameGtage->ToMyCamera();
 		GameManager::GetManager()->SetStartCameraActive(true);
 	}
 
-	void OpeningCameraman::ClearStateEnterBehavior()
+	void CameraMan::ClearStateEnterBehavior()
 	{
 		auto ptrGameGtage = GetTypeStage<GameStage>();
 		ptrGameGtage->ToEventCamera();
 	}
 
-	void OpeningCameraman::ToClearMoveEnterBehavior()
+	void CameraMan::ToClearMoveEnterBehavior()
 	{
 		// -- 現在のカメラ情報取得 --
 		auto Camera = GetStage()->GetView()->GetTargetCamera();
@@ -234,29 +234,29 @@ namespace basecross
 		GetComponent<Transform>()->SetPosition(m_StartEye);
 	}
 
-	void OpeningCameraman::EventStart()
+	void CameraMan::EventStart()
 	{
 		PostEvent(0.0f, GetThis<ObjectInterface>(), L"Fade", m_MsgEvent, L"FadeOutGoal");
 	}
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanToGoalState)
+	IMPLEMENT_SINGLETON_INSTANCE(CameramanToGoalState)
 
-		void OpeningCameramanToGoalState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	void CameramanToGoalState::Enter(const shared_ptr<CameraMan>&Obj)
 	{
 		Obj->ToGoalEnterBehavior();
 	}
 
-	void OpeningCameramanToGoalState::Execute(const shared_ptr<OpeningCameraman>&Obj)
+	void CameramanToGoalState::Execute(const shared_ptr<CameraMan>&Obj)
 	{
 		if (Obj->ExcuteBehavior(3.0f))
 		{
-			Obj->GetStateMachine()->ChangeState(OpeningCameramanToStartState::Instance());
+			Obj->GetStateMachine()->ChangeState(CameramanToStartState::Instance());
 		}
 	}
 
-	void OpeningCameramanToGoalState::Exit(const shared_ptr<OpeningCameraman>& Obj)
+	void CameramanToGoalState::Exit(const shared_ptr<CameraMan>& Obj)
 	{
 
 	}
@@ -264,50 +264,50 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanToStartState)
+	IMPLEMENT_SINGLETON_INSTANCE(CameramanToStartState)
 
-		void OpeningCameramanToStartState::Enter(const shared_ptr<OpeningCameraman>& Obj)
+	void CameramanToStartState::Enter(const shared_ptr<CameraMan>& Obj)
 	{
 		Obj->ToStartEnterBehavior();
 	}
 
-	void OpeningCameramanToStartState::Execute(const shared_ptr<OpeningCameraman>&Obj)
+	void CameramanToStartState::Execute(const shared_ptr<CameraMan>&Obj)
 	{
 		if (Obj->ExcuteBehavior(3.0f))
 		{
-			Obj->GetStateMachine()->ChangeState(OpeningCameramanEndState::Instance());
+			Obj->GetStateMachine()->ChangeState(CameramanEndState::Instance());
 		}
 
 	}
 
-	void OpeningCameramanToStartState::Exit(const shared_ptr<OpeningCameraman>&Obj) {}
+	void CameramanToStartState::Exit(const shared_ptr<CameraMan>&Obj) {}
 
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
-	IMPLEMENT_SINGLETON_INSTANCE(OpeningCameramanEndState)
+	IMPLEMENT_SINGLETON_INSTANCE(CameramanEndState)
 
-		void OpeningCameramanEndState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	void CameramanEndState::Enter(const shared_ptr<CameraMan>&Obj)
 	{
 		Obj->EndStateEnterBehavior();
 	}
 
-	void OpeningCameramanEndState::Execute(const shared_ptr<OpeningCameraman>&Obj) {}
+	void CameramanEndState::Execute(const shared_ptr<CameraMan>&Obj) {}
 
-	void OpeningCameramanEndState::Exit(const shared_ptr<OpeningCameraman>&Obj) {}
+	void CameramanEndState::Exit(const shared_ptr<CameraMan>&Obj) {}
 
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
 	IMPLEMENT_SINGLETON_INSTANCE(CameramanClearState)
 
-	void CameramanClearState::Enter(const shared_ptr<OpeningCameraman>&Obj)
+	void CameramanClearState::Enter(const shared_ptr<CameraMan>&Obj)
 	{
 		Obj->ToClearMoveEnterBehavior();
 		Obj->ClearStateEnterBehavior();
 	}
 
-	void CameramanClearState::Execute(const shared_ptr<OpeningCameraman>&Obj) 
+	void CameramanClearState::Execute(const shared_ptr<CameraMan>&Obj)
 	{
 		if (Obj->ExcuteBehavior(2.0f))
 		{
@@ -315,7 +315,7 @@ namespace basecross
 		}
 	}
 
-	void CameramanClearState::Exit(const shared_ptr<OpeningCameraman>&Obj) 
+	void CameramanClearState::Exit(const shared_ptr<CameraMan>&Obj)
 	{
 		Obj->EventStart();
 	}

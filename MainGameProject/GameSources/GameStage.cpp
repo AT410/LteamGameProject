@@ -25,7 +25,7 @@ namespace basecross {
 		PtrCamera->SetExpansionAt(at);
 
 		m_OpeningView = CreateView<SingleView>();
-		auto PtrOPCamera = ObjectFactory::Create<OpeningCamera>();
+		auto PtrOPCamera = ObjectFactory::Create<EventCamera>();
 		m_OpeningView->SetCamera(PtrOPCamera);
 		PtrOPCamera->SetEye(eye);
 		PtrOPCamera->SetAt(at);
