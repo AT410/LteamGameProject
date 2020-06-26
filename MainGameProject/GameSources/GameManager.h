@@ -60,13 +60,13 @@ namespace basecross
 
 		std::mutex mutex;
 
-		bool m_Loaded;
+		bool m_ResorceLoad;									///<-リソース読込したかどうか
 
 		bool m_UpdateActive;								///<-更新可能かどうか
 
 		bool m_StageReloadActive;							///<-ステージを再読み込みするかどうか
 
-		bool m_StartCametaEnd;								///<-開始イベントカメラ終了
+		bool m_StartCameraEnd;								///<-開始イベントカメラ終了
 
 		void ResorceLoadFunc();								///<-リソースの読込を行う
 
@@ -94,10 +94,10 @@ namespace basecross
 		//ゲッター
 		pair<int, int> GetStagePair()const {return m_SelectStage; }
 		pair<int, int> GetMaxStagePair()const { return m_MaxStageCount; }
-		bool GetLoadFlag()const { return m_Loaded; }
+		bool GetLoadFlag()const { return m_ResorceLoad; }
 		bool GetUpdateActive()const { return m_UpdateActive; }
 		bool GetStageReloadActive()const { return m_StageReloadActive; }
-		bool GetStartCameraActive()const { return m_StartCametaEnd; }
+		bool GetStartCameraActive()const { return m_StartCameraEnd; }
 		shared_ptr<SaveData> GetSaveData()const { return m_Data; }
 
 		//セッター
@@ -110,7 +110,7 @@ namespace basecross
 		void SetMaxStageCount(int StageCount) { m_MaxStageCount.second = StageCount; }
 		void SetUpdateActive(const bool Active) { m_UpdateActive = Active; }
 		void SetStageReloadActive(const bool Active) { m_StageReloadActive = Active; }
-		void SetStartCameraActive(const bool Active) { m_StartCametaEnd = Active; }
+		void SetStartCameraActive(const bool Active) { m_StartCameraEnd = Active; }
 	private:
 		//コピー禁止
 		GameManager(const GameManager&) = delete;

@@ -220,11 +220,14 @@ namespace basecross
 		return m_pImpl->DataChack(FileName, result);
 	}
 
+	//----------------------------------------------------------------------------
+	//ゲームマネージャー実体
+	//----------------------------------------------------------------------------
 	// -- static変数実体 --
 	unique_ptr<GameManager,GameManager::GMDeleter> GameManager::m_ins;
 
 	GameManager::GameManager()
-		:m_SelectStage(0, 0), m_MapFile(L"StageMap.xml"), m_ResFile(L"ResMap.xml"), m_UISetFile(L"UIMap.xml"), m_Loaded(false), m_StageReloadActive(false)
+		:m_SelectStage(0, 0), m_MapFile(L"StageMap.xml"), m_ResFile(L"ResMap.xml"), m_UISetFile(L"UIMap.xml"), m_ResorceLoad(false), m_StageReloadActive(false)
 	{
 		wstring DataPath;
 		App::GetApp()->GetDataDirectory(DataPath);
@@ -297,7 +300,7 @@ namespace basecross
 	void GameManager::ResorceLoadFunc()
 	{
 		mutex.lock();
-		m_Loaded = false;
+		m_ResorceLoad = false;
 		mutex.unlock();
 
 		wstring PathStr;
@@ -349,14 +352,14 @@ namespace basecross
 
 
 		mutex.lock();
-		m_Loaded = true;
+		m_ResorceLoad = true;
 		mutex.unlock();
 	}
 
 	// -- リソース読込開始(並列実行) --
 	void GameManager::LoadResources()
 	{
-		if (!m_Loaded)
+		if (!m_ResorceLoad)
 		{
 			std::thread Loadthread(&GameManager::ResorceLoadFunc, this);
 			Loadthread.detach();
@@ -420,7 +423,7 @@ namespace basecross
 			OPCam->SetAt(MainCamera->GetAt());
 			OPCam->SetFar(MainCamera->GetFar());
 			OPCam->SetNear(MainCamera->GetNear());
-			if (m_StageReloadActive && m_StartCametaEnd)
+			if (m_StageReloadActive && m_StartCameraEnd)
 			{
 				auto GameStagePtr = dynamic_pointer_cast<GameStage>(StagePtr);
 				if (GameStagePtr)

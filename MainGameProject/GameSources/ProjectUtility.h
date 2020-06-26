@@ -14,17 +14,9 @@ namespace basecross
 	template<typename T>
 	struct InputHandler
 	{
-		//Vec2 m_LStickVol;//Lスティック
-		//Vec2 m_RStickVol;//Rスティック
-
 		WORD wDpad = 0;
-		WORD wPressedDpad = 0;
-		WORD wNowStick;
 		WORD wLastStick = 0;
-		bool m_ConvertStickToDbadActoive= false;
-		bool m_ConvertStickToDbadActoiveDown = false;
-		bool m_ConvertStickToDbadActoiveLeft = false;
-		bool m_ConvertStickToDbadActoiveRight = false;
+		bool m_ConvertStickToDbadActive= false;
 
 		void PushHandler(const shared_ptr<T>& Obj)
 		{
@@ -92,16 +84,16 @@ namespace basecross
 				wDpad |= XINPUT_GAMEPAD_DPAD_DOWN;
 			}
 
-			if (wDpad != wLastStick && m_ConvertStickToDbadActoive)
-				m_ConvertStickToDbadActoive = false;
+			if (wDpad != wLastStick && m_ConvertStickToDbadActive)
+				m_ConvertStickToDbadActive = false;
 
-			if (m_ConvertStickToDbadActoive)
+			if (m_ConvertStickToDbadActive)
 			{
 				return 0;
 			}
 			else
 			{
-				m_ConvertStickToDbadActoive = true;
+				m_ConvertStickToDbadActive = true;
 				wLastStick = wDpad;
 				return wDpad;
 			}
@@ -163,7 +155,7 @@ namespace basecross
 	class StageBase;
 
 	//---------------------------------
-	//ステージビルダーの作成
+	//ステージビルダーの実装
 	//---------------------------------
 	class StageBuilder
 	{
@@ -222,8 +214,10 @@ namespace basecross
 		//--------------------------------------------------------------------------------------
 		void UISetBuild(const shared_ptr<StageBase>& StagePtr, const wstring& XMLFileName, const bool DefaultDrawActive);
 	private:
+		// -- UI生成関数 --
 		void UIGenerationFromNodeList(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodeListPtr& pNodeList, const long NodeListCount, const bool DefaultDrawActive);
 
+		// -- ステージ情報設定 --
 		void StageSetting(const shared_ptr<StageBase>&StagePtr,const IXMLDOMNodePtr& pStageNode);
 
 		map<wstring, shared_ptr<GameObjectCreatorBaseXML>>& GetCreatorMap() const;

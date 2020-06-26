@@ -88,14 +88,16 @@ namespace basecross
 		void AddLocation(const bsm::Vec3& Location);
 		//--------------------------------------------------------------------------------------
 		/*!
-		@brief	エフェクトを移動する
+		@brief	エフェクトを変化させる
 		@param[in]	Location	移動ベクトル（絶対方向）
+		@param[in]	Scale		スケール値
+		@param[in]	Rotate		回転値
 		@return	なし
 		*/
 		//--------------------------------------------------------------------------------------
 		void SetLocation(const bsm::Vec3& Location);
-		void SetScale(const bsm::Vec3& Sclae);
-		void SetRotate(const bsm::Vec3& rotate);
+		void SetScale(const bsm::Vec3& Scale);
+		void SetRotate(const bsm::Vec3& Rotate);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	変換行列を設定する
