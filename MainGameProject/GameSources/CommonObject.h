@@ -67,6 +67,7 @@ namespace basecross
 	//----------------------------------------------------------------------------
 	//基本入力クラス
 	//----------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class DefaultInput :public ObjectBase, public PawnBase<DefaultInput>
 	{
 	public:
@@ -91,6 +92,7 @@ namespace basecross
 	//----------------------------------------------------------------------------
 	//カメラマンクラス:カメラの実体は持たない
 	//----------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameraMan :public GameObject
 	{
 	public:
@@ -144,6 +146,7 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameramanToGoalState : public ObjState<CameraMan>
 	{
 		CameramanToGoalState() {}
@@ -158,6 +161,7 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToStartState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameramanToStartState : public ObjState<CameraMan>
 	{
 		CameramanToStartState() {}
@@ -171,6 +175,7 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameramanEndState : public ObjState<CameraMan>
 	{
 		CameramanEndState() {}
@@ -185,6 +190,7 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanEndState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameramanClearState : public ObjState<CameraMan>
 	{
 		CameramanClearState() {}
@@ -199,6 +205,7 @@ namespace basecross
 	//--------------------------------------------------------------------------------------
 	//	カメラ待機ステート：基本的に何もしない
 	//--------------------------------------------------------------------------------------
+	///<name>作成者：阿部達哉</name>
 	class CameraNoneState : public ObjState<CameraMan>
 	{
 		CameraNoneState() {}

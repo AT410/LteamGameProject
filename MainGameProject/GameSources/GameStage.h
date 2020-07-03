@@ -1,6 +1,7 @@
 /*!
 @file GameStage.h
 @brief ゲームステージ
+@name 作成者：阿部達哉
 */
 
 #pragma once

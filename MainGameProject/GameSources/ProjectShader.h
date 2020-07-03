@@ -1,6 +1,7 @@
 /*!
 @file ProjectShader.h
 @brief プロジェクトで使用するシェーダー
+@name 作成者：阿部達哉
 */
 
 #pragma once

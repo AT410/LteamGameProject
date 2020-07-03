@@ -1,6 +1,7 @@
 /*!
 @file Scene.h
 @brief シーン
+@name 作成者：阿部達哉
 */
 #pragma once
 

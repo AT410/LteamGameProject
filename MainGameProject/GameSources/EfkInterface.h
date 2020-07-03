@@ -1,6 +1,7 @@
 /*!
 @file EfkInterface.h
 @brief Effekseerエフェクトのインターフェイス
+@name 作成者：阿部達哉
 */
 
 #pragma once

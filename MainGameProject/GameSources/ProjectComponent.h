@@ -1,6 +1,7 @@
 /*!
 @file ProjectBehavior.h
 @brief プロジェク定義のComponentクラス
+@name 作成者：阿部達哉
 */
 
 #pragma once
