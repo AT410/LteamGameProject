@@ -150,6 +150,10 @@ namespace basecross
 				DataElem += L"ÉNÉäÉAó¶:";
 				int Vel = (int)((ClearCount / AllCount) * 100);
 				DataElem += Util::IntToWStr(Vel) + L"%\n";
+				if (Vel == 100)
+				{
+					DataElem += L"GameClear!!\n";
+				}
 				return true;
 			}
 			else

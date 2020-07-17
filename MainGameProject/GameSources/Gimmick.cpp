@@ -1227,6 +1227,10 @@ namespace basecross
 			{
 				auto  StageSelect = GameManager::GetManager()->GetStagePair();
 				auto MaxStageCount = GameManager::GetManager()->GetMaxStagePair();
+
+				GameManager::GetManager()->GetSaveData()->Clear();
+				GameManager::GetManager()->GetSaveData()->Save();
+
 				if (StageSelect.second != MaxStageCount.second - 1)
 				{
 					StageSelect.second += 1;
@@ -1252,7 +1256,6 @@ namespace basecross
 						PostEvent(0.0, GetThis<ObjectInterface>(), L"Camera", L"Clear", L"ToEndingStage");
 					}
 				}
-				GameManager::GetManager()->GetSaveData()->Clear();
 				m_IsGoal = false;
 			}
 		}
