@@ -849,6 +849,7 @@ namespace basecross {
 		D2DDeviceContext->RestoreDrawingState(pImpl->m_stateBlock.Get());
 	}
 
+#ifndef NDEBUG
 	//--------------------------------------------------------------------------------------
 	//struct OriginalStringSprite::Impl;
 	//用途Implイディオム
@@ -1295,6 +1296,7 @@ namespace basecross {
 		}
 		D2DDeviceContext->RestoreDrawingState(pImpl->m_stateBlock.Get());
 	}
+#endif // !NDEBUG
 
 }
 

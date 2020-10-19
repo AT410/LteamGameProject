@@ -34,7 +34,7 @@ namespace basecross
 	}
 
 	void SwitchObj::OnCollisionEnter(shared_ptr<GameObject>& Other) {
-		//Omoriタグを持った相手と衝突した
+		//押下オブジェクトと接触
 		if (Other->FindTag(L"EnabledSwitch")) {
 			//スイッチが押された時の判定
 			PostEvent(0.0f, GetThis<SwitchObj>(), m_RecipientKey, m_EventMsg);
@@ -53,6 +53,7 @@ namespace basecross
 			auto PlayerPtr = dynamic_pointer_cast<Player>(Other);
 			if (PlayerPtr)
 			{
+				//復帰位置更新
 				PlayerPtr->UpdateResetPositon();
 			}
 		}
@@ -61,7 +62,7 @@ namespace basecross
 	void SwitchObj::OnCollisionExcute(shared_ptr<GameObject>& Other) {
 		if (!m_IsKeep)
 			return;
-		//Omoriタグを持った相手と衝突した
+		//押下オブジェクトと接触
 		if (Other->FindTag(L"EnabledSwitch")) {
 
 		}
@@ -70,6 +71,8 @@ namespace basecross
 	void SwitchObj::OnCollisionExit(shared_ptr<GameObject>& Other) {
 		if (!m_IsKeep)
 			return;
+
+		//押下オブジェクトと接触
 		if (Other->FindTag(L"EnabledSwitch")) {
 			m_Active = m_IsKeep ? false : m_Active;
 			m_ActiveEfk->StopEffect();
@@ -92,15 +95,8 @@ namespace basecross
 
 	void FireLine::OnCreate()
 	{
-		//この状態だと導火線作動時に位置がずれる
 		DefaultSettings();
 		SetActions();
-		//描画 
-		auto drawComp = AddComponent<BcPNTnTStaticDraw>();
-
-		//ポジション、スケール、回転
-		auto transComp = GetComponent<Transform>();
-
 	}
 
 	void FireLine::OnUpdate()
@@ -262,27 +258,6 @@ namespace basecross
 	// -- 初期化 --
 	void Door::OnCreate()
 	{
-		//// -- 描画設定 --
-		//auto DrawComp = AddComponent<PNTPointDraw>();
-		//DrawComp->SetMeshResource(m_meshKey);
-		//DrawComp->SetTextureResource(m_texKey);
-
-		//// -- 配置設定 --
-		//auto transComp = GetComponent<Transform>();
-		//transComp->SetPosition(m_pos);
-		//transComp->SetScale(m_scal);
-		//transComp->SetQuaternion(Quat(m_rot));
-
-		//// -- 物理判定 --
-		//auto ColComp = AddComponent<CollisionObb>();
-		//ColComp->SetFixed(true);
-
-		//// -- イベント設定 --
-		//if (m_EventActive)
-		//{
-		//	App::GetApp()->GetEventDispatcher()->AddEventReceiverGroup(m_ReceiverKey, GetThis<Door>());
-		//}
-
 		DefaultSettings();
 		SetActions();
 	}
