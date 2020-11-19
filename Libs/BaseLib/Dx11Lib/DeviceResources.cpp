@@ -1124,8 +1124,10 @@ namespace basecross {
 		ComPtr<IDWriteFactory2>		m_dwriteFactory;
 		ComPtr<IWICImagingFactory2>	m_wicFactory;
 
+#ifndef NDEBUG
 		//カスタムフォント用テスト
 		ComPtr<IDWriteFactory5> m_dwriteFactory5;
+#endif // !NDEBUG
 
 		float m_dpi;
 
@@ -1365,6 +1367,7 @@ namespace basecross {
 			L"DeviceResources::Impl::CreateDeviceResources()"
 		);
 
+#ifndef NDEBUG
 		ThrowIfFailed(
 			DWriteCreateFactory(
 				DWRITE_FACTORY_TYPE_SHARED,
@@ -1375,6 +1378,7 @@ namespace basecross {
 			L"DWriteCreateFactory()",
 			L"DeviceResources::Impl::CreateDeviceResource()"
 		);
+#endif // !NDEBUG
 
 		ThrowIfFailed(
 			CoCreateInstance(
@@ -1571,8 +1575,9 @@ namespace basecross {
 	ID2D1DeviceContext1*	DeviceResources::GetD2DDeviceContext() const { return pImpl->m_d2dContext.Get(); }
 	IDWriteFactory2*		DeviceResources::GetDWriteFactory() const { return pImpl->m_dwriteFactory.Get(); }
 	IWICImagingFactory2*	DeviceResources::GetWicImagingFactory() const { return pImpl->m_wicFactory.Get(); }
+#ifndef NDEBUG
 	IDWriteFactory5*		DeviceResources::GetDWriteFactory5() const { return pImpl->m_dwriteFactory5.Get(); }
-
+#endif // !NDEBUG
 
 	void DeviceResources::InitializeStates() {
 		ID3D11ShaderResourceView* pNull[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = { nullptr };
